@@ -18,6 +18,7 @@ import { useNewsStore } from '@/store/newsStore'
 import { useAwardsStore } from '@/store/awardsStore'
 import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
+import { useEventStore } from '@/store/eventStore'
 
 interface Props {
   onPublishResult: (projectId: string) => void
@@ -70,7 +71,15 @@ export default function Dashboard({ onPublishResult }: Props) {
         ? { name: playerBestGame.name, score: playerBestGame.publishResult!.score }
         : null
     )
+    useEventStore.getState().tryAnnualEvent(year)
+    useEventStore.getState().checkMilestones(year)
   }, [year])
+
+  const week = useTimeStore((s) => s.date.week)
+  useEffect(() => {
+    if (year <= 2000) return
+    useEventStore.getState().tryWeeklyEvent(year)
+  }, [week])
 
   function handlePublish(projectId: string) {
     const project = projects.find((p) => p.id === projectId)
@@ -118,6 +127,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     useNewsStore.getState().reset()
     useAwardsStore.getState().reset()
     useTrendStore.getState().reset()
+    useEventStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')

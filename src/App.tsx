@@ -17,6 +17,8 @@ import { useWorldStore } from '@/store/worldStore'
 import { useCharacterStore } from '@/store/characterStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useRivalStore } from '@/store/rivalStore'
+import EventModal from '@/components/EventModal'
+import { useEventStore } from '@/store/eventStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -52,6 +54,7 @@ export default function App() {
   const isCreated        = useCharacterStore((s) => s.isCreated)
   const activeCutscene   = useCutsceneStore((s) => s.activeCutscene)
   const pendingResolution = useRivalStore((s) => s.pendingResolution)
+  const pendingEvent = useEventStore((s) => s.pendingEvent)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -93,6 +96,7 @@ export default function App() {
   if (!isCreated)        return <CharacterCreationWizard />
   if (activeCutscene)    return <CutscenePlayer />
   if (pendingResolution) return <ResolutionScreen />
+  if (pendingEvent)      return <EventModal />
 
   const isTycoon = gameMode === 'tycoon'
 
