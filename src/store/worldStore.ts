@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 export type GameMode = 'exploration' | 'tycoon'
-export type LocationId = 'cafe' | 'fair' | null
+export type LocationId = 'cafe' | 'fair' | 'akademi' | null
 
 interface WorldStore {
   gameMode: GameMode

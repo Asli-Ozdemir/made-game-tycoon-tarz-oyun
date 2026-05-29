@@ -31,8 +31,9 @@ export function getActiveTrigger(triggers: TriggerRect[], px: number, py: number
 
 const PLACEHOLDER_LOCATIONS = new Set(['rival_door', 'investor_door', 'arcade_door'])
 const LOCATION_MAP: Record<string, LocationId> = {
-  cafe_door: 'cafe',
-  fair_entrance: 'fair',
+  cafe_door:      'cafe',
+  fair_entrance:  'fair',
+  akademi_door:   'akademi',
 }
 
 export function handleTrigger(triggerName: string): void {

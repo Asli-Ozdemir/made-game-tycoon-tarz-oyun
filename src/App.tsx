@@ -5,6 +5,7 @@ import Dashboard from '@/components/Dashboard'
 import PublishResult from '@/components/PublishResult'
 import CafePanel from '@/components/CafePanel'
 import FairPanel from '@/components/FairPanel'
+import AcademyPanel from '@/components/AcademyPanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -138,6 +139,11 @@ export default function App() {
       {currentLocation === 'fair' && (
         <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
           <FairPanel />
+        </div>
+      )}
+      {currentLocation === 'akademi' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <AcademyPanel />
         </div>
       )}
 
