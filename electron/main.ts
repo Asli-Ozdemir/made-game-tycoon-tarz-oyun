@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
+import { saveGame, loadGame } from '../src/db/database'
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -17,8 +18,9 @@ function createWindow() {
   }
 }
 
+ipcMain.handle('save-game', (_event, state) => { saveGame(state); return true })
+ipcMain.handle('load-game', () => loadGame())
+
 app.whenReady().then(createWindow)
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
-})
+app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })

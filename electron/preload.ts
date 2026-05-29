@@ -1,6 +1,6 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  saveGame: (_state: unknown) => Promise.resolve(),
-  loadGame: () => Promise.resolve(null)
+  saveGame: (state: unknown) => ipcRenderer.invoke('save-game', state),
+  loadGame: () => ipcRenderer.invoke('load-game')
 })
