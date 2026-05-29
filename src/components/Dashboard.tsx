@@ -7,6 +7,8 @@ import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { calculatePublishResult } from '@/engine/scoreEngine'
 import { useTimeStore } from '@/store/timeStore'
+import { useCharacterStore } from '@/store/characterStore'
+import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
   onPublishResult: (projectId: string) => void
@@ -30,10 +32,22 @@ export default function Dashboard({ onPublishResult }: Props) {
   function handlePublish(projectId: string) {
     const project = projects.find((p) => p.id === projectId)
     if (!project) return
-    const result = calculatePublishResult(project, { reputation, publishDate: date })
+
+    const playerSkillBonus = useCharacterStore.getState().getPlayerSkillBonus()
+    const result = calculatePublishResult(project, { reputation, publishDate: date }, playerSkillBonus)
+
     publishProject(projectId, result)
     addMoney(result.revenue)
     gainReputation(Math.round(result.score / 20))
+
+    // CEO özel: başarısız projede 2× itibar kaybı
+    if (result.score < 50) {
+      const bgId = useCharacterStore.getState().background
+      const bg   = BACKGROUNDS.find((b) => b.id === bgId)
+      const multiplier = bg?.special?.type === 'rep_loss_multiplier' ? bg.special.multiplier : 1
+      gainReputation(-10 * multiplier)
+    }
+
     incrementPub()
     unassignFromProject(projectId)
     onPublishResult(projectId)

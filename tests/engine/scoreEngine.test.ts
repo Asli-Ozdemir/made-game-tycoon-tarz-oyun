@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { calculatePublishResult } from '@/engine/scoreEngine'
 import { createProject } from '@/engine/projectEngine'
-import type { GameDate } from '@/types'
+import type { GameDate, GameProject } from '@/types'
 
 const date: GameDate = { year: 2000, season: 'ilkbahar', week: 1 }
 
@@ -26,5 +26,17 @@ describe('calculatePublishResult', () => {
     const p = createProject({ name: 'T', genreId: 'aksiyon', topicId: 'uzay', platformId: 'pc', scope: 'buyuk', startDate: date })
     const result = calculatePublishResult({ ...p, weeksElapsed: 24, qualityPoints: 96 }, { reputation: 0, publishDate: date })
     expect(result.revenue).toBe(result.sales * 20)
+  })
+
+  it('playerSkillBonus skoru artırır', () => {
+    const project: GameProject = {
+      id: 'p1', name: 'Test', genreId: 'action', topicId: 'space',
+      platformId: 'pc', scope: 'kucuk', startDate: { year: 2000, season: 'ilkbahar', week: 1 },
+      totalWeeks: 4, weeksElapsed: 4, qualityPoints: 12, status: 'gelistirme'
+    }
+    const opts = { reputation: 0, publishDate: { year: 2000, season: 'ilkbahar', week: 4 } }
+    const resultWithout = calculatePublishResult(project, opts, 0)
+    const resultWith    = calculatePublishResult(project, opts, 3)
+    expect(resultWith.score).toBeGreaterThan(resultWithout.score)
   })
 })

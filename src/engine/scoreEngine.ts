@@ -19,7 +19,8 @@ function seededRandom(seed: number): number {
 
 export function calculatePublishResult(
   project: GameProject,
-  opts: ScoreOptions
+  opts: ScoreOptions,
+  playerSkillBonus: number = 0
 ): PublishResult {
   const topic    = TOPICS[project.topicId]
   const genre    = GENRES[project.genreId]
@@ -31,7 +32,10 @@ export function calculatePublishResult(
   const repBonus      = Math.round(opts.reputation / 10)
   const variance      = Math.round((seededRandom(project.id.charCodeAt(0)) * 20) - 10)
 
-  const score = clamp(50 + affinityBonus + qualityBonus + repBonus + variance, 1, 100)
+  const score = clamp(
+    50 + affinityBonus + qualityBonus + repBonus + Math.round(playerSkillBonus) + variance,
+    1, 100
+  )
 
   const baseSales      = genre?.baseSales ?? 500
   const salesMultiplier = platform?.salesMultiplier ?? 1.0
