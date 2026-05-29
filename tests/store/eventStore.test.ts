@@ -88,3 +88,32 @@ describe('eventStore — reset', () => {
     expect(Object.keys(s.lastCategoryYear)).toHaveLength(0)
   })
 })
+
+describe('eventStore — tryAnnualEvent', () => {
+  it('pendingEvent doluysa tryAnnualEvent hiçbir şey yapmaz', () => {
+    useEventStore.setState({ pendingEvent: choiceEvent })
+    const moneyBefore = useGameStore.getState().money
+    useEventStore.getState().tryAnnualEvent(2005)
+    expect(useGameStore.getState().money).toBe(moneyBefore)
+    expect(useEventStore.getState().pendingEvent).toBe(choiceEvent)
+  })
+
+  it('tryAnnualEvent boş katalogda pendingEvent null kalır', () => {
+    // Tüm eventleri cooldown'a al → candidates boş
+    const allCooldowns: Record<string, number> = {}
+    const allCategories: Record<string, number> = { finansal: 2005, studyo: 2005, sektor: 2005, kisisel: 2005, rakip: 2005 }
+    useEventStore.setState({ cooldowns: allCooldowns, lastCategoryYear: allCategories })
+    useEventStore.getState().tryAnnualEvent(2005)
+    expect(useEventStore.getState().pendingEvent).toBeNull()
+  })
+})
+
+describe('eventStore — checkMilestones', () => {
+  it('pendingEvent doluysa checkMilestones hiçbir şey yapmaz', () => {
+    useEventStore.setState({ pendingEvent: passiveEvent })
+    const moneyBefore = useGameStore.getState().money
+    useEventStore.getState().checkMilestones(2005)
+    expect(useGameStore.getState().money).toBe(moneyBefore)
+    expect(useEventStore.getState().pendingEvent).toBe(passiveEvent)
+  })
+})

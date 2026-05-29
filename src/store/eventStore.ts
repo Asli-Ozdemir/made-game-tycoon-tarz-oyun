@@ -24,14 +24,35 @@ function getGameSnapshot() {
   return { reputation: gs.reputation, money: gs.money, totalPublished: gs.totalPublished }
 }
 
+function runEventTrigger(
+  get: () => EventStore,
+  set: (partial: Partial<EventStore> | ((s: EventStore) => Partial<EventStore>)) => void,
+  year: number
+) {
+  if (get().pendingEvent) return
+  const { cooldowns, lastCategoryYear } = get()
+  const candidates = candidateEvents(EVENTS, cooldowns, lastCategoryYear, year, getGameSnapshot())
+  const event = pickEvent(candidates)
+  if (!event) return
+  if (event.type === 'passive') {
+    applyEffect(event, null, year)
+    set((s) => ({
+      cooldowns: { ...s.cooldowns, [event.id]: year },
+      lastCategoryYear: { ...s.lastCategoryYear, [event.category]: year },
+    }))
+  } else {
+    set({ pendingEvent: event })
+  }
+}
+
 function applyEffect(event: RandomEvent, choiceIndex: number | null, year: number) {
   const effect = choiceIndex === null
     ? event.effect ?? {}
     : (event.choices ?? [])[choiceIndex]?.effect ?? {}
 
-  if (effect.money)        useGameStore.getState().addMoney(effect.money)
-  if (effect.reputation)   useGameStore.getState().gainReputation(effect.reputation)
-  if (effect.qualityBonus || effect.weekDelay) {
+  if (effect.money != null)      useGameStore.getState().addMoney(effect.money)
+  if (effect.reputation != null) useGameStore.getState().gainReputation(effect.reputation)
+  if (effect.qualityBonus != null || effect.weekDelay != null) {
     useProjectStore.getState().applyEventEffect(
       effect.qualityBonus ?? 0,
       effect.weekDelay ?? 0,
@@ -60,54 +81,12 @@ export const useEventStore = create<EventStore>((set, get) => ({
   tryWeeklyEvent: (year) => {
     if (get().pendingEvent) return
     if (Math.random() >= 0.15) return
-    const { cooldowns, lastCategoryYear } = get()
-    const candidates = candidateEvents(EVENTS, cooldowns, lastCategoryYear, year, getGameSnapshot())
-    const event = pickEvent(candidates)
-    if (!event) return
-    if (event.type === 'passive') {
-      applyEffect(event, null, year)
-      set((s) => ({
-        cooldowns: { ...s.cooldowns, [event.id]: year },
-        lastCategoryYear: { ...s.lastCategoryYear, [event.category]: year },
-      }))
-    } else {
-      set({ pendingEvent: event })
-    }
+    runEventTrigger(get, set, year)
   },
 
-  tryAnnualEvent: (year) => {
-    if (get().pendingEvent) return
-    const { cooldowns, lastCategoryYear } = get()
-    const candidates = candidateEvents(EVENTS, cooldowns, lastCategoryYear, year, getGameSnapshot())
-    const event = pickEvent(candidates)
-    if (!event) return
-    if (event.type === 'passive') {
-      applyEffect(event, null, year)
-      set((s) => ({
-        cooldowns: { ...s.cooldowns, [event.id]: year },
-        lastCategoryYear: { ...s.lastCategoryYear, [event.category]: year },
-      }))
-    } else {
-      set({ pendingEvent: event })
-    }
-  },
+  tryAnnualEvent: (year) => runEventTrigger(get, set, year),
 
-  checkMilestones: (year) => {
-    if (get().pendingEvent) return
-    const { cooldowns, lastCategoryYear } = get()
-    const candidates = candidateEvents(EVENTS, cooldowns, lastCategoryYear, year, getGameSnapshot())
-    const event = pickEvent(candidates)
-    if (!event) return
-    if (event.type === 'passive') {
-      applyEffect(event, null, year)
-      set((s) => ({
-        cooldowns: { ...s.cooldowns, [event.id]: year },
-        lastCategoryYear: { ...s.lastCategoryYear, [event.category]: year },
-      }))
-    } else {
-      set({ pendingEvent: event })
-    }
-  },
+  checkMilestones: (year) => runEventTrigger(get, set, year),
 
   resolveEvent: (choiceIndex, year) => {
     const { pendingEvent } = get()
