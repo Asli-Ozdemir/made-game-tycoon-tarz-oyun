@@ -13,7 +13,8 @@ interface CutsceneStore {
   isEnding:        boolean
   seenCutscenes:   Set<CutsceneId>
 
-  startCutscene: (id: CutsceneId) => void
+  startCutscene:      (id: CutsceneId) => void
+  startCutsceneForce: (id: CutsceneId) => void
   advance:       () => void
   tick:          (char: string) => void
   finishTyping:  () => void
@@ -85,6 +86,11 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
     newSeen.add(activeCutscene)
     set({ activeCutscene: null, seenCutscenes: newSeen, isEnding: false })
     useDayTimeStore.getState().setIsPaused(false)
+  },
+
+  startCutsceneForce: (id) => {
+    set({ activeCutscene: id, frameIndex: 0, lineIndex: 0, displayedText: '', isTyping: true, isTransitioning: false, isEnding: false })
+    useDayTimeStore.getState().setIsPaused(true)
   },
 
   skip: () => {
