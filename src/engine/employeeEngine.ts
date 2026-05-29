@@ -1,7 +1,6 @@
 import { FIRST_NAMES, LAST_NAMES, LIFE_EVENT_DESCRIPTIONS } from '@/data/employeeNames'
 import { SKILL_CAPS } from '@/data/courses'
-import type { Employee, EmployeePersonality, LifeEvent, LifeEventType } from '@/types/employee'
-import type { SkillKey } from '@/types/employee'
+import type { Employee, EmployeePersonality, LifeEvent, LifeEventType, SkillKey } from '@/types/employee'
 
 const PERSONALITIES: EmployeePersonality[] = ['odakli', 'yaratici', 'sosyal', 'rekabetci', 'sakin']
 
@@ -102,8 +101,9 @@ export function tickEmployeeXp(
   caps: Record<SkillKey, number>
 ): Record<SkillKey, number> {
   if (!employee.assignedProjectId) return { ...employee.xp }
-  const dominantSkill = ALL_SKILLS.reduce((best, s) =>
-    employee.skills[s] > employee.skills[best] ? s : best
+  const dominantSkill = ALL_SKILLS.reduce<SkillKey>((best, s) =>
+    employee.skills[s] > employee.skills[best] ? s : best,
+    ALL_SKILLS[0]
   )
   const newXp = { ...employee.xp }
   for (const skill of ALL_SKILLS) {
@@ -122,11 +122,12 @@ export function applyXpGains(
   const updatedXp = { ...newXp }
   const leveledSkills: SkillKey[] = []
   for (const skill of ALL_SKILLS) {
-    const currentLevel = employee.skills[skill]
-    const threshold = currentLevel * 10
-    if (updatedXp[skill] >= threshold && currentLevel < caps[skill]) {
-      updatedXp[skill] -= threshold
-      updatedSkills[skill] = currentLevel + 1
+    while (
+      updatedXp[skill] >= updatedSkills[skill] * 10 &&
+      updatedSkills[skill] < caps[skill]
+    ) {
+      updatedXp[skill] -= updatedSkills[skill] * 10
+      updatedSkills[skill] += 1
       leveledSkills.push(skill)
     }
   }
