@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { generateCandidates, computeProjectBonus } from '@/engine/employeeEngine'
+import { generateCandidates, computeProjectBonus, rollLifeEvents } from '@/engine/employeeEngine'
 import type { Employee } from '@/types/employee'
 
 const baseEmployee: Employee = {
@@ -65,5 +65,64 @@ describe('computeProjectBonus', () => {
     const full  = computeProjectBonus([{ ...baseEmployee, energy: 100 }])
     const tired = computeProjectBonus([{ ...baseEmployee, energy: 50 }])
     expect(tired).toBeLessThan(full)
+  })
+})
+
+describe('rollLifeEvents', () => {
+  it('boş liste için olay üretmez', () => {
+    expect(rollLifeEvents([], 42)).toHaveLength(0)
+  })
+
+  it('100 çalışanla en az bir olay üretir', () => {
+    const employees = Array.from({ length: 100 }, (_, i) => ({
+      ...baseEmployee,
+      id: `emp-${i}`,
+      name: `Çalışan ${i}`,
+    }))
+    const events = rollLifeEvents(employees, 42)
+    expect(events.length).toBeGreaterThan(0)
+  })
+
+  it('her olayın gerekli alanları var', () => {
+    const employees = Array.from({ length: 100 }, (_, i) => ({
+      ...baseEmployee, id: `emp-${i}`, name: `Çalışan ${i}`,
+    }))
+    const events = rollLifeEvents(employees, 42)
+    if (events.length === 0) return
+    const ev = events[0]
+    expect(ev.id).toBeTruthy()
+    expect(['hasta', 'rakip_teklif', 'kisisel_kriz', 'dogum_gunu']).toContain(ev.type)
+    expect(ev.employeeId).toBeTruthy()
+    expect(ev.employeeName).toBeTruthy()
+    expect(ev.description).toBeTruthy()
+    expect(typeof ev.loyaltyDelta).toBe('number')
+    expect(typeof ev.energyDelta).toBe('number')
+    expect(typeof ev.quitsJob).toBe('boolean')
+  })
+
+  it('rakip teklif düşük sadakatte istifaya yol açar', () => {
+    const lowLoyaltyEmp = { ...baseEmployee, id: 'low', name: 'Düşük Sadakat', loyalty: 10 }
+    for (let seed = 0; seed < 1000; seed++) {
+      const events = rollLifeEvents([lowLoyaltyEmp], seed)
+      const rival = events.find(e => e.type === 'rakip_teklif')
+      if (rival) {
+        expect(rival.quitsJob).toBe(true)
+        return
+      }
+    }
+    throw new Error('rakip_teklif olayı 1000 seed içinde bulunamadı')
+  })
+
+  it('yüksek sadakatte rakip teklif istifaya yol açmaz', () => {
+    const highLoyaltyEmp = { ...baseEmployee, id: 'high', name: 'Yüksek Sadakat', loyalty: 80 }
+    for (let seed = 0; seed < 1000; seed++) {
+      const events = rollLifeEvents([highLoyaltyEmp], seed)
+      const rival = events.find(e => e.type === 'rakip_teklif')
+      if (rival) {
+        expect(rival.quitsJob).toBe(false)
+        return
+      }
+    }
+    // vacuously true if no rival event found
   })
 })
