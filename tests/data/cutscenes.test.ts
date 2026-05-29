@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { CUTSCENES } from '@/data/cutscenes'
 import type { CutsceneId } from '@/types/cutscene'
 
-const ALL_IDS: CutsceneId[] = ['kovulma', 'ilk_yayin']
+const ALL_IDS = Object.keys(CUTSCENES) as CutsceneId[]
 
 describe('cutscenes verisi', () => {
   it('her sahne ID\'si mevcut', () => {
