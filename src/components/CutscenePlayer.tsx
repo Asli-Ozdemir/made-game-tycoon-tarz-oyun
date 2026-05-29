@@ -104,7 +104,6 @@ export default function CutscenePlayer() {
     nextFrame,
     endCutscene,
     skip,
-    tick,
   } = useCutsceneStore()
 
   const playerName  = useCharacterStore((s) => s.name)
@@ -154,7 +153,7 @@ export default function CutscenePlayer() {
       useCutsceneStore.getState().tick(fullText[state.displayedText.length])
     }, 30)
     return () => clearInterval(id)
-  }, [isTyping, activeCutscene, lineIndex, frameIndex, tick])
+  }, [isTyping, activeCutscene])
 
   // Klavye: Space / Enter → advance
   useEffect(() => {
