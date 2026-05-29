@@ -14,6 +14,7 @@ import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useRivalStore } from '@/store/rivalStore'
 import { useNewsStore } from '@/store/newsStore'
+import { useAwardsStore } from '@/store/awardsStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
@@ -37,7 +38,31 @@ export default function Dashboard({ onPublishResult }: Props) {
 
   const year = useTimeStore((s) => s.date.year)
   useEffect(() => {
+    // year 2000 (başlangıç) ise awards'ı tetikleme
+    if (year <= 2000) {
+      useRivalStore.getState().simulateYear(year)
+      return
+    }
+    // Yıl geçişi: simüle et ve awards kontrol et
     useRivalStore.getState().simulateYear(year)
+
+    // Önceki yılın en iyi oyuncusu
+    const prevYear = year - 1
+    const publishedProjects = useProjectStore.getState().projects.filter(
+      p => p.status === 'yayinlandi' && p.publishResult?.publishDate.year === prevYear
+    )
+    const playerBestGame = publishedProjects.length > 0
+      ? publishedProjects.reduce((best, p) =>
+          (p.publishResult!.score > (best.publishResult?.score ?? 0)) ? p : best
+        )
+      : null
+
+    useAwardsStore.getState().checkAwards(
+      prevYear,
+      playerBestGame
+        ? { name: playerBestGame.name, score: playerBestGame.publishResult!.score }
+        : null
+    )
   }, [year])
 
   function handlePublish(projectId: string) {
@@ -79,6 +104,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     useCutsceneStore.getState().reset()
     useRivalStore.getState().reset()
     useNewsStore.getState().reset()
+    useAwardsStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')
