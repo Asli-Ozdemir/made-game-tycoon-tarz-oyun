@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { nanoid } from 'nanoid'
-import { generateCandidates, rollLifeEvents, applyXpGains } from '@/engine/employeeEngine'
+import { generateCandidates, rollLifeEvents, applyXpGains, tickEmployeeXp } from '@/engine/employeeEngine'
 import { COURSES, SKILL_CAPS } from '@/data/courses'
 import type { Employee, LifeEvent, SkillKey } from '@/types/employee'
 
@@ -17,6 +17,7 @@ interface EmployeeStoreState {
   clearPendingEvents: () => void
   setActiveCourse: (employeeId: string, purchasedId: string) => void
   completeCourse: (employeeId: string, courseId: string, finalXp: number) => void
+  tickXp: () => void
   reset: () => void
 }
 
@@ -77,6 +78,8 @@ export const useEmployeeStore = create<EmployeeStoreState>((set, get) => ({
       pendingEvents: events,
     }))
 
+    get().tickXp()
+
     return { events, quitters, totalSalary }
   },
 
@@ -112,6 +115,27 @@ export const useEmployeeStore = create<EmployeeStoreState>((set, get) => ({
         }
       }),
     }))
+  },
+
+  tickXp: () => {
+    set((s) => {
+      let updatedEmployees = s.employees.map((emp) => {
+        const caps = SKILL_CAPS[emp.personality]
+        const newXp = tickEmployeeXp(emp, caps)
+        const { updatedEmployee } = applyXpGains(emp, newXp, caps)
+        return updatedEmployee
+      })
+      // ekip_lideri: trait sahibi çalışan varsa atanmamış çalışanlara +2 loyalty
+      const hasLeader = updatedEmployees.some(e => e.traits.includes('ekip_lideri'))
+      if (hasLeader) {
+        updatedEmployees = updatedEmployees.map(e =>
+          e.assignedProjectId === null
+            ? { ...e, loyalty: Math.min(100, e.loyalty + 2) }
+            : e
+        )
+      }
+      return { employees: updatedEmployees }
+    })
   },
 
   reset: () => set({ employees: [], candidates: generateCandidates(1), pendingEvents: [] }),

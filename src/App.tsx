@@ -19,6 +19,7 @@ import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useRivalStore } from '@/store/rivalStore'
 import EventModal from '@/components/EventModal'
 import { useEventStore } from '@/store/eventStore'
+import { useTrainingStore } from '@/store/trainingStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -39,6 +40,8 @@ export default function App() {
       const { totalSalary } = weeklyTick(tickCount)
       if (totalSalary > 0) addMoney(-totalSalary)
       tickAllProjects()
+      const year = useTimeStore.getState().date.year
+      useTrainingStore.getState().tickCourses(year)
       window.electronAPI?.saveGame({
         game:      useGameStore.getState(),
         time:      useTimeStore.getState(),
