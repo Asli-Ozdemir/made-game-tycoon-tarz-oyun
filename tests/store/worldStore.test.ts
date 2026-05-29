@@ -10,6 +10,10 @@ describe('worldStore', () => {
     expect(useWorldStore.getState().gameMode).toBe('exploration')
   })
 
+  it('başlangıçta currentLocation null', () => {
+    expect(useWorldStore.getState().currentLocation).toBeNull()
+  })
+
   it('setGameMode tycoon a geçirir', () => {
     useWorldStore.getState().setGameMode('tycoon')
     expect(useWorldStore.getState().gameMode).toBe('tycoon')
@@ -24,6 +28,11 @@ describe('worldStore', () => {
   it('setLocation cafe set eder', () => {
     useWorldStore.getState().setLocation('cafe')
     expect(useWorldStore.getState().currentLocation).toBe('cafe')
+  })
+
+  it('setLocation fair set eder', () => {
+    useWorldStore.getState().setLocation('fair')
+    expect(useWorldStore.getState().currentLocation).toBe('fair')
   })
 
   it('setLocation null ile temizler', () => {
