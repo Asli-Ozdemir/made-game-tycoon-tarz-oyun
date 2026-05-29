@@ -59,6 +59,8 @@ export const useTrendStore = create<TrendStore>((set, get) => ({
       const pop = newPopularity[id]
       const prev = previousPopularity[id] ?? pop
 
+      // News priority: threshold conditions (>75 / <25) take precedence over delta conditions.
+      // A genre crossing a threshold with a large delta only fires the threshold news.
       if (pop > 75) {
         newsStore.addItem({
           type: 'market_trend',

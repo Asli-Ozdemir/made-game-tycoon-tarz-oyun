@@ -45,17 +45,21 @@ describe('trendStore — simulateYear', () => {
 
   it('yüksek rakip doygunluğu popularity\'yi düşürür (max 20 puan)', () => {
     useTrendStore.getState().initTrends()
-    // Aksiyon için 10 rakip oyunu → doygunluk = 10 × 3 = 30, ama max 20
     const rivalGames: RivalGame[] = Array.from({ length: 10 }, (_, i) => ({
       id: `g${i}`, title: `T${i}`, genre: 'aksiyon', score: 70,
       revenue: 100, releasedYear: 2001,
     }))
-    // İzole test: popularity'yi manuel olarak 50 yap
-    useTrendStore.setState({ popularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 } })
+    // Set phase so aksiyon next pop ≈ 85 (sin=1): phase = π/6 so next = π/2
+    useTrendStore.setState({
+      popularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      previousPopularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      phase: { aksiyon: Math.PI / 6, rpg: 0, strateji: 0, simulasyon: 0, bulmaca: 0 },
+    })
     useTrendStore.getState().simulateYear(2001, rivalGames)
-    // Doygunluk 20 puanla sınırlı, yani aksiyon popularity base'den en fazla 20 düşer
+    // base = 85, capped saturation = min(30, 20) = 20 → pop = 65
+    // Without cap: saturation = 30 → pop = 55
     const pop = useTrendStore.getState().popularity
-    expect(pop['aksiyon']).toBeGreaterThanOrEqual(5)
+    expect(pop['aksiyon']).toBeGreaterThanOrEqual(60) // verifies cap (would be ~55 without cap)
     expect(pop['aksiyon']).toBeLessThanOrEqual(95)
   })
 
@@ -105,6 +109,48 @@ describe('trendStore — simulateYear', () => {
     const items = useNewsStore.getState().items
     const marketItems = items.filter(i => i.type === 'market_trend')
     expect(marketItems.some(i => i.text.includes('durgun'))).toBe(true)
+  })
+
+  it('popularity delta +20\'den fazla ise "trende girdi" haberi eklenir', () => {
+    useTrendStore.getState().initTrends()
+    // Set popularity=50 (prev) and phase so next step gives ~75 → delta=25
+    // aksiyon cycleLength=6, step = 2π/6 = π/3
+    // We want pop - prev > 20 but pop NOT > 75
+    // sin(π/4) = √2/2 ≈ 0.707 → base=74.7 → pop=74 (no saturation) — prev=50, delta=24 ✓
+    // To get phase+π/3 = π/4: phase = π/4 - π/3 = -π/12 (negative, ok)
+    useTrendStore.setState({
+      popularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      previousPopularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      phase: { aksiyon: Math.PI / 4 - Math.PI / 3, rpg: 0, strateji: 0, simulasyon: 0, bulmaca: 0 },
+    })
+    useTrendStore.getState().simulateYear(2001, [])
+    // new phase = π/4 → sin(π/4) ≈ 0.707 → base ≈ 74.7 → pop ≈ 74 (no saturation)
+    // prev was 50, pop is 74, delta = 24 > 20 → "trende girdi" should fire
+    const pop = useTrendStore.getState().popularity
+    // Verify pop is in 30-75 range (not triggering >75 or <25 conditions)
+    expect(pop['aksiyon']).toBeGreaterThan(30)
+    expect(pop['aksiyon']).toBeLessThanOrEqual(75)
+    const items = useNewsStore.getState().items
+    expect(items.some(i => i.type === 'market_trend' && i.text.includes('trende girdi'))).toBe(true)
+  })
+
+  it('popularity delta -20\'den fazla ise "ivme kaybediyor" haberi eklenir', () => {
+    useTrendStore.getState().initTrends()
+    // Opposite: pop - prev < -20, but pop NOT < 25
+    // phase + 2π/6 = -π/4 + 0.1 → sin ≈ -0.68 → base ≈ 26.2 → pop ≈ 26
+    // prev=50, pop=26, delta=-24 → "ivme kaybediyor" fires, "durgun" doesn't
+    useTrendStore.setState({
+      popularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      previousPopularity: { aksiyon: 50, rpg: 50, strateji: 50, simulasyon: 50, bulmaca: 50 },
+      phase: { aksiyon: -Math.PI / 4 + 0.1 - Math.PI / 3, rpg: 0, strateji: 0, simulasyon: 0, bulmaca: 0 },
+    })
+    useTrendStore.getState().simulateYear(2001, [])
+    const pop = useTrendStore.getState().popularity
+    // Verify pop is in 25-70 range (not triggering <25 or >75)
+    expect(pop['aksiyon']).toBeGreaterThanOrEqual(25)
+    expect(pop['aksiyon']).toBeLessThan(70)
+    const items = useNewsStore.getState().items
+    expect(items.some(i => i.type === 'market_trend' && i.text.includes('ivme kaybediyor'))).toBe(true)
   })
 })
 
