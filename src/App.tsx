@@ -1,65 +1,93 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import HUD from '@/components/HUD'
 import Dashboard from '@/components/Dashboard'
 import PublishResult from '@/components/PublishResult'
+import CafePanel from '@/components/CafePanel'
+import FairPanel from '@/components/FairPanel'
 import { useTimeStore } from '@/store/timeStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
-import type { GameSpeed } from '@/types'
-
-const TICK_MS: Record<GameSpeed, number | null> = {
-  durduruldu: null,
-  normal:     2000,
-  hizli:      500,
-  cok_hizli:  100,
-}
+import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useWorldStore } from '@/store/worldStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
 
   const advance         = useTimeStore((s) => s.advance)
-  const speed           = useTimeStore((s) => s.speed)
   const tickAllProjects = useProjectStore((s) => s.tickAllProjects)
   const addMoney        = useGameStore((s) => s.addMoney)
   const weeklyTick      = useEmployeeStore((s) => s.weeklyTick)
+  const setOnWeeklyTick = useDayTimeStore((s) => s.setOnWeeklyTick)
+  const gameMode        = useWorldStore((s) => s.gameMode)
+  const currentLocation = useWorldStore((s) => s.currentLocation)
 
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
+  // Wire weeklyTick callback once
   useEffect(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-    const ms = TICK_MS[speed]
-    if (ms === null) return
-    intervalRef.current = setInterval(() => {
+    setOnWeeklyTick(() => {
       advance()
       const tickCount = useTimeStore.getState().tickCount
       const { totalSalary } = weeklyTick(tickCount)
       if (totalSalary > 0) addMoney(-totalSalary)
       tickAllProjects()
-      if (tickCount % 10 === 0) {
-        const saveState = {
-          game:      useGameStore.getState(),
-          time:      useTimeStore.getState(),
-          projects:  useProjectStore.getState().projects,
-          employees: useEmployeeStore.getState().employees,
-        }
-        window.electronAPI?.saveGame(saveState)
-      }
-    }, ms)
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [speed, advance, tickAllProjects, addMoney, weeklyTick])
+      window.electronAPI?.saveGame({
+        game:      useGameStore.getState(),
+        time:      useTimeStore.getState(),
+        projects:  useProjectStore.getState().projects,
+        employees: useEmployeeStore.getState().employees,
+      })
+    })
+  }, [advance, tickAllProjects, addMoney, weeklyTick, setOnWeeklyTick])
+
+  const isTycoon = gameMode === 'tycoon'
 
   return (
-    <div className="h-screen flex flex-col bg-gray-950">
-      <HUD />
-      <div className="flex-1 overflow-auto">
-        <Dashboard onPublishResult={(id) => setResultProjectId(id)} />
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      {/* PixiJS canvas placeholder — Task 5 will add <GameCanvas /> here */}
+      <div className="absolute inset-0 bg-gray-950" />
+
+      {/* HUD — always visible */}
+      <div className="absolute inset-x-0 top-0 z-10">
+        <HUD />
       </div>
+
+      {/* Tycoon overlay — only interactive in tycoon mode */}
+      <div
+        className="absolute inset-0 z-20"
+        style={{
+          pointerEvents: isTycoon ? 'all' : 'none',
+          opacity: isTycoon ? 1 : 0,
+          background: isTycoon ? 'rgba(0,0,0,0.6)' : 'transparent',
+          transition: 'opacity 0.2s',
+        }}
+      >
+        <div className="h-full flex flex-col pt-14">
+          <div className="flex-1 overflow-auto">
+            <Dashboard onPublishResult={(id) => setResultProjectId(id)} />
+          </div>
+        </div>
+      </div>
+
+      {/* Location panels */}
+      {currentLocation === 'cafe' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <CafePanel />
+        </div>
+      )}
+      {currentLocation === 'fair' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <FairPanel />
+        </div>
+      )}
+
+      {/* Publish result */}
       {resultProjectId && (
-        <PublishResult
-          projectId={resultProjectId}
-          onContinue={() => setResultProjectId(null)}
-        />
+        <div className="absolute inset-0 z-30">
+          <PublishResult
+            projectId={resultProjectId}
+            onContinue={() => setResultProjectId(null)}
+          />
+        </div>
       )}
     </div>
   )
