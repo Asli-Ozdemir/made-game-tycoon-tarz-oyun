@@ -9,6 +9,7 @@ import { calculatePublishResult } from '@/engine/scoreEngine'
 import { useTimeStore } from '@/store/timeStore'
 import { useCharacterStore } from '@/store/characterStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useCutsceneStore } from '@/store/cutsceneStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
@@ -50,6 +51,9 @@ export default function Dashboard({ onPublishResult }: Props) {
     }
 
     incrementPub()
+    if (useGameStore.getState().totalPublished === 1) {
+      useCutsceneStore.getState().startCutscene('ilk_yayin')
+    }
     unassignFromProject(projectId)
     onPublishResult(projectId)
   }
@@ -62,6 +66,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     useEmployeeStore.getState().reset()
     useTimeStore.getState().reset()
     useDayTimeStore.getState().reset()
+    useCutsceneStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')
