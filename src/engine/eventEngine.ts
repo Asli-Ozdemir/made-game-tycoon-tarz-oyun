@@ -33,10 +33,13 @@ export function candidateEvents(
   })
 }
 
-export function pickEvent(candidates: RandomEvent[]): RandomEvent | null {
+export function pickEvent(
+  candidates: RandomEvent[],
+  rng: () => number = Math.random
+): RandomEvent | null {
   if (candidates.length === 0) return null
   const totalWeight = candidates.reduce((sum, e) => sum + e.weight, 0)
-  let rand = Math.random() * totalWeight
+  let rand = rng() * totalWeight
   for (const event of candidates) {
     rand -= event.weight
     if (rand <= 0) return event

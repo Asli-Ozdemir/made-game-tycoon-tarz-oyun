@@ -47,11 +47,44 @@ describe('candidateEvents', () => {
     const result = candidateEvents([evA, evB], {}, {}, 2005, baseGame)
     expect(result).toHaveLength(2)
   })
+
+  it('boş katalogda boş liste döner', () => {
+    const result = candidateEvents([], {}, {}, 2005, baseGame)
+    expect(result).toHaveLength(0)
+  })
+
+  it('maxReputation koşulu aşılırsa event elenir', () => {
+    const evMax: RandomEvent = {
+      id: 'ev_max', category: 'kisisel', type: 'passive',
+      weight: 5, cooldownYears: 2, title: 'Max', description: 'max desc',
+      trigger: { maxReputation: 20 },
+      effect: { money: 100 },
+    }
+    const result = candidateEvents([evMax], {}, {}, 2005, { ...baseGame, reputation: 50 })
+    expect(result).toHaveLength(0)
+  })
+
+  it('maxMoney koşulu aşılırsa event elenir', () => {
+    const evMaxMoney: RandomEvent = {
+      id: 'ev_maxmoney', category: 'finansal', type: 'passive',
+      weight: 5, cooldownYears: 2, title: 'MaxMoney', description: 'maxmoney desc',
+      trigger: { maxMoney: 10000 },
+      effect: { money: 100 },
+    }
+    const result = candidateEvents([evMaxMoney], {}, {}, 2005, { ...baseGame, money: 50000 })
+    expect(result).toHaveLength(0)
+  })
 })
 
 describe('pickEvent', () => {
   it('boş listede null döner', () => {
     expect(pickEvent([])).toBeNull()
+  })
+
+  it('tek elemanlı listede her zaman o element döner', () => {
+    for (let i = 0; i < 20; i++) {
+      expect(pickEvent([evA])!.id).toBe('ev_a')
+    }
   })
 
   it('ağırlıklı seçim — weight:10 event, weight:1 olandan ~10× daha sık seçilir', () => {
@@ -61,9 +94,9 @@ describe('pickEvent', () => {
     for (let i = 0; i < 1100; i++) {
       if (pickEvent([heavy, light])!.id === 'heavy') heavyCount++
     }
-    // weight oranı 10:1, 1100 denemede heavy ~1000 kez çıkmalı. 700-1100 arasında kabul et.
-    expect(heavyCount).toBeGreaterThan(700)
-    expect(heavyCount).toBeLessThan(1100)
+    // weight oranı 10:1, 1100 denemede heavy ~1000 kez çıkmalı. 850-1050 arasında kabul et.
+    expect(heavyCount).toBeGreaterThan(850)
+    expect(heavyCount).toBeLessThan(1050)
   })
 })
 
