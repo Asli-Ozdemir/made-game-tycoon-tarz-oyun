@@ -29,6 +29,7 @@ interface RivalStore {
   escalationCheck: () => void
   setRelationship: (rivalId: string, status: RelationshipStatus) => void
   resolveRival: (rivalId: string, choice: ResolutionChoice) => void
+  setPendingResolution: (rivalId: string) => void
   clearPendingResolution: () => void
   reset: () => void
 }
@@ -47,7 +48,8 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
     const { rivals, lastSimYear } = get()
     if (year === lastSimYear) return
 
-    const currentSeason = SEASONS.indexOf(useTimeStore.getState().date.season)
+    const rawSeason = useTimeStore.getState().date?.season
+    const currentSeason = rawSeason !== undefined ? SEASONS.indexOf(rawSeason) : 0
 
     const updatedRivals = rivals.map(rival => {
       const [min, max] = TIER_SCORE_RANGE[rival.tier]
@@ -98,6 +100,8 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
     const { rivals } = get()
     const { date } = useTimeStore.getState()
 
+    const currentSeasonIdx = date?.season !== undefined ? SEASONS.indexOf(date.season) : 0
+
     const updatedRivals = rivals.map(rival => {
       if (rival.relationship !== 'unknown') return rival
       if (playerReputation < rival.noticeThreshold) return rival
@@ -107,7 +111,7 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
         rivalId: rival.id,
         text: `${rival.name} stüdyonuzu fark etti!`,
         year: date.year,
-        season: SEASONS.indexOf(date.season),
+        season: currentSeasonIdx,
       })
 
       return { ...rival, relationship: 'noticed' as RelationshipStatus }
@@ -130,6 +134,7 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
     const { rivals } = get()
     const rival = rivals.find(r => r.id === rivalId)
     if (!rival) return
+    if (rival.relationship === 'destroyed' || rival.relationship === 'merged') return
     if (choice === 'merge' && rival.relationship !== 'ally') return
 
     const newRelationship: RelationshipStatus =
@@ -162,6 +167,8 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
     )
     set({ rivals: updatedRivals })
   },
+
+  setPendingResolution: (rivalId) => set({ pendingResolution: { rivalId } }),
 
   clearPendingResolution: () => set({ pendingResolution: null }),
 
