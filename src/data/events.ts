@@ -216,7 +216,7 @@ export const EVENTS: RandomEvent[] = [
     id: 'yangin_alarmi', category: 'studyo', type: 'passive',
     weight: 4, cooldownYears: 3,
     title: 'Yangın Alarmı',
-    description: 'Yanlış alarm nedeniyle ofis tahliye edildi, bir günlük iş kaybı yaşandı.',
+    description: 'Yanlış alarm nedeniyle ofis tahliye edildi, bir haftalık iş kaybı yaşandı.',
     effect: { weekDelay: 1 },
   },
   {
