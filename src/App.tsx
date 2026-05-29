@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import GameCanvas from '@/components/GameCanvas'
 import HUD from '@/components/HUD'
 import Dashboard from '@/components/Dashboard'
 import PublishResult from '@/components/PublishResult'
@@ -43,8 +44,7 @@ export default function App() {
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      {/* PixiJS canvas placeholder — Task 5 will add <GameCanvas /> here */}
-      <div className="absolute inset-0 bg-gray-950" />
+      <GameCanvas />
 
       {/* HUD — always visible */}
       <div className="absolute inset-x-0 top-0 z-10">
