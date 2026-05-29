@@ -7,6 +7,7 @@ import CafePanel from '@/components/CafePanel'
 import FairPanel from '@/components/FairPanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
+import ResolutionScreen from '@/components/ResolutionScreen'
 import { useTimeStore } from '@/store/timeStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
@@ -15,6 +16,7 @@ import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useWorldStore } from '@/store/worldStore'
 import { useCharacterStore } from '@/store/characterStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
+import { useRivalStore } from '@/store/rivalStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -49,6 +51,7 @@ export default function App() {
   const setIsPaused      = useDayTimeStore((s) => s.setIsPaused)
   const isCreated        = useCharacterStore((s) => s.isCreated)
   const activeCutscene   = useCutsceneStore((s) => s.activeCutscene)
+  const pendingResolution = useRivalStore((s) => s.pendingResolution)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -87,8 +90,9 @@ export default function App() {
   }, [])
 
   // Wizard gate — render wizard until character is created
-  if (!isCreated) return <CharacterCreationWizard />
-  if (activeCutscene) return <CutscenePlayer />
+  if (!isCreated)        return <CharacterCreationWizard />
+  if (activeCutscene)    return <CutscenePlayer />
+  if (pendingResolution) return <ResolutionScreen />
 
   const isTycoon = gameMode === 'tycoon'
 
