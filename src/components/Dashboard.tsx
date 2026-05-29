@@ -4,6 +4,7 @@ import NewProjectModal from './NewProjectModal'
 import EmployeePanel from './EmployeePanel'
 import NewsFeed from './NewsFeed'
 import RivalsPanel from './RivalsPanel'
+import MarketPanel from './MarketPanel'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
@@ -15,13 +16,14 @@ import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useRivalStore } from '@/store/rivalStore'
 import { useNewsStore } from '@/store/newsStore'
 import { useAwardsStore } from '@/store/awardsStore'
+import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
   onPublishResult: (projectId: string) => void
 }
 
-type Tab = 'studyo' | 'calisanlar' | 'rakipler'
+type Tab = 'studyo' | 'calisanlar' | 'rakipler' | 'piyasa'
 
 export default function Dashboard({ onPublishResult }: Props) {
   const [showModal, setShowModal] = useState(false)
@@ -38,13 +40,18 @@ export default function Dashboard({ onPublishResult }: Props) {
 
   const year = useTimeStore((s) => s.date.year)
   useEffect(() => {
-    // year 2000 (başlangıç) ise awards'ı tetikleme
+    // year 2000 (başlangıç) ise awards ve trend'i tetikleme
     if (year <= 2000) {
       useRivalStore.getState().simulateYear(year)
       return
     }
-    // Yıl geçişi: simüle et ve awards kontrol et
+    // Yıl geçişi: rakipleri ve trendleri simüle et
     useRivalStore.getState().simulateYear(year)
+
+    // Rakiplerin bu yılki oyunlarını topla (tür doygunluğu için)
+    const allRivalGames = useRivalStore.getState().rivals.flatMap(r => r.games)
+    const thisYearGames = allRivalGames.filter(g => g.releasedYear === year)
+    useTrendStore.getState().simulateYear(year, thisYearGames)
 
     // Önceki yılın en iyi oyuncusu
     const prevYear = year - 1
@@ -73,7 +80,12 @@ export default function Dashboard({ onPublishResult }: Props) {
     const result = calculatePublishResult(project, { reputation, publishDate: date }, playerSkillBonus)
 
     publishProject(projectId, result)
-    addMoney(result.revenue)
+
+    // Trend çarpanı yalnızca gelire uygulanır (skor değişmez)
+    const trendMultiplier = useTrendStore.getState().getMultiplier(project.genreId)
+    const adjustedRevenue = Math.round(result.revenue * trendMultiplier)
+    addMoney(adjustedRevenue)
+
     gainReputation(Math.round(result.score / 20))
 
     // CEO özel: başarısız projede 2× itibar kaybı
@@ -105,45 +117,36 @@ export default function Dashboard({ onPublishResult }: Props) {
     useRivalStore.getState().reset()
     useNewsStore.getState().reset()
     useAwardsStore.getState().reset()
+    useTrendStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')
   const published = projects.filter((p) => p.status === 'yayinlandi')
 
+  const TAB_LABELS: Record<Tab, string> = {
+    studyo: 'Stüdyo',
+    calisanlar: 'Çalışanlar',
+    rakipler: 'Rakipler',
+    piyasa: 'Piyasa',
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Tab bar */}
       <div className="flex border-b border-gray-800 px-6 pt-4">
-        <button
-          onClick={() => setActiveTab('studyo')}
-          className={`px-4 py-2 text-sm font-medium rounded-t border-b-2 transition-colors ${
-            activeTab === 'studyo'
-              ? 'border-blue-500 text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          Stüdyo
-        </button>
-        <button
-          onClick={() => setActiveTab('calisanlar')}
-          className={`px-4 py-2 text-sm font-medium rounded-t border-b-2 transition-colors ${
-            activeTab === 'calisanlar'
-              ? 'border-blue-500 text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          Çalışanlar
-        </button>
-        <button
-          onClick={() => setActiveTab('rakipler')}
-          className={`px-4 py-2 text-sm font-medium rounded-t border-b-2 transition-colors ${
-            activeTab === 'rakipler'
-              ? 'border-blue-500 text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
-          }`}
-        >
-          Rakipler
-        </button>
+        {(['studyo', 'calisanlar', 'rakipler', 'piyasa'] as Tab[]).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-4 py-2 text-sm font-medium rounded-t border-b-2 transition-colors ${
+              activeTab === tab
+                ? 'border-blue-500 text-white'
+                : 'border-transparent text-gray-400 hover:text-gray-200'
+            }`}
+          >
+            {TAB_LABELS[tab]}
+          </button>
+        ))}
         <button
           onClick={handleNewGame}
           className="ml-auto text-xs text-gray-500 hover:text-gray-300 px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition-colors self-center"
@@ -199,6 +202,7 @@ export default function Dashboard({ onPublishResult }: Props) {
           )}
           {activeTab === 'calisanlar' && <EmployeePanel />}
           {activeTab === 'rakipler' && <RivalsPanel />}
+          {activeTab === 'piyasa' && <MarketPanel />}
         </div>
         <div className="p-4 border-l border-gray-800">
           <NewsFeed />
