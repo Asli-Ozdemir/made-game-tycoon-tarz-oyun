@@ -5,6 +5,7 @@ import IdentityStep from './character/IdentityStep'
 import { useCharacterStore } from '@/store/characterStore'
 import { useGameStore } from '@/store/gameStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
+import { useRivalStore } from '@/store/rivalStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 type Step = 1 | 2 | 3
@@ -24,6 +25,7 @@ export default function CharacterCreationWizard() {
     if (bg.startRep > 0) setRep(bg.startRep)
 
     finalize()
+    useRivalStore.getState().initRivals()
     useCutsceneStore.getState().startCutscene('kovulma')
   }
 

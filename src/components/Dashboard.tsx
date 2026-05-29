@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ProjectCard from './ProjectCard'
 import NewProjectModal from './NewProjectModal'
 import EmployeePanel from './EmployeePanel'
+import NewsFeed from './NewsFeed'
+import RivalsPanel from './RivalsPanel'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
@@ -10,13 +12,15 @@ import { useTimeStore } from '@/store/timeStore'
 import { useCharacterStore } from '@/store/characterStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
+import { useRivalStore } from '@/store/rivalStore'
+import { useNewsStore } from '@/store/newsStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
   onPublishResult: (projectId: string) => void
 }
 
-type Tab = 'studyo' | 'calisanlar'
+type Tab = 'studyo' | 'calisanlar' | 'rakipler'
 
 export default function Dashboard({ onPublishResult }: Props) {
   const [showModal, setShowModal] = useState(false)
@@ -30,6 +34,11 @@ export default function Dashboard({ onPublishResult }: Props) {
   const reputation          = useGameStore((s) => s.reputation)
   const date                = useTimeStore((s) => s.date)
   const unassignFromProject = useEmployeeStore((s) => s.unassignFromProject)
+
+  const year = useTimeStore((s) => s.date.year)
+  useEffect(() => {
+    useRivalStore.getState().simulateYear(year)
+  }, [year])
 
   function handlePublish(projectId: string) {
     const project = projects.find((p) => p.id === projectId)
@@ -55,6 +64,7 @@ export default function Dashboard({ onPublishResult }: Props) {
       useCutsceneStore.getState().startCutscene('ilk_yayin')
     }
     unassignFromProject(projectId)
+    useRivalStore.getState().noticeCheck(useGameStore.getState().reputation)
     onPublishResult(projectId)
   }
 
@@ -67,6 +77,8 @@ export default function Dashboard({ onPublishResult }: Props) {
     useTimeStore.getState().reset()
     useDayTimeStore.getState().reset()
     useCutsceneStore.getState().reset()
+    useRivalStore.getState().reset()
+    useNewsStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')
@@ -97,6 +109,16 @@ export default function Dashboard({ onPublishResult }: Props) {
           Çalışanlar
         </button>
         <button
+          onClick={() => setActiveTab('rakipler')}
+          className={`px-4 py-2 text-sm font-medium rounded-t border-b-2 transition-colors ${
+            activeTab === 'rakipler'
+              ? 'border-blue-500 text-white'
+              : 'border-transparent text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          Rakipler
+        </button>
+        <button
           onClick={handleNewGame}
           className="ml-auto text-xs text-gray-500 hover:text-gray-300 px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition-colors self-center"
         >
@@ -104,52 +126,58 @@ export default function Dashboard({ onPublishResult }: Props) {
         </button>
       </div>
 
-      {/* Tab content */}
-      {activeTab === 'studyo' && (
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-white text-2xl font-bold">Stüdyo</h1>
-            <button
-              onClick={() => setShowModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium"
-            >
-              + Yeni Proje
-            </button>
-          </div>
-
-          {active.length === 0 && published.length === 0 && (
-            <p className="text-gray-500 text-center mt-20">
-              Henüz proje yok. İlk oyununu başlat!
-            </p>
-          )}
-
-          {active.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-gray-400 text-sm uppercase mb-3">Geliştirme Aşamasında</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {active.map((p) => (
-                  <ProjectCard key={p.id} project={p} onPublish={handlePublish} />
-                ))}
+      <div className="flex flex-1 overflow-hidden">
+        <div className="flex-1 overflow-auto">
+          {activeTab === 'studyo' && (
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h1 className="text-white text-2xl font-bold">Stüdyo</h1>
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium"
+                >
+                  + Yeni Proje
+                </button>
               </div>
-            </section>
-          )}
 
-          {published.length > 0 && (
-            <section>
-              <h2 className="text-gray-400 text-sm uppercase mb-3">Yayınlananlar</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {published.map((p) => (
-                  <ProjectCard key={p.id} project={p} />
-                ))}
-              </div>
-            </section>
-          )}
+              {active.length === 0 && published.length === 0 && (
+                <p className="text-gray-500 text-center mt-20">
+                  Henüz proje yok. İlk oyununu başlat!
+                </p>
+              )}
 
-          {showModal && <NewProjectModal onClose={() => setShowModal(false)} />}
+              {active.length > 0 && (
+                <section className="mb-8">
+                  <h2 className="text-gray-400 text-sm uppercase mb-3">Geliştirme Aşamasında</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {active.map((p) => (
+                      <ProjectCard key={p.id} project={p} onPublish={handlePublish} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {published.length > 0 && (
+                <section>
+                  <h2 className="text-gray-400 text-sm uppercase mb-3">Yayınlananlar</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {published.map((p) => (
+                      <ProjectCard key={p.id} project={p} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {showModal && <NewProjectModal onClose={() => setShowModal(false)} />}
+            </div>
+          )}
+          {activeTab === 'calisanlar' && <EmployeePanel />}
+          {activeTab === 'rakipler' && <RivalsPanel />}
         </div>
-      )}
-
-      {activeTab === 'calisanlar' && <EmployeePanel />}
+        <div className="p-4 border-l border-gray-800">
+          <NewsFeed />
+        </div>
+      </div>
     </div>
   )
 }
