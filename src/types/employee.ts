@@ -1,5 +1,7 @@
 export type EmployeePersonality = 'odakli' | 'yaratici' | 'sosyal' | 'rekabetci' | 'sakin'
 
+export type SkillKey = 'programming' | 'design' | 'sound' | 'management'
+
 export interface EmployeeSkillSet {
   programming: number  // 1–10
   design: number       // 1–10
@@ -16,6 +18,9 @@ export interface Employee {
   energy: number              // 0–100 (resets to 100 each week before events apply)
   personality: EmployeePersonality
   assignedProjectId: string | null
+  xp:             Record<SkillKey, number>  // birikmiş ham XP, her skill için ayrı
+  activeCourseId: string | null             // trainingStore'daki PurchasedCourse id'si
+  traits:         string[]                  // açılmış trait id'leri
 }
 
 export type LifeEventType = 'hasta' | 'rakip_teklif' | 'kisisel_kriz' | 'dogum_gunu'

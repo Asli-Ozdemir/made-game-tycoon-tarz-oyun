@@ -11,6 +11,9 @@ const baseEmployee: Employee = {
   energy: 100,
   personality: 'odakli',
   assignedProjectId: null,
+  xp: { programming: 0, design: 0, sound: 0, management: 0 },
+  activeCourseId: null,
+  traits: [],
 }
 
 describe('generateCandidates', () => {
@@ -29,6 +32,9 @@ describe('generateCandidates', () => {
     expect(c.loyalty).toBe(80)
     expect(c.energy).toBe(100)
     expect(c.assignedProjectId).toBeNull()
+    expect(c.xp.programming).toBe(0)
+    expect(c.activeCourseId).toBeNull()
+    expect(c.traits).toHaveLength(0)
   })
 
   it('aynı seed her zaman aynı adayları üretir', () => {
