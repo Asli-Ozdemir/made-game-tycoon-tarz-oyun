@@ -99,6 +99,11 @@ const PROC_PERSONALITIES: RivalPersonality[] = ['aggressive', 'friendly', 'defen
 const PROC_GENRES = ['RPG', 'Aksiyon', 'Strateji', 'Bulmaca', 'Simülasyon', 'Macera']
 
 export function generateProceduralRivals(count: number): RivalCompany[] {
+  const MAX_UNIQUE = PROC_PREFIXES.length * PROC_SUFFIXES.length
+  if (count > MAX_UNIQUE) {
+    throw new Error(`generateProceduralRivals: count ${count} exceeds pool size ${MAX_UNIQUE}`)
+  }
+
   const usedNames = new Set<string>()
   const rivals: RivalCompany[] = []
 
@@ -115,7 +120,7 @@ export function generateProceduralRivals(count: number): RivalCompany[] {
     const threshold = 1 + Math.floor(Math.random() * 40)  // 1–40 reputation
 
     rivals.push({
-      id: `proc_${i}`,
+      id: `proc_${Date.now()}_${i}`,
       name,
       tier: 'indie',
       personality,

@@ -39,4 +39,8 @@ describe('rivals verisi', () => {
     expect(rivals.every(r => r.isProcedural)).toBe(true)
     expect(rivals.every(r => r.tier === 'indie')).toBe(true)
   })
+
+  it('count > pool size atarsa hata fırlatır', () => {
+    expect(() => generateProceduralRivals(65)).toThrow()
+  })
 })
