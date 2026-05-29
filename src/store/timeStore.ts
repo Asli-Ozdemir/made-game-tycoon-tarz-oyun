@@ -8,6 +8,7 @@ interface TimeStoreState {
   tickCount: number
   advance: () => void
   setSpeed: (speed: GameSpeed) => void
+  reset: () => void
 }
 
 const START_DATE: GameDate = { year: 2000, season: 'ilkbahar', week: 1 }
@@ -20,5 +21,6 @@ export const useTimeStore = create<TimeStoreState>((set) => ({
     date: advanceWeek(s.date),
     tickCount: s.tickCount + 1
   })),
-  setSpeed: (speed) => set({ speed })
+  setSpeed: (speed) => set({ speed }),
+  reset: () => set({ date: START_DATE, speed: 'durduruldu', tickCount: 0 })
 }))

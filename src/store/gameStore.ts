@@ -1,20 +1,26 @@
 import { create } from 'zustand'
 
 interface GameStoreState {
-  money: number
-  reputation: number
+  money:          number
+  reputation:     number
   totalPublished: number
-  addMoney: (amount: number) => void
-  gainReputation: (amount: number) => void
+  addMoney:           (amount: number) => void
+  setMoney:           (amount: number) => void
+  gainReputation:     (amount: number) => void
+  setReputation:      (amount: number) => void
   incrementPublished: () => void
+  reset:              () => void
 }
 
 export const useGameStore = create<GameStoreState>((set) => ({
-  money: 50_000,
-  reputation: 0,
+  money:          50_000,
+  reputation:     0,
   totalPublished: 0,
-  addMoney: (amount) => set((s) => ({ money: s.money + amount })),
-  gainReputation: (amount) =>
+  addMoney:           (amount) => set((s) => ({ money: s.money + amount })),
+  setMoney:           (amount) => set({ money: amount }),
+  gainReputation:     (amount) =>
     set((s) => ({ reputation: Math.min(100, s.reputation + amount) })),
-  incrementPublished: () => set((s) => ({ totalPublished: s.totalPublished + 1 }))
+  setReputation:      (amount) => set({ reputation: Math.min(100, Math.max(0, amount)) }),
+  incrementPublished: () => set((s) => ({ totalPublished: s.totalPublished + 1 })),
+  reset:              () => set({ money: 50_000, reputation: 0, totalPublished: 0 }),
 }))

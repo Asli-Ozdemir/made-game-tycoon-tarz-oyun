@@ -14,6 +14,7 @@ interface EmployeeStoreState {
   refreshCandidates: (seed: number) => void
   weeklyTick: (seed: number) => { events: LifeEvent[]; quitters: Employee[]; totalSalary: number }
   clearPendingEvents: () => void
+  reset: () => void
 }
 
 export const useEmployeeStore = create<EmployeeStoreState>((set, get) => ({
@@ -77,4 +78,6 @@ export const useEmployeeStore = create<EmployeeStoreState>((set, get) => ({
   },
 
   clearPendingEvents: () => set({ pendingEvents: [] }),
+
+  reset: () => set({ employees: [], candidates: generateCandidates(1), pendingEvents: [] }),
 }))

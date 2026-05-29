@@ -9,6 +9,7 @@ interface ProjectStoreState {
   addProject: (project: GameProject) => void
   tickAllProjects: () => GameProject[]
   publishProject: (id: string, result: PublishResult) => void
+  reset: () => void
 }
 
 export const useProjectStore = create<ProjectStoreState>((set, get) => ({
@@ -36,5 +37,6 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       projects: s.projects.map((p) =>
         p.id === id ? { ...p, status: 'yayinlandi', publishResult: result } : p
       )
-    }))
+    })),
+  reset: () => set({ projects: [] })
 }))

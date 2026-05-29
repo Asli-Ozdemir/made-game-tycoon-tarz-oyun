@@ -14,6 +14,7 @@ interface DayTimeStore {
   endDay: () => void
   setIsPaused: (paused: boolean) => void
   setOnWeeklyTick: (cb: () => void) => void
+  reset: () => void
 }
 
 export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
@@ -56,4 +57,5 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
 
   setIsPaused: (paused) => set({ isPaused: paused }),
   setOnWeeklyTick: (cb) => set({ onWeeklyTick: cb }),
+  reset: () => set({ hour: 9, minute: 0, minuteFraction: 0, dayOfWeek: 1, weekNumber: 1, isPaused: false }),
 }))
