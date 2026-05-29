@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { tickProject, isProjectComplete } from '@/engine/projectEngine'
+import { computeProjectBonus } from '@/engine/employeeEngine'
+import { useEmployeeStore } from '@/store/employeeStore'
 import type { GameProject, PublishResult } from '@/types'
 
 interface ProjectStoreState {
@@ -16,9 +18,12 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
   tickAllProjects: () => {
     const completed: GameProject[] = []
     set((s) => {
+      const employees = useEmployeeStore.getState().employees
       const updated = s.projects.map((p) => {
         if (p.status !== 'gelistirme') return p
-        const next = tickProject(p)
+        const assignedEmps = employees.filter((e) => e.assignedProjectId === p.id)
+        const bonus = computeProjectBonus(assignedEmps)
+        const next = tickProject(p, bonus)
         if (isProjectComplete(next)) completed.push(next)
         return next
       })

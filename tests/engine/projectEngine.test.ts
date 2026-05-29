@@ -35,3 +35,13 @@ describe('isProjectComplete', () => {
     expect(isProjectComplete(p)).toBe(false)
   })
 })
+
+describe('tickProject with employee bonus', () => {
+  it('çalışan bonusu kalite puanına eklenir', () => {
+    const p = createProject({ name: 'Test', genreId: 'aksiyon', topicId: 'uzay', platformId: 'pc', scope: 'kucuk', startDate })
+    const withBonus    = tickProject(p, 3.0)
+    const withoutBonus = tickProject(p)
+    expect(withBonus.qualityPoints).toBeGreaterThan(withoutBonus.qualityPoints)
+    expect(withBonus.qualityPoints - withoutBonus.qualityPoints).toBeCloseTo(3.0, 5)
+  })
+})

@@ -28,13 +28,13 @@ export function createProject(params: CreateProjectParams): GameProject {
   }
 }
 
-export function tickProject(project: GameProject): GameProject {
+export function tickProject(project: GameProject, employeeBonus: number = 0): GameProject {
   if (project.status !== 'gelistirme') return project
   const cfg = SCOPE_CONFIG[project.scope]
   return {
     ...project,
     weeksElapsed: project.weeksElapsed + 1,
-    qualityPoints: project.qualityPoints + cfg.qualityPerWeek
+    qualityPoints: project.qualityPoints + cfg.qualityPerWeek + employeeBonus
   }
 }
 
