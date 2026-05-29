@@ -5,12 +5,14 @@ import Dashboard from '@/components/Dashboard'
 import PublishResult from '@/components/PublishResult'
 import CafePanel from '@/components/CafePanel'
 import FairPanel from '@/components/FairPanel'
+import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import { useTimeStore } from '@/store/timeStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useWorldStore } from '@/store/worldStore'
+import { useCharacterStore } from '@/store/characterStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -43,6 +45,7 @@ export default function App() {
   const setGameMode  = useWorldStore((s) => s.setGameMode)
   const setLocation  = useWorldStore((s) => s.setLocation)
   const setIsPaused  = useDayTimeStore((s) => s.setIsPaused)
+  const isCreated    = useCharacterStore((s) => s.isCreated)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -79,6 +82,9 @@ export default function App() {
     }
     return () => { console.info = orig }
   }, [])
+
+  // Wizard gate — render wizard until character is created
+  if (!isCreated) return <CharacterCreationWizard />
 
   const isTycoon = gameMode === 'tycoon'
 

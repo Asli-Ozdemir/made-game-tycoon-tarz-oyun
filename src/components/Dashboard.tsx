@@ -8,6 +8,7 @@ import { useEmployeeStore } from '@/store/employeeStore'
 import { calculatePublishResult } from '@/engine/scoreEngine'
 import { useTimeStore } from '@/store/timeStore'
 import { useCharacterStore } from '@/store/characterStore'
+import { useDayTimeStore } from '@/store/dayTimeStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 interface Props {
@@ -53,6 +54,16 @@ export default function Dashboard({ onPublishResult }: Props) {
     onPublishResult(projectId)
   }
 
+  function handleNewGame() {
+    if (!window.confirm('Mevcut oyun silinecek. Devam etmek istiyor musun?')) return
+    useCharacterStore.getState().reset()
+    useGameStore.getState().reset()
+    useProjectStore.getState().reset()
+    useEmployeeStore.getState().reset()
+    useTimeStore.getState().reset()
+    useDayTimeStore.getState().reset()
+  }
+
   const active    = projects.filter((p) => p.status === 'gelistirme')
   const published = projects.filter((p) => p.status === 'yayinlandi')
 
@@ -79,6 +90,12 @@ export default function Dashboard({ onPublishResult }: Props) {
           }`}
         >
           Çalışanlar
+        </button>
+        <button
+          onClick={handleNewGame}
+          className="ml-auto text-xs text-gray-500 hover:text-gray-300 px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition-colors self-center"
+        >
+          Yeni Oyun
         </button>
       </div>
 
