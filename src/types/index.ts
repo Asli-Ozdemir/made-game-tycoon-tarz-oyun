@@ -51,6 +51,8 @@ export interface Genre {
   id: string
   name: string
   baseSales: number
+  cycleLength: number   // yıl cinsinden döngü uzunluğu (5–8)
+  startPhase: number    // başlangıç sinüs fazı (0–2π), türe özgü sabit
 }
 
 export interface Platform {

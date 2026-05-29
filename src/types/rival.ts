@@ -41,6 +41,7 @@ export type NewsType =
   | 'rival_scandal'
   | 'rival_notice'
   | 'player_mention'
+  | 'market_trend'
 
 export interface NewsItem {
   id: string
