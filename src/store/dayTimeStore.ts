@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 
-// 1 oyun saati = 120 gerçek saniye
 export const REAL_SECONDS_PER_GAME_HOUR = 120
 
 interface DayTimeStore {
-  hour: number        // 9–23; 24+ → endDay tetiklenir
-  minute: number      // 0–59
-  dayOfWeek: number   // 1–7
+  hour: number
+  minute: number
+  minuteFraction: number  // 0–1, accumulated fractional game minutes
+  dayOfWeek: number
   weekNumber: number
   isPaused: boolean
   onWeeklyTick: (() => void) | null
@@ -19,6 +19,7 @@ interface DayTimeStore {
 export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
   hour: 9,
   minute: 0,
+  minuteFraction: 0,
   dayOfWeek: 1,
   weekNumber: 1,
   isPaused: false,
@@ -26,15 +27,17 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
 
   advanceRealSeconds: (seconds) => {
     if (get().isPaused) return
-    const { hour, minute } = get()
+    const { hour, minute, minuteFraction } = get()
     const gameMinutesElapsed = seconds * (60 / REAL_SECONDS_PER_GAME_HOUR)
-    const totalMinutes = hour * 60 + minute + gameMinutesElapsed
-    const newHour = Math.floor(totalMinutes / 60)
-    const newMinute = Math.floor(totalMinutes % 60)
+    const accumulated = minute + minuteFraction + gameMinutesElapsed
+    const newHour = hour + Math.floor(accumulated / 60)
+    const newMinute = Math.floor(accumulated % 60)
+    const newFraction = accumulated % 1
+
     if (newHour >= 24) {
       get().endDay()
     } else {
-      set({ hour: newHour, minute: newMinute })
+      set({ hour: newHour, minute: newMinute, minuteFraction: newFraction })
     }
   },
 
@@ -44,6 +47,7 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
     set({
       hour: 9,
       minute: 0,
+      minuteFraction: 0,
       dayOfWeek: isWeekEnd ? 1 : dayOfWeek + 1,
       weekNumber: isWeekEnd ? weekNumber + 1 : weekNumber,
     })

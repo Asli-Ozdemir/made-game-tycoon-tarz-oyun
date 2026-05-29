@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 
-const RESET = { hour: 9, minute: 0, dayOfWeek: 1, weekNumber: 1, isPaused: false, onWeeklyTick: null }
+const RESET = { hour: 9, minute: 0, minuteFraction: 0, dayOfWeek: 1, weekNumber: 1, isPaused: false, onWeeklyTick: null }
 
 beforeEach(() => {
   useDayTimeStore.setState(RESET)
@@ -31,6 +31,15 @@ describe('advanceRealSeconds', () => {
     useDayTimeStore.setState({ hour: 23, minute: 59 })
     useDayTimeStore.getState().advanceRealSeconds(120) // 1 saat → 24:59 → endDay
     expect(useDayTimeStore.getState().hour).toBe(9) // gün sıfırlandı
+  })
+
+  it('küçük deltalar birikip dakika oluşturur', () => {
+    // 120 × 1 gerçek saniye = 60 oyun dakikası = 1 oyun saati
+    for (let i = 0; i < 120; i++) {
+      useDayTimeStore.getState().advanceRealSeconds(1)
+    }
+    expect(useDayTimeStore.getState().hour).toBe(10)
+    expect(useDayTimeStore.getState().minute).toBe(0)
   })
 })
 
