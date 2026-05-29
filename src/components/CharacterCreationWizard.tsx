@@ -6,6 +6,7 @@ import { useCharacterStore } from '@/store/characterStore'
 import { useGameStore } from '@/store/gameStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useRivalStore } from '@/store/rivalStore'
+import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 type Step = 1 | 2 | 3
@@ -26,6 +27,7 @@ export default function CharacterCreationWizard() {
 
     finalize()
     useRivalStore.getState().initRivals()
+    useTrendStore.getState().initTrends()
     useCutsceneStore.getState().startCutscene('kovulma')
   }
 
