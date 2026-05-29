@@ -3,6 +3,7 @@ import { FIXED_RIVALS, generateProceduralRivals } from '@/data/rivals'
 import { useNewsStore } from '@/store/newsStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useCutsceneStore } from '@/store/cutsceneStore'
 import { SEASONS } from '@/types'
 import type { RivalCompany, RelationshipStatus, ResolutionChoice, RivalGame } from '@/types/rival'
 
@@ -114,14 +115,28 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
         season: currentSeasonIdx,
       })
 
+      if (rival.isFormerEmployer) {
+        useCutsceneStore.getState().startCutscene('nexus_notice')
+      }
+
       return { ...rival, relationship: 'noticed' as RelationshipStatus }
     })
 
     set({ rivals: updatedRivals })
   },
 
-  // Faz 4C-2'de implement edilecek
-  escalationCheck: () => {},
+  escalationCheck: () => {
+    const { rivals } = get()
+    const nexus = rivals.find(r => r.id === 'nexus')
+    if (!nexus) return
+    if (nexus.relationship !== 'rival') return
+
+    // Nexus'u nemesis'e yükselt
+    const updatedRivals = rivals.map(r =>
+      r.id === 'nexus' ? { ...r, relationship: 'nemesis' as RelationshipStatus } : r
+    )
+    set({ rivals: updatedRivals, pendingResolution: { rivalId: 'nexus' } })
+  },
 
   setRelationship: (rivalId, status) => {
     const rivals = get().rivals.map(r =>
