@@ -9,6 +9,7 @@ interface ProjectStoreState {
   addProject: (project: GameProject) => void
   tickAllProjects: () => GameProject[]
   publishProject: (id: string, result: PublishResult) => void
+  applyEventEffect: (qualityBonus: number, weekDelay: number) => void
   reset: () => void
 }
 
@@ -38,5 +39,17 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
         p.id === id ? { ...p, status: 'yayinlandi', publishResult: result } : p
       )
     })),
+  applyEventEffect: (qualityBonus, weekDelay) => {
+    set((s) => ({
+      projects: s.projects.map((p) => {
+        if (p.status !== 'gelistirme') return p
+        return {
+          ...p,
+          qualityPoints: Math.max(0, p.qualityPoints + qualityBonus),
+          totalWeeks: p.totalWeeks + weekDelay,
+        }
+      }),
+    }))
+  },
   reset: () => set({ projects: [] })
 }))
