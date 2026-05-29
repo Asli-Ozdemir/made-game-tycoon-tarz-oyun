@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { generateCandidates, computeProjectBonus, rollLifeEvents } from '@/engine/employeeEngine'
+import { generateCandidates, computeProjectBonus, rollLifeEvents, tickEmployeeXp, applyXpGains } from '@/engine/employeeEngine'
+import { SKILL_CAPS } from '@/data/courses'
 import type { Employee } from '@/types/employee'
+import type { SkillKey } from '@/types/employee'
 
 const baseEmployee: Employee = {
   id: 'emp-1',
@@ -130,5 +132,83 @@ describe('rollLifeEvents', () => {
       }
     }
     // vacuously true if no rival event found
+  })
+})
+
+describe('tickEmployeeXp', () => {
+  const caps = SKILL_CAPS['odakli'] // prog:10, design:6, sound:5, mgmt:6
+
+  it('atanmış çalışan: dominant skill +2 XP, diğerleri +1 XP', () => {
+    const emp = {
+      ...baseEmployee,
+      skills: { programming: 7, design: 3, sound: 2, management: 4 },
+      assignedProjectId: 'proj-1',
+    }
+    const newXp = tickEmployeeXp(emp, caps)
+    expect(newXp.programming).toBe(2)  // dominant
+    expect(newXp.design).toBe(1)
+    expect(newXp.sound).toBe(1)
+    expect(newXp.management).toBe(1)
+  })
+
+  it('atanmamış çalışan: XP kazanmaz', () => {
+    const emp = { ...baseEmployee, assignedProjectId: null }
+    const newXp = tickEmployeeXp(emp, caps)
+    expect(newXp.programming).toBe(0)
+    expect(newXp.design).toBe(0)
+  })
+
+  it('cap\'e ulaşmış skill XP kazanmaz', () => {
+    // odakli personality: sound cap = 5
+    const emp = {
+      ...baseEmployee,
+      skills: { programming: 5, design: 3, sound: 5, management: 4 },
+      assignedProjectId: 'proj-1',
+    }
+    const newXp = tickEmployeeXp(emp, caps)
+    expect(newXp.sound).toBe(0)  // cap'te, XP gelmez
+    expect(newXp.programming).toBe(2)  // dominant
+  })
+})
+
+describe('applyXpGains', () => {
+  const caps = SKILL_CAPS['odakli']
+
+  it('eşik aşılınca skill +1, XP sıfırlanır', () => {
+    // skill=3, threshold=30, mevcut xp=29, yeni xp=30 → level up
+    const emp = {
+      ...baseEmployee,
+      skills: { programming: 3, design: 3, sound: 3, management: 3 },
+      xp: { programming: 29, design: 0, sound: 0, management: 0 },
+    }
+    const newXp = { ...emp.xp, programming: 30 }
+    const { updatedEmployee, leveledSkills } = applyXpGains(emp, newXp, caps)
+    expect(updatedEmployee.skills.programming).toBe(4)
+    expect(updatedEmployee.xp.programming).toBe(0)
+    expect(leveledSkills).toContain('programming')
+  })
+
+  it('cap aşılmaz', () => {
+    // odakli sound cap = 5; skill=5 → at cap
+    const emp = {
+      ...baseEmployee,
+      personality: 'odakli' as const,
+      skills: { programming: 5, design: 3, sound: 5, management: 3 },
+      xp: { programming: 0, design: 0, sound: 60, management: 0 },
+    }
+    const newXp = { ...emp.xp }
+    const { updatedEmployee } = applyXpGains(emp, newXp, caps)
+    expect(updatedEmployee.skills.sound).toBe(5)  // cap'te kaldı
+  })
+})
+
+describe('computeProjectBonus — trait', () => {
+  it('kod_ustasi trait\'i programming\'i 1.5× katar', () => {
+    const withTrait    = computeProjectBonus([{ ...baseEmployee, traits: ['kod_ustasi'] }])
+    const withoutTrait = computeProjectBonus([{ ...baseEmployee, traits: [] }])
+    expect(withTrait).toBeGreaterThan(withoutTrait)
+    // programming=5, trait → 5*1.5=7.5; design=5, sound=5 → avg=(7.5+5+5)/3=5.833
+    // vs. avg=(5+5+5)/3=5. Oran ~1.167 olmalı.
+    expect(withTrait / withoutTrait).toBeCloseTo(1.167, 1)
   })
 })
