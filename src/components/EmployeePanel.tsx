@@ -64,11 +64,15 @@ export default function EmployeePanel() {
             Adayları Yenile
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {candidates.map((c) => (
-            <EmployeeCard key={c.id} employee={c} isCandidate />
-          ))}
-        </div>
+        {candidates.length === 0 ? (
+          <p className="text-gray-500 text-sm">Tüm adaylar işe alındı. "Adayları Yenile" ile yeni adaylar getir.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {candidates.map((c) => (
+              <EmployeeCard key={c.id} employee={c} isCandidate />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
