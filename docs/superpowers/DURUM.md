@@ -1,0 +1,55 @@
+# Proje Durumu — Nerede Kaldık
+
+**Son güncelleme:** 2026-05-29
+
+Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
+Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
+
+---
+
+## Tamamlanan Fazlar
+
+| Faz | Durum | Spec | Plan |
+|-----|-------|------|------|
+| **Faz 1 — Core Loop** | ✅ Bitti | `specs/2026-05-29-game-dev-tycoon-design.md` | `plans/2026-05-29-faz1-core-loop.md` |
+| **Faz 2 — Çalışan Sistemi** | ✅ Bitti | (ana spec) | `plans/2026-05-29-faz2-calisan-sistemi.md` |
+| **Faz 3 — Dünya / Keşif** | ✅ Bitti | `specs/2026-05-29-faz3-dunya-kesif-design.md` | `plans/2026-05-29-faz3-dunya-kesif.md` |
+| **Faz 4A — Karakter Yaratma** | ✅ Bitti | `specs/2026-05-29-faz4a-karakter-yaratma-design.md` | `plans/2026-05-29-faz4a-karakter-yaratma.md` |
+
+**Testler:** 56/56 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+
+### Faz 3 özeti
+PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
+
+### Faz 4A özeti
+3 adımlı karakter yaratma wizard'ı: arkaplan seçimi (5 seçenek — KK Uzmanı, Yaratıcı Direktör, Baş Mühendis, Yapımcı, Eski CEO), kişilik stat dağılımı (5 puan), kimlik (isim + stüdyo adı). `characterStore` + `data/backgrounds.ts`. Zorluk seçimi arkaplana gömülü (ev satış değeri + sosyal statü). CEO özel: başlangıç itibarı 20, başarısız projede 2× itibar kaybı. `scoreEngine`'e `playerSkillBonus` eklendi. App.tsx'te wizard gate, Dashboard'da "Yeni Oyun" butonu.
+
+---
+
+## Devam Edilecek: Faz 4B — Ara Sahne Sistemi
+
+**Durum:** Brainstorming başladı, henüz karar verilmedi.
+
+Faz 4 (Karakter + Hikaye) üç alt sisteme bölündü:
+- **4A — Karakter Yaratma** ✅ bitti
+- **4B — Ara Sahne Sistemi** ← şu an buradayız
+- **4C — Rakip Şirket Arc'ı** (sonra)
+
+### 4B kapsamı (ana spec'ten)
+Pixel art still frame + diyalog kutusu. Kısa, duygusal, animasyonsuz. Tetikleyici olaylar:
+kovulma sahnesi (oyun başı), ilk yayın, rakibi geçme, çalışan ilişki milestone'u, eski şirketten arama, büyük etkinlik zaferi, son arc.
+
+### Cevap bekleyen ilk soru (Soru 1 — kapsam)
+Bu fazda hangi sahneleri yapacağız?
+- **A** — Sadece altyapı (diyalog motoru + trigger sistemi, içerik yok)
+- **B** — Altyapı + 2 sahne (kovulma + ilk yayın) ← *önerilen*
+- **C** — Altyapı + 7 sahnenin hepsi
+
+**Sonraki adım:** Bu soruyu cevapla, brainstorming'e devam et (netleştirici sorular → 2-3 yaklaşım → tasarım bölümleri → spec → plan → subagent-driven implementation).
+
+---
+
+## Çalışma Akışı Hatırlatması
+- Başlarken: `git pull`
+- İş bitince: `git commit` + `git push`
+- Spec/plan döngüsü: brainstorming skill → writing-plans skill → subagent-driven-development skill
