@@ -17,7 +17,6 @@ export default function MarketPanel() {
         {Object.values(GENRES).map((genre) => {
           const pop = popularity[genre.id] ?? 50
           const filledBlocks = Math.round(pop / 10)
-          const isEmpty = filledBlocks === 0
 
           const barColor =
             pop >= 70 ? 'bg-green-500' :
@@ -34,14 +33,14 @@ export default function MarketPanel() {
               <div className="flex gap-0.5">
                 {Array.from({ length: 10 }, (_, i) => (
                   <div
-                    key={i}
+                    key={`${genre.id}-${i}`}
                     className={`w-4 h-4 rounded-sm ${
-                      i < filledBlocks && !isEmpty ? barColor : 'bg-gray-700'
+                      i < filledBlocks ? barColor : 'bg-gray-700'
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-gray-400 text-sm w-8">{pop}</span>
+              <span className="text-gray-400 text-sm w-12">{pop}</span>
               <span className="text-base">{icon}</span>
             </div>
           )
