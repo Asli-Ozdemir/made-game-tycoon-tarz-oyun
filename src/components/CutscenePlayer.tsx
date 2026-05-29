@@ -51,6 +51,60 @@ function SceneBackground({ type }: { type: CutsceneFrame['background'] }) {
     )
   }
 
+  if (type === 'server_room') {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#020808 0%,#041414 50%,#020808 100%)', imageRendering: 'pixelated' }}>
+        <div style={{ position: 'absolute', inset: 0, ...gridTexture }} />
+        {/* Sunucu rafları */}
+        <div style={{ position: 'absolute', top: 20, left: 40, width: 60, height: 120, background: '#0a1a0a', border: '4px solid #1a4a1a', display: 'flex', flexDirection: 'column', gap: 4, padding: 4 }}>
+          {[0,1,2,3].map(i => (
+            <div key={i} style={{ flex: 1, background: '#0d2a0d', borderTop: '2px solid #1a3a1a' }} />
+          ))}
+        </div>
+        {/* LED ışıkları */}
+        <div style={{ position: 'absolute', top: 30, left: 108, width: 6, height: 6, background: '#00ff00', boxShadow: '0 0 8px #00ff00' }} />
+        <div style={{ position: 'absolute', top: 60, left: 108, width: 6, height: 6, background: '#00ff00', boxShadow: '0 0 8px #00ff00' }} />
+        {/* Masa */}
+        <div style={{ position: 'absolute', bottom: 90, left: '10%', right: '10%', height: 10, background: '#0a1a0a', borderTop: '4px solid #1a3a1a' }} />
+      </div>
+    )
+  }
+
+  if (type === 'gallery') {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#0d0808 0%,#1a1010 50%,#0d0808 100%)', imageRendering: 'pixelated' }}>
+        <div style={{ position: 'absolute', inset: 0, ...gridTexture }} />
+        {/* Çerçeveler */}
+        <div style={{ position: 'absolute', top: 30, left: 40, width: 50, height: 60, background: '#1a0808', border: '4px solid #8a6a4a' }} />
+        <div style={{ position: 'absolute', top: 30, left: 110, width: 40, height: 50, background: '#080a18', border: '4px solid #8a6a4a' }} />
+        {/* Spot ışık */}
+        <div style={{ position: 'absolute', top: 10, left: 60, width: 4, height: 60, background: 'linear-gradient(180deg,#c8a050 0%,transparent 100%)', opacity: 0.4 }} />
+        {/* Zemin */}
+        <div style={{ position: 'absolute', bottom: 88, left: 0, right: 0, height: 4, background: '#3a2a1a' }} />
+      </div>
+    )
+  }
+
+  if (type === 'boardroom') {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#080810 0%,#101020 50%,#080810 100%)', imageRendering: 'pixelated' }}>
+        <div style={{ position: 'absolute', inset: 0, ...gridTexture }} />
+        {/* Büyük toplantı masası */}
+        <div style={{ position: 'absolute', bottom: 90, left: '5%', right: '5%', height: 14, background: '#1a1a3a', borderTop: '4px solid #2a2a5a' }} />
+        {/* Koltuklar silüetleri */}
+        {[0,1,2,3,4].map(i => (
+          <div key={i} style={{ position: 'absolute', bottom: 102, left: `${10 + i * 16}%`, width: 12, height: 20, background: '#0d0d2a', border: '2px solid #1a1a3a' }} />
+        ))}
+        {/* Pencere / şehir manzarası */}
+        <div style={{ position: 'absolute', top: 10, right: 30, width: 80, height: 70, background: '#050510', border: '4px solid #1a1a3a' }}>
+          {[0,1,2].map(i => (
+            <div key={i} style={{ position: 'absolute', bottom: 0, left: `${10 + i * 28}%`, width: 10, height: `${30 + i * 15}%`, background: '#0d0d25' }} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   // studio
   return (
     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#020210 0%,#050520 50%,#020210 100%)', imageRendering: 'pixelated' }}>
