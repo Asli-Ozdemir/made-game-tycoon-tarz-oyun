@@ -1,14 +1,37 @@
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useProjectStore } from '@/store/projectStore'
+import { useTrainingStore } from '@/store/trainingStore'
 import { PERSONALITY_LABELS } from '@/data/employeeNames'
-import type { Employee } from '@/types/employee'
+import { SKILL_CAPS, COURSES, TRAITS } from '@/data/courses'
+import type { Employee, SkillKey } from '@/types/employee'
 
 interface Props {
   employee: Employee
   isCandidate?: boolean
 }
 
-function SkillBar({ label, value }: { label: string; value: number }) {
+const SKILL_LABELS: Record<SkillKey, string> = {
+  programming: 'Prog',
+  design:      'Tasarım',
+  sound:       'Ses',
+  management:  'Yönet',
+}
+
+const ALL_SKILLS: SkillKey[] = ['programming', 'design', 'sound', 'management']
+
+function SkillBar({
+  label,
+  value,
+  xp,
+  threshold,
+  atCap,
+}: {
+  label: string
+  value: number
+  xp?: number
+  threshold?: number
+  atCap?: boolean
+}) {
   return (
     <div className="flex items-center gap-2 text-sm">
       <span className="text-gray-400 w-12 text-xs">{label}</span>
@@ -19,6 +42,11 @@ function SkillBar({ label, value }: { label: string; value: number }) {
         />
       </div>
       <span className="text-gray-300 text-xs w-4">{value}</span>
+      {xp !== undefined && threshold !== undefined && (
+        <span className="text-gray-500 text-xs w-14 text-right">
+          {atCap ? 'MAX' : `${xp}/${threshold}`}
+        </span>
+      )}
     </div>
   )
 }
@@ -44,8 +72,18 @@ export default function EmployeeCard({ employee, isCandidate = false }: Props) {
   const activeProjects  = useProjectStore((s) =>
     s.projects.filter((p) => p.status === 'gelistirme')
   )
+  const inventory = useTrainingStore((s) => s.inventory)
 
   const currentEvent = pendingEvents.find((ev) => ev.employeeId === employee.id)
+
+  const activePurchasedCourse = employee.activeCourseId
+    ? inventory.find(pc => pc.id === employee.activeCourseId)
+    : null
+  const activeCourseData = activePurchasedCourse
+    ? COURSES.find(c => c.id === activePurchasedCourse.courseId)
+    : null
+
+  const caps = SKILL_CAPS[employee.personality]
 
   const eventColors: Record<string, string> = {
     hasta:        'bg-red-900 text-red-200',
@@ -76,14 +114,59 @@ export default function EmployeeCard({ employee, isCandidate = false }: Props) {
 
       {/* Skills */}
       <div className="flex flex-col gap-1">
-        <SkillBar label="Prog"    value={employee.skills.programming} />
-        <SkillBar label="Tasarım" value={employee.skills.design} />
-        <SkillBar label="Ses"     value={employee.skills.sound} />
-        <SkillBar label="Yönet"   value={employee.skills.management} />
+        {isCandidate ? (
+          <>
+            <SkillBar label="Prog"    value={employee.skills.programming} />
+            <SkillBar label="Tasarım" value={employee.skills.design} />
+            <SkillBar label="Ses"     value={employee.skills.sound} />
+            <SkillBar label="Yönet"   value={employee.skills.management} />
+          </>
+        ) : (
+          ALL_SKILLS.map((skill) => {
+            const cap       = caps[skill]
+            const atCap     = employee.skills[skill] >= cap
+            const threshold = employee.skills[skill] * 10
+            return (
+              <SkillBar
+                key={skill}
+                label={SKILL_LABELS[skill]}
+                value={employee.skills[skill]}
+                xp={employee.xp[skill]}
+                threshold={threshold}
+                atCap={atCap}
+              />
+            )
+          })
+        )}
       </div>
 
       {/* Loyalty (only for hired employees) */}
       {!isCandidate && <LoyaltyBar value={employee.loyalty} />}
+
+      {/* Active course */}
+      {!isCandidate && activeCourseData && (
+        <div className="text-xs text-blue-400 bg-blue-900/30 rounded px-2 py-1">
+          🎓 {activeCourseData.name} ({activePurchasedCourse!.weeksLeft} hafta kaldı)
+        </div>
+      )}
+
+      {/* Trait badges */}
+      {!isCandidate && employee.traits.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          {employee.traits.map((traitId) => {
+            const trait = TRAITS.find(t => t.id === traitId)
+            return (
+              <span
+                key={traitId}
+                className="text-xs bg-yellow-900/40 text-yellow-400 px-2 py-0.5 rounded-full"
+                title={trait?.description}
+              >
+                🏅 {trait?.name}
+              </span>
+            )
+          })}
+        </div>
+      )}
 
       {/* Actions */}
       {isCandidate ? (
