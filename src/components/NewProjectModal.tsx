@@ -5,6 +5,7 @@ import { TOPICS, SCOPE_CONFIG } from '@/data/topics'
 import { createProject } from '@/engine/projectEngine'
 import { useProjectStore } from '@/store/projectStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useTrendStore } from '@/store/trendStore'
 import type { ProjectScope } from '@/types'
 
 interface Props { onClose: () => void }
@@ -28,6 +29,13 @@ export default function NewProjectModal({ onClose }: Props) {
     onClose()
   }
 
+  function getTrendLabel(gId: string): string | null {
+    const multiplier = useTrendStore.getState().getMultiplier(gId)
+    if (multiplier >= 1.3) return '🔥 Trendde'
+    if (multiplier <= 0.7) return '↓ Düşüş'
+    return null
+  }
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <form
@@ -47,9 +55,28 @@ export default function NewProjectModal({ onClose }: Props) {
           />
         </label>
 
+        {/* Tür seçimi — trend etiketleriyle */}
+        <label className="block mb-3">
+          <span className="text-gray-400 text-sm">Tür</span>
+          <select
+            value={genreId}
+            onChange={(e) => setGenre(e.target.value)}
+            className="w-full mt-1 bg-gray-800 text-white rounded px-3 py-2 border border-gray-600"
+          >
+            {Object.values(GENRES).map((genre) => {
+              const label = getTrendLabel(genre.id)
+              return (
+                <option key={genre.id} value={genre.id}>
+                  {genre.name}{label ? ` ${label}` : ''}
+                </option>
+              )
+            })}
+          </select>
+        </label>
+
+        {/* Konu ve Platform — generic map */}
         {(
           [
-            ['Tür',      Object.values(GENRES),    genreId,    setGenre    ],
             ['Konu',     Object.values(TOPICS),    topicId,    setTopic    ],
             ['Platform', Object.values(PLATFORMS), platformId, setPlatform ],
           ] as [string, { id: string; name: string }[], string, (v: string) => void][]
