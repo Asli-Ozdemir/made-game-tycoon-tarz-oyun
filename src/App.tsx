@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import GameCanvas from '@/components/GameCanvas'
 import HUD from '@/components/HUD'
 import Dashboard from '@/components/Dashboard'
@@ -39,6 +39,46 @@ export default function App() {
       })
     })
   }, [advance, tickAllProjects, addMoney, weeklyTick, setOnWeeklyTick])
+
+  const setGameMode  = useWorldStore((s) => s.setGameMode)
+  const setLocation  = useWorldStore((s) => s.setLocation)
+  const setIsPaused  = useDayTimeStore((s) => s.setIsPaused)
+
+  const [toast, setToast] = useState<string | null>(null)
+  const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function showToast(msg: string) {
+    setToast(msg)
+    if (toastRef.current) clearTimeout(toastRef.current)
+    toastRef.current = setTimeout(() => setToast(null), 3000)
+  }
+
+  // ESC key handler
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.code !== 'Escape') return
+      const { gameMode, currentLocation } = useWorldStore.getState()
+      if (gameMode === 'tycoon') {
+        setGameMode('exploration')
+        setIsPaused(false)
+      } else if (currentLocation !== null) {
+        setLocation(null)
+        setIsPaused(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [setGameMode, setLocation, setIsPaused])
+
+  // console.info interceptor → toast
+  useEffect(() => {
+    const orig = console.info.bind(console)
+    console.info = (...args: unknown[]) => {
+      if (typeof args[0] === 'string') showToast(args[0])
+      orig(...args)
+    }
+    return () => { console.info = orig }
+  }, [])
 
   const isTycoon = gameMode === 'tycoon'
 
@@ -87,6 +127,12 @@ export default function App() {
             projectId={resultProjectId}
             onContinue={() => setResultProjectId(null)}
           />
+        </div>
+      )}
+
+      {toast && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 bg-gray-800 text-white px-6 py-3 rounded-xl text-sm shadow-xl pointer-events-none">
+          {toast}
         </div>
       )}
     </div>
