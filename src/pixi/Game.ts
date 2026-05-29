@@ -9,16 +9,18 @@ let app: Application | null = null
 let worldScene: WorldScene | null = null
 let player: Player | null = null
 
-export async function initGame(canvas: HTMLCanvasElement): Promise<Application> {
+export async function initGame(container: HTMLDivElement): Promise<Application> {
   app = new Application()
   await app.init({
-    canvas,
-    width: canvas.clientWidth || window.innerWidth,
-    height: canvas.clientHeight || window.innerHeight,
+    resizeTo: container,
     backgroundColor: 0x1a1a2e,
     antialias: false,
+    autoDensity: true,
     resolution: window.devicePixelRatio || 1,
   })
+
+  // PixiJS kendi canvas'ını oluşturdu — container'a ekle
+  container.appendChild(app.canvas as HTMLCanvasElement)
 
   worldScene = new WorldScene(app)
   await worldScene.load(cityTmx)
@@ -44,7 +46,7 @@ export async function initGame(canvas: HTMLCanvasElement): Promise<Application> 
 export function destroyGame() {
   if (app) {
     player?.destroy()
-    app.destroy(false, { children: true })
+    app.destroy(true, { children: true })
     app = null
     worldScene = null
     player = null
