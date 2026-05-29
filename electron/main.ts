@@ -10,8 +10,8 @@ function createWindow() {
       contextIsolation: true
     }
   })
-  if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:5173')
+  if (process.env.ELECTRON_RENDERER_URL) {
+    win.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   }
@@ -19,3 +19,6 @@ function createWindow() {
 
 app.whenReady().then(createWindow)
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+})
