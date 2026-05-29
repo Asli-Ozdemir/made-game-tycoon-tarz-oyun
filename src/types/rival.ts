@@ -42,6 +42,7 @@ export type NewsType =
   | 'rival_notice'
   | 'player_mention'
   | 'market_trend'
+  | 'random_event'
 
 export interface NewsItem {
   id: string
