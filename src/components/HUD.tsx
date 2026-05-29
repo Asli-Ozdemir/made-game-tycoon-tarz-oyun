@@ -1,27 +1,34 @@
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useWorldStore } from '@/store/worldStore'
 import { dateToString } from '@/engine/timeEngine'
-import type { GameSpeed } from '@/types'
 
-const SPEED_LABELS: Record<GameSpeed, string> = {
-  durduruldu: '⏸',
-  normal:     '▶',
-  hizli:      '▶▶',
-  cok_hizli:  '▶▶▶'
-}
-
-const SPEEDS: GameSpeed[] = ['durduruldu', 'normal', 'hizli', 'cok_hizli']
+const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
 
 export default function HUD() {
   const money      = useGameStore((s) => s.money)
   const reputation = useGameStore((s) => s.reputation)
   const date       = useTimeStore((s) => s.date)
-  const speed      = useTimeStore((s) => s.speed)
-  const setSpeed   = useTimeStore((s) => s.setSpeed)
+
+  const hour      = useDayTimeStore((s) => s.hour)
+  const minute    = useDayTimeStore((s) => s.minute)
+  const dayOfWeek = useDayTimeStore((s) => s.dayOfWeek)
+
+  const gameMode    = useWorldStore((s) => s.gameMode)
+  const setGameMode = useWorldStore((s) => s.setGameMode)
+  const setIsPaused = useDayTimeStore((s) => s.setIsPaused)
+
+  const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+
+  function handleLeaveTycoon() {
+    setGameMode('exploration')
+    setIsPaused(false)
+  }
 
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-gray-900 border-b border-gray-700">
-      <div className="flex gap-6">
+      <div className="flex gap-6 items-center">
         <span className="text-green-400 font-mono text-lg">
           ${money.toLocaleString()}
         </span>
@@ -30,22 +37,22 @@ export default function HUD() {
         </span>
       </div>
 
-      <span className="text-gray-300 font-mono">{dateToString(date)}</span>
+      <div className="flex items-center gap-4">
+        <span className="text-gray-300 font-mono">{dateToString(date)}</span>
+        <span className="text-yellow-400 font-mono text-sm">
+          {DAY_NAMES[dayOfWeek - 1]} {timeStr}
+        </span>
+      </div>
 
-      <div className="flex gap-1">
-        {SPEEDS.map((s) => (
+      <div className="flex items-center gap-2">
+        {gameMode === 'tycoon' && (
           <button
-            key={s}
-            onClick={() => setSpeed(s)}
-            className={`px-3 py-1 rounded text-sm font-mono transition-colors ${
-              speed === s
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
+            onClick={handleLeaveTycoon}
+            className="text-xs bg-orange-600 hover:bg-orange-500 text-white px-3 py-1 rounded transition-colors"
           >
-            {SPEED_LABELS[s]}
+            Masadan Kalk
           </button>
-        ))}
+        )}
       </div>
     </div>
   )
