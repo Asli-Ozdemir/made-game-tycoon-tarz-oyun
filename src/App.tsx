@@ -5,6 +5,7 @@ import PublishResult from '@/components/PublishResult'
 import { useTimeStore } from '@/store/timeStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
+import { useEmployeeStore } from '@/store/employeeStore'
 import type { GameSpeed } from '@/types'
 
 const TICK_MS: Record<GameSpeed, number | null> = {
@@ -20,6 +21,8 @@ export default function App() {
   const advance         = useTimeStore((s) => s.advance)
   const speed           = useTimeStore((s) => s.speed)
   const tickAllProjects = useProjectStore((s) => s.tickAllProjects)
+  const addMoney        = useGameStore((s) => s.addMoney)
+  const weeklyTick      = useEmployeeStore((s) => s.weeklyTick)
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -29,20 +32,22 @@ export default function App() {
     if (ms === null) return
     intervalRef.current = setInterval(() => {
       advance()
-      tickAllProjects()
-      // Auto-save every 10 ticks
       const tickCount = useTimeStore.getState().tickCount
+      const { totalSalary } = weeklyTick(tickCount)
+      if (totalSalary > 0) addMoney(-totalSalary)
+      tickAllProjects()
       if (tickCount % 10 === 0) {
         const saveState = {
-          game:     useGameStore.getState(),
-          time:     useTimeStore.getState(),
-          projects: useProjectStore.getState().projects
+          game:      useGameStore.getState(),
+          time:      useTimeStore.getState(),
+          projects:  useProjectStore.getState().projects,
+          employees: useEmployeeStore.getState().employees,
         }
         window.electronAPI?.saveGame(saveState)
       }
     }, ms)
     return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [speed, advance, tickAllProjects])
+  }, [speed, advance, tickAllProjects, addMoney, weeklyTick])
 
   return (
     <div className="h-screen flex flex-col bg-gray-950">
