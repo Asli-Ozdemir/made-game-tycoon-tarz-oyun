@@ -1,8 +1,9 @@
 import { create } from 'zustand'
-import { CUTSCENES, getCutsceneFrames } from '@/data/cutscenes'
+import { getCutsceneFrames } from '@/data/cutscenes'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useCharacterStore } from '@/store/characterStore'
 import type { CutsceneId } from '@/types/cutscene'
+import type { ResolutionChoice } from '@/types/rival'
 
 interface CutsceneStore {
   activeCutscene:  CutsceneId | null
@@ -13,9 +14,11 @@ interface CutsceneStore {
   isTransitioning: boolean
   isEnding:        boolean
   seenCutscenes:   Set<CutsceneId>
+  resolutionChoice: ResolutionChoice | null
 
-  startCutscene:      (id: CutsceneId) => void
-  startCutsceneForce: (id: CutsceneId) => void
+  startCutscene:       (id: CutsceneId) => void
+  startCutsceneForce:  (id: CutsceneId) => void
+  setResolutionChoice: (c: ResolutionChoice | null) => void
   advance:       () => void
   tick:          (char: string) => void
   finishTyping:  () => void
@@ -25,15 +28,23 @@ interface CutsceneStore {
   reset:         () => void
 }
 
+function activeFrames(id: CutsceneId, choice: ResolutionChoice | null) {
+  return getCutsceneFrames(id, {
+    background: useCharacterStore.getState().background,
+    choice: choice ?? undefined,
+  })
+}
+
 export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
-  activeCutscene:  null,
-  frameIndex:      0,
-  lineIndex:       0,
-  displayedText:   '',
-  isTyping:        false,
-  isTransitioning: false,
-  isEnding:        false,
-  seenCutscenes:   new Set(),
+  activeCutscene:   null,
+  frameIndex:       0,
+  lineIndex:        0,
+  displayedText:    '',
+  isTyping:         false,
+  isTransitioning:  false,
+  isEnding:         false,
+  seenCutscenes:    new Set(),
+  resolutionChoice: null,
 
   startCutscene: (id) => {
     if (get().seenCutscenes.has(id)) return
@@ -41,8 +52,15 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
     useDayTimeStore.getState().setIsPaused(true)
   },
 
+  startCutsceneForce: (id) => {
+    set({ activeCutscene: id, frameIndex: 0, lineIndex: 0, displayedText: '', isTyping: true, isTransitioning: false, isEnding: false })
+    useDayTimeStore.getState().setIsPaused(true)
+  },
+
+  setResolutionChoice: (c) => set({ resolutionChoice: c }),
+
   advance: () => {
-    const { activeCutscene, isTyping, frameIndex, lineIndex } = get()
+    const { activeCutscene, isTyping, frameIndex, lineIndex, resolutionChoice } = get()
     if (!activeCutscene) return
 
     if (isTyping) {
@@ -50,8 +68,7 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
       return
     }
 
-    const background = useCharacterStore.getState().background
-    const frames = getCutsceneFrames(activeCutscene, background)
+    const frames = activeFrames(activeCutscene, resolutionChoice)
     const currentFrame = frames[frameIndex]
 
     if (lineIndex < currentFrame.lines.length - 1) {
@@ -70,10 +87,9 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
   tick: (char) => set((s) => ({ displayedText: s.displayedText + char })),
 
   finishTyping: () => {
-    const { activeCutscene, frameIndex, lineIndex } = get()
+    const { activeCutscene, frameIndex, lineIndex, resolutionChoice } = get()
     if (!activeCutscene) return
-    const background = useCharacterStore.getState().background
-    const fullText = getCutsceneFrames(activeCutscene, background)[frameIndex].lines[lineIndex].text
+    const fullText = activeFrames(activeCutscene, resolutionChoice)[frameIndex].lines[lineIndex].text
     set({ displayedText: fullText, isTyping: false })
   },
 
@@ -87,13 +103,8 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
     if (!activeCutscene) return
     const newSeen = new Set(get().seenCutscenes)
     newSeen.add(activeCutscene)
-    set({ activeCutscene: null, seenCutscenes: newSeen, isEnding: false })
+    set({ activeCutscene: null, seenCutscenes: newSeen, isEnding: false, resolutionChoice: null })
     useDayTimeStore.getState().setIsPaused(false)
-  },
-
-  startCutsceneForce: (id) => {
-    set({ activeCutscene: id, frameIndex: 0, lineIndex: 0, displayedText: '', isTyping: true, isTransitioning: false, isEnding: false })
-    useDayTimeStore.getState().setIsPaused(true)
   },
 
   skip: () => {
@@ -101,18 +112,19 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
     if (!activeCutscene) return
     const newSeen = new Set(get().seenCutscenes)
     newSeen.add(activeCutscene)
-    set({ activeCutscene: null, seenCutscenes: newSeen, isTransitioning: false, isEnding: false })
+    set({ activeCutscene: null, seenCutscenes: newSeen, isTransitioning: false, isEnding: false, resolutionChoice: null })
     useDayTimeStore.getState().setIsPaused(false)
   },
 
   reset: () => set({
-    activeCutscene:  null,
-    frameIndex:      0,
-    lineIndex:       0,
-    displayedText:   '',
-    isTyping:        false,
-    isTransitioning: false,
-    isEnding:        false,
-    seenCutscenes:   new Set(),
+    activeCutscene:   null,
+    frameIndex:       0,
+    lineIndex:        0,
+    displayedText:    '',
+    isTyping:         false,
+    isTransitioning:  false,
+    isEnding:         false,
+    seenCutscenes:    new Set(),
+    resolutionChoice: null,
   }),
 }))
