@@ -22,6 +22,7 @@ import EventModal from '@/components/EventModal'
 import { useEventStore } from '@/store/eventStore'
 import { useTrainingStore } from '@/store/trainingStore'
 import { useSaveStore } from '@/store/saveStore'
+import StartScreen from '@/components/StartScreen'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -68,6 +69,7 @@ export default function App() {
   const setLocation      = useWorldStore((s) => s.setLocation)
   const setIsPaused      = useDayTimeStore((s) => s.setIsPaused)
   const isCreated        = useCharacterStore((s) => s.isCreated)
+  const showStartScreen  = useSaveStore((s) => s.showStartScreen)
 
   useEffect(() => {
     if (!isCreated) return
@@ -115,6 +117,8 @@ export default function App() {
     return () => { console.info = orig }
   }, [])
 
+  // Start screen gate — show slot picker on first load
+  if (showStartScreen)   return <StartScreen />
   // Wizard gate — render wizard until character is created
   if (!isCreated)        return <CharacterCreationWizard />
   if (activeCutscene)    return <CutscenePlayer />
