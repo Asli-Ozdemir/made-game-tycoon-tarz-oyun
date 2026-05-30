@@ -1,6 +1,7 @@
 import { GENRES } from '@/data/genres'
 import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
+import { useProjectStore } from '@/store/projectStore'
 import type { GameProject } from '@/types'
 
 interface Props {
@@ -9,9 +10,19 @@ interface Props {
 }
 
 export default function ProjectCard({ project, onPublish }: Props) {
+  const allProjects = useProjectStore((s) => s.projects)
+
   const progress   = Math.min(100, Math.round((project.weeksElapsed / project.totalWeeks) * 100))
   const isComplete = project.weeksElapsed >= project.totalWeeks && project.status === 'gelistirme'
   const isPublished = project.status === 'yayinlandi'
+
+  // Child projeler (bu projeyi kaynak olarak kullananlar)
+  const childProjects = isPublished
+    ? allProjects.filter(p => p.contentType !== 'standalone' && (p as { parentProjectId?: string }).parentProjectId === project.id)
+    : []
+  const dlcCount    = childProjects.filter(p => p.contentType === 'dlc').length
+  const sequelCount = childProjects.filter(p => p.contentType === 'sequel').length
+  const updateCount = childProjects.filter(p => p.contentType === 'guncelleme').length
 
   return (
     <div className={`bg-gray-800 rounded-lg p-4 border ${
@@ -23,6 +34,11 @@ export default function ProjectCard({ project, onPublish }: Props) {
           <p className="text-gray-400 text-sm">
             {GENRES[project.genreId]?.name} · {TOPICS[project.topicId]?.name} · {PLATFORMS[project.platformId]?.name}
           </p>
+          {project.contentType !== 'standalone' && (
+            <span className="text-xs text-purple-400 bg-purple-900/30 px-2 py-0.5 rounded-full">
+              {project.contentType === 'sequel' ? 'Sequel' : project.contentType === 'dlc' ? 'DLC' : 'Güncelleme'}
+            </span>
+          )}
         </div>
         {isPublished && project.publishResult && (
           <span className={`text-sm font-bold px-2 py-1 rounded ${
@@ -51,10 +67,20 @@ export default function ProjectCard({ project, onPublish }: Props) {
       )}
 
       {isPublished && project.publishResult && (
-        <p className="text-gray-400 text-sm mt-1">
-          {project.publishResult.sales.toLocaleString()} satış ·{' '}
-          <span className="text-green-400">${project.publishResult.revenue.toLocaleString()}</span>
-        </p>
+        <>
+          <p className="text-gray-400 text-sm mt-1">
+            {project.publishResult.sales.toLocaleString()} satış ·{' '}
+            <span className="text-green-400">${project.publishResult.revenue.toLocaleString()}</span>
+          </p>
+          {/* Child proje rozeti */}
+          {(dlcCount > 0 || sequelCount > 0 || updateCount > 0) && (
+            <div className="flex gap-2 mt-2 text-xs text-gray-500">
+              {dlcCount    > 0 && <span className="bg-gray-700 px-2 py-0.5 rounded">DLC: {dlcCount}</span>}
+              {sequelCount > 0 && <span className="bg-gray-700 px-2 py-0.5 rounded">Sequel: {sequelCount}</span>}
+              {updateCount > 0 && <span className="bg-gray-700 px-2 py-0.5 rounded">Güncelleme: {updateCount}</span>}
+            </div>
+          )}
+        </>
       )}
 
       {isComplete && onPublish && (
