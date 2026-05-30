@@ -19,6 +19,7 @@ import { useAwardsStore } from '@/store/awardsStore'
 import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 import { useEventStore } from '@/store/eventStore'
+import type { GameProject, PublishResult } from '@/types'
 
 interface Props {
   onPublishResult: (projectId: string) => void
@@ -86,7 +87,13 @@ export default function Dashboard({ onPublishResult }: Props) {
     if (!project) return
 
     const playerSkillBonus = useCharacterStore.getState().getPlayerSkillBonus()
-    const result = calculatePublishResult(project, { reputation, publishDate: date }, playerSkillBonus)
+    const parentProject = project.contentType === 'sequel'
+      ? useProjectStore.getState().projects.find(
+          (p): p is GameProject & { publishResult: PublishResult } =>
+            p.id === (project as { parentProjectId: string }).parentProjectId && p.publishResult !== undefined
+        )
+      : undefined
+    const result = calculatePublishResult(project, { reputation, publishDate: date }, playerSkillBonus, parentProject)
 
     publishProject(projectId, result)
 
