@@ -26,6 +26,8 @@ import StartScreen from '@/components/StartScreen'
 import SaveLoadPanel from '@/components/SaveLoadPanel'
 import { useEconomyStore } from '@/store/economyStore'
 import SaleEventModal from '@/components/SaleEventModal'
+import CrisisModal      from '@/components/CrisisModal'
+import BankruptcyScreen from '@/components/BankruptcyScreen'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -92,6 +94,8 @@ export default function App() {
   const pendingResolution = useRivalStore((s) => s.pendingResolution)
   const pendingEvent = useEventStore((s) => s.pendingEvent)
   const pendingSaleEventModal = useEconomyStore((s) => s.pendingSaleEventModal)
+  const isInCrisis = useEconomyStore((s) => s.isInCrisis)
+  const isBankrupt = useEconomyStore((s) => s.isBankrupt)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -128,6 +132,8 @@ export default function App() {
     }
     return () => { console.info = orig }
   }, [])
+
+  if (isBankrupt) return <BankruptcyScreen />
 
   // Start screen gate — show slot picker on first load
   if (showStartScreen)   return <StartScreen />
@@ -193,6 +199,8 @@ export default function App() {
       )}
 
       {pendingSaleEventModal && <SaleEventModal />}
+
+      {isInCrisis && !isBankrupt && <CrisisModal />}
 
       {toast && (
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 bg-gray-800 text-white px-6 py-3 rounded-xl text-sm shadow-xl pointer-events-none">

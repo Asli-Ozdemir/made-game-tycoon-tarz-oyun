@@ -3,6 +3,7 @@ import { useTimeStore } from '@/store/timeStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useWorldStore } from '@/store/worldStore'
 import { useSaveStore } from '@/store/saveStore'
+import { useEconomyStore } from '@/store/economyStore'
 import { dateToString } from '@/engine/timeEngine'
 
 const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
@@ -11,6 +12,9 @@ export default function HUD() {
   const money      = useGameStore((s) => s.money)
   const reputation = useGameStore((s) => s.reputation)
   const date       = useTimeStore((s) => s.date)
+  const lastWeeklyCost = useEconomyStore((s) => s.lastWeeklyCost)
+  const isInCrisis     = useEconomyStore((s) => s.isInCrisis)
+  const isLowMoney     = money < lastWeeklyCost * 2
 
   const hour      = useDayTimeStore((s) => s.hour)
   const minute    = useDayTimeStore((s) => s.minute)
@@ -31,8 +35,15 @@ export default function HUD() {
   return (
     <div className="flex items-center justify-between px-6 py-3 bg-gray-900 border-b border-gray-700">
       <div className="flex gap-6 items-center">
-        <span className="text-green-400 font-mono text-lg">
-          ${money.toLocaleString()}
+        <span className="font-mono text-lg">
+          <span className={isInCrisis ? 'text-red-400' : isLowMoney ? 'text-yellow-400' : 'text-white'}>
+            ${money.toLocaleString()}
+          </span>
+          {lastWeeklyCost > 0 && (
+            <span className="text-gray-500 text-xs ml-1">
+              ↓ ${lastWeeklyCost.toLocaleString()}/hafta
+            </span>
+          )}
         </span>
         <span className="text-yellow-400 text-sm">
           İtibar: {reputation}/100
