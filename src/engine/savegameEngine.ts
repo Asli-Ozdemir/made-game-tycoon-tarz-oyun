@@ -1,4 +1,5 @@
 import { useGameStore } from '@/store/gameStore'
+import { useEconomyStore } from '@/store/economyStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useTimeStore } from '@/store/timeStore'
@@ -66,6 +67,16 @@ export function serialize(): string {
     events:   { cooldowns: evs.cooldowns, lastCategoryYear: evs.lastCategoryYear },
     training: { inventory: tns.inventory },
     seenCutscenes: Array.from(css.seenCutscenes),
+    economy: {
+      lastWeeklyCost:  useEconomyStore.getState().lastWeeklyCost,
+      loan:            useEconomyStore.getState().loan,
+      loanWeeksLeft:   useEconomyStore.getState().loanWeeksLeft,
+      isInCrisis:      useEconomyStore.getState().isInCrisis,
+      crisisWeeksLeft: useEconomyStore.getState().crisisWeeksLeft,
+      isBankrupt:      useEconomyStore.getState().isBankrupt,
+      saleEvents:      useEconomyStore.getState().saleEvents,
+      nextSaleWeek:    useEconomyStore.getState().nextSaleWeek,
+    },
   }
 
   return JSON.stringify(snapshot)
@@ -139,6 +150,18 @@ export function deserialize(json: string): void {
   useTrainingStore.setState({ inventory: (s.training as any)?.inventory ?? [] })
 
   useCutsceneStore.setState({ seenCutscenes: new Set((s.seenCutscenes as unknown[]) ?? []) })
+
+  const eco = (s.economy as any) ?? {}
+  useEconomyStore.setState({
+    lastWeeklyCost:  eco.lastWeeklyCost  ?? 0,
+    loan:            eco.loan            ?? 0,
+    loanWeeksLeft:   eco.loanWeeksLeft   ?? 0,
+    isInCrisis:      eco.isInCrisis      ?? false,
+    crisisWeeksLeft: eco.crisisWeeksLeft ?? 0,
+    isBankrupt:      eco.isBankrupt      ?? false,
+    saleEvents:      eco.saleEvents      ?? [],
+    nextSaleWeek:    eco.nextSaleWeek    ?? 13,
+  })
 
   useDayTimeStore.getState().reset()
 }

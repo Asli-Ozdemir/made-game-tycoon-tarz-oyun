@@ -24,6 +24,7 @@ import { useTrainingStore } from '@/store/trainingStore'
 import { useSaveStore } from '@/store/saveStore'
 import StartScreen from '@/components/StartScreen'
 import SaveLoadPanel from '@/components/SaveLoadPanel'
+import { useEconomyStore } from '@/store/economyStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -39,6 +40,13 @@ export default function App() {
   // Wire weeklyTick callback once
   useEffect(() => {
     setOnWeeklyTick(() => {
+      useEconomyStore.getState().computeAndApplyCosts()
+      useEconomyStore.getState().tickLoan()
+      useEconomyStore.getState().activateSaleEvent()
+      useEconomyStore.getState().deactivateSaleEvent()
+      useEconomyStore.getState().checkCrisis()
+      useEconomyStore.getState().tickCrisis()
+      useEconomyStore.getState().scheduleSaleEvent()
       const prevSeason = useTimeStore.getState().date.season
       advance()
       const tickCount = useTimeStore.getState().tickCount

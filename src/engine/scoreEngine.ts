@@ -2,6 +2,7 @@ import { GENRES } from '@/data/genres'
 import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import type { GameDate, GameProject, PublishResult } from '@/types'
+import { computeEffectivePrice, computeSalesMultiplier } from '@/engine/economyEngine'
 
 interface ScoreOptions {
   reputation: number
@@ -57,9 +58,11 @@ export function calculatePublishResult(
     baseSales * salesMultiplier * fanBaseMultiplier * (score / 50) * (1 + opts.reputation / 100)
   )
 
-  // DLC: priceOverride kullan; diğerleri: platform birim fiyatı
-  const pricePerUnit = project.contentType === 'dlc' ? project.priceOverride : (platform?.pricePerUnit ?? 20)
-  const revenue      = sales * pricePerUnit
+  const dlcOverride    = project.contentType === 'dlc' ? project.priceOverride : undefined
+  const basePrice      = project.price > 0 ? project.price : (dlcOverride ?? platform?.pricePerUnit ?? 20)
+  const pricePerUnit   = computeEffectivePrice(basePrice, project.discountPct ?? null)
+  const salesAdjusted  = Math.round(sales * computeSalesMultiplier(project.discountPct ?? null))
+  const revenue        = salesAdjusted * pricePerUnit
 
-  return { score, sales, revenue, publishDate: opts.publishDate }
+  return { score, sales: salesAdjusted, revenue, publishDate: opts.publishDate }
 }
