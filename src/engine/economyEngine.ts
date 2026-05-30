@@ -28,8 +28,9 @@ export function computeEffectivePrice(
 
 export function computeSalesMultiplier(discountPct: number | null): number {
   if (discountPct === null) return 1.0
-  if (discountPct === 0.25) return 1.5
-  if (discountPct === 0.50) return 2.5
-  if (discountPct === 0.75) return 4.0
+  const pct = Math.round(discountPct * 100)
+  if (pct === 25) return 1.5
+  if (pct === 50) return 2.5
+  if (pct === 75) return 4.0
   return 1.0
 }

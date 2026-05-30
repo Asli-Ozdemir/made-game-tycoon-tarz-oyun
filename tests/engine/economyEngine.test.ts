@@ -40,12 +40,17 @@ describe('computeWeeklyCosts', () => {
   it('2 proje → sunucu maliyetleri toplanır', () => {
     const r = computeWeeklyCosts(0, [{ weeksPublished: 0 }, { weeksPublished: 50 }])
     expect(r.server).toBe(500 + 50) // 500 + max(50, 0)
+    expect(r.total).toBe(500 + 50)
   })
 })
 
 describe('computeEffectivePrice', () => {
   it('discountPct null → fiyat değişmez', () => {
     expect(computeEffectivePrice(20, null)).toBe(20)
+  })
+
+  it('discountPct 0 → fiyat değişmez', () => {
+    expect(computeEffectivePrice(20, 0)).toBe(20)
   })
 
   it('discountPct 0.25 → %25 indirim', () => {
@@ -66,4 +71,5 @@ describe('computeSalesMultiplier', () => {
   it('0.25 → 1.5', () => expect(computeSalesMultiplier(0.25)).toBe(1.5))
   it('0.50 → 2.5', () => expect(computeSalesMultiplier(0.50)).toBe(2.5))
   it('0.75 → 4.0', () => expect(computeSalesMultiplier(0.75)).toBe(4.0))
+  it('tanınmayan değer → 1.0 döner', () => expect(computeSalesMultiplier(0.10)).toBe(1.0))
 })
