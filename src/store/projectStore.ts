@@ -3,6 +3,7 @@ import { tickProject, isProjectComplete } from '@/engine/projectEngine'
 import { computeProjectBonus } from '@/engine/employeeEngine'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useGameStore } from '@/store/gameStore'
+import { useTimeStore } from '@/store/timeStore'
 import type { GameProject, PublishResult, ProjectScope } from '@/types'
 
 interface ProjectStoreState {
@@ -10,6 +11,11 @@ interface ProjectStoreState {
   addProject: (project: GameProject) => void
   tickAllProjects: () => GameProject[]
   publishProject: (id: string, result: PublishResult) => void
+  cancelProject:          (id: string) => void
+  updateProjectPrice:     (id: string, newPrice: number) => void
+  joinSaleEvent:          (id: string, discountPct: number) => void
+  leaveSaleEvent:         (id: string) => void
+  clearSaleParticipation: () => void
   applyEventEffect: (qualityBonus: number, weekDelay: number) => void
   applyFollowUpEffect: (parentId: string, contentType: 'dlc' | 'guncelleme', scope: ProjectScope) => void
   reset: () => void
@@ -39,9 +45,12 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
   },
 
   publishProject: (id, result) => {
+    const tickCount = useTimeStore.getState().tickCount
     set((s) => ({
       projects: s.projects.map((p) =>
-        p.id === id ? { ...p, status: 'yayinlandi', publishResult: result } : p
+        p.id === id
+          ? { ...p, status: 'yayinlandi', publishResult: result, publishTickCount: tickCount }
+          : p
       ),
     }))
     const project = get().projects.find(p => p.id === id)
@@ -52,6 +61,45 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       useGameStore.getState().gainReputation(3)
     }
   },
+
+  cancelProject: (id) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id && p.status === 'gelistirme'
+          ? { ...p, status: 'iptal' }
+          : p
+      ),
+    })),
+
+  updateProjectPrice: (id, newPrice) =>
+    set((s) => ({
+      projects: s.projects.map((p) => {
+        if (p.id !== id || p.status !== 'yayinlandi') return p
+        if (newPrice >= p.price) return p  // sadece düşürebilir
+        return { ...p, price: newPrice }
+      }),
+    })),
+
+  joinSaleEvent: (id, discountPct) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id ? { ...p, isOnSale: true, discountPct } : p
+      ),
+    })),
+
+  leaveSaleEvent: (id) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id ? { ...p, isOnSale: false, discountPct: null } : p
+      ),
+    })),
+
+  clearSaleParticipation: () =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.isOnSale ? { ...p, isOnSale: false, discountPct: null } : p
+      ),
+    })),
 
   applyEventEffect: (qualityBonus, weekDelay) => {
     set((s) => ({
