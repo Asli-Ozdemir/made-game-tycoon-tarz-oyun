@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { GENRES } from '@/data/genres'
 import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
@@ -6,6 +7,39 @@ import type { GameProject, SequelProject, DlcProject, UpdateProject } from '@/ty
 
 function hasParent(p: GameProject): p is SequelProject | DlcProject | UpdateProject {
   return p.contentType !== 'standalone'
+}
+
+function PriceDropButton({ projectId, currentPrice }: { projectId: string; currentPrice: number }) {
+  const [open, setOpen] = useState(false)
+  const updateProjectPrice = useProjectStore((s) => s.updateProjectPrice)
+  const PRICE_POINTS = [5, 10, 20, 30, 40, 60]
+  const lower = PRICE_POINTS.filter(p => p < currentPrice)
+
+  if (lower.length === 0) return null  // already at minimum price
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="text-xs text-gray-500 hover:text-gray-300 underline mt-1"
+      >
+        Fiyatı Düşür
+      </button>
+      {open && (
+        <div className="absolute top-5 left-0 bg-gray-800 border border-gray-600 rounded p-2 flex gap-1 z-10">
+          {lower.map(p => (
+            <button
+              key={p}
+              onClick={() => { updateProjectPrice(projectId, p); setOpen(false) }}
+              className="px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-white rounded"
+            >
+              ${p}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 interface Props {
@@ -76,6 +110,22 @@ export default function ProjectCard({ project, onPublish }: Props) {
             {project.publishResult.sales.toLocaleString()} satış ·{' '}
             <span className="text-green-400">${project.publishResult.revenue.toLocaleString()}</span>
           </p>
+          {project.status === 'yayinlandi' && (
+            <div className="text-xs text-gray-400 mt-1">
+              {project.isOnSale && project.discountPct !== null ? (
+                <span>
+                  <span className="line-through text-gray-600">${project.price}</span>
+                  {' '}
+                  <span className="text-green-400">${Math.round(project.price * (1 - project.discountPct))} 🏷️</span>
+                </span>
+              ) : (
+                <span>${project.price}</span>
+              )}
+            </div>
+          )}
+          {project.status === 'yayinlandi' && !project.isOnSale && (
+            <PriceDropButton projectId={project.id} currentPrice={project.price} />
+          )}
           {/* Child proje rozeti */}
           {(dlcCount > 0 || sequelCount > 0 || updateCount > 0) && (
             <div className="flex gap-2 mt-2 text-xs text-gray-500">
