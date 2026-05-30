@@ -10,22 +10,84 @@ import type { ProjectScope } from '@/types'
 
 interface Props { onClose: () => void }
 
+type ContentType = 'standalone' | 'sequel' | 'dlc' | 'guncelleme'
+
+const ALLOWED_SCOPES: Record<ContentType, ProjectScope[]> = {
+  standalone: ['kucuk', 'orta', 'buyuk', 'iddiali'],
+  sequel:     ['kucuk', 'orta', 'buyuk', 'iddiali'],
+  dlc:        ['kucuk', 'orta', 'buyuk'],
+  guncelleme: ['kucuk', 'orta'],
+}
+
+const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
+  standalone: 'Bağımsız Oyun',
+  sequel:     'Sequel',
+  dlc:        'DLC',
+  guncelleme: 'Ücretsiz Güncelleme',
+}
+
 export default function NewProjectModal({ onClose }: Props) {
-  const [name, setName]           = useState('')
-  const [genreId, setGenre]       = useState('aksiyon')
-  const [topicId, setTopic]       = useState('uzay')
-  const [platformId, setPlatform] = useState('pc')
-  const [scope, setScope]         = useState<ProjectScope>('orta')
+  const [name, setName]                     = useState('')
+  const [genreId, setGenre]                 = useState('aksiyon')
+  const [topicId, setTopic]                 = useState('uzay')
+  const [platformId, setPlatform]           = useState('pc')
+  const [scope, setScope]                   = useState<ProjectScope>('orta')
+  const [parentProjectId, setParentId]      = useState<string | null>(null)
+  const [contentType, setContentType]       = useState<ContentType>('standalone')
+  const [dlcPrice, setDlcPrice]             = useState(10)
 
-  const date       = useTimeStore((s) => s.date)
-  const addProject = useProjectStore((s) => s.addProject)
+  const date            = useTimeStore((s) => s.date)
+  const addProject      = useProjectStore((s) => s.addProject)
+  const allProjects     = useProjectStore((s) => s.projects)
 
-  const cfg = SCOPE_CONFIG[scope]
+  const publishedProjects = allProjects.filter(p => p.status === 'yayinlandi')
+  const parentProject     = publishedProjects.find(p => p.id === parentProjectId) ?? null
+
+  const allowedScopes = ALLOWED_SCOPES[contentType]
+  const effectiveScope = allowedScopes.includes(scope) ? scope : allowedScopes[allowedScopes.length - 1]
+
+  // DLC fiyat limiti
+  const maxDlcPrice = parentProject?.publishResult && parentProject.publishResult.sales > 0
+    ? Math.floor(parentProject.publishResult.revenue / parentProject.publishResult.sales)
+    : 999999
+
+  // Sequel: fan kitlesi çarpanı önizleme
+  const fanBaseMultiplier = parentProject?.publishResult
+    ? Math.min(2.0, 1.0 + (parentProject.publishResult.sales / 50000) * 0.5)
+    : 1.0
+
+  function handleParentChange(id: string) {
+    setParentId(id || null)
+    if (!id) setContentType('standalone')
+  }
+
+  function handleContentTypeChange(ct: ContentType) {
+    setContentType(ct)
+    // Kapsam kısıtına takılıyorsa en yüksek izinli kapsama sıfırla
+    if (!ALLOWED_SCOPES[ct].includes(effectiveScope)) {
+      const allowed = ALLOWED_SCOPES[ct]
+      setScope(allowed[allowed.length - 1])
+    }
+    // DLC fiyat default'u
+    if (ct === 'dlc' && parentProject?.publishResult && parentProject.publishResult.sales > 0) {
+      const max = Math.floor(parentProject.publishResult.revenue / parentProject.publishResult.sales)
+      setDlcPrice(Math.max(1, Math.floor(max / 2)))
+    }
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) return
-    addProject(createProject({ name: name.trim(), genreId, topicId, platformId, scope, startDate: date }))
+    const params = { name: name.trim(), genreId, topicId, platformId, scope: effectiveScope, startDate: date }
+    if (contentType === 'sequel' && parentProjectId) {
+      addProject(createProject({ ...params, contentType: 'sequel', parentProjectId, fanBaseMultiplier }))
+    } else if (contentType === 'dlc' && parentProjectId) {
+      addProject(createProject({ ...params, contentType: 'dlc', parentProjectId, priceOverride: dlcPrice }))
+    } else if (contentType === 'guncelleme' && parentProjectId) {
+      addProject(createProject({ ...params, contentType: 'guncelleme', parentProjectId }))
+    } else {
+      addProject(createProject({ ...params }))
+    }
     onClose()
   }
 
@@ -36,11 +98,13 @@ export default function NewProjectModal({ onClose }: Props) {
     return null
   }
 
+  const cfg = SCOPE_CONFIG[effectiveScope]
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md"
+        className="bg-gray-900 border border-gray-700 rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
       >
         <h2 className="text-white text-xl font-bold mb-4">Yeni Proje</h2>
 
@@ -55,7 +119,66 @@ export default function NewProjectModal({ onClose }: Props) {
           />
         </label>
 
-        {/* Tür seçimi — trend etiketleriyle */}
+        {/* Kaynak Oyun (opsiyonel) */}
+        {publishedProjects.length > 0 && (
+          <label className="block mb-3">
+            <span className="text-gray-400 text-sm">Kaynak Oyun (opsiyonel)</span>
+            <select
+              value={parentProjectId ?? ''}
+              onChange={(e) => handleParentChange(e.target.value)}
+              className="w-full mt-1 bg-gray-800 text-white rounded px-3 py-2 border border-gray-600"
+            >
+              <option value="">— Seçme (bağımsız oyun) —</option>
+              {publishedProjects.map((p) => (
+                <option key={p.id} value={p.id}>{p.name} ({p.publishResult?.score}/100)</option>
+              ))}
+            </select>
+          </label>
+        )}
+
+        {/* İçerik Tipi (kaynak seçilince görünür) */}
+        {parentProjectId && (
+          <label className="block mb-3">
+            <span className="text-gray-400 text-sm">İçerik Tipi</span>
+            <div className="grid grid-cols-3 gap-2 mt-1">
+              {(['sequel', 'dlc', 'guncelleme'] as ContentType[]).map((ct) => (
+                <button
+                  type="button"
+                  key={ct}
+                  onClick={() => handleContentTypeChange(ct)}
+                  className={`py-2 rounded text-xs font-medium transition-colors ${
+                    contentType === ct ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  {CONTENT_TYPE_LABELS[ct]}
+                </button>
+              ))}
+            </div>
+            {contentType === 'sequel' && (
+              <p className="text-blue-400 text-xs mt-1">Fan kitlesi çarpanı: ×{fanBaseMultiplier.toFixed(2)}</p>
+            )}
+            {contentType === 'guncelleme' && (
+              <p className="text-gray-500 text-xs mt-1">Gelir yok — ana oyunun itibarını artırır</p>
+            )}
+          </label>
+        )}
+
+        {/* DLC Fiyat Input */}
+        {contentType === 'dlc' && parentProjectId && (
+          <label className="block mb-3">
+            <span className="text-gray-400 text-sm">DLC Fiyatı ($) — max ${maxDlcPrice}</span>
+            <input
+              type="number"
+              min={1}
+              max={maxDlcPrice}
+              value={dlcPrice}
+              onChange={(e) => setDlcPrice(Math.min(maxDlcPrice, Math.max(1, Number(e.target.value))))}
+              className="w-full mt-1 bg-gray-800 text-white rounded px-3 py-2 border border-gray-600 focus:outline-none focus:border-blue-500"
+            />
+          </label>
+        )}
+
+        {/* Tür seçimi */}
         <label className="block mb-3">
           <span className="text-gray-400 text-sm">Tür</span>
           <select
@@ -74,7 +197,7 @@ export default function NewProjectModal({ onClose }: Props) {
           </select>
         </label>
 
-        {/* Konu ve Platform — generic map */}
+        {/* Konu ve Platform */}
         {(
           [
             ['Konu',     Object.values(TOPICS),    topicId,    setTopic    ],
@@ -95,21 +218,24 @@ export default function NewProjectModal({ onClose }: Props) {
           </label>
         ))}
 
+        {/* Ölçek — içerik tipine göre filtrelenmiş */}
         <label className="block mb-4">
           <span className="text-gray-400 text-sm">Ölçek</span>
           <div className="grid grid-cols-4 gap-2 mt-1">
-            {(Object.entries(SCOPE_CONFIG) as [ProjectScope, typeof cfg][]).map(([key, c]) => (
-              <button
-                type="button"
-                key={key}
-                onClick={() => setScope(key)}
-                className={`py-2 rounded text-sm font-medium transition-colors ${
-                  scope === key ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
+            {(Object.entries(SCOPE_CONFIG) as [ProjectScope, typeof cfg][])
+              .filter(([key]) => allowedScopes.includes(key))
+              .map(([key, c]) => (
+                <button
+                  type="button"
+                  key={key}
+                  onClick={() => setScope(key)}
+                  className={`py-2 rounded text-sm font-medium transition-colors ${
+                    effectiveScope === key ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
           </div>
           <p className="text-gray-500 text-xs mt-1">{cfg.weeks} hafta geliştirme süresi</p>
         </label>
