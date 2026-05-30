@@ -27,8 +27,12 @@ export default function ResolutionScreen() {
 
     resolveRival(rival!.id, choice)
 
-    const cutsceneId = isNexus ? 'nexus_resolution' : 'indie_resolution'
-    useCutsceneStore.getState().startCutsceneForce(cutsceneId)
+    if (isNexus) {
+      useCutsceneStore.getState().setResolutionChoice(choice)
+      useCutsceneStore.getState().startCutsceneForce('nexus_resolution')
+    } else {
+      useCutsceneStore.getState().startCutsceneForce('indie_resolution')
+    }
 
     clearPending()
   }
