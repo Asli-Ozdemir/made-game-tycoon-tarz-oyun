@@ -18,6 +18,7 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 4B — Ara Sahne Sistemi** | ✅ Bitti | `specs/2026-05-29-faz4b-ara-sahne-design.md` | `plans/2026-05-29-faz4b-ara-sahne.md` |
 | **Senaryo — Giriş Sahneleri** | ✅ Bitti | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
 | **Faz 4C — Rakip Arc Senaryosu** | ✅ Bitti | `specs/2026-05-30-faz4c-rakip-arc-senaryo-design.md` | `plans/2026-05-30-faz4c-rakip-arc-senaryo.md` |
+| **Faz 4D-4 — Sequel & DLC** | ✅ Bitti | `specs/2026-05-30-faz4d-4-sequel-dlc-design.md` | `plans/2026-05-30-faz4d-4-sequel-dlc.md` |
 
 **Testler:** 172/172 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
@@ -40,7 +41,13 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
-## Devam Edilecek: Faz 4D-4 — Sequel & DLC
+### Faz 4D-4 — Sequel & DLC Özeti
+
+`GameProject` discriminated union: `StandaloneProject | SequelProject | DlcProject | UpdateProject`. Sequel: `fanBaseMultiplier` (max 2×) + skor bonusu (kaynak ≥85 → +20, ≥70 → +10). DLC: `priceOverride` ile gelir hesabı, yayında parent satışını ×1.2 artırır. Ücretsiz Güncelleme: sıfır gelir, parent score +5/+10 (kapsama göre), `gainReputation(+3)`. `NewProjectModal`'a kaynak oyun dropdown + içerik tipi seçimi + DLC fiyat input + kapsam filtreleme eklendi. `ProjectCard` child proje rozeti (DLC/Sequel/Güncelleme sayısı) gösterir.
+
+---
+
+## Devam Edilecek: Sıradaki Faz
 
 ---
 
