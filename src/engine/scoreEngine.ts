@@ -20,7 +20,8 @@ function seededRandom(seed: number): number {
 export function calculatePublishResult(
   project: GameProject,
   opts: ScoreOptions,
-  playerSkillBonus: number = 0
+  playerSkillBonus: number = 0,
+  parentProject?: GameProject & { publishResult: PublishResult }
 ): PublishResult {
   const topic    = TOPICS[project.topicId]
   const genre    = GENRES[project.genreId]
@@ -32,16 +33,32 @@ export function calculatePublishResult(
   const repBonus      = Math.round(opts.reputation / 10)
   const variance      = Math.round((seededRandom(project.id.charCodeAt(0)) * 20) - 10)
 
+  // Sequel: kaynak oyun puanına göre skor bonusu
+  let sequelScoreBonus = 0
+  if (project.contentType === 'sequel' && parentProject?.publishResult) {
+    const parentScore = parentProject.publishResult.score
+    sequelScoreBonus = parentScore >= 85 ? 20 : parentScore >= 70 ? 10 : 0
+  }
+
   const score = clamp(
-    50 + affinityBonus + qualityBonus + repBonus + Math.round(playerSkillBonus) + variance,
+    50 + affinityBonus + qualityBonus + repBonus + Math.round(playerSkillBonus) + sequelScoreBonus + variance,
     1, 100
   )
 
-  const baseSales      = genre?.baseSales ?? 500
-  const salesMultiplier = platform?.salesMultiplier ?? 1.0
-  const sales = Math.round(baseSales * salesMultiplier * (score / 50) * (1 + opts.reputation / 100))
+  // Güncelleme: her zaman sıfır satış ve gelir
+  if (project.contentType === 'guncelleme') {
+    return { score, sales: 0, revenue: 0, publishDate: opts.publishDate }
+  }
 
-  const pricePerUnit = platform?.pricePerUnit ?? 20
+  const baseSales         = genre?.baseSales ?? 500
+  const salesMultiplier   = platform?.salesMultiplier ?? 1.0
+  const fanBaseMultiplier = project.contentType === 'sequel' ? project.fanBaseMultiplier : 1.0
+  const sales = Math.round(
+    baseSales * salesMultiplier * fanBaseMultiplier * (score / 50) * (1 + opts.reputation / 100)
+  )
+
+  // DLC: priceOverride kullan; diğerleri: platform birim fiyatı
+  const pricePerUnit = project.contentType === 'dlc' ? project.priceOverride : (platform?.pricePerUnit ?? 20)
   const revenue      = sales * pricePerUnit
 
   return { score, sales, revenue, publishDate: opts.publishDate }
