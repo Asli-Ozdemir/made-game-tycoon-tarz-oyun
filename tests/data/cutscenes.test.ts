@@ -1,48 +1,51 @@
 import { describe, it, expect } from 'vitest'
-import { CUTSCENES } from '@/data/cutscenes'
-import type { CutsceneId } from '@/types/cutscene'
+import { CUTSCENES, getCutsceneFrames } from '@/data/cutscenes'
+import { BACKGROUNDS } from '@/data/backgrounds'
+import type { CutsceneFrame } from '@/types/cutscene'
 
-const ALL_IDS = Object.keys(CUTSCENES) as CutsceneId[]
+const VALID_BG = new Set(['office', 'bedroom', 'court', 'coast', 'studio'])
+
+function assertFramesValid(frames: CutsceneFrame[]) {
+  expect(frames.length).toBeGreaterThan(0)
+  for (const frame of frames) {
+    expect(VALID_BG.has(frame.background)).toBe(true)
+    expect(frame.lines.length).toBeGreaterThan(0)
+    for (const line of frame.lines) {
+      expect(line.speaker.trim()).not.toBe('')
+      expect(line.text.trim()).not.toBe('')
+    }
+  }
+}
 
 describe('cutscenes verisi', () => {
-  it('her sahne ID\'si mevcut', () => {
-    for (const id of ALL_IDS) {
-      expect(CUTSCENES[id]).toBeDefined()
-      expect(CUTSCENES[id].id).toBe(id)
+  it('kovulma sahnesi her BackgroundId için bir varyanta sahip', () => {
+    const variants = CUTSCENES.kovulma.variants
+    expect(variants).toBeDefined()
+    for (const bg of BACKGROUNDS) {
+      expect(variants![bg.id]).toBeDefined()
     }
   })
 
-  it('her sahnenin en az bir frame\'i var', () => {
-    for (const id of ALL_IDS) {
-      expect(CUTSCENES[id].frames.length).toBeGreaterThan(0)
+  it('her kovulma varyantı tam 4 frame içerir', () => {
+    for (const bg of BACKGROUNDS) {
+      const frames = getCutsceneFrames('kovulma', bg.id)
+      expect(frames.length).toBe(4)
     }
   })
 
-  it('her frame\'in en az bir diyalog satırı var', () => {
-    for (const id of ALL_IDS) {
-      for (const frame of CUTSCENES[id].frames) {
-        expect(frame.lines.length).toBeGreaterThan(0)
-      }
+  it('her kovulma varyantı geçerli ve dolu', () => {
+    for (const bg of BACKGROUNDS) {
+      assertFramesValid(getCutsceneFrames('kovulma', bg.id))
     }
   })
 
-  it('her satırın boş olmayan speaker ve text\'i var', () => {
-    for (const id of ALL_IDS) {
-      for (const frame of CUTSCENES[id].frames) {
-        for (const line of frame.lines) {
-          expect(line.speaker.trim()).not.toBe('')
-          expect(line.text.trim()).not.toBe('')
-        }
-      }
-    }
+  it('ilk_yayin sahnesi frames kullanır ve geçerli', () => {
+    expect(CUTSCENES.ilk_yayin.frames).toBeDefined()
+    assertFramesValid(getCutsceneFrames('ilk_yayin', null))
   })
 
-  it('her frame\'in geçerli bir background tipi var', () => {
-    const valid = new Set(['office', 'bedroom', 'studio'])
-    for (const id of ALL_IDS) {
-      for (const frame of CUTSCENES[id].frames) {
-        expect(valid.has(frame.background)).toBe(true)
-      }
-    }
+  it('getCutsceneFrames null arkaplanla kovulma için fallback döndürür', () => {
+    const frames = getCutsceneFrames('kovulma', null)
+    expect(frames.length).toBe(4)
   })
 })

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
-import { CUTSCENES } from '@/data/cutscenes'
+import { CUTSCENES, getCutsceneFrames } from '@/data/cutscenes'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useCharacterStore } from '@/store/characterStore'
 import type { CutsceneId } from '@/types/cutscene'
 
 interface CutsceneStore {
@@ -49,15 +50,16 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
       return
     }
 
-    const def = CUTSCENES[activeCutscene]
-    const currentFrame = def.frames[frameIndex]
+    const background = useCharacterStore.getState().background
+    const frames = getCutsceneFrames(activeCutscene, background)
+    const currentFrame = frames[frameIndex]
 
     if (lineIndex < currentFrame.lines.length - 1) {
       set({ lineIndex: lineIndex + 1, displayedText: '', isTyping: true })
       return
     }
 
-    if (frameIndex < def.frames.length - 1) {
+    if (frameIndex < frames.length - 1) {
       set({ isTransitioning: true })
       return
     }
@@ -70,7 +72,8 @@ export const useCutsceneStore = create<CutsceneStore>((set, get) => ({
   finishTyping: () => {
     const { activeCutscene, frameIndex, lineIndex } = get()
     if (!activeCutscene) return
-    const fullText = CUTSCENES[activeCutscene].frames[frameIndex].lines[lineIndex].text
+    const background = useCharacterStore.getState().background
+    const fullText = getCutsceneFrames(activeCutscene, background)[frameIndex].lines[lineIndex].text
     set({ displayedText: fullText, isTyping: false })
   },
 

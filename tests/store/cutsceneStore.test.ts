@@ -73,9 +73,9 @@ describe('cutsceneStore', () => {
   })
 
   it('advance — son satırda frame geçişini başlatır', () => {
-    // kovulma frame 0 = 3 satır (index 0,1,2) → son satır index 2
+    // kovulma kk_uzmani frame 0 = 7 satır (index 0..6) → son satır index 6
     useCutsceneStore.getState().startCutscene('kovulma')
-    useCutsceneStore.setState({ lineIndex: 2, isTyping: false })
+    useCutsceneStore.setState({ lineIndex: 6, isTyping: false })
     useCutsceneStore.getState().advance()
     expect(useCutsceneStore.getState().isTransitioning).toBe(true)
     expect(useCutsceneStore.getState().frameIndex).toBe(0)
@@ -94,9 +94,9 @@ describe('cutsceneStore', () => {
   })
 
   it('advance — son frame\'in son satırında isEnding\'i set eder', () => {
-    // kovulma frame 1 = 2 satır (index 0,1) → son satır index 1
+    // kovulma kk_uzmani son frame = index 3 (coast), 5 satır (index 0..4)
     useCutsceneStore.getState().startCutscene('kovulma')
-    useCutsceneStore.setState({ frameIndex: 1, lineIndex: 1, isTyping: false })
+    useCutsceneStore.setState({ frameIndex: 3, lineIndex: 4, isTyping: false })
     useCutsceneStore.getState().advance()
     expect(useCutsceneStore.getState().isEnding).toBe(true)
     expect(useCutsceneStore.getState().activeCutscene).toBe('kovulma')
@@ -145,7 +145,7 @@ describe('cutsceneStore', () => {
     useCutsceneStore.getState().startCutscene('kovulma')
     useCutsceneStore.getState().finishTyping()
     const s = useCutsceneStore.getState()
-    expect(s.displayedText).toBe('[PLACEHOLDER] Seni işten çıkarmak zorundayım.')
+    expect(s.displayedText).toBe('Otur, {{playerName}}. Uzun tutmayacağım.')
     expect(s.isTyping).toBe(false)
   })
 })
