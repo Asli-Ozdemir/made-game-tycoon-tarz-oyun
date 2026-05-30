@@ -139,10 +139,16 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
   },
 
   setRelationship: (rivalId, status) => {
+    const prev = get().rivals.find(r => r.id === rivalId)?.relationship
     const rivals = get().rivals.map(r =>
       r.id === rivalId ? { ...r, relationship: status } : r
     )
     set({ rivals })
+
+    // Nexus ilk kez aktif rakip olunca tanışma sahnesi
+    if (rivalId === 'nexus' && status === 'rival' && prev !== 'rival') {
+      useCutsceneStore.getState().startCutsceneForce('nexus_meeting')
+    }
   },
 
   resolveRival: (rivalId, choice) => {
