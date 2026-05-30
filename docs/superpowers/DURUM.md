@@ -19,8 +19,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Senaryo — Giriş Sahneleri** | ✅ Bitti | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
 | **Faz 4C — Rakip Arc Senaryosu** | ✅ Bitti | `specs/2026-05-30-faz4c-rakip-arc-senaryo-design.md` | `plans/2026-05-30-faz4c-rakip-arc-senaryo.md` |
 | **Faz 4D-4 — Sequel & DLC** | ✅ Bitti | `specs/2026-05-30-faz4d-4-sequel-dlc-design.md` | `plans/2026-05-30-faz4d-4-sequel-dlc.md` |
+| **Faz 5 — Save/Load Sistemi** | ✅ Bitti | `specs/2026-05-30-save-load-design.md` | `plans/2026-05-30-save-load.md` |
 
-**Testler:** 172/172 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 186/186 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -47,7 +48,15 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
+## Faz 5 — Save/Load Sistemi Özeti
+
+`savegameEngine.ts` tüm store'ları JSON olarak serialize/deserialize eder (`version: 1`, `seenCutscenes` Set↔Array dönüşümü, `dayTimeStore` ephemeral reset). `saveStore` 3 slotu yönetir: localStorage mirror + Electron IPC dosya tabanlı (`userData/saves/slot-N.json`). Günlük auto-save (`onDailyTick` callback), sezon geçişinde auto-save (`onWeeklyTick` içinde prevSeason kontrolü). `StartScreen` açılışta slot seçimi sunar (Devam Et / Yeni Oyun). `SaveLoadPanel` oyun içi overlay (şimdi kaydet, slot yükle, slot sil, ana menüye dön). HUD'da 💾 butonu. Eski partial `window.electronAPI?.saveGame({...})` çağrısı kaldırıldı.
+
+---
+
 ## Devam Edilecek: Sıradaki Faz
+
+Brainstorming yapılacak fazlar: **Pazar & Ekonomi derinliği** ve **Oyun sonu / Başarı sistemi**.
 
 ---
 
