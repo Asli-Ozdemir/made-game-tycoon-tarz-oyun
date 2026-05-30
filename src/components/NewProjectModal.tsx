@@ -35,6 +35,7 @@ export default function NewProjectModal({ onClose }: Props) {
   const [parentProjectId, setParentId]      = useState<string | null>(null)
   const [contentType, setContentType]       = useState<ContentType>('standalone')
   const [dlcPrice, setDlcPrice]             = useState(10)
+  const [selectedPrice, setSelectedPrice]   = useState<number | null>(null)
 
   const date            = useTimeStore((s) => s.date)
   const addProject      = useProjectStore((s) => s.addProject)
@@ -55,6 +56,11 @@ export default function NewProjectModal({ onClose }: Props) {
   const fanBaseMultiplier = parentProject?.publishResult
     ? Math.min(2.0, 1.0 + (parentProject.publishResult.sales / 50000) * 0.5)
     : 1.0
+
+  function handleClose() {
+    setSelectedPrice(null)
+    onClose()
+  }
 
   function handleParentChange(id: string) {
     setParentId(id || null)
@@ -80,15 +86,15 @@ export default function NewProjectModal({ onClose }: Props) {
     if (!name.trim()) return
     const params = { name: name.trim(), genreId, topicId, platformId, scope: effectiveScope, startDate: date }
     if (contentType === 'sequel' && parentProjectId) {
-      addProject(createProject({ ...params, contentType: 'sequel', parentProjectId, fanBaseMultiplier }))
+      addProject({ ...createProject({ ...params, contentType: 'sequel', parentProjectId, fanBaseMultiplier }), price: selectedPrice! })
     } else if (contentType === 'dlc' && parentProjectId) {
-      addProject(createProject({ ...params, contentType: 'dlc', parentProjectId, priceOverride: dlcPrice }))
+      addProject({ ...createProject({ ...params, contentType: 'dlc', parentProjectId, priceOverride: dlcPrice }), price: dlcPrice })
     } else if (contentType === 'guncelleme' && parentProjectId) {
-      addProject(createProject({ ...params, contentType: 'guncelleme', parentProjectId }))
+      addProject({ ...createProject({ ...params, contentType: 'guncelleme', parentProjectId }), price: 0 })
     } else {
-      addProject(createProject({ ...params }))
+      addProject({ ...createProject({ ...params }), price: selectedPrice! })
     }
-    onClose()
+    handleClose()
   }
 
   function getTrendLabel(gId: string): string | null {
@@ -240,11 +246,45 @@ export default function NewProjectModal({ onClose }: Props) {
           <p className="text-gray-500 text-xs mt-1">{cfg.weeks} hafta geliştirme süresi</p>
         </label>
 
+        {(contentType === 'standalone' || contentType === 'sequel') && (
+          <div className="mt-4">
+            <label className="block text-sm text-gray-400 mb-2">Birim Fiyat</label>
+            <div className="flex gap-2 flex-wrap">
+              {[5, 10, 20, 30, 40, 60].map((p) => {
+                const suggested = PLATFORMS[platformId]?.suggestedPrice ?? 20
+                const isSelected = selectedPrice === p
+                const isSuggested = p === suggested
+                return (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setSelectedPrice(p)}
+                    className={`px-3 py-1.5 rounded text-sm border transition-colors ${
+                      isSelected
+                        ? 'bg-blue-600 border-blue-500 text-white'
+                        : 'bg-gray-700 border-gray-600 text-gray-300 hover:border-gray-400'
+                    }`}
+                  >
+                    ${p}{isSuggested ? ' ★' : ''}
+                  </button>
+                )
+              })}
+            </div>
+            {selectedPrice === null && (
+              <p className="text-xs text-red-400 mt-1">Fiyat seçilmeden başlatılamaz</p>
+            )}
+          </div>
+        )}
+
         <div className="flex gap-3">
-          <button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded py-2 font-medium">
+          <button
+            type="submit"
+            disabled={(contentType === 'standalone' || contentType === 'sequel') && selectedPrice === null}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded py-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Projeyi Başlat
           </button>
-          <button type="button" onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white rounded py-2">
+          <button type="button" onClick={handleClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white rounded py-2">
             İptal
           </button>
         </div>
