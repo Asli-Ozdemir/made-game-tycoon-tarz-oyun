@@ -227,7 +227,10 @@ export default function CutscenePlayer() {
     const id = setInterval(() => {
       const state = useCutsceneStore.getState()
       if (!state.isTyping || !state.activeCutscene) { clearInterval(id); return }
-      const frames = getCutsceneFrames(state.activeCutscene, useCharacterStore.getState().background)
+      const frames = getCutsceneFrames(state.activeCutscene, {
+        background: useCharacterStore.getState().background,
+        choice: state.resolutionChoice ?? undefined,
+      })
       const fullText = frames[state.frameIndex].lines[state.lineIndex].text
       if (state.displayedText.length >= fullText.length) {
         useCutsceneStore.getState().finishTyping()
@@ -253,8 +256,10 @@ export default function CutscenePlayer() {
 
   if (!activeCutscene) return null
 
-  const background   = useCharacterStore.getState().background
-  const currentFrame = getCutsceneFrames(activeCutscene, background)[frameIndex]
+  const currentFrame = getCutsceneFrames(activeCutscene, {
+    background: useCharacterStore.getState().background,
+    choice: useCutsceneStore.getState().resolutionChoice ?? undefined,
+  })[frameIndex]
   const currentLine  = currentFrame.lines[lineIndex]
   const isPlayer     = currentLine.speaker.includes('{{playerName}}')
   const speakerName  = replacePlaceholders(currentLine.speaker, playerName, studioName)
