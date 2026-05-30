@@ -10,10 +10,12 @@ interface DayTimeStore {
   weekNumber: number
   isPaused: boolean
   onWeeklyTick: (() => void) | null
+  onDailyTick:    (() => void) | null
   advanceRealSeconds: (seconds: number) => void
   endDay: () => void
   setIsPaused: (paused: boolean) => void
   setOnWeeklyTick: (cb: () => void) => void
+  setOnDailyTick: (cb: () => void) => void
   reset: () => void
 }
 
@@ -25,6 +27,7 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
   weekNumber: 1,
   isPaused: false,
   onWeeklyTick: null,
+  onDailyTick: null,
 
   advanceRealSeconds: (seconds) => {
     if (get().isPaused) return
@@ -43,7 +46,7 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
   },
 
   endDay: () => {
-    const { dayOfWeek, weekNumber, onWeeklyTick } = get()
+    const { dayOfWeek, weekNumber, onWeeklyTick, onDailyTick } = get()
     const isWeekEnd = dayOfWeek >= 7
     set({
       hour: 9,
@@ -53,9 +56,11 @@ export const useDayTimeStore = create<DayTimeStore>((set, get) => ({
       weekNumber: isWeekEnd ? weekNumber + 1 : weekNumber,
     })
     if (isWeekEnd && onWeeklyTick) onWeeklyTick()
+    if (onDailyTick) onDailyTick()
   },
 
   setIsPaused: (paused) => set({ isPaused: paused }),
   setOnWeeklyTick: (cb) => set({ onWeeklyTick: cb }),
-  reset: () => set({ hour: 9, minute: 0, minuteFraction: 0, dayOfWeek: 1, weekNumber: 1, isPaused: false }),
+  setOnDailyTick: (cb) => set({ onDailyTick: cb }),
+  reset: () => set({ hour: 9, minute: 0, minuteFraction: 0, dayOfWeek: 1, weekNumber: 1, isPaused: false, onWeeklyTick: null, onDailyTick: null }),
 }))

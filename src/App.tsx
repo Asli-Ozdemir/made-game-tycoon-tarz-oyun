@@ -21,6 +21,7 @@ import { useRivalStore } from '@/store/rivalStore'
 import EventModal from '@/components/EventModal'
 import { useEventStore } from '@/store/eventStore'
 import { useTrainingStore } from '@/store/trainingStore'
+import { useSaveStore } from '@/store/saveStore'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -36,6 +37,7 @@ export default function App() {
   // Wire weeklyTick callback once
   useEffect(() => {
     setOnWeeklyTick(() => {
+      const prevSeason = useTimeStore.getState().date.season
       advance()
       const tickCount = useTimeStore.getState().tickCount
       const { totalSalary } = weeklyTick(tickCount)
@@ -43,19 +45,36 @@ export default function App() {
       tickAllProjects()
       const year = useTimeStore.getState().date.year
       useTrainingStore.getState().tickCourses(year)
-      window.electronAPI?.saveGame({
-        game:      useGameStore.getState(),
-        time:      useTimeStore.getState(),
-        projects:  useProjectStore.getState().projects,
-        employees: useEmployeeStore.getState().employees,
-      })
+      // Sezon değişince auto-save
+      const newSeason = useTimeStore.getState().date.season
+      if (newSeason !== prevSeason && useCharacterStore.getState().isCreated) {
+        const { save, activeSlotId } = useSaveStore.getState()
+        save(activeSlotId)
+      }
     })
   }, [advance, tickAllProjects, addMoney, weeklyTick, setOnWeeklyTick])
+
+  const setOnDailyTick = useDayTimeStore((s) => s.setOnDailyTick)
+
+  useEffect(() => {
+    setOnDailyTick(() => {
+      if (!useCharacterStore.getState().isCreated) return
+      const { save, activeSlotId } = useSaveStore.getState()
+      save(activeSlotId)
+    })
+  }, [setOnDailyTick])
 
   const setGameMode      = useWorldStore((s) => s.setGameMode)
   const setLocation      = useWorldStore((s) => s.setLocation)
   const setIsPaused      = useDayTimeStore((s) => s.setIsPaused)
   const isCreated        = useCharacterStore((s) => s.isCreated)
+
+  useEffect(() => {
+    if (!isCreated) return
+    const { save, activeSlotId, showStartScreen } = useSaveStore.getState()
+    if (!showStartScreen) save(activeSlotId)
+  }, [isCreated])
+
   const activeCutscene   = useCutsceneStore((s) => s.activeCutscene)
   const pendingResolution = useRivalStore((s) => s.pendingResolution)
   const pendingEvent = useEventStore((s) => s.pendingEvent)
