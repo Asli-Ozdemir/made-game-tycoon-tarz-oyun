@@ -1,6 +1,6 @@
 # Proje Durumu — Nerede Kaldık
 
-**Son güncelleme:** 2026-05-29
+**Son güncelleme:** 2026-05-30
 
 Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
 Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
@@ -16,9 +16,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 3 — Dünya / Keşif** | ✅ Bitti | `specs/2026-05-29-faz3-dunya-kesif-design.md` | `plans/2026-05-29-faz3-dunya-kesif.md` |
 | **Faz 4A — Karakter Yaratma** | ✅ Bitti | `specs/2026-05-29-faz4a-karakter-yaratma-design.md` | `plans/2026-05-29-faz4a-karakter-yaratma.md` |
 | **Faz 4B — Ara Sahne Sistemi** | ✅ Bitti | `specs/2026-05-29-faz4b-ara-sahne-design.md` | `plans/2026-05-29-faz4b-ara-sahne.md` |
-| **Senaryo — Giriş Sahneleri** | 📝 Spec+plan hazır, kod bekliyor | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
+| **Senaryo — Giriş Sahneleri** | ✅ Bitti | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
 
-**Testler:** 75/75 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 173/173 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
