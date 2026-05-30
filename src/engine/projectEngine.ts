@@ -30,6 +30,10 @@ export function createProject(params: CreateProjectParams): GameProject {
     weeksElapsed: 0,
     qualityPoints: 0,
     status: 'gelistirme' as const,
+    price: 0,
+    discountPct: null,
+    isOnSale: false,
+    publishTickCount: null,
   }
   if (params.contentType === 'sequel') {
     return { ...base, contentType: 'sequel', parentProjectId: params.parentProjectId, fanBaseMultiplier: params.fanBaseMultiplier }
