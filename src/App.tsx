@@ -23,6 +23,7 @@ import { useEventStore } from '@/store/eventStore'
 import { useTrainingStore } from '@/store/trainingStore'
 import { useSaveStore } from '@/store/saveStore'
 import StartScreen from '@/components/StartScreen'
+import SaveLoadPanel from '@/components/SaveLoadPanel'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -77,6 +78,7 @@ export default function App() {
     if (!showStartScreen) save(activeSlotId)
   }, [isCreated])
 
+  const showSavePanel    = useSaveStore((s) => s.showSavePanel)
   const activeCutscene   = useCutsceneStore((s) => s.activeCutscene)
   const pendingResolution = useRivalStore((s) => s.pendingResolution)
   const pendingEvent = useEventStore((s) => s.pendingEvent)
@@ -185,6 +187,8 @@ export default function App() {
           {toast}
         </div>
       )}
+
+      {showSavePanel && <SaveLoadPanel />}
     </div>
   )
 }

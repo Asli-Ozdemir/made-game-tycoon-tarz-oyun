@@ -2,6 +2,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useWorldStore } from '@/store/worldStore'
+import { useSaveStore } from '@/store/saveStore'
 import { dateToString } from '@/engine/timeEngine'
 
 const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
@@ -18,6 +19,7 @@ export default function HUD() {
   const gameMode    = useWorldStore((s) => s.gameMode)
   const setGameMode = useWorldStore((s) => s.setGameMode)
   const setIsPaused = useDayTimeStore((s) => s.setIsPaused)
+  const openSavePanel = useSaveStore((s) => s.openSavePanel)
 
   const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
 
@@ -53,6 +55,13 @@ export default function HUD() {
             Masadan Kalk
           </button>
         )}
+        <button
+          onClick={openSavePanel}
+          title="Kaydet / Yükle"
+          className="text-gray-400 hover:text-white text-sm px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+        >
+          💾
+        </button>
       </div>
     </div>
   )
