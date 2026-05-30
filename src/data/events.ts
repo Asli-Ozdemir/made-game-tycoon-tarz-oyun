@@ -1,4 +1,4 @@
-export type EventCategory = 'finansal' | 'studyo' | 'sektor' | 'kisisel' | 'rakip'
+export type EventCategory = 'finansal' | 'studyo' | 'sektor' | 'kisisel' | 'rakip' | 'ekonomik_kriz'
 
 export interface EventEffect {
   money?:         number
@@ -542,5 +542,35 @@ export const EVENTS: RandomEvent[] = [
       { text: 'Uzlaş (-$8.000)', effect: { money: -8000 } },
       { text: 'Lisansla (-$5.000, -2 itibar)', effect: { money: -5000, reputation: -2 } },
     ],
+  },
+
+  // ── EKONOMİK KRİZ ──────────────────────────────────────────────────────────
+  {
+    id: 'sunucu_coktu', category: 'ekonomik_kriz', type: 'passive',
+    weight: 5, cooldownYears: 2,
+    title: 'Sunucu Çöktü',
+    description: 'Oyun sunucularınız beklenmedik bir yük altında çöktü. Acil bakım ekibi tutmanız gerekiyor.',
+    effect: { money: -3000 },
+  },
+  {
+    id: 'lisans_yenileme', category: 'ekonomik_kriz', type: 'passive',
+    weight: 4, cooldownYears: 3,
+    title: 'Yazılım Lisansı Yenileme',
+    description: 'Kullandığınız geliştirme araçlarının lisansları sona erdi. Yenileme zorunlu.',
+    effect: { money: -5000 },
+  },
+  {
+    id: 'ekipman_arizasi_ekonomik', category: 'ekonomik_kriz', type: 'passive',
+    weight: 6, cooldownYears: 2,
+    title: 'Ekipman Arızası',
+    description: 'Birkaç geliştirici bilgisayarı aynı anda arıza verdi. Acil yedek parça gerekiyor.',
+    effect: { money: -2000 },
+  },
+  {
+    id: 'hukuki_uyari', category: 'ekonomik_kriz', type: 'passive',
+    weight: 3, cooldownYears: 4,
+    title: 'Hukuki Uyarı',
+    description: 'Bir patent firması yazılımınızda iddia ettiği ihlal nedeniyle hukuki uyarı gönderdi. Danışmanlık ücreti kaçınılmaz.',
+    effect: { money: -4000 },
   },
 ]
