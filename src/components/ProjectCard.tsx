@@ -2,7 +2,11 @@ import { GENRES } from '@/data/genres'
 import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import { useProjectStore } from '@/store/projectStore'
-import type { GameProject } from '@/types'
+import type { GameProject, SequelProject, DlcProject, UpdateProject } from '@/types'
+
+function hasParent(p: GameProject): p is SequelProject | DlcProject | UpdateProject {
+  return p.contentType !== 'standalone'
+}
 
 interface Props {
   project: GameProject
@@ -18,7 +22,7 @@ export default function ProjectCard({ project, onPublish }: Props) {
 
   // Child projeler (bu projeyi kaynak olarak kullananlar)
   const childProjects = isPublished
-    ? allProjects.filter(p => p.contentType !== 'standalone' && (p as { parentProjectId?: string }).parentProjectId === project.id)
+    ? allProjects.filter(hasParent).filter(p => p.parentProjectId === project.id)
     : []
   const dlcCount    = childProjects.filter(p => p.contentType === 'dlc').length
   const sequelCount = childProjects.filter(p => p.contentType === 'sequel').length
