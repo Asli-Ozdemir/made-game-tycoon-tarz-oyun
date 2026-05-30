@@ -27,8 +27,9 @@ export default function ResolutionScreen() {
 
     resolveRival(rival!.id, choice)
 
+    useCutsceneStore.getState().setResolutionChoice(choice)
+
     if (isNexus) {
-      useCutsceneStore.getState().setResolutionChoice(choice)
       useCutsceneStore.getState().startCutsceneForce('nexus_resolution')
     } else {
       useCutsceneStore.getState().startCutsceneForce('indie_resolution')
