@@ -30,6 +30,7 @@ describe('calculatePublishResult', () => {
 
   it('playerSkillBonus skoru artırır', () => {
     const project: GameProject = {
+      contentType: 'standalone',
       id: 'p1', name: 'Test', genreId: 'action', topicId: 'space',
       platformId: 'pc', scope: 'kucuk', startDate: { year: 2000, season: 'ilkbahar', week: 1 },
       totalWeeks: 4, weeksElapsed: 4, qualityPoints: 12, status: 'gelistirme'

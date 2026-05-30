@@ -19,20 +19,44 @@ export interface PublishResult {
   publishDate: GameDate
 }
 
-export interface GameProject {
-  id: string
-  name: string
-  genreId: string
-  topicId: string
-  platformId: string
-  scope: ProjectScope
-  startDate: GameDate
-  totalWeeks: number
-  weeksElapsed: number
+// Ortak taban — tüm proje tiplerinde mevcut
+interface BaseProject {
+  id:            string
+  name:          string
+  genreId:       string
+  topicId:       string
+  platformId:    string
+  scope:         ProjectScope
+  startDate:     GameDate
+  totalWeeks:    number
+  weeksElapsed:  number
   qualityPoints: number
-  status: ProjectStatus
+  status:        ProjectStatus
   publishResult?: PublishResult
 }
+
+export interface StandaloneProject extends BaseProject {
+  contentType: 'standalone'
+}
+
+export interface SequelProject extends BaseProject {
+  contentType:       'sequel'
+  parentProjectId:   string
+  fanBaseMultiplier: number   // 1.0 + (parentSales/50000)*0.5, max 2.0
+}
+
+export interface DlcProject extends BaseProject {
+  contentType:     'dlc'
+  parentProjectId: string
+  priceOverride:   number   // oyuncu belirler, max = Math.floor(parentRevenue/parentSales)
+}
+
+export interface UpdateProject extends BaseProject {
+  contentType:     'guncelleme'
+  parentProjectId: string
+}
+
+export type GameProject = StandaloneProject | SequelProject | DlcProject | UpdateProject
 
 // --- Ana State ---
 export type GameSpeed = 'durduruldu' | 'normal' | 'hizli' | 'cok_hizli'
