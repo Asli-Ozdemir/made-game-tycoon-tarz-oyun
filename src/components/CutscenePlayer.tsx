@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useCharacterStore } from '@/store/characterStore'
-import { CUTSCENES } from '@/data/cutscenes'
+import { getCutsceneFrames } from '@/data/cutscenes'
 import type { CutsceneFrame } from '@/types/cutscene'
 
 // Placeholder metinlerdeki {{playerName}} ve {{studioName}} yerlerine gerçek değerleri koy
@@ -105,6 +105,36 @@ function SceneBackground({ type }: { type: CutsceneFrame['background'] }) {
     )
   }
 
+  if (type === 'court') {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#1a1408 0%,#2a2010 50%,#1a1408 100%)', imageRendering: 'pixelated' }}>
+        <div style={{ position: 'absolute', inset: 0, ...gridTexture }} />
+        {/* Hâkim kürsüsü */}
+        <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: 160, height: 70, background: '#3a2a14', border: '4px solid #5a4020' }} />
+        {/* Sade pano */}
+        <div style={{ position: 'absolute', top: '12%', left: '50%', transform: 'translateX(-50%)', width: 40, height: 24, background: '#5a4020', border: '3px solid #7a5a30' }} />
+        {/* Sıra */}
+        <div style={{ position: 'absolute', bottom: 90, left: '15%', right: '15%', height: 14, background: '#2a2010', borderTop: '4px solid #4a3a1c' }} />
+      </div>
+    )
+  }
+
+  if (type === 'coast') {
+    return (
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#2a1a30 0%,#5a3050 40%,#c87050 75%,#e0a060 100%)', imageRendering: 'pixelated' }}>
+        <div style={{ position: 'absolute', inset: 0, ...gridTexture }} />
+        {/* Deniz penceresi */}
+        <div style={{ position: 'absolute', top: 36, left: '50%', transform: 'translateX(-50%)', width: 120, height: 80, background: '#3a6a8a', border: '5px solid #6a4a2a' }}>
+          <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40%', background: '#2a5a7a' }} />
+          {/* Güneş */}
+          <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 22, height: 22, background: '#ffd070', borderRadius: '50%' }} />
+        </div>
+        {/* Eski ahşap masa */}
+        <div style={{ position: 'absolute', bottom: 90, left: '12%', right: '12%', height: 12, background: '#6a4a2a', borderTop: '4px solid #8a6a3a' }} />
+      </div>
+    )
+  }
+
   // studio
   return (
     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,#020210 0%,#050520 50%,#020210 100%)', imageRendering: 'pixelated' }}>
@@ -197,8 +227,8 @@ export default function CutscenePlayer() {
     const id = setInterval(() => {
       const state = useCutsceneStore.getState()
       if (!state.isTyping || !state.activeCutscene) { clearInterval(id); return }
-      const def = CUTSCENES[state.activeCutscene]
-      const fullText = def.frames[state.frameIndex].lines[state.lineIndex].text
+      const frames = getCutsceneFrames(state.activeCutscene, useCharacterStore.getState().background)
+      const fullText = frames[state.frameIndex].lines[state.lineIndex].text
       if (state.displayedText.length >= fullText.length) {
         useCutsceneStore.getState().finishTyping()
         clearInterval(id)
@@ -223,8 +253,8 @@ export default function CutscenePlayer() {
 
   if (!activeCutscene) return null
 
-  const def          = CUTSCENES[activeCutscene]
-  const currentFrame = def.frames[frameIndex]
+  const background   = useCharacterStore.getState().background
+  const currentFrame = getCutsceneFrames(activeCutscene, background)[frameIndex]
   const currentLine  = currentFrame.lines[lineIndex]
   const isPlayer     = currentLine.speaker.includes('{{playerName}}')
   const speakerName  = replacePlaceholders(currentLine.speaker, playerName, studioName)
