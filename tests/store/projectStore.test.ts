@@ -119,4 +119,12 @@ describe('projectStore — fiyat & sale', () => {
     useProjectStore.getState().cancelProject(p.id)
     expect(useProjectStore.getState().projects[0].status).toBe('iptal')
   })
+
+  it('cancelProject: yayında proje iptal edilemez', () => {
+    const p = makePublishedProject()
+    useProjectStore.getState().addProject(p)
+    useProjectStore.getState().cancelProject(p.id)
+    // status was 'yayinlandi', should remain unchanged
+    expect(useProjectStore.getState().projects[0].status).toBe('yayinlandi')
+  })
 })

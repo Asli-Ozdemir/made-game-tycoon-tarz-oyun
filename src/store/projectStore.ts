@@ -83,14 +83,18 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
   joinSaleEvent: (id, discountPct) =>
     set((s) => ({
       projects: s.projects.map((p) =>
-        p.id === id ? { ...p, isOnSale: true, discountPct } : p
+        p.id === id && p.status === 'yayinlandi'
+          ? { ...p, isOnSale: true, discountPct }
+          : p
       ),
     })),
 
   leaveSaleEvent: (id) =>
     set((s) => ({
       projects: s.projects.map((p) =>
-        p.id === id ? { ...p, isOnSale: false, discountPct: null } : p
+        p.id === id && p.status === 'yayinlandi'
+          ? { ...p, isOnSale: false, discountPct: null }
+          : p
       ),
     })),
 
