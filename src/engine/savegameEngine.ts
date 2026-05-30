@@ -72,27 +72,73 @@ export function serialize(): string {
 }
 
 export function deserialize(json: string): void {
-  const s = JSON.parse(json)
+  let s: Record<string, unknown>
+  try {
+    s = JSON.parse(json)
+  } catch {
+    throw new Error('deserialize: geçersiz JSON')
+  }
 
-  useGameStore.setState(s.game)
-  useProjectStore.setState({ projects: s.projects.projects })
-  useEmployeeStore.setState({ employees: s.employees.employees, candidates: s.employees.candidates })
-  useTimeStore.setState({ date: s.time.date, tickCount: s.time.tickCount })
-  useCharacterStore.setState(s.character)
+  if ((s as any).version !== 1) {
+    throw new Error(`deserialize: desteklenmeyen save versiyonu: ${(s as any).version}`)
+  }
+
+  const g = (s.game as any) ?? {}
+  useGameStore.setState({
+    money:          g.money          ?? 0,
+    reputation:     g.reputation     ?? 0,
+    totalPublished: g.totalPublished ?? 0,
+  })
+
+  useProjectStore.setState({ projects: (s.projects as any)?.projects ?? [] })
+
+  useEmployeeStore.setState({
+    employees:  (s.employees as any)?.employees  ?? [],
+    candidates: (s.employees as any)?.candidates ?? [],
+  })
+
+  useTimeStore.setState({
+    date:      (s.time as any)?.date      ?? { year: 2000, season: 'ilkbahar', week: 1 },
+    tickCount: (s.time as any)?.tickCount ?? 0,
+  })
+
+  const c = (s.character as any) ?? {}
+  useCharacterStore.setState({
+    isCreated:   c.isCreated   ?? false,
+    name:        c.name        ?? '',
+    studioName:  c.studioName  ?? '',
+    background:  c.background  ?? null,
+    profession:  c.profession  ?? { programlama: 0, tasarim: 0, ses: 0, projeyonetimi: 0 },
+    personality: c.personality ?? { karisma: 0, odak: 0, rekabetcilik: 0, yaraticilik: 0, isZekasi: 0 },
+  })
+
   useRivalStore.setState({
-    rivals:            s.rivals.rivals,
-    lastSimYear:       s.rivals.lastSimYear,
-    pendingResolution: s.rivals.pendingResolution ?? null,
+    rivals:            (s.rivals as any)?.rivals            ?? [],
+    lastSimYear:       (s.rivals as any)?.lastSimYear       ?? 0,
+    pendingResolution: (s.rivals as any)?.pendingResolution ?? null,
   })
-  useNewsStore.setState({ items: s.news.items, unreadCount: s.news.unreadCount })
-  useAwardsStore.setState({ history: s.awards.history })
+
+  useNewsStore.setState({
+    items:       (s.news as any)?.items       ?? [],
+    unreadCount: (s.news as any)?.unreadCount ?? 0,
+  })
+
+  useAwardsStore.setState({ history: (s.awards as any)?.history ?? [] })
+
   useTrendStore.setState({
-    popularity:         s.trends.popularity,
-    previousPopularity: s.trends.previousPopularity,
-    phase:              s.trends.phase,
+    popularity:         (s.trends as any)?.popularity         ?? {},
+    previousPopularity: (s.trends as any)?.previousPopularity ?? {},
+    phase:              (s.trends as any)?.phase              ?? {},
   })
-  useEventStore.setState({ cooldowns: s.events.cooldowns, lastCategoryYear: s.events.lastCategoryYear })
-  useTrainingStore.setState({ inventory: s.training.inventory })
-  useCutsceneStore.setState({ seenCutscenes: new Set(s.seenCutscenes) })
+
+  useEventStore.setState({
+    cooldowns:        (s.events as any)?.cooldowns        ?? {},
+    lastCategoryYear: (s.events as any)?.lastCategoryYear ?? {},
+  })
+
+  useTrainingStore.setState({ inventory: (s.training as any)?.inventory ?? [] })
+
+  useCutsceneStore.setState({ seenCutscenes: new Set((s.seenCutscenes as unknown[]) ?? []) })
+
   useDayTimeStore.getState().reset()
 }

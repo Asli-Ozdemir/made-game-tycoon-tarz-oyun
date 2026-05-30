@@ -5,14 +5,31 @@ import { useProjectStore } from '@/store/projectStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useEmployeeStore } from '@/store/employeeStore'
+import { useCharacterStore } from '@/store/characterStore'
+import { useRivalStore } from '@/store/rivalStore'
+import { useNewsStore } from '@/store/newsStore'
+import { useAwardsStore } from '@/store/awardsStore'
+import { useTrendStore } from '@/store/trendStore'
+import { useEventStore } from '@/store/eventStore'
+import { useTrainingStore } from '@/store/trainingStore'
+import { createProject } from '@/engine/projectEngine'
 import type { CutsceneId } from '@/types/cutscene'
 
 beforeEach(() => {
   useGameStore.getState().reset()
   useProjectStore.getState().reset()
+  useEmployeeStore.getState().reset()
   useCutsceneStore.getState().reset()
   useDayTimeStore.getState().reset()
   useTimeStore.getState().reset()
+  useCharacterStore.getState().reset()
+  useRivalStore.getState().reset()
+  useNewsStore.getState().reset()
+  useAwardsStore.getState().reset()
+  useTrendStore.getState().reset()
+  useEventStore.getState().reset()
+  useTrainingStore.getState().reset()
 })
 
 describe('savegameEngine', () => {
@@ -47,9 +64,7 @@ describe('savegameEngine', () => {
     expect(useCutsceneStore.getState().seenCutscenes.has('nexus_meeting')).toBe(true)
   })
 
-  it('round-trip: projectStore.projects sayısı korunur', async () => {
-    // projectStore.addProject ile proje ekle
-    const { createProject } = await import('@/engine/projectEngine')
+  it('round-trip: projectStore.projects sayısı korunur', () => {
     const p = createProject({ name: 'Test', genreId: 'aksiyon', topicId: 'uzay', platformId: 'pc', scope: 'kucuk', startDate: { year: 2000, season: 'ilkbahar', week: 1 } })
     useProjectStore.getState().addProject(p)
     const json = serialize()
@@ -64,5 +79,13 @@ describe('savegameEngine', () => {
     deserialize(json)
     expect(useDayTimeStore.getState().hour).toBe(9)
     expect(useDayTimeStore.getState().minute).toBe(0)
+  })
+
+  it('deserialize: geçersiz JSON hata fırlatır', () => {
+    expect(() => deserialize('not-json')).toThrow()
+  })
+
+  it('deserialize: eksik alanlarda hata fırlatır', () => {
+    expect(() => deserialize('{}')).toThrow()
   })
 })
