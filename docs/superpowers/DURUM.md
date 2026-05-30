@@ -17,8 +17,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 4A — Karakter Yaratma** | ✅ Bitti | `specs/2026-05-29-faz4a-karakter-yaratma-design.md` | `plans/2026-05-29-faz4a-karakter-yaratma.md` |
 | **Faz 4B — Ara Sahne Sistemi** | ✅ Bitti | `specs/2026-05-29-faz4b-ara-sahne-design.md` | `plans/2026-05-29-faz4b-ara-sahne.md` |
 | **Senaryo — Giriş Sahneleri** | ✅ Bitti | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
+| **Faz 4C — Rakip Arc Senaryosu** | ✅ Bitti | `specs/2026-05-30-faz4c-rakip-arc-senaryo-design.md` | `plans/2026-05-30-faz4c-rakip-arc-senaryo.md` |
 
-**Testler:** 173/173 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 172/172 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -33,14 +34,13 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
-## Devam Edilecek: Faz 4C — Rakip Şirket Arc'ı
+## Faz 4C — Rakip Arc Senaryosu Özeti
 
-**Durum:** Henüz başlanmadı.
+`nexus_notice` (5 BackgroundId varyantı, Victor Crane/Klein sahneleri, "sevgi ucuzlar korku tutar" düsturu), `nexus_meeting` (nehir beat, ilk yüz yüze karşılaşma), `awards_win/win_gallery/win_boardroom/lose_to_nexus` (ödül sahneleri), `nexus_resolution` (4 seçime özgü final — buyout/destroy/forgive/merge, nehir imgesi + Crane self-gesture), `indie_resolution`. `CutsceneDef`'e `variants` + `choiceVariants` eklendi; `getCutsceneFrames(id, ctx)` resolver. `cutsceneStore`'a `resolutionChoice` + `setResolutionChoice`. `ResolutionScreen` seçimi store'a yazar. `rivalStore.setRelationship` Nexus ilk kez rival olunca `nexus_meeting` tetikler.
 
-Faz 4 (Karakter + Hikaye) üç alt sisteme bölündü:
-- **4A — Karakter Yaratma** ✅ bitti
-- **4B — Ara Sahne Sistemi** ✅ bitti
-- **4C — Rakip Şirket Arc'ı** ← şu an buradayız
+---
+
+## Devam Edilecek: Faz 4D-4 — Sequel & DLC
 
 ---
 
