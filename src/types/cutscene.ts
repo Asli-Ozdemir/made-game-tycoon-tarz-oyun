@@ -1,19 +1,28 @@
 import type { BackgroundId } from '@/data/backgrounds'
+import type { ResolutionChoice } from '@/types/rival'
 
 export interface DialogLine {
-  speaker: string  // "İK Müdürü", "Patron", "Yeni CEO", "Kurul Başkanı", "Eş", "Hâkim", "{{playerName}}"
-  text:    string  // {{playerName}} ve {{studioName}} placeholder destekler
+  speaker: string
+  text:    string
 }
 
 export interface CutsceneFrame {
-  background: 'office' | 'bedroom' | 'court' | 'coast' | 'studio'
-  lines:      DialogLine[]
+  background:
+    | 'office' | 'bedroom' | 'studio'
+    | 'server_room' | 'gallery' | 'boardroom'
+    | 'court' | 'coast'
+  lines: DialogLine[]
 }
 
-export type CutsceneId = 'kovulma' | 'ilk_yayin'
+export type CutsceneId =
+  | 'kovulma' | 'ilk_yayin'
+  | 'nexus_notice' | 'nexus_meeting'
+  | 'awards_win' | 'awards_win_gallery' | 'awards_win_boardroom' | 'awards_lose_to_nexus'
+  | 'nexus_resolution' | 'indie_resolution'
 
 export interface CutsceneDef {
-  id:        CutsceneId
-  frames?:   CutsceneFrame[]                          // varyantsız sahneler (ilk_yayin)
-  variants?: Record<BackgroundId, CutsceneFrame[]>    // arkaplana özgü sahneler (kovulma)
+  id:              CutsceneId
+  frames?:         CutsceneFrame[]
+  variants?:       Record<BackgroundId, CutsceneFrame[]>
+  choiceVariants?: Partial<Record<ResolutionChoice, CutsceneFrame[]>>
 }

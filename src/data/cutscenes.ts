@@ -1,4 +1,5 @@
 import type { BackgroundId } from '@/data/backgrounds'
+import type { ResolutionChoice } from '@/types/rival'
 import type { CutsceneId, CutsceneDef, CutsceneFrame } from '@/types/cutscene'
 
 export const CUTSCENES: Record<CutsceneId, CutsceneDef> = {
@@ -232,6 +233,7 @@ export const CUTSCENES: Record<CutsceneId, CutsceneDef> = {
       ],
     },
   },
+
   ilk_yayin: {
     id: 'ilk_yayin',
     frames: [
@@ -255,17 +257,272 @@ export const CUTSCENES: Record<CutsceneId, CutsceneDef> = {
       },
     ],
   },
+
+  nexus_notice: {
+    id: 'nexus_notice',
+    variants: {
+      yapimci: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Klein',          text: 'Şu yükselen stüdyo... kurucusunu hatırlarsınız.' },
+            { speaker: 'Victor Crane',   text: '(gülümser) Elbette. Onu kovduğum gün koltuğum sağlamlaştı.' },
+            { speaker: 'Victor Crane',   text: 'Çok şey biliyordu, Klein. Bilen adam, taht için fazla tehlikelidir.' },
+            { speaker: 'Klein',          text: 'Tehdit olduğu için mi gönderdiniz?' },
+            { speaker: 'Victor Crane',   text: 'Tehdit değildi, basamaktı. Yukarı çıkmak için birine basarsın — o da oradaydı, o kadar.' },
+            { speaker: 'Klein',          text: 'Şimdi geri döndü.' },
+            { speaker: 'Victor Crane',   text: 'Güzel. Açıkçası sıkılmıştım. İyi rakip iyi aynadır — bakalım ben mi haklıydım.' },
+            { speaker: 'Victor Crane',   text: 'Beni sevmesini beklemiyorum. Makyavel ne demiş — hem sevilip hem korkulamıyorsan, korkulmayı seç. Sevgi ucuzlar, korku tutar.' },
+          ],
+        },
+      ],
+      kk_uzmani: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Klein',          text: 'Küçük bir stüdyo dikkat çekiyor. {{studioName}}. Kurucusu eski çalışanımızmış.' },
+            { speaker: 'Victor Crane',   text: 'Hangi ekipten?' },
+            { speaker: 'Klein',          text: 'Kalite kontrol. Otomasyonda çıkarmışız.' },
+            { speaker: 'Victor Crane',   text: 'Ah, o büyük temizlik. Dört yüz kişi gönderdim, hisse yüzde on iki fırladı. Kurul adımı o gün ezberledi.' },
+            { speaker: 'Victor Crane',   text: 'Demek içlerinden biri stüdyo kurmuş. (eğlenir) Hoşuma gitti doğrusu.' },
+            { speaker: 'Klein',          text: 'Endişelenelim mi?' },
+            { speaker: 'Victor Crane',   text: 'Daha değil. Ama yetenekliyi yakından severim — ya yanına alırsın, ya önünü kesersin.' },
+            { speaker: 'Victor Crane',   text: 'Korkutmak da var tabii. Makyavel boşuna yazmamış: sevgi ucuzlar, korku tutar.' },
+          ],
+        },
+      ],
+      eski_ceo: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Klein',          text: 'Efendim, {{studioName}} büyüyor. Kurucusu... bu şirketin kurucusu.' },
+            { speaker: 'Victor Crane',   text: '(koltuğa yaslanır) Bu koltuğu o yaptı. Ben sadece daha çok isteyeni oynadım.' },
+            { speaker: 'Klein',          text: 'Kurulu siz mi çevirdiniz?' },
+            { speaker: 'Victor Crane',   text: 'Çevirmedim, dinledim. Onlar korkuyordu, ben cesaret sattım. Oylar öyle döndü.' },
+            { speaker: 'Klein',          text: 'Geri almaya gelir mi?' },
+            { speaker: 'Victor Crane',   text: 'Umarım gelir. Bir adamı gerçekten tanımak için ondan bir şey çalman gerekir.' },
+            { speaker: 'Victor Crane',   text: 'Ne yapacağını izlemek — bu işin tek gerçek keyfi.' },
+            { speaker: 'Victor Crane',   text: 'Beni asla sevmeyecek. Olsun. Prens\'te der ki — sevgi ucuzlar, korku tutar.' },
+          ],
+        },
+      ],
+      yaratici_direktor: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Klein',          text: 'Yükselen bir stüdyo var. {{studioName}}. Tarzı tanıdık geliyor.' },
+            { speaker: 'Victor Crane',   text: 'Gelmeli. O tarzı kurula ben sattım. (gülümser) Fikir benim değildi tabii.' },
+            { speaker: 'Klein',          text: 'Onun fikriydi.' },
+            { speaker: 'Victor Crane',   text: 'Fikir ucuzdur, Klein. Onu doğru odada söyleyen kişi pahalı. Ben o odadaydım, o değildi.' },
+            { speaker: 'Klein',          text: 'Şimdi aynı fikirle dönüyor.' },
+            { speaker: 'Victor Crane',   text: 'Ve bu sefer odanın sahibi o. Adil sayılır.' },
+            { speaker: 'Victor Crane',   text: 'İtiraf edeyim — o oyunu çıkardığım gün en çok onun ne diyeceğini merak etmiştim.' },
+            { speaker: 'Victor Crane',   text: 'Ondan af beklemiyorum. İstediğim, çekinmesi. Sevgi ucuzlar, Klein — korku tutar.' },
+          ],
+        },
+      ],
+      bas_muhendis: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Klein',          text: '{{studioName}} teknik olarak etkileyici. Kurucusu eski mühendislerimizden.' },
+            { speaker: 'Victor Crane',   text: 'Batan proje, değil mi? O enkaza birinin adını yazmamız gerekiyordu.' },
+            { speaker: 'Klein',          text: 'Onu siz mi seçtiniz?' },
+            { speaker: 'Victor Crane',   text: 'Seçmedim, izin verdim. En sessiz, en az dostu olan seçilir — kural budur.' },
+            { speaker: 'Victor Crane',   text: 'Oysa kod kusursuzdu. Sorun yönetimdeydi, yani bendeydi. Ama itibar pahalı, doğruluk ucuz.' },
+            { speaker: 'Klein',          text: 'Şimdi karşımızda.' },
+            { speaker: 'Victor Crane',   text: 'Kusursuz kod yazan, kusursuz kin de tutar. Demek bu işin tadı kaçmayacak.' },
+            { speaker: 'Victor Crane',   text: 'Bana kin tutsun, sevgisi umurumda değil. Makyavel haklıydı: sevgi ucuzlar, korku tutar.' },
+          ],
+        },
+      ],
+    },
+  },
+
+  nexus_meeting: {
+    id: 'nexus_meeting',
+    frames: [
+      {
+        background: 'office',
+        lines: [
+          { speaker: 'Victor Crane',   text: 'Sonunda yüz yüzeyiz. Otur. Seni uzaktan izliyordum.' },
+          { speaker: '{{playerName}}', text: 'Neden çağırdın?' },
+          { speaker: 'Victor Crane',   text: 'Merak. Beni bu kadar zorlayan kim, görmek istedim.' },
+          { speaker: 'Victor Crane',   text: 'Hayatta tek şey öğrendim: akıntıya karşı yüzülmez. Ben bıraktım kendimi — bak, neredeyim.' },
+          { speaker: '{{playerName}}', text: 'Akıntı seni bataklığa götürse de mi?' },
+          { speaker: 'Victor Crane',   text: 'Orada da kral olurum. Boğulmaktan iyidir.' },
+          { speaker: '{{playerName}}', text: 'Ben kürek çekeceğim. Yorulsam da, bataklığa saplansam da.' },
+          { speaker: 'Victor Crane',   text: '(gülümser) Herkes öyle der; su sabırlıdır. Yine de... göster bakalım. Kimse beni uzun zamandır şaşırtmadı.' },
+        ],
+      },
+    ],
+  },
+
+  awards_win: {
+    id: 'awards_win',
+    frames: [
+      {
+        background: 'server_room',
+        lines: [
+          { speaker: 'Sunucu',         text: '(yayından) Ve yılın oyunu ödülü... {{studioName}}!' },
+          { speaker: '{{playerName}}', text: 'Duydum. Makinelerin uğultusu arasında, tek başıma.' },
+          { speaker: '{{playerName}}', text: 'Sahnede birileri benim için alkışlıyor. Hiçbirini tanımıyorum.' },
+          { speaker: '{{playerName}}', text: 'Kazandım. Ama elimi sıkacak kimse yok. Sadece fanların sesi.' },
+          { speaker: '{{playerName}}', text: 'Yine de... fena değil. Hiç fena değil.' },
+        ],
+      },
+    ],
+  },
+  awards_win_gallery: {
+    id: 'awards_win_gallery',
+    frames: [
+      {
+        background: 'gallery',
+        lines: [
+          { speaker: 'Sunucu',         text: '(yayından) Ve yılın oyunu... {{studioName}}!' },
+          { speaker: '{{playerName}}', text: 'Duvardaki çizimlere baktım. Hepsinin altında tek bir imza var. Benimki.' },
+          { speaker: '{{playerName}}', text: 'Yıllar önce bu sahnede başkası benim eserimle alkışlanmıştı.' },
+          { speaker: '{{playerName}}', text: 'Şimdi alkış bana ait. Ama salon orada, ben buradayım.' },
+          { speaker: '{{playerName}}', text: 'Galiba kazanmak, yalnız kalmanın güzel bir yolu.' },
+        ],
+      },
+    ],
+  },
+  awards_win_boardroom: {
+    id: 'awards_win_boardroom',
+    frames: [
+      {
+        background: 'boardroom',
+        lines: [
+          { speaker: 'Sunucu',         text: '(yayından) Ve yılın oyunu... {{studioName}}!' },
+          { speaker: '{{playerName}}', text: 'Uzun bir toplantı masası. Bir tek ben varım.' },
+          { speaker: '{{playerName}}', text: 'Bir zamanlar böyle bir masadan kovulmuştum. Şimdi masa benim.' },
+          { speaker: '{{playerName}}', text: 'Tuhaf — zirveye çıktıkça Crane\'i daha iyi anlıyorum.' },
+          { speaker: '{{playerName}}', text: 'Ve beni en çok korkutan şey de bu.' },
+        ],
+      },
+    ],
+  },
+  awards_lose_to_nexus: {
+    id: 'awards_lose_to_nexus',
+    frames: [
+      {
+        background: 'studio',
+        lines: [
+          { speaker: 'Sunucu',         text: '(yayından) Ve yılın oyunu ödülü... Nexus Games!' },
+          { speaker: '{{playerName}}', text: 'Tabii ki. Parlak, güvenli, herkesin sevdiği bir oyun.' },
+          { speaker: '{{playerName}}', text: 'Crane sahnede gülümsüyor. Beni görmüyor bile.' },
+          { speaker: '{{playerName}}', text: '"Sevgi ucuzlar" demişti. Bu akşam sevgiyi de satın aldı.' },
+          { speaker: '{{playerName}}', text: 'Sorun değil. Korku kalıcıysa... ben de sabırlıyım.' },
+        ],
+      },
+    ],
+  },
+
+  nexus_resolution: {
+    id: 'nexus_resolution',
+    choiceVariants: {
+      buyout: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Victor Crane',   text: 'Demek satın aldın. Çoğunluk hisse artık sende.' },
+            { speaker: '{{playerName}}', text: 'Senin bana yaptığını yaptım. Sadece daha pahalıya.' },
+            { speaker: 'Victor Crane',   text: 'Belki seni işten çıkararak hayatını kararttım. Kabul ediyorum.' },
+            { speaker: 'Victor Crane',   text: 'Peki söyle — bu paraya ulaşana dek sen kaç kişinin hayatını kararttın?' },
+            { speaker: '{{playerName}}', text: '...' },
+            { speaker: 'Victor Crane',   text: 'Güç ezmeden gelmez. Bu benim kuralım değil, doğanın kanunu.' },
+            { speaker: 'Victor Crane',   text: '"Sevgi ucuzlar, korku tutar" demiştim. Sen ikisini de geçtin — parayı seçtin.' },
+            { speaker: 'Victor Crane',   text: '(kıkırdar) Koltuğu boşaltıyorum. Ama artık benden daha korkunçsun galiba.' },
+            { speaker: 'Victor Crane',   text: '(kendini gösterir) Hayata son sürat kürek çektin. Ama bak — şu kütükle, yani benimle aynı hizadasın. İkimiz de aynı yere vardık.' },
+          ],
+        },
+      ],
+      destroy: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Victor Crane',   text: 'Skandalı basına verdin. Yarın sabaha bitmiş olacağım.' },
+            { speaker: '{{playerName}}', text: 'Sen de beni böyle bitirmiştin. Tek bir imzayla.' },
+            { speaker: 'Victor Crane',   text: 'Belki seni kovarak hayatını kararttım. Doğru.' },
+            { speaker: 'Victor Crane',   text: 'Ama bu enkaza ulaşana dek sen kaç hayatın üstüne bastın?' },
+            { speaker: '{{playerName}}', text: '...' },
+            { speaker: 'Victor Crane',   text: 'Güç ezmeden gelmez. Doğanın kanunu bu — ben koymadım, sadece okudum.' },
+            { speaker: 'Victor Crane',   text: '"Sevgi ucuzlar, korku tutar." Beni yıktın ama düsturumu taçlandırdın.' },
+            { speaker: 'Victor Crane',   text: '(kıkırdar) Gömülen benim, korkma. Ama artık benden daha korkunçsun.' },
+            { speaker: 'Victor Crane',   text: '(kendini gösterir) Tersine kürek çeke çeke vardığın yer, sürüklenen bir kütüğün — yani benim — vardığı yer. Nehir hep kazanır.' },
+          ],
+        },
+      ],
+      forgive: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Victor Crane',   text: 'Elinde her şey vardı. Skandalım, hisselerim, intikamın. Hiçbirini kullanmadın.' },
+            { speaker: '{{playerName}}', text: 'Kullansaydım, sen olurdum. İstemedim.' },
+            { speaker: 'Victor Crane',   text: '(uzun sessizlik) Anlamıyorum. Bu bir zayıflık.' },
+            { speaker: '{{playerName}}', text: 'Ya da senin hiç sahip olmadığın bir şey.' },
+            { speaker: 'Victor Crane',   text: '"Sevgi ucuzlar" demiştim. Sen onu bedavaya verdin, üstelik bana.' },
+            { speaker: '{{playerName}}', text: 'Belki sevgi ucuz değildir, Crane. Belki sen hep yanlış mağazadaydın.' },
+            { speaker: 'Victor Crane',   text: 'Sen nehrin sonuna kadar kürek çektin. Akıntıya değil, kendine rağmen. Oraya varan ilk insan belki de sensin.' },
+            { speaker: 'Victor Crane',   text: '...Demek gerçekten varmış. Ham, katıksız iyi insanlar. Ben hep masal sanırdım.' },
+            { speaker: 'Victor Crane',   text: 'Git. Seni anlamadan önce git.' },
+          ],
+        },
+      ],
+      merge: [
+        {
+          background: 'office',
+          lines: [
+            { speaker: 'Victor Crane',   text: 'Birleşme. İki stüdyo, tek çatı. Beklemediğim hamle.' },
+            { speaker: '{{playerName}}', text: 'İkimiz de kaybetmekten yorulduk. Bu sefer aynı masadayız.' },
+            { speaker: 'Victor Crane',   text: 'Sana onca kötülüğü yaptım, sen hâlâ elini uzatıyorsun.' },
+            { speaker: '{{playerName}}', text: 'Güvendiğimden değil. Seni kontrol edebilirim çünkü — bunu bana sen öğrettin.' },
+            { speaker: 'Victor Crane',   text: '(güler) Demek "sevgi ucuzlar, korku tutar"ı ezberledin.' },
+            { speaker: '{{playerName}}', text: 'Hayır. Üçüncü bir şey buldum: ihtiyaç. O ikisinden de uzun sürer.' },
+            { speaker: 'Victor Crane',   text: 'İkimiz de nehrin sonuna geldik — sen kürek çekerek, ben sürüklenerek. Tuhaf, yine de aynı yerde buluştuk.' },
+            { speaker: 'Victor Crane',   text: '...Hayatım boyunca herkesi kendim sandım. Meğer gerçekten ham iyi insanlar varmış.' },
+            { speaker: 'Victor Crane',   text: 'Ortak olalım. Ama gözünü dört aç.' },
+            { speaker: '{{playerName}}', text: 'Sen de.' },
+          ],
+        },
+      ],
+    },
+  },
+
+  indie_resolution: {
+    id: 'indie_resolution',
+    frames: [
+      {
+        background: 'studio',
+        lines: [
+          { speaker: 'Rakip Kurucu',   text: 'Demek sıra bize geldi. Sizin gibi büyükler hep küçükleri ezerek başlar.' },
+          { speaker: '{{playerName}}', text: 'Ben de bir zamanlar küçüktüm. Kovulmuş, bitmiş biriydim.' },
+          { speaker: 'Rakip Kurucu',   text: 'Ama artık değilsin. Şimdi sen onlardansın.' },
+          { speaker: '{{playerName}}', text: '...' },
+          { speaker: '{{playerName}}', text: 'Belki. Ya da henüz değil. Bunu her gün yeniden seçiyorum.' },
+        ],
+      },
+    ],
+  },
 }
 
 /**
  * Aktif sahnenin frame dizisini çözer.
- * variants varsa arkaplana göre seçer; yoksa frames döndürür.
- * background null ise (beklenmeyen durum) ilk varyanta (kk_uzmani) düşer.
+ * - choiceVariants + ctx.choice → seçime özgü (nexus_resolution)
+ * - variants → arka plana özgü; ctx.background null ise kk_uzmani fallback
+ * - aksi hâlde frames
  */
-export function getCutsceneFrames(id: CutsceneId, background: BackgroundId | null): CutsceneFrame[] {
+export function getCutsceneFrames(
+  id: CutsceneId,
+  ctx: { background: BackgroundId | null; choice?: ResolutionChoice },
+): CutsceneFrame[] {
   const def = CUTSCENES[id]
+  if (def.choiceVariants && ctx.choice) {
+    return def.choiceVariants[ctx.choice] ?? def.frames ?? []
+  }
   if (def.variants) {
-    return def.variants[background ?? 'kk_uzmani']
+    return def.variants[ctx.background ?? 'kk_uzmani']
   }
   return def.frames ?? []
 }
