@@ -33,6 +33,10 @@ interface BaseProject {
   qualityPoints: number
   status:        ProjectStatus
   publishResult?: PublishResult
+  price:            number        // lansmanda belirlenen birim fiyat ($)
+  discountPct:      number | null // aktif indirim oranı (0.25 | 0.50 | 0.75), null = yok
+  isOnSale:         boolean       // platform sale eventine katılıyor mu
+  publishTickCount: number | null // yayınlandığı timeStore.tickCount; geliştirmede null
 }
 
 export interface StandaloneProject extends BaseProject {
@@ -80,10 +84,11 @@ export interface Genre {
 }
 
 export interface Platform {
-  id: string
-  name: string
+  id:              string
+  name:            string
   salesMultiplier: number
-  pricePerUnit: number
+  pricePerUnit:    number
+  suggestedPrice:  number
 }
 
 export interface Topic {
