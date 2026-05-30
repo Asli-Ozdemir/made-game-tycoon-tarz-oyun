@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
-import { saveGame, loadGame } from '../src/db/database'
+import { promises as fs } from 'fs'
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -18,8 +18,24 @@ function createWindow() {
   }
 }
 
-ipcMain.handle('save-game', (_event, state) => { saveGame(state); return true })
-ipcMain.handle('load-game', () => loadGame())
+function savesDir() {
+  return join(app.getPath('userData'), 'saves')
+}
+
+ipcMain.handle('save-game', async (_event, slotId: number, json: string) => {
+  const dir = savesDir()
+  await fs.mkdir(dir, { recursive: true })
+  await fs.writeFile(join(dir, `slot-${slotId}.json`), json, 'utf-8')
+})
+
+ipcMain.handle('load-game', async (_event, slotId: number) => {
+  const file = join(savesDir(), `slot-${slotId}.json`)
+  try {
+    return await fs.readFile(file, 'utf-8')
+  } catch {
+    return null
+  }
+})
 
 app.whenReady().then(createWindow)
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })

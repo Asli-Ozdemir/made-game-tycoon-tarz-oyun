@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  saveGame: (state: unknown) => ipcRenderer.invoke('save-game', state),
-  loadGame: () => ipcRenderer.invoke('load-game')
+  saveGame: (slotId: number, json: string) => ipcRenderer.invoke('save-game', slotId, json),
+  loadGame: (slotId: number)               => ipcRenderer.invoke('load-game', slotId),
 })
