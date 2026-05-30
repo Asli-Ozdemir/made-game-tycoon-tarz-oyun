@@ -7,6 +7,13 @@ import { useTimeStore } from '@/store/timeStore'
 import { useNewsStore } from '@/store/newsStore'
 import { nanoid } from 'nanoid'
 
+const SEASON_INDEX: Record<string, number> = {
+  ilkbahar: 0,
+  yaz:      1,
+  sonbahar: 2,
+  kış:      3,
+}
+
 export interface SaleEvent {
   id:            string
   week:          number
@@ -72,7 +79,8 @@ export const useEconomyStore = create<EconomyStoreState>((set, get) => ({
     const payment = Math.ceil(loan / loanWeeksLeft)
     useGameStore.getState().addMoney(-payment)
     const newWeeksLeft = loanWeeksLeft - 1
-    set({ loanWeeksLeft: newWeeksLeft, loan: newWeeksLeft === 0 ? 0 : loan })
+    const newLoan = newWeeksLeft === 0 ? 0 : loan - payment
+    set({ loanWeeksLeft: newWeeksLeft, loan: newLoan })
   },
 
   checkCrisis: () => {
@@ -81,7 +89,7 @@ export const useEconomyStore = create<EconomyStoreState>((set, get) => ({
     if (money < 0 && !isInCrisis) {
       set({ isInCrisis: true, crisisWeeksLeft: 4 })
     } else if (money >= 0 && isInCrisis) {
-      set({ isInCrisis: false })
+      set({ isInCrisis: false, crisisWeeksLeft: 0 })
     }
   },
 
@@ -102,13 +110,15 @@ export const useEconomyStore = create<EconomyStoreState>((set, get) => ({
     const tickCount        = useTimeStore.getState().tickCount
     const { nextSaleWeek } = get()
     // 3 hafta önce haber
-    if (nextSaleWeek - tickCount === 3) {
+    const weeksUntilSale = nextSaleWeek - tickCount
+    if (weeksUntilSale >= 3 && weeksUntilSale < 4) {
+      const date = useTimeStore.getState().date
       useNewsStore.getState().addItem({
         type:   'random_event',
         rivalId: null,
         text:   'Platform İndirim Etkinliği 3 hafta sonra başlıyor!',
-        year:   useTimeStore.getState().date.year,
-        season: 0,
+        year:   date.year,
+        season: SEASON_INDEX[date.season] ?? 0,
       })
     }
   },

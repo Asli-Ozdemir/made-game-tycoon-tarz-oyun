@@ -3,12 +3,14 @@ import { useEconomyStore } from '@/store/economyStore'
 import { useGameStore } from '@/store/gameStore'
 import { useProjectStore } from '@/store/projectStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useNewsStore } from '@/store/newsStore'
 
 beforeEach(() => {
   useEconomyStore.getState().reset()
   useGameStore.getState().reset()
   useProjectStore.getState().reset()
   useTimeStore.getState().reset()
+  useNewsStore.getState().reset()
 })
 
 describe('economyStore', () => {
@@ -83,9 +85,11 @@ describe('economyStore', () => {
     expect(useEconomyStore.getState().isBankrupt).toBe(true)
   })
 
-  it('scheduleSaleEvent: nextSaleWeek 13 hafta ilerler', () => {
-    useTimeStore.setState({ tickCount: 0 })
+  it('scheduleSaleEvent: 3 hafta önce haber ekler, store nextSaleWeek değişmez', () => {
+    const before = useEconomyStore.getState().nextSaleWeek  // 13
+    useTimeStore.setState({ tickCount: before - 3, date: { year: 2000, season: 'ilkbahar', week: 1 } })
     useEconomyStore.getState().scheduleSaleEvent()
-    expect(useEconomyStore.getState().nextSaleWeek).toBe(13)
+    // nextSaleWeek should NOT change (only activateSaleEvent changes it)
+    expect(useEconomyStore.getState().nextSaleWeek).toBe(before)
   })
 })
