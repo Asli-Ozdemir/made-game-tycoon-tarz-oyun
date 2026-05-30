@@ -1,0 +1,190 @@
+# NPC Etkileşim & Felsefe Sistemi (Spec A): Tasarım Dokümanı
+
+**Tarih:** 2026-05-30
+**Kapsam (Spec A):** Keşif modunda dünyadaki NPC'lerle konuşma sistemi + başlangıç karakter kadrosu (felsefe + sıradan + romantizm + kasabalı). Diyalog motoru **Yarn (YarnBound)**. Servisler ve romantizm-arc *mekaniği* kapsam dışı (kendi spec'leri).
+**Önceki taslak:** Bu doküman `2026-05-30-felsefe-npc-WIP-taslak.md`'yi **birleştirip yerine geçer** (o silinir).
+
+---
+
+## Vizyon
+
+Stardew tarzı, konuşulabilir NPC'lerle dolu bir kasaba. NPC'lerin **bazıları** bir etik felsefeyi *temsil eder* (müze değil, dokuda); çoğu sıradan kasabalıdır (dert/dostluk/flört). Kalp arttıkça diyalog derinleşir; felsefe NPC'leri yüksek kalpte oyuncunun asıl mücadelesine (Crane / nehir / kendini aşma) **isim vermeden** kendi felsefesinden ayna tutar. NPC ağı, oyunun ana temasına **çok sesli bir koro**dur ve 4C finalinin ahlaki aynasını besler.
+
+## Dekompozisyon
+
+- **Spec A (bu):** NPC konuşma sistemi + diyalog içeriği (felsefe/sıradan/romantizm/kasabalı). Yarn altyapısı. **Servis yok, romantizm-arc mekaniği yok.**
+- **Sonraki spec'ler:** Servis NPC'leri — Avukat (Kant, sözleşme/IP), Yatırımcı (Fayda, fon/ROI), Arcade (Kirenaik, ilham). Her biri kendi mekaniği + spec.
+- **İleride:** Romantizm arc mekaniği (flört → buluşma → ilişki), gezen NPC AI, hediye sistemi.
+
+---
+
+## Teknik: Yarn (YarnBound)
+
+**Karar:** Diyaloglar **Yarn dili** (`.yarn` betikleri) ile yazılır; çalıştırıcı **YarnBound** (npm `yarn-bound`, `bondage.js` üstüne, Yarn 2.0). "Yarn Spinner" resmî runtime'ı Unity/C# olduğundan kullanılmaz; YarnBound saf JS olduğu için Electron renderer + Vite + React'te sorunsuz koşar.
+
+**Neden:** Dallanma, koşul (`<<if $heart >= 6>>`), değişken, seçim, romance flag'leri yerleşik gelir; içerik **kodda değil `.yarn` dosyasında** yazılır (yazar dostu). Büyüyen ilişki/romantizm/aile-bağ ağı için ölçeklenir.
+
+**Entegrasyon:**
+- `.yarn` dosyaları Vite `?raw` ile metin olarak import edilir, YarnBound'a verilir.
+- Değişkenler (kalp, romance flag, dünya durumu) **bizim store'da** tutulur; YarnBound'a variable storage olarak bağlanır. Yarn `<<if>>` bu değişkenleri okur.
+- UI (`NpcDialog`) YarnBound'ın döndürdüğü satır/seçimleri render eder; cutscene sisteminden ayrı, daha basit kanal.
+
+**Risk & de-risk:** YarnBound topluluk kütüphanesi (gerekirse vendor'lanıp içeri alınabilir — küçük runtime). **Planın ilk görevi bir spike:** `yarn-bound` kur, tek bir `.yarn` dosyasını (kalp koşullu) `NpcDialog`'da çalıştır, `electron-vite build`'de doğrula. Yeşilse tüm içerik Yarn'a kurulur.
+
+---
+
+## Sistem Tasarımı (Spec A)
+
+- **Mod:** Keşif modunda aktif; masaya oturunca tycoon (mevcut çift mod, `worldStore`).
+- **NPC'ler sabit** noktalarda (gezme ileri faza). Placeholder sprite (player gibi). Oyuncu ~1 tile yaklaşınca Pixi'de "E ile konuş" ipucu; `E`/Space → konuşma.
+- **Konuşma:** `npcStore.startTalk(id)` → `dayTimeStore.setIsPaused(true)` → `NpcDialog` Yarn düğümünü oynatır → bitince pause kalkar.
+- **Günlük değişim:** Yarn düğümü `dayIndex = weekNumber*7 + dayOfWeek` ve `$heart` değişkenine göre dallanır (o günün/katmanın repliği).
+- **Kalp/yakınlık:** Her NPC için `heart` (0..N), konuşunca (günde bir) artar. Store'da tutulur, Yarn'a `$heart_<npcId>` olarak verilir.
+- **3 diyalog katmanı** (kalp eşikleriyle Yarn `<<if>>`):
+  - **T1** yüzeysel/günlük flavor · **T2** kişisel (arka plan) · **T3** yüksek kalp.
+  - **Felsefe NPC'leri T3:** oyuncunun *taşıdığı yük/peşindeki güce* dair **isimsiz** felsefi öğüt (Crane adını anmaz; onu namıyla bilir).
+  - **Sıradan NPC'ler:** öğüt vermez — kendi dertlerini anlatır, dostça konuşur; **karşı cins → flörtöz**.
+- **Mektuplar:** Max kalpte NPC'nin **imza mektubu** ayrı **"Mektuplar" kutusuna** düşer (NewsFeed'den ayrı). Postacı (Felix) meta olarak getirir.
+- **Aile/bağ ağı:** NPC'ler birbirine bağlı (veri: `relations`), birbirini anar/söylenti taşır (Liesl).
+- **Bağımlılık (teyit edilecek):** Flört "karşı cins"e göre → oyuncu cinsiyeti gerekir; karakter yaratmada yoksa eklenmeli (küçük) ya da her iki yönde adaylar konur.
+- **İsimler:** İngilizce/Avrupai.
+
+**Dokunulan/yeni dosyalar:** `src/store/npcStore.ts`, `src/data/npcs.ts` (NPC meta + `.yarn` düğüm eşlemesi), `src/dialogue/*.yarn`, `NpcDialog.tsx`, `MektupKutusu` (inbox) bileşeni + store, `WorldScene` (NPC çizimi + yakınlık), `Game.ts` (E tuşu), `App.tsx` (render). Cutscene sistemine dokunmaz.
+
+## Tema Bağı
+
+NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücadeleye farklı bakar; 4C finalini (Satın Al/Yok Et = canavarlaş · Affet/Birleş = aş) besler.
+**Üç su felsefesi:** Crane = akıntıya bırak *(güç için → Sartre'a göre kötü niyet)* · Theo = akışla uyum *(wu wei)* · Søren = kendi rotanı çiz *(özgürlük)*.
+
+---
+
+## Karakter Kadrosu
+
+> Felsefe NPC'leri tam (çekirdek + arka plan + imza replik + mektup). Sıradan/romantizm/kasabalı: replikler var, **arka planlar kısa stub — sonra birlikte genişletilecek (TODO).** Tüm replikler implementasyonda `.yarn`'a taşınır; aşağıdakiler kanonik kaynaktır.
+
+### Felsefe NPC'leri
+
+**📚 Marcus Thorne — Sahaf — Stoacılık.** Çekirdek: tek iyi erdem; kontrolüne odaklan (Epiktetos), yargı senin; apatheia; memento mori. Arka plan: eski ünlü tasarımcı, çöküş+ihanetle sadeleşti.
+- T1 "Övgü de yergi de rüzgâr. Sen kayanı sağlam tut." · T1 "Satışlar elinde değildi; yargın, çaban senindi."
+- T2 "Zirvedeydim; bir çöküş, bir ihanet... Kırılmadım, sadeleştim."
+- T3 "Hiçbir şey, üzerine anlam yüklenmedikçe iyi ya da kötü değildir — sadece bir deneyim. Yargıyı sen koyarsın, geri de alırsın." · T3 "Ondan nefret, zinciri kendi boynuna takmaktır; öfke seni yakar."
+- ✉️ İmza: yargı/dinginlik üzerine kısa Stoacı mektup.
+
+**🪶 Theo Vance — Balıkçı — Taoizm (wu wei)** *(Crane'in zıttı).* Çekirdek: akışla uyum, zorlamama, su yumuşaktır ama dağı deler — teslimiyet değil ustalık. Arka plan: bir megakurumun zirvesinden **kendi isteğiyle** çıktı.
+- T1 "Didinme. Nehrin nereye gittiğini dinle, bırak taşısın." · T1 "En yumuşak, en sertini yener."
+- T2 "Bir kulede oturdum; kalemi bıraktım, çıktım. Sadece aktım."
+- T3 "Seni sıkıştıran güce kürekle değil suyla karşılık ver — yumuşaklıkla aş."
+- ✉️ İmza: wu wei / su üzerine mektup.
+
+**🌒 Magnus Hale — Yıkık efsane (dev) — Nietzsche.** Çekirdek: ahlakın ötesi, sürü/ressentiment, güç istenci, kendini aşma, bengi dönüş/amor fati, uçurum (BGE §146). Arka plan: devrimci efsaneydi, aynı kalabalık yaktı.
+- T1 "İyi/kötü oyun — kim koydu? Sürü. Kendi değerini döv." · T1 "Beğenilmek için mi yapıyorsun, var olmak için mi?"
+- T2 "Bir oyun yaptım, kuralları yaktı; sonra beni yaktılar. Yükseklik, düşmekten korkanlar içindir."
+- T3 (imza) "Canavarlarla dövüşen, kendi canavara dönüşmesin. Uçuruma uzun bakarsan, uçurum da sana bakar." · T3 "Onu değil, kendini aş." · T3 "Bu acıyı sonsuza tekrar yaşamaya razı mısın? Razıysan özgürlük budur."
+- ✉️ İmza mektubu: "...Canavarlarla dövüşen kendi canavara dönüşmesin. Uçuruma bakarsan uçurum da sana bakar. Geç yazdım belki, ya da tam vaktinde. — M."
+- Bağ: uçurum öğüdü 4C ahlaki aynasını önceden haber verir.
+
+**🎭 Remy Vail — İndie geliştirici (dev) — Absürdizm (Camus).** Çekirdek: absürt, kaçış yok, isyan-özgürlük-tutku, "Sisifos'u mutlu hayal et." Arka plan: 10 oyun battı, 11.'ye başlıyor.
+- T1 "On oyun battı, yarın on birinciye başlıyorum. Saçma — gülmemin sebebi bu." · T1 "Evren cevap vermiyor; inadına bir oyun daha."
+- T2 "Onuncu batışta artık gülüyordum. Alışmıyorsun — isyan ediyorsun."
+- T3 "Yenemeyebilirsin, önemi yok; ezilirken bile oyununu yap — asıl isyan bu." · T3 "Zafer de kandırmaca; Sisifos iterken mutludur."
+- ✉️ İmza: "...bugün yine bir oyunum battı, kutluyorum. Sisifos'u mutlu hayal et. — R."
+
+**🕳️ Nina Vex — Tükenmiş dev — Nihilizm** *(cazip boşluk/folyo).* Çekirdek: anlam/değer yok; absürdizm isyan eder, Nietzsche aşar — nihilizm durur. Arka plan: inandığı her şeyin tabloya dönüşmesini izledi.
+- T1 "Çıkar, satar ya da satmaz, unutulur. Her şey gibi." · T1 "İyi iş, kötü iş — sonunda aynı sessizlik."
+- T2 "On yıl inandım, hepsi tabloya döndü. Bıraktım — daha hafifim."
+- T3 (cazip) "Yensen de yenilsen de aynı hiçliğe akıyor; bırak gitsin." · T3 (tehlikeli) "Hiçbir şey önemli değilse, acımasız ol ya da iyi — fark yok."
+- ✉️ İmza: "...Bir gün duracaksın; herkes durur. Dediklerim kötü değil, sessiz gelecek. — N."
+- Bağ: Crane yoluna/pes etmeye iten cazibe; diğerleri ona karşı konuşur.
+
+**🔧 Bruno Adler — Mühendis — Erdem Etiği (Aristoteles).** Çekirdek: eudaimonia, erdem alışkanlıkla kurulur, altın orta, phronesis. Arka plan: "kirişi incelt" denince reddetti, atıldı; köprü hâlâ ayakta.
+- T1 "Köprü bir günde çökmez, bir günde yükselmez. Her gün bir perçin." · T1 "Mükemmellik eylem değil, alışkanlıktır."
+- T2 "'Kirişi incelt' dediler; inceltmedim, attılar. Köprü hâlâ ayakta — ben de."
+- T3 "İki yanlış: korkup sinmek ya da öfkeyle acımasızlaşmak. Erdem ortada — cesaret." · T3 "Yenerken kim olduğunu koru."
+- ✉️ İmza: "...köprü yıllarca taşıdığı küçük yüklerle sınanır. Her gün doğru olanı yap. Karakter perçin perçin kurulur. — B."
+- Bağ: altın orta = 4C finali (aşırılık=canavarlaş, eksiklik=korkaklık).
+
+**⚓ Søren Berg — Liman kaptanı — Varoluşçuluk (Sartre).** Çekirdek: varoluş özden önce, radikal özgürlük, sorumluluk, kötü niyet, otantiklik. Arka plan: babasının hazır rotasını reddedip kendi teknesini aldı.
+- T1 "Denizde yol yoktur; her dümen kırışı bir seçim." · T1 "'Ben böyleyim' diyene gülerim; her sabah yeniden seçersin."
+- T2 "Rütbe hazırdı; çantamı alıp kendi teknemi aldım. O korku ilk kez bana aitti."
+- T3 "'Akıntı böyle, elimden gelmez' diyen yalan söylüyor; akıntı karar vermez, sen verirsin." · T3 "Sen mi seçtin, 'mecbur kaldım' deyip mi yaptın? İlki özgür kılar."
+- ✉️ İmza: "...pusulayı kuzey çekmez, sen tutarsın. Seçen sensin. — S."
+- Bağ: Crane'in "doğanın kanunu" kaderciliğini çürütür; 4C seçimlerini özgür seçim olarak çerçeveler.
+
+**⚖️ Clara Vogt — Avukat — Kant (Deontoloji)** *(servis NPC'si — sözleşme/IP, kendi spec'i).* Çekirdek: kategorik buyruk (evrenselleştirilebilirlik + insanı amaç gör, asla yalnızca araç), ödev, onur vs fiyat, söz tut, yalan asla. Arka plan: küçük geliştiricinin hakkını "gömmesi" istenince firmadan ayrıldı.
+- T1 "Sözleşme kâğıt değil, verilmiş sözdür." · T1 "Herkes senin yaptığını yapsa dünya yaşanır mı? Hayırsa yapma."
+- T2 "Bir geliştiricinin hakkını gömmemi istediler; dosyayı bıraktım."
+- T3 "İnsanları basamak yaparsan, kazandığında elinde sadece basamak kalır." · T3 "Bazı zaferlerin bedeli onurundur; o parayı ödeme."
+- ✉️ İmza: "...İnsanın fiyatı değil onuru vardır. Kimseyi araç yerine koyma. — C."
+- Bağ: Crane'in "basamaktı, üstüne bastım"ının çürütülmesi. Clara (Kant) ↔ Vivian (Fayda) merkez tartışma.
+
+**🍞 Aldo Bianchi — Fırıncı — Epikürcülük.** Çekirdek: ataraxia+aponia (aşırılık değil), doğal-zorunlu vs boş arzular (şan/güç→kaygı), dostluk en büyük haz, ölüm korkusu yok, gizli yaşa. Arka plan: meşhur lokantası vardı, yıldız peşinde mutsuzdu; bıraktı, fırın açtı, mutlu.
+- T1 "Sıcak ekmek, peynir, bir dost — mutluluğun listesi bundan uzun değil." · T1 "İnsan çoğu şeyi açlıktan değil korkudan ister."
+- T2 "Yıldızları topladım, en tepedeyken en mutsuzdum; bir sabah ekmek koktu, anladım."
+- T3 "Şan, güç, intikam — dipsiz kuyu; içtikçe susarsın." · T3 "Huzurunu onun terazisine koyma."
+- ✉️ İmza: "...bir somun yolladım, sıcakken kes. Asıl ziyafet sadedir; huzurunu rehin verme. — A."
+- Bağ: Crane'in boş arzularının panzehri. Aldo (Epikür) ↔ Rex (Kirenaik).
+
+**🩺 Marta Reyes — Hemşire — Bakım Etiği.** Çekirdek: Gilligan/Noddings; ahlak ilişki/duyarlılıkta, somut kişi soyuttan önce, karşılıklı bağımlılık. Arka plan: crunch'tan çökenleri, ölüm döşeğindekileri gördü.
+- T1 "Yüzün solgun, son ne zaman uyudun?" · T1 "Kuralı, rakamı bırak — karşımdaki insan nasıl, ben ona bakarım."
+- T2 "Çökenlere 'kaynak' diyorlarmış; ben titreyen ellerini tuttum. Tablo titremez, insan titrer."
+- T3 "Sana kötülük eden de kırılmış biri; canavar sanırsan sen de katılaşırsın. İnsan kal." · T3 "Yenerken yanındakini kaybetme."
+- ✉️ İmza: "...sen nasılsın? Gerçekten. Geceleri elini tutan biri yoksa o zafer üşütür. Kapım açık. — M."
+- Bağ: Crane'in tablosunu insanlaştırır; Affet/Birleş + "ham iyi insanlar varmış"ın tohumu. Marta (bakım) ↔ Clara (adalet) = Gilligan↔Kohlberg.
+
+**🕹️ Rex Calloway — Arcade sahibi — Kirenaik Hedonizm** *(servis NPC'si — ilham, kendi spec'i).* Çekirdek: anlık-bedensel-aktif haz (Aristippos), yalnız şu an gerçek, yoğunluk>süre. Arka plan: sahnelerde parlayan yıldız, serveti yaşadı biriktirmedi, pişman değil.
+- T1 "Elinde bir tek şu an var — endişeyle mi harcayacaksın?" · T1 "Makinenin sesini duy! Düşünme, hisset."
+- T2 "Serveti yaşadım, biriktirmedim, bir saniye pişman değilim."
+- T3 "Hayatını gelecek zafere rehin verme; ya o gün gelmezse?" · T3 "Mutluluk ertelenmez — ya şimdi, ya hiç."
+- ✉️ İmza: "...'sonra' diye bir yer yok. Bir akşam gel, yaşadığını hatırla. — Rex"
+- Bağ: Crane'in ertelenmiş hırsının panzehri; yumuşak cazibe (anlamsız kaçış riski). Rex (Kirenaik) ↔ Aldo (Epikür).
+
+**📈 Vivian Holt — Yatırımcı — Faydacılık** *(servis NPC'si — fon/ROI, kendi spec'i).* Çekirdek: sonuççu, en çok kişiye en çok mutluluk; Bentham+Mill; amaç toplam artıdaysa aracı haklı çıkarır; tarafsızlık; azınlığı feda riski. Arka plan: samimi sonuççu; bir stüdyoyu kapatıp beşini kurtardı.
+- T1 "Duygu değil, toplam. Beşini sevindirip birini üzen karar doğrudur." · T1 "İyi niyet yetmez, sonucu ölç."
+- T2 "Bir stüdyoyu kapattım, beşini kurtardım; kurucusu düşman oldu, yine yaparım."
+- T3 "Onu yenmek toplamda değer mi, egonu mu doyuruyor?" · T3 "Amaç aracı haklı çıkarır — yeter ki toplam artıda olsun; çoğu kendi acısını fazla tartar."
+- ✉️ İmza: "...her kararı teraziye koy; rakibin kazancı da öbür kefede. Dürüst tart. — V. Holt"
+- Bağ: Vivian (Fayda) ↔ Clara (Kant) merkez tartışma; Vivian ↔ Marta (toplam vs somut kişi); Crane'e "saygın acımasızlık" yolu (Yok Et/Satın Al'a itiş).
+
+### Sıradan / Romantizm / Kasabalı
+> Arka planlar kısa stub — **TODO: birlikte genişletilecek.**
+
+- **🌷 Greta Lund — Çiçekçi** *(sıradan).* Stub: emekli öğretmen, oğlu başkentte. T1 "Laleler patladı, al şu demeti." · T2 "Oğlum pek aramıyor, tezgâh sessiz." · T3 "Sen uğrayınca günüm güzelleşiyor."
+- **🎶 Elise Moreau — Kafe müzisyeni** *(romantizm adayı).* Stub: kasaba sahnesinde çalan genç müzisyen. T1 "Yeni şarkımda stüdyonun adı geçebilir." · T3(flört) "Her uğradığında bir saatim nasıl uçuyor anlamıyorum."
+- **🔬 Daniel Pierce — Deniz biyoloğu** *(romantizm).* Stub: koyu inceleyen sakin bilim insanı. T1 "Yeni bir tür buldum, istersen adını sana veririm." · T3 "Seni çözmek için ömür harcardım."
+- **🏺 Nadia Petrova — Seramikçi** *(romantizm).* Stub: kıyıda atölyeli özgür ruh. T1 "Çamur elimde, çay soğudu — sanat hırsız." · T3 "İlk kez bir şeyi bozmaktan korkuyorum."
+- **🗼 Cassian Vale — Fenerci** *(romantizm).* Stub: münzevi, geceleri yazan. T1 "Işık denize gider, bana karanlık kalır." · T3 "Sen geldiğinden beri ışık içeride de yanıyor."
+- **🥐 Rosa Bianchi — Fırın çırağı** *(romantizm; Aldo'nun yeğeni).* Stub: neşeli, beceriksizce şirin. T1 "Ekmeklerim ya çiğ ya kömür, sen yersin değil mi?" · T3 "En güzel somunu sakladım — aslında bahane."
+- **📰 Iris Lindqvist — Gazeteci** *(romantizm).* Stub: keskin, hırslı, atışmacı. T1 "Röportaj? Yoksa korkuyor musun?" · T3 "Bu hikâyeyi kendime saklasam mı?"
+- **🔧 Bjorn Adler — Tamirci** *(romantizm; Bruno'nun kardeşi).* Stub: az konuşan, eli her işe yatan. T1 "Ne kırıldıysa getir, çoğunu tamir ederim." · T3 "Seni görünce tamir edecek bir şey aramadım, sadece baktım."
+- **💻 Lena Brandt — Genç yazılımcı** *(Felix'in kızı).* Stub: hevesli, yetenekli, güvensiz. T1 "Büyük şirkette oyun mu yapmıştın, vay be." · T2 "Babam 'sağlam iş bul' diyor; yanlış mıyım?"
+- **💻 Sam Okoye — Genç yazılımcı.** Stub: pratik, alaycı, grubun motoru. T1 "Üçüncü prototip de çöktü." · T3 "Bir gün seninle çalışmak isteriz; olduğumuzda ilk sana geliriz."
+- **💻 Milo — Genç yazılımcı.** Stub: hayalperest, sanatçı ruhlu. T1 "Sonu olmayan bir okyanus hayal ediyorum." · T3 "Sen pes etmemişsin; bu bana cesaret veriyor."
+- **📮 Felix Brandt — Postacı** *(mektupları getirir).* T1 "Marta hep soruyor seni." · T3 "Mektupları tartarım — seninkiler hep ağır."
+- **🍺 Hanna Vogel — Hancı.** Stub: kocası denizde kayboldu, hanı kapatmadı. T1 "Kötü gün mü iyi gün mü, aynı kadehi koyarım." · T3 "İlk geldiğinde köşede tek başınaydın; iyileşiyorsun."
+- **🎣 Old Pjotr — İşsiz emekli, iskelede.** T1 "Balık tutar gibi yapıyorum, denize bakmak için." · T2 "Fabrikam battı; boş günün de tadı var."
+- **🧒 Tomas (16) — Hanna'nın oğlu** *(normal genç).* T1 "Annem hanı devralmamı istiyor; sen kaçtın, nasıl yaptın?"
+- **🧒 Pippa (12) — iskele çocuğu** *(normal genç).* T1 "Şehirden gelen adam sensin! Gökdelenler bulutları deliyor mu?"
+- **🏪 Otto Reinhardt — Bakkal.** Stub: somurtkan, gizliden cömert. T1 "Al alacağını, oyalanma." · T2 "Herkes marketten alıyor, ben yine kepenk açıyorum — inat."
+- **👵👴 Wilhelm & Edith Stern — Elli yıllık çift** *(boşanmaya zıtlık).* T1(Edith) "Sırrı yok; her sabah yeniden seçtik birbirimizi." · T2(Wilhelm) "Bin kere kavga ettik; gitmek aklımıza gelmedi."
+- **🐟 Marek — İşsiz eski denizci** *(Søren'in dostu).* T1 "Søren kaptan oldu, ben karaya vurdum." · T2 "İş aramıyorum; sabah kahvem, öğlen güneşim var."
+- **🧶 Liesl — Örgücü, dedikodu merkezi** *(NPC'ler arası söylenti taşır).* T1 "Duydun mu, Rosa'nın gözü birine takılmış... neyse."
+- **🎨 Bea (15) — Duvarlara çizen genç** *(Nadia'ya özenir).* T1 "Nadia gibi sanatçı olacağım; sanat meslek değil mi yani?"
+
+### Aile/Bağ Ağı
+Felix → Lena (kızı) · Hanna → Tomas (oğlu) · Aldo → Rosa (yeğeni) · Bruno → Bjorn (kardeşi) · Søren → Marek (dostu) · Nadia → Bea (usta-çırak) · Greta → başkentteki oğlu · Liesl → herkesi söylentiyle bağlar · Wilhelm & Edith = aşkın kalıcı yüzü. *(Yarn değişkenleri + `npcs.ts` `relations` ile.)*
+
+---
+
+## Test Stratejisi
+- `npcs.ts`/yükleyici: her NPC'nin geçerli meta'sı (id, isim, spot, yarn düğümü) var; tüm `.yarn` dosyaları derleniyor (YarnBound parse hatası yok).
+- `npcStore`: startTalk/endTalk pause'u doğru yönetir; kalp artışı (günde bir) doğru; reset temizler.
+- Kalp eşikleri: düşük kalpte T3 düğümü açılmaz; eşik aşılınca açılır (Yarn `<<if>>` davranışı, runner üzerinden).
+- Mektup: max kalpte imza mektubu inbox'a bir kez düşer (tekrar düşmez).
+- Spike doğrulaması (Task 1): YarnBound `electron-vite build`'de koşar.
+
+## Kapsam Dışı
+- Servis mekanikleri (Avukat/Yatırımcı/Arcade) → kendi spec'leri.
+- Romantizm *arc* mekaniği (buluşma/ilişki ilerleyişi) — Spec A sadece flört repliği; arc sonraki faz.
+- Gezen NPC AI, hediye sistemi, tam Stardew kalp etkinlikleri.
+- Yeni NPC'lerin **tam arka planları** (stub → sonra genişletilecek) ve **ek NPC'ler** (gerektikçe eklenir; sistem buna açık).
+- Oyuncu cinsiyeti yoksa eklenmesi (flört yönü için) — teyit edilecek küçük bağımlılık.
