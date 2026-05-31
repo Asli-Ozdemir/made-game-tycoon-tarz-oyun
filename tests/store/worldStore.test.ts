@@ -40,4 +40,19 @@ describe('worldStore', () => {
     useWorldStore.getState().setLocation(null)
     expect(useWorldStore.getState().currentLocation).toBeNull()
   })
+
+  it('setLocation sahaf set eder', () => {
+    useWorldStore.getState().setLocation('sahaf')
+    expect(useWorldStore.getState().currentLocation).toBe('sahaf')
+  })
+
+  it('setLocation balikci set eder', () => {
+    useWorldStore.getState().setLocation('balikci')
+    expect(useWorldStore.getState().currentLocation).toBe('balikci')
+  })
+
+  it('setLocation pub set eder', () => {
+    useWorldStore.getState().setLocation('pub')
+    expect(useWorldStore.getState().currentLocation).toBe('pub')
+  })
 })
