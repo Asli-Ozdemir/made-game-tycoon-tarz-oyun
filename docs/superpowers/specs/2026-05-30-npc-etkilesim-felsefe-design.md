@@ -216,7 +216,7 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 
 #### Romantizm adayları (12 · 6K/6E)
 
-**🎶 Elise Moreau — Kafe müzisyeni *(K)*.** Akşamları Hanna'nın hanında çalar. Yıllar önce kısa bir süre için gelmişti, denizin akustiğini sevdi, gitmeyi unuttu. İzlediği insanlar hakkında şarkı yazar; "gitmek üzerine" olanı hiç bitiremedi. Sıcaklığının ardında ince bir yalnızlık: kalabalığa söyler, eve tek döner. Flörtü, onu *gerçekten dinleyecek* birine duyduğu özlemi gizler. *Bağ:* Hanna'nın hanında çalar.
+**🎶 Elise Moreau — Kafe müzisyeni *(K · süslü diva)*.** Hanna'nın hanında çalar ama kendini şehrin fazla büyüğü sayar — imajına, şöhretine düşkün; başta küçümseyen, çalımlı. Yıllar önce "keşfedilmeyi" bekleyerek gelmişti, sahne onu burada tuttu. **Gizli derinlik:** yalnız, gerçek bir sanatçı; alkışın ardında kimsenin onu *dinlemediğini* bilir. Kalp arttıkça cila düşer, kırılgan sanatçı görünür. *Bağ:* Hanna'nın hanında çalar.
 
 **🔬 Daniel Pierce — Deniz biyoloğu *(E)*.** Koyu incelemek için geldi, limandaki küçük araştırma istasyonunda çalışır. Nazik, meraklı, insanlarla beceriksiz — gelgit havuzlarıyla aran daha iyi. Akademinin politikasından sahaya kaçtı. Özlemi: sessiz hayretini paylaşacak biri. *Bağ:* Theo ona ilginç balıklar getirir.
 
@@ -238,7 +238,27 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 
 **🌿 Liv Andersen — Bahçıvan *(K)*.** Şehrin serasını işletir, Greta'ya fide yetiştirir. Dingin, şefkatli, yeşil parmaklı; sabırla büyütmeyi bilir. Özlemi: aceleye getirmeyen, birlikte büyüyecek biri. *Bağ:* Greta'ya fide verir.
 
-**🏊 Kai Lindgren — Yüzme hocası/cankurtaran *(E)*.** Sahilin güneşi; her sabah ilk o denize girer. Atletik, neşeli — ama herkesi kurtaranın gizli yorgunluğunu taşır. Özlemi: bir kez de birinin *onu* sudan çıkarması. *Bağ:* Rex'in arcade'i; gençlere (Pippa, Tomas) yüzme öğretir.
+**🏊 Kai Lindgren — Yüzme hocası/cankurtaran *(E · kibirli altın oğlan)*.** Sahilin güneşi ve bunu fazlasıyla bilen biri — çalımlı, kendine hayran, hep kahraman pozunda; herkes baksın diye her sabah ilk o denize girer. **Gizli derinlik:** "kurtaran" olmadığında değersiz hissetmekten korkan, yorgun biri; bir kez de birinin *onu* sudan çıkarmasını ister. *Bağ:* Rex'in arcade'i; Pippa, Tomas'a yüzme öğretir.
+
+#### Romantizm — Tip/Arketip Haritası
+Bekarlar tek tip değil; gerçek insan tipleri gibi geniş yelpaze. Her tip **yüzey → gizli derinlik** (kalp arttıkça açılan büyüme; Stardew mantığı). Arketip = Jung/romans; mizaç = dört mizaç (sanguine/choleric/melancholic/phlegmatic).
+
+| NPC | Tip (arketip · mizaç) | Yüzey | Gizli derinlik |
+|---|---|---|---|
+| Elise | Süslü diva (Femme glam · sanguine) | Kibirli, imaj/şöhret düşkünü, küçümseyen | Yalnız; sahne ardında kırılgan gerçek sanatçı |
+| Iris | Alaycı kariyerci (Cynic · choleric) | Keskin dilli, mesafeli, hırslı | İnce kırılganlık; doğruya tutkuyla bağlı |
+| Sigrid | Sert tomboy (Warrior · choleric/phlegmatic) | Dobra, duygusuz, kimseye muhtaç değil | Derin sadakat; yaslanmaktan korkan yürek |
+| Nadia | Bohem özgür ruh (Creator · sanguine) | Dağınık, kuralsız, manic-pixie | Bağlılığın boğmasından korkar; sadık |
+| Rosa | Güneş-masum (Innocent · sanguine) | Neşeli, beceriksizce şirin, saf | Babasının kaybını taşır; görülmek ister |
+| Liv | Dingin şefaatçi (Caregiver · phlegmatic) | Sakin, sabırlı, toprak ana | İhtiyaçlarını hep erteler; o da büyümek ister |
+| Kai | Kibirli altın oğlan (Charmer/Jock · sanguine) | Kendine hayran, çalımlı, hep kahraman | "Kurtaran" olmazsa değersiz hisseder; yorgun |
+| Cassian | Melankolik kayıp ruh (Lost Soul · melancholic) | Kasvetli, mesafeli, içine kapalı | Yakınlıktan hem korkan hem can atan şair |
+| Daniel | Utangaç profesör (Professor · melancholic/phlegmatic) | Sakar, sosyal beceriksiz | Eşsiz merak ve hayranlık; sadık |
+| Bjorn | Nazik dev (Best Friend · phlegmatic) | Az konuşan, ağır, sade | Görülmek ister (ağabey gölgesi); en sıcak el |
+| Elias | Hevesli şifacı (Caregiver/Idealist · choleric-sanguine) | Fazla idealist, kendini harcayan | Herkesi kurtaramayınca yıkılır; durmayı öğrenmeli |
+| Matteo | Çapkın gönül adamı (Charmer · sanguine) | Herkesle flört eden, bağlanmaktan kaçan | Gerçek bir bağ özler; reddedilmekten korkar |
+
+---
 
 #### Genç geliştiriciler (garaj üçlüsü)
 
