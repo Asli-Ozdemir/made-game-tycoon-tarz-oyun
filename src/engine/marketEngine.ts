@@ -11,6 +11,12 @@ function lerp(a: number, b: number, t: number): number {
 
 // Platforma göre baz pay eğrisi — yıla göre lineer interpolasyon
 export function computeBaseCurve(year: number): Record<string, number> {
+  // Yıl 1 öncesi: başlangıç değerlerini döndür
+  if (year < 1) {
+    const first = CURVE_TABLE[0]
+    return { pc: first.pc, konsol: first.konsol, mobil: first.mobil }
+  }
+
   // Yıl 10 sonrası sabit
   if (year >= 10) {
     const last = CURVE_TABLE[CURVE_TABLE.length - 1]
