@@ -20,8 +20,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 4C — Rakip Arc Senaryosu** | ✅ Bitti | `specs/2026-05-30-faz4c-rakip-arc-senaryo-design.md` | `plans/2026-05-30-faz4c-rakip-arc-senaryo.md` |
 | **Faz 4D-4 — Sequel & DLC** | ✅ Bitti | `specs/2026-05-30-faz4d-4-sequel-dlc-design.md` | `plans/2026-05-30-faz4d-4-sequel-dlc.md` |
 | **Faz 5 — Save/Load Sistemi** | ✅ Bitti | `specs/2026-05-30-save-load-design.md` | `plans/2026-05-30-save-load.md` |
+| **Faz 6A — Ekonomi Temeli** | ✅ Bitti | `specs/2026-05-30-ekonomi-temeli-design.md` | `plans/2026-05-30-ekonomi-temeli.md` |
 
-**Testler:** 186/186 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 219/219 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -54,9 +55,15 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
+### Faz 6A — Ekonomi Temeli Özeti
+
+`economyEngine.ts`: maliyet, efektif fiyat, satış çarpanı hesapları. `economyStore`: haftalık sabit giderler (kira + sunucu + araç), kredi (25.000$, 12 hafta), kriz durumu (4 haftalık süre), platform indirim etkinlikleri (her 13 hafta). `GameProject`'e `price`, `discountPct`, `isOnSale`, `publishTickCount` eklendi. Fiyat seçimi `NewProjectModal`'da; fiyat düşürme `ProjectCard`'da. `scoreEngine` artık `project.price` ve indirim çarpanını kullanıyor. `SaleEventModal` etkinlik katılımı için, `CrisisModal` kurtarma seçenekleri için, `BankruptcyScreen` oyun sonu için. HUD'da haftalık gider + kriz rengi.
+
+---
+
 ## Devam Edilecek: Sıradaki Faz
 
-Brainstorming yapılacak fazlar: **Pazar & Ekonomi derinliği** ve **Oyun sonu / Başarı sistemi**.
+**Faz 6B — Platform & Pazar Dinamikleri + Pazarlama**: konsol/platform seçimi, indie vs AAA pazar, pazarlama kampanyaları, sosyal medya tepkileri.
 
 ---
 
