@@ -7,6 +7,8 @@ import { computePlatformShareMultiplier } from '@/engine/marketEngine'
 import { useTrendStore } from '@/store/trendStore'
 import { useMarketStore } from '@/store/marketStore'
 import { useTimeStore } from '@/store/timeStore'
+import { computePreLaunchMultiplier } from '@/engine/campaignEngine'
+import { useCampaignStore } from '@/store/campaignStore'
 
 interface ScoreOptions {
   reputation: number
@@ -79,6 +81,11 @@ export function calculatePublishResult(
     currentTick <= priceCut.untilTick
   ) ? 1.5 : 1.0
 
+  // Pre-launch kampanya bonusu
+  const preLaunchCampaigns = useCampaignStore.getState().campaigns
+    .filter(c => c.projectId === project.id && c.isPreLaunch && c.isActive)
+  const preLaunchMultiplier = computePreLaunchMultiplier(preLaunchCampaigns)
+
   const salesMultiplier   = platform?.salesMultiplier ?? 1.0
   const fanBaseMultiplier = project.contentType === 'sequel' ? project.fanBaseMultiplier : 1.0
   const sales = Math.round(
@@ -90,6 +97,7 @@ export function calculatePublishResult(
     * featuredMultiplier
     * exclusiveMultiplier
     * priceCutMultiplier
+    * preLaunchMultiplier
     * (score / 50)
     * (1 + opts.reputation / 100)
   )
