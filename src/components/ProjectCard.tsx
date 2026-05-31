@@ -4,6 +4,10 @@ import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import { useProjectStore } from '@/store/projectStore'
 import type { GameProject, SequelProject, DlcProject, UpdateProject } from '@/types'
+import { useCampaignStore } from '@/store/campaignStore'
+import { useTimeStore } from '@/store/timeStore'
+import { CAMPAIGN_CONFIGS } from '@/engine/campaignEngine'
+import type { CampaignType } from '@/engine/campaignEngine'
 
 function hasParent(p: GameProject): p is SequelProject | DlcProject | UpdateProject {
   return p.contentType !== 'standalone'
@@ -49,6 +53,16 @@ interface Props {
 
 export default function ProjectCard({ project, onPublish }: Props) {
   const allProjects = useProjectStore((s) => s.projects)
+
+  const campaigns          = useCampaignStore((s) => s.campaigns)
+  const startCampaign      = useCampaignStore((s) => s.startCampaign)
+  const stopCampaignAction = useCampaignStore((s) => s.stopCampaign)
+  const tickCount          = useTimeStore((s) => s.tickCount)
+
+  const activeCampaignsForProject = campaigns.filter(
+    c => c.projectId === project.id && c.isActive
+  )
+  const canStartCampaign = project.status === 'gelistirme' || project.status === 'yayinlandi'
 
   const progress   = Math.min(100, Math.round((project.weeksElapsed / project.totalWeeks) * 100))
   const isComplete = project.weeksElapsed >= project.totalWeeks && project.status === 'gelistirme'
@@ -144,6 +158,47 @@ export default function ProjectCard({ project, onPublish }: Props) {
         >
           Yayınla!
         </button>
+      )}
+
+      {/* Kampanya bölümü */}
+      {canStartCampaign && (
+        <div className="mt-3 border-t border-gray-700 pt-3">
+          {activeCampaignsForProject.length > 0 ? (
+            <div className="space-y-1">
+              {activeCampaignsForProject.map(c => {
+                const weeksLeft = Math.max(0, c.endTick - tickCount)
+                return (
+                  <div key={c.id} className="flex items-center justify-between text-xs">
+                    <span className="text-yellow-400">
+                      📣 {CAMPAIGN_CONFIGS[c.type].name} — {weeksLeft} hafta kaldı
+                    </span>
+                    <button
+                      onClick={() => stopCampaignAction(c.id)}
+                      className="text-red-400 hover:text-red-300 underline"
+                    >
+                      Durdur
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="flex gap-1 flex-wrap">
+              {(['sosyal', 'influencer', 'billboard'] as CampaignType[]).map(type => {
+                const config = CAMPAIGN_CONFIGS[type]
+                return (
+                  <button
+                    key={type}
+                    onClick={() => startCampaign(project.id, type)}
+                    className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
+                  >
+                    📣 {config.name} {(config.openingCost / 1000).toFixed(0)}K$
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
