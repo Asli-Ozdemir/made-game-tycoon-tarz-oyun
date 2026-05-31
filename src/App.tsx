@@ -6,6 +6,9 @@ import PublishResult from '@/components/PublishResult'
 import CafePanel from '@/components/CafePanel'
 import FairPanel from '@/components/FairPanel'
 import AcademyPanel from '@/components/AcademyPanel'
+import SahafPanel   from '@/components/SahafPanel'
+import BalikciPanel from '@/components/BalikciPanel'
+import PubPanel     from '@/components/PubPanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -201,6 +204,21 @@ export default function App() {
       {currentLocation === 'akademi' && (
         <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
           <AcademyPanel />
+        </div>
+      )}
+      {currentLocation === 'sahaf' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <SahafPanel />
+        </div>
+      )}
+      {currentLocation === 'balikci' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <BalikciPanel />
+        </div>
+      )}
+      {currentLocation === 'pub' && (
+        <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
+          <PubPanel />
         </div>
       )}
 
