@@ -9,6 +9,7 @@ import { useMarketStore } from '@/store/marketStore'
 import { useTimeStore } from '@/store/timeStore'
 import { computePreLaunchMultiplier } from '@/engine/campaignEngine'
 import { useCampaignStore } from '@/store/campaignStore'
+import { useIndustryEventStore } from '@/store/industryEventStore'
 
 interface ScoreOptions {
   reputation: number
@@ -86,6 +87,11 @@ export function calculatePublishResult(
     .filter(c => c.projectId === project.id && c.isPreLaunch && c.isActive)
   const preLaunchMultiplier = computePreLaunchMultiplier(preLaunchCampaigns)
 
+  // Endüstri etkinliği katılım bonusu (max multiplier alınır)
+  const activeEventBonus = useIndustryEventStore.getState().participations
+    .filter(p => p.projectId === project.id && currentTick < p.bonusUntilTick)
+    .reduce((max, p) => Math.max(max, p.salesMultiplier), 1.0)
+
   const salesMultiplier   = platform?.salesMultiplier ?? 1.0
   const fanBaseMultiplier = project.contentType === 'sequel' ? project.fanBaseMultiplier : 1.0
   const sales = Math.round(
@@ -98,6 +104,7 @@ export function calculatePublishResult(
     * exclusiveMultiplier
     * priceCutMultiplier
     * preLaunchMultiplier
+    * activeEventBonus
     * (score / 50)
     * (1 + opts.reputation / 100)
   )
