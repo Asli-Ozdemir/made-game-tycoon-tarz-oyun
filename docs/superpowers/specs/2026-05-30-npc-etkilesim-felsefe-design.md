@@ -91,12 +91,12 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 - T3 "Yenemeyebilirsin, önemi yok; ezilirken bile oyununu yap — asıl isyan bu." · T3 "Zafer de kandırmaca; Sisifos iterken mutludur."
 - ✉️ İmza: "...bugün yine bir oyunum battı, kutluyorum. Sisifos'u mutlu hayal et. — R."
 
-**🕳️ Nina Vex — Tükenmiş dev — Nihilizm** *(cazip boşluk/folyo).* Çekirdek: anlam/değer yok; absürdizm isyan eder, Nietzsche aşar — nihilizm durur. Arka plan: inandığı her şeyin tabloya dönüşmesini izledi.
-- T1 "Çıkar, satar ya da satmaz, unutulur. Her şey gibi." · T1 "İyi iş, kötü iş — sonunda aynı sessizlik."
-- T2 "On yıl inandım, hepsi tabloya döndü. Bıraktım — daha hafifim."
-- T3 (cazip) "Yensen de yenilsen de aynı hiçliğe akıyor; bırak gitsin." · T3 (tehlikeli) "Hiçbir şey önemli değilse, acımasız ol ya da iyi — fark yok."
-- ✉️ İmza: "...Bir gün duracaksın; herkes durur. Dediklerim kötü değil, sessiz gelecek. — N."
-- Bağ: Crane yoluna/pes etmeye iten cazibe; diğerleri ona karşı konuşur.
+**🧪 Yevgeni Volkov — Programcı-analist — Nihilizm (Bazarov tipi)** *(entelektüel meydan okuyucu).* Çekirdek: yalnız madde ve kuvvet gerçek; sanat, duygu, ahlak = kimya + teşvik. Kavgacı, kibirli; Crane'in acımasızlığını entelektüel haklı çıkarır. Arka plan: her şeyi sisteme indirgeyerek parlayan genç; "anlam yanılsamadır"ı kanıtlamaya geldi.
+- T1 "Sanat mı? Beyninde dopamin, gerisi pazarlama." · T1 "Bu şehir bir duygusallık müzesi; inceliyorum."
+- T2 "Babam 'seni özledim' diye yazar — mantıksız bir sevgi. Yine de hepsini saklıyorum."
+- T3 "Senin nehre karşı kürek çekmen sevimli bir yanılsama; nehir kör." · T3 (çatlak) "Burada beklemediğim bir şey hissettim. Kimyasıyla açıklayamıyorum — rahatsız edici."
+- ✉️ İmza: "...anlamsız bir dünyada inatla anlam kuruyorsun, bu beni etkiliyor; formülüm açıklamıyor. — Y. Volkov"
+- Bağ: Crane'in "duygu zayıflık, güç gerçek"ini entelektüel haklı çıkarır (tehlikeli cazibe); ama çatlağı (etkilenmek) onu çürütür. Marta ve Remy karşısında.
 
 **🔧 Bruno Adler — Mühendis — Erdem Etiği (Aristoteles).** Çekirdek: eudaimonia, erdem alışkanlıkla kurulur, altın orta, phronesis. Arka plan: "kirişi incelt" denince reddetti, atıldı; köprü hâlâ ayakta.
 - T1 "Köprü bir günde çökmez, bir günde yükselmez. Her gün bir perçin." · T1 "Mükemmellik eylem değil, alışkanlıktır."
@@ -158,8 +158,8 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 **🌒 Magnus Hale — Yıkık efsane · Nietzsche.** Bu küçük şehirde doğdu — herkesin "fazla" dediği huzursuz çocuk. Genç yaşta şehre gitti, kuralların hepsini yakan bir oyun yaptı; tür tanımlandı, "dahi" diye taçlandırıldı. Sonra aynı kalabalık döndü: fazla radikal, fazla dik, fazla Magnus. Bir skandal, bir tükeniş, ve taç bir ilmeğe döndü. Sürünebileceği tek yer doğduğu şehirdi. Şimdi iskelenin ucundaki çürük bir teknede yaşıyor; geceleri denizin karanlığına bakar — bakar, çünkü oraya düştü ve geri tırmandı. Değerlerini kimse vermedi, kimse alamadı.
 *Detay:* İskeledeki çürük tekne; geceleri denize bakıp mırıldanır. *Tema:* "uçuruma bakarsan o da sana bakar"ı yaşamış; 4C ahlaki aynasını haber verir. *Yerel bağ:* Hanna onu çocukluğundan tanır.
 
-**🕳️ Nina Vex — Tükenmiş geliştirici · Nihilizm.** Bir zamanlar gerçekten inanırdı — oyunların, emeğin, kendisinin önemli olduğuna; yetenekliydi de. Kırılma tek darbeyle değil, yavaş aşınmayla geldi: sevdiği her oyun gelir hunisine döndü, en iyi işi A/B testlerinde lapalaştı, uğruna yandığı proje bir tabloyla iptal edildi. Bir gün hiçbir şey hissetmediğini fark etti; inancı parçalanmadı, buharlaştı. Bu küçük şehre *hiçbir şey olmadığı için* geldi; denizin uçsuz kayıtsızlığı ona dürüst gelen tek şey. Nihilizmini satmaz, boşluğu olduğu gibi söyler — cazibesi de bu. Tek çatlağı: sevdiği o ilk oyunun kopyasını saklar, hiç açmaz; ne silebilir ne oynayabilir.
-*Detay:* Açmadığı, silemediği o eski oyun dosyası — itiraf etmediği son kor. *Tema:* diğerlerinin yanıt verdiği boşluk; pes etmeye / "nasılsa fark etmez"e (Crane'in yolu) iter.
+**🧪 Yevgeni Volkov — Programcı-analist · Nihilizm (Bazarov tipi).** Her şeyi sisteme ve sayıya indirgeyerek hızla parlayan genç bir programcı-analist. Duyguyu denklemden çıkarınca acımasızca etkili oldu; ona göre sevgi, sanat, ahlak yalnızca kimya ve teşvik yapıları. Bu küçük şehre, "anlamın bir yanılsama olduğunu" kanıtlayan bir inceleme yazmak için geldi; duygusal şehirliyi tuhaf bir tür gibi gözlemler, illüzyonlarını eğlence olsun diye söker. Kibirli, keskin, kavgacı — Crane'in acımasızlığını *entelektüel olarak* haklı çıkarmaya çalışır, bu yüzden tehlikelidir. **Çatlağı (Bazarov'un trajedisi):** Şefkatli yaşlı babası ona "oğlum, seni özledim" diye mektuplar yazar; Yevgeni soğuk cevap verir ama hepsini saklar — mantığıyla açıklayamadığı bir sevgi. Ve burada, beklemediği bir şeyden *etkilenir*; materyalizmi bunu açıklayamaz, bu da onu içten sarsar.
+*Detay:* Babasının cevaplamadığı ama sakladığı mektuplar — itiraf etmediği çatlak. *Tema:* Crane'in "duygu zayıflık, güç gerçek"ini entelektüel haklı çıkarır (keskin cazibe); ama "etkilenmek" onu çürütür. Marta (bakım) ve Remy (anlam yaratan absürdizm) tam karşısında.
 
 **🔧 Bruno Adler — Mühendis · Erdem Etiği (Aristoteles) — kök salmış.** Bu küçük şehirde doğdu, hiç ayrılmadı. Babası inşaatçıydı — eski liman duvarını, dereyi geçen köprüyü o ördü; Bruno çocukken yanında harç karıştırdı. Büyüdü, işi devraldı; şimdi şehrin iskeletini o tutuyor: Felix'in geçtiği köprü, Theo'nun dalgakıranı, Søren'in rıhtımı — hepsinde eli var. Şöhretin peşine hiç düşmedi; iyi yaşamı işini iyi yapmakta buldu, her gün bir perçinle. Bir müteahhit "kirişi incelt" diye dayatınca reddetti, sözleşmeyi kaybetti — bina hâlâ ayakta. Genç işçilere ve tamirci kardeşi Bjorn'a ustalık öğretir. Düşmedi, çünkü boş yükseklerin peşine hiç koşmadı.
 *Detay:* Babasından kalan su terazisi; köprü ayağında küçük usta işareti. *Tema:* süreç/karakter sonuçtan önce — Crane'in panzehri. *Yerel bağ:* kardeşi Bjorn; şehri o inşa etti.
@@ -168,7 +168,7 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 *Detay:* Eskimiş hemşire çantası; kimseyi deftere yazmaz. *Tema:* rakamları insanlaştırır; Affet/Birleş'in tohumu. *Eksen:* Marta (bakım) ↔ Clara (adalet). *Yerel bağ:* Magnus, Hanna, Pjotr.
 
 **🎭 Remy Vail — İndie geliştirici · Absürdizm (Camus).** Hiç zirve yapmadı — düşmedi de; inatla hep tabandaydı. Küçük yaşta oyun yapmaya âşık oldu, ilk oyunlarına kendini döktü; dünya umursamadı — flop, ret, sessizlik. Bir kez başkente gidip "başarmayı" denedi, çiğnenip döndü. Bir gece gerçekten bırakacaktı (boşluk çağırıyordu), ama güldü: madem hiçbir şey anlamı garanti etmiyor, anlam borç değil — yapılır. Oyunları kazanmak için değil, *yapmak bir isyan olduğu için* yapacaktı. Şimdi bu küçük şehirde on batık oyunun ardından on birinciye başlıyor. Genç geliştiriciler (Lena, Sam, Milo) ona bakıp cesaret buluyor.
-*Detay:* Rafında kupa gibi dizili on batık oyun; her flopta kadeh kaldırır. *Tema:* zafer yerine isyan — Nina'nın pes edişine ve oyuncunun zafer takıntısına karşı. *Yerel bağ:* genç dev üçlüsünün ilhamı.
+*Detay:* Rafında kupa gibi dizili on batık oyun; her flopta kadeh kaldırır. *Tema:* zafer yerine isyan — Yevgeni'nin "anlam yanılsamadır"ına ve oyuncunun zafer takıntısına karşı. *Yerel bağ:* genç dev üçlüsünün ilhamı.
 
 **⚓ Søren Berg — Liman kaptanı · Varoluşçuluk (Sartre).** Bir donanma ailesine doğdu; babası madalyalı subaydı, rütbesi daha doğmadan yazılmıştı. Otuzuna varmadan komisyon kâğıdı önüne kondu — imzalamadı. Hurda bir tekne alıp tek başına açıldı; ödü kopuyordu ama o korku ilk kez ona aitti. Yıllarca dünyayı dolaştı, her dümen kırışını kendi seçti; sonunda bu küçük şehrin limanına demir attı, şimdi kaptanı o. Yerleşti ama bağlanmadı — kalmayı da seçti. Bahaneye tahammülü yok: "mecbur kaldım" diyene "hayır, seçtin" der. O ilk hurda tekneyi hiç değiştirmedi, yüz kez onardı; seçtiğinin kanıtı.
 *Detay:* Yüz kez onarılmış o ilk tekne. *Tema:* radikal özgürlük; Crane'in "doğanın kanunu" kaderciliğini (kötü niyet) çürütür; 4C'yi özgür seçim olarak çerçeveler. *Yerel bağ:* eski gemi arkadaşı Marek.
@@ -205,10 +205,10 @@ T1: "Naber mi? Naber sıradan insanların sorusu. Yine de otur." · "Gece denize
 T2: "Bir oyun yaptım, kuralları yaktı. 'Efsane' dediler; sonra aynı ağız beni yaktı." · "Zirveden düştüm, doğduğum yere sürünerek döndüm."
 T3: "Canavarlarla dövüşen kendi canavara dönüşmesin. Uçuruma uzun bakarsan, uçurum da sana bakar." · "Onu değil, kendini aş. Düşmanı geçmek kolay; kendini geçmek marifet."
 
-**🕳️ Nina — Nihilizm.**
-T1: "Naber? Fark etmez, ama sorman güzel." · "Bugün de güneş doğdu. Her gün aynı numara." · "Bir şey mi diyecektin? Söyle ya da söyleme — ikisi de olur." · "Deniz büyük, insan küçük. Rahatlatıcı, değil mi?" · "Vakit hep geçer; biz fark edince isim takıyoruz." · "Buraya hiçbir şey olmadığı için geldim. Plana uydu." · "Yorgun değilim, kızgın da. Sadece buradayım."
-T2: "On yıl inandım, hepsi tabloya döndü; bıraktım, daha hafifim." · "İnsanlar boşluğu korkunç sanır. Oysa sessiz. Alışınca rahat."
-T3: "Yensen de yenilsen de aynı hiçliğe akıyor. Bırak gitsin." · "Hiçbir şey önemli değilse, acımasız ol ya da iyi — fark yok." · *(çatlak, nadir)* "Eski bir oyun dosyam var. Açmıyorum, silemiyorum da. ...Neden, bilmiyorum."
+**🧪 Yevgeni Volkov — Nihilizm (Bazarov tipi).**
+T1: "Naber. Vakit kaybı bu sohbet, ama devam et — eğlenceli." · "Sanat mı? Beyninde dopamin, gerisi pazarlama." · "Güzel gün batımı dediğin, gözüne giren foton. Romantizm optik." · "Bu şehir bir duygusallık müzesi; inceliyorum." · "Sevgi, akrabana bağlı bir kimyasal — üreme stratejisi, hepsi bu." · "İnsanlar 'anlam' arar; aslında hayatta kalma içgüdüsünü süslüyorlar."
+T2: "Duyguyu çıkardım, verim arttı; beni acımasızca iyi yaptı bu." · "Babam 'oğlum seni özledim' diye yazar. Mantıksız bir sevgi. ...Yine de hepsini saklıyorum, neden bilmiyorum."
+T3: "Senin 'nehre karşı kürek çekmen' sevimli bir yanılsama; nehir kör, sen önemlisin sanıyorsun." · "Duygu zayıflık, güç gerçektir. Crane bunu anlamış; sen direniyorsun — neden?" · *(çatlak)* "Burada beklemediğim bir şey hissettim. Kimyasıyla açıklayamıyorum. Bu beni rahatsız ediyor, çok."
 
 **🔧 Bruno — Erdem Etiği.**
 T1: "Naber. Elini ver — nasır tutmuş, iyi." · "Şu köprüyü babamla ördük; her sabah kontrol ederim." · "Acele iş yok bende. İyi yapılan iş kendi hızını bilir." · "Bugün bir kiriş düzlüyorum. Doğru açıyı bulunca içim rahat." · "Genç işçiler hızlı olmak ister; önce sağlam olmayı öğretiyorum." · "Ölçü her şey — ne fazla ne eksik. Harçta da, hayatta da." · "Yağmurdan sonra taş başka kokar."
