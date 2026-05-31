@@ -162,7 +162,7 @@ export default function App() {
   const isTycoon = gameMode === 'tycoon'
 
   return (
-    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#1a1a2e' }}>
       <GameCanvas />
 
       {/* HUD — always visible */}
