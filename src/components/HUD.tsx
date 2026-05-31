@@ -8,6 +8,7 @@ import { dateToString } from '@/engine/timeEngine'
 import { useTrendStore } from '@/store/trendStore'
 import { useMarketStore } from '@/store/marketStore'
 import { GENRES } from '@/data/genres'
+import { useCampaignStore } from '@/store/campaignStore'
 
 const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
 
@@ -30,6 +31,10 @@ export default function HUD() {
 
   const popularity      = useTrendStore((s) => s.popularity)
   const openMarketPanel = useMarketStore((s) => s.openMarketPanel)
+
+  const campaigns           = useCampaignStore((s) => s.campaigns)
+  const openCampaignPanel   = useCampaignStore((s) => s.openCampaignPanel)
+  const activeCampaignCount = campaigns.filter(c => c.isActive).length
 
   // En yüksek popülerlikli türü bul
   const trendingGenre = Object.entries(popularity).length > 0
@@ -88,6 +93,18 @@ export default function HUD() {
             🔥 {trendingGenre}
           </span>
         )}
+        <button
+          onClick={openCampaignPanel}
+          title="Pazarlama"
+          className="relative text-gray-400 hover:text-white text-sm px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+        >
+          📣
+          {activeCampaignCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-yellow-500 text-black text-xs w-4 h-4 flex items-center justify-center rounded-full font-bold">
+              {activeCampaignCount}
+            </span>
+          )}
+        </button>
         <button
           onClick={() => openMarketPanel()}
           title="Pazar Analizi"
