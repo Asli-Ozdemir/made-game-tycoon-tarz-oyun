@@ -3,6 +3,10 @@ import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import type { GameDate, GameProject, PublishResult } from '@/types'
 import { computeEffectivePrice, computeSalesMultiplier } from '@/engine/economyEngine'
+import { computePlatformShareMultiplier } from '@/engine/marketEngine'
+import { useTrendStore } from '@/store/trendStore'
+import { useMarketStore } from '@/store/marketStore'
+import { useTimeStore } from '@/store/timeStore'
 
 interface ScoreOptions {
   reputation: number
@@ -52,10 +56,42 @@ export function calculatePublishResult(
   }
 
   const baseSales         = genre?.baseSales ?? 500
+  const trendMultiplier         = useTrendStore.getState().getMultiplier(project.genreId)
+  const platformShare           = useMarketStore.getState().platforms[project.platformId]?.share ?? 50
+  const platformShareMultiplier = computePlatformShareMultiplier(platformShare)
+
+  const currentTick = useTimeStore.getState().tickCount
+
+  // Featured placement bonusu
+  const featuredMultiplier = (
+    project.featuredUntilTick !== null &&
+    currentTick <= project.featuredUntilTick
+  ) ? 1.2 : 1.0
+
+  // Exclusive deal bonusu
+  const exclusiveMultiplier = project.exclusivePlatformId !== null ? 1.4 : 1.0
+
+  // Platform fiyat indirimi bonusu
+  const priceCut = useMarketStore.getState().priceCutActive
+  const priceCutMultiplier = (
+    priceCut !== null &&
+    priceCut.platformId === project.platformId &&
+    currentTick <= priceCut.untilTick
+  ) ? 1.5 : 1.0
+
   const salesMultiplier   = platform?.salesMultiplier ?? 1.0
   const fanBaseMultiplier = project.contentType === 'sequel' ? project.fanBaseMultiplier : 1.0
   const sales = Math.round(
-    baseSales * salesMultiplier * fanBaseMultiplier * (score / 50) * (1 + opts.reputation / 100)
+    baseSales
+    * salesMultiplier
+    * fanBaseMultiplier
+    * trendMultiplier
+    * platformShareMultiplier
+    * featuredMultiplier
+    * exclusiveMultiplier
+    * priceCutMultiplier
+    * (score / 50)
+    * (1 + opts.reputation / 100)
   )
 
   const dlcOverride    = project.contentType === 'dlc' ? project.priceOverride : undefined
