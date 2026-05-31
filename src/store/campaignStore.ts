@@ -80,7 +80,6 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
   weeklyTick: () => {
     const { campaigns, devDiaryBonusUntil, communityBonusUntil } = get()
     const { tickCount, date } = useTimeStore.getState()
-    const gameStore  = useGameStore.getState()
     const projects   = useProjectStore.getState().projects
     const newsStore  = useNewsStore.getState()
     const season     = SEASON_INDEX[date.season] ?? 0
@@ -89,8 +88,8 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
     for (const c of campaigns) {
       if (!c.isActive) continue
       const config = CAMPAIGN_CONFIGS[c.type]
-      gameStore.addMoney(-config.weeklyBudget)
-      gameStore.gainReputation(config.reputationPerWeek)
+      useGameStore.getState().addMoney(-config.weeklyBudget)
+      useGameStore.getState().gainReputation(config.reputationPerWeek)
     }
 
     // 2. Post-launch bonus gelir
@@ -107,7 +106,7 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
         if (tickCount <= (communityBonusUntil[project.id] ?? -1)) {
           bonus = Math.round(bonus * 1.3)
         }
-        if (bonus > 0) gameStore.addMoney(bonus)
+        if (bonus > 0) useGameStore.getState().addMoney(bonus)
       }
     }
 
@@ -115,9 +114,10 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
     const updatedCampaigns = campaigns.map(c =>
       c.isActive && tickCount >= c.endTick ? { ...c, isActive: false } : c
     )
-    set({ campaigns: updatedCampaigns })
 
     // 4. Pasif sosyal olaylar (sadece yayındaki projeler)
+    let nextToast: SocialToast | null = null
+
     for (const project of publishedProjects) {
       if (!project.publishResult) continue
       const score = project.publishResult.score
@@ -134,15 +134,13 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
         )
         for (const campaign of activeCampaigns) {
           const bonus = computePostLaunchBonusRevenue(campaign, project.publishResult.revenue, tickCount)
-          if (bonus > 0) gameStore.addMoney(bonus)
+          if (bonus > 0) useGameStore.getState().addMoney(bonus)
         }
-        set({
-          pendingToast: {
-            type: 'viral',
-            projectName: project.name,
-            message: `"${project.name}" viral oldu! Bu hafta bonus gelir ×2`,
-          },
-        })
+        nextToast = {
+          type: 'viral',
+          projectName: project.name,
+          message: `"${project.name}" viral oldu! Bu hafta bonus gelir ×2`,
+        }
         newsStore.addItem({
           type: 'market_trend',
           rivalId: null,
@@ -151,14 +149,12 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
           season,
         })
       } else if (event === 'review_bomb') {
-        gameStore.gainReputation(-8)
-        set({
-          pendingToast: {
-            type: 'review_bomb',
-            projectName: project.name,
-            message: `"${project.name}" eleştiri bombardımanına uğradı. İtibar -8`,
-          },
-        })
+        useGameStore.getState().gainReputation(-8)
+        nextToast = {
+          type: 'review_bomb',
+          projectName: project.name,
+          message: `"${project.name}" eleştiri bombardımanına uğradı. İtibar -8`,
+        }
         newsStore.addItem({
           type: 'market_trend',
           rivalId: null,
@@ -168,6 +164,9 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
         })
       }
     }
+
+    // Single set at the end
+    set({ campaigns: updatedCampaigns, ...(nextToast !== null ? { pendingToast: nextToast } : {}) })
   },
 
   triggerDevDiary: (projectId) => {
@@ -179,8 +178,9 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
     const project = useProjectStore.getState().projects.find(p => p.id === projectId)
     if (!project || project.status !== 'yayinlandi') return
 
-    useGameStore.getState().addMoney(-2000)
-    useGameStore.getState().gainReputation(5)
+    const game = useGameStore.getState()
+    game.addMoney(-2000)
+    game.gainReputation(5)
 
     set(s => ({
       actionCooldowns:    { ...s.actionCooldowns,    [projectId]: tickCount + 4 },
@@ -210,8 +210,9 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
     const project = useProjectStore.getState().projects.find(p => p.id === projectId)
     if (!project || project.status !== 'yayinlandi') return
 
-    useGameStore.getState().addMoney(-5000)
-    useGameStore.getState().gainReputation(10)
+    const game = useGameStore.getState()
+    game.addMoney(-5000)
+    game.gainReputation(10)
 
     set(s => ({
       actionCooldowns:     { ...s.actionCooldowns,     [projectId]: tickCount + 6 },
