@@ -58,14 +58,25 @@ describe('computePostLaunchBonusRevenue', () => {
 })
 
 describe('rollSocialEvent', () => {
-  it('score >= 80, hasActiveCampaign → viral veya null (deterministik seed)', () => {
-    const result = rollSocialEvent(85, true, 1)
-    expect(['viral', null]).toContain(result)
+  // seededRandom(18) ≈ 0.1275 < 0.15 → viral tetiklenir
+  const viralSeed = 18
+  // seededRandom(11) ≈ 0.0979 < 0.10 → review_bomb tetiklenir
+  const reviewBombSeed = 11
+
+  it('score >= 80, hasActiveCampaign, düşük seed → viral', () => {
+    expect(rollSocialEvent(85, true, viralSeed)).toBe('viral')
   })
 
-  it('score < 40, hasActiveCampaign yok → review_bomb veya null', () => {
-    const result = rollSocialEvent(35, false, 1)
-    expect(['review_bomb', null]).toContain(result)
+  it('score >= 80, hasActiveCampaign, yüksek seed → null', () => {
+    expect(rollSocialEvent(85, true, 1)).toBeNull()
+  })
+
+  it('score < 40, hasActiveCampaign yok, düşük seed → review_bomb', () => {
+    expect(rollSocialEvent(35, false, reviewBombSeed)).toBe('review_bomb')
+  })
+
+  it('score < 40, hasActiveCampaign yok, yüksek seed → null', () => {
+    expect(rollSocialEvent(35, false, 1)).toBeNull()
   })
 
   it('score = 60, herhangi bir kombinasyon → her zaman null (eşik dışı)', () => {

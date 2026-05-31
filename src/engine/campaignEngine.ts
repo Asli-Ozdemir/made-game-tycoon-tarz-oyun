@@ -59,6 +59,11 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x)
 }
 
+const VIRAL_CHANCE        = 0.15
+const REVIEW_BOMB_CHANCE  = 0.10
+const VIRAL_SCORE_THRESHOLD       = 80
+const REVIEW_BOMB_SCORE_THRESHOLD = 40
+
 // Yayın öncesi çarpan — aktif pre-launch kampanya varsa max döner (stack yok)
 export function computePreLaunchMultiplier(campaigns: ActiveCampaign[]): number {
   const active = campaigns.filter(c => c.isPreLaunch && c.isActive)
@@ -82,7 +87,8 @@ export function rollSocialEvent(
   hasActiveCampaign: boolean,
   seed: number
 ): 'viral' | 'review_bomb' | null {
-  if (score >= 80 && hasActiveCampaign && seededRandom(seed) < 0.15) return 'viral'
-  if (score < 40 && !hasActiveCampaign && seededRandom(seed) < 0.10) return 'review_bomb'
+  const rand = seededRandom(seed)
+  if (score >= VIRAL_SCORE_THRESHOLD && hasActiveCampaign && rand < VIRAL_CHANCE) return 'viral'
+  if (score < REVIEW_BOMB_SCORE_THRESHOLD && !hasActiveCampaign && rand < REVIEW_BOMB_CHANCE) return 'review_bomb'
   return null
 }
