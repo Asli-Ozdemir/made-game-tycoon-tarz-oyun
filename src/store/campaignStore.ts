@@ -104,7 +104,7 @@ export const useCampaignStore = create<CampaignStore>((set, get) => ({
         if (tickCount <= (devDiaryBonusUntil[project.id] ?? -1)) {
           bonus = Math.round(bonus * 1.5)
         }
-        if (tickCount < (communityBonusUntil[project.id] ?? -1)) {
+        if (tickCount <= (communityBonusUntil[project.id] ?? -1)) {
           bonus = Math.round(bonus * 1.3)
         }
         if (bonus > 0) gameStore.addMoney(bonus)
