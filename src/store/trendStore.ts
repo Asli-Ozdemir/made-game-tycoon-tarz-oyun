@@ -11,6 +11,7 @@ interface TrendStore {
   initTrends:   () => void
   simulateYear: (year: number, rivalGames: RivalGame[]) => void
   getMultiplier: (genreId: string) => number
+  boostPopularity: (genreId: string, amount: number) => void
   reset:        () => void
 }
 
@@ -102,6 +103,15 @@ export const useTrendStore = create<TrendStore>((set, get) => ({
   getMultiplier: (genreId) => {
     const pop = get().popularity[genreId] ?? 50
     return 0.5 + pop / 100
+  },
+
+  boostPopularity: (genreId, amount) => {
+    set((s) => ({
+      popularity: {
+        ...s.popularity,
+        [genreId]: clamp((s.popularity[genreId] ?? 0) + amount, 0, 100),
+      },
+    }))
   },
 
   reset: () => set({ popularity: {}, previousPopularity: {}, phase: {} }),

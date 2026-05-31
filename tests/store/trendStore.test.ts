@@ -181,3 +181,36 @@ describe('trendStore — reset', () => {
     expect(Object.keys(s.previousPopularity)).toHaveLength(0)
   })
 })
+
+describe('boostPopularity', () => {
+  it('belirtilen türün popülaritesini artırır', () => {
+    useTrendStore.setState({
+      popularity: { aksiyon: 50, rpg: 60 },
+      previousPopularity: {},
+      phase: {},
+    })
+    useTrendStore.getState().boostPopularity('aksiyon', 10)
+    expect(useTrendStore.getState().popularity['aksiyon']).toBe(60)
+    expect(useTrendStore.getState().popularity['rpg']).toBe(60) // değişmedi
+  })
+
+  it('100\'ü aşmaz (clamp)', () => {
+    useTrendStore.setState({
+      popularity: { aksiyon: 95 },
+      previousPopularity: {},
+      phase: {},
+    })
+    useTrendStore.getState().boostPopularity('aksiyon', 20)
+    expect(useTrendStore.getState().popularity['aksiyon']).toBe(100)
+  })
+
+  it('bilinmeyen tür için 0\'dan başlayıp artırır', () => {
+    useTrendStore.setState({
+      popularity: {},
+      previousPopularity: {},
+      phase: {},
+    })
+    useTrendStore.getState().boostPopularity('yeni_tur', 8)
+    expect(useTrendStore.getState().popularity['yeni_tur']).toBe(8)
+  })
+})
