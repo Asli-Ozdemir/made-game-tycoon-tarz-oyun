@@ -1,6 +1,6 @@
 # Proje Durumu — Nerede Kaldık
 
-**Son güncelleme:** 2026-05-30
+**Son güncelleme:** 2026-05-31
 
 Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
 Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
@@ -22,8 +22,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 5 — Save/Load Sistemi** | ✅ Bitti | `specs/2026-05-30-save-load-design.md` | `plans/2026-05-30-save-load.md` |
 | **Faz 6A — Ekonomi Temeli** | ✅ Bitti | `specs/2026-05-30-ekonomi-temeli-design.md` | `plans/2026-05-30-ekonomi-temeli.md` |
 | **Faz 6B — Platform & Pazar Dinamikleri** | ✅ Bitti | `specs/2026-05-30-faz6b-pazar-dinamikleri-design.md` | `plans/2026-05-30-faz6b-pazar-dinamikleri.md` |
+| **Faz 6C — Pazarlama** | ✅ Bitti | `specs/2026-05-31-faz6c-pazarlama-design.md` | `plans/2026-05-31-faz6c-pazarlama.md` |
 
-**Testler:** 236/236 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 254/254 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -68,9 +69,15 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
+### Faz 6C — Pazarlama Özeti
+
+`campaignEngine.ts`: `CAMPAIGN_CONFIGS` (sosyal/influencer/billboard — peşin+haftalık+süre+çarpan), `computePreLaunchMultiplier` (max, stack yok), `computePostLaunchBonusRevenue` (publishRevenue × oran, süresi bitince 0), `rollSocialEvent` (viral: score≥80+kampanya+%15, review_bomb: score<40+kampanyasız+%10). `campaignStore`: `startCampaign` (peşin ödeme+isPreLaunch detect), `weeklyTick` (gider+itibar+bonus gelir+süresi biten+pasif olaylar), `triggerDevDiary` (2K$+itibar+5+cooldown 4h), `triggerCommunity` (5K$+itibar+10+cooldown 6h+2h bonus). `scoreEngine`'e `preLaunchMultiplier` eklendi. `ProjectCard`'a kampanya başlatma/durdurma butonları. `CampaignPanel` 3 sekme (aktif/aksiyonlar/geçmiş). `SocialEventToast` 4s bildirim. HUD'a 📣 butonu + aktif kampanya rozeti.
+
+---
+
 ## Devam Edilecek: Sıradaki Faz
 
-**Faz 6C — Pazarlama**: pazarlama kampanyaları, sosyal medya tepkileri.
+**Faz 7 — Oyun Polisajı**: UI iyileştirmeleri, balans tweaks, müzik/ses efektleri.
 
 ---
 
