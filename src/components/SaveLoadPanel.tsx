@@ -16,6 +16,7 @@ import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useEconomyStore } from '@/store/economyStore'
 import { useMarketStore } from '@/store/marketStore'
 import { useCampaignStore } from '@/store/campaignStore'
+import { useIndustryEventStore } from '@/store/industryEventStore'
 
 type SlotId = 1 | 2 | 3
 
@@ -77,6 +78,7 @@ export default function SaveLoadPanel() {
     useEconomyStore.getState().reset()
     useMarketStore.getState().reset()
     useCampaignStore.getState().reset()
+    useIndustryEventStore.getState().reset()
 
     useSaveStore.getState().initSlots()
     setShowStartScreen(true)

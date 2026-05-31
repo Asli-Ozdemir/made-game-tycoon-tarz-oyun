@@ -9,6 +9,8 @@ import { useTrendStore } from '@/store/trendStore'
 import { useMarketStore } from '@/store/marketStore'
 import { GENRES } from '@/data/genres'
 import { useCampaignStore } from '@/store/campaignStore'
+import { useIndustryEventStore } from '@/store/industryEventStore'
+import { INDUSTRY_EVENTS } from '@/data/industryEvents'
 
 const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
 
@@ -35,6 +37,10 @@ export default function HUD() {
   const campaigns           = useCampaignStore((s) => s.campaigns)
   const openCampaignPanel   = useCampaignStore((s) => s.openCampaignPanel)
   const activeCampaignCount = campaigns.filter(c => c.isActive).length
+  const openIndustryPanel = useIndustryEventStore((s) => s.openPanel)
+  const hasActiveEvent = INDUSTRY_EVENTS.some(
+    e => e.season === date.season && e.week === date.week
+  )
 
   // En yüksek popülerlikli türü bul
   const trendingGenre = Object.entries(popularity).length > 0
@@ -102,6 +108,18 @@ export default function HUD() {
           {activeCampaignCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-yellow-500 text-black text-xs w-4 h-4 flex items-center justify-center rounded-full font-bold">
               {activeCampaignCount}
+            </span>
+          )}
+        </button>
+        <button
+          onClick={openIndustryPanel}
+          title="Etkinlik Takvimi"
+          className="relative text-gray-400 hover:text-white text-sm px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+        >
+          📅
+          {hasActiveEvent && (
+            <span className="absolute -top-1 -right-1 bg-orange-500 text-black text-xs w-4 h-4 flex items-center justify-center rounded-full font-bold">
+              !
             </span>
           )}
         </button>

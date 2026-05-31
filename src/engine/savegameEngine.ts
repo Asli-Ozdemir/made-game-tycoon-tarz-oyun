@@ -14,6 +14,7 @@ import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useMarketStore } from '@/store/marketStore'
 import { useCampaignStore } from '@/store/campaignStore'
+import { useIndustryEventStore } from '@/store/industryEventStore'
 
 export function serialize(): string {
   const gs  = useGameStore.getState()
@@ -89,6 +90,9 @@ export function serialize(): string {
       actionCooldowns:     useCampaignStore.getState().actionCooldowns,
       devDiaryBonusUntil:  useCampaignStore.getState().devDiaryBonusUntil,
       communityBonusUntil: useCampaignStore.getState().communityBonusUntil,
+    },
+    industryEvent: {
+      participations: useIndustryEventStore.getState().participations,
     },
   }
 
@@ -189,6 +193,12 @@ export function deserialize(json: string): void {
     actionCooldowns:     camp.actionCooldowns     ?? {},
     devDiaryBonusUntil:  camp.devDiaryBonusUntil  ?? {},
     communityBonusUntil: camp.communityBonusUntil ?? {},
+  })
+
+  useIndustryEventStore.setState({
+    participations: (s.industryEvent as any)?.participations ?? [],
+    pendingModal:   null,
+    showPanel:      false,
   })
 
   useDayTimeStore.getState().reset()

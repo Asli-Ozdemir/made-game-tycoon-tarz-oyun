@@ -26,8 +26,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 6A — Ekonomi Temeli** | ✅ Bitti | `specs/2026-05-30-ekonomi-temeli-design.md` | `plans/2026-05-30-ekonomi-temeli.md` |
 | **Faz 6B — Platform & Pazar Dinamikleri** | ✅ Bitti | `specs/2026-05-30-faz6b-pazar-dinamikleri-design.md` | `plans/2026-05-30-faz6b-pazar-dinamikleri.md` |
 | **Faz 6C — Pazarlama** | ✅ Bitti | `specs/2026-05-31-faz6c-pazarlama-design.md` | `plans/2026-05-31-faz6c-pazarlama.md` |
+| **Faz 7A — Endüstri Etkinlikleri** | ✅ Bitti | specs/2026-05-31-endustri-etkinlikleri-design.md | plans/2026-05-31-endustri-etkinlikleri.md |
 
-**Testler:** 254/254 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 274/274 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -80,7 +81,7 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ## Devam Edilecek: Sıradaki Faz
 
-**Faz 7 — Oyun Polisajı**: UI iyileştirmeleri, balans tweaks, müzik/ses efektleri.
+**Faz 7B — Oyun Polisajı**: UI iyileştirmeleri, balans tweaks, müzik/ses efektleri. Veya **Faz 7B — Başarımlar & Kilometre Taşları**: oyun içi ödül sistemi, oyuncu motivasyonu.
 
 ---
 
