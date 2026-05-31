@@ -37,6 +37,8 @@ interface BaseProject {
   discountPct:      number | null // aktif indirim oranı (0.25 | 0.50 | 0.75), null = yok
   isOnSale:         boolean       // platform sale eventine katılıyor mu
   publishTickCount: number | null // yayınlandığı timeStore.tickCount; geliştirmede null
+  featuredUntilTick:   number | null  // featured placement aktifken bitiş tick'i
+  exclusivePlatformId: string | null  // exclusive deal kabul edildiyse platform id
 }
 
 export interface StandaloneProject extends BaseProject {

@@ -34,6 +34,8 @@ export function createProject(params: CreateProjectParams): GameProject {
     discountPct: null,
     isOnSale: false,
     publishTickCount: null,
+    featuredUntilTick:   null,
+    exclusivePlatformId: null,
   }
   if (params.contentType === 'sequel') {
     return { ...base, contentType: 'sequel', parentProjectId: params.parentProjectId, fanBaseMultiplier: params.fanBaseMultiplier }
