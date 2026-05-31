@@ -18,6 +18,8 @@ interface ProjectStoreState {
   clearSaleParticipation: () => void
   applyEventEffect: (qualityBonus: number, weekDelay: number) => void
   applyFollowUpEffect: (parentId: string, contentType: 'dlc' | 'guncelleme', scope: ProjectScope) => void
+  setFeaturedUntilTick: (projectId: string, tick: number) => void
+  setExclusivePlatform: (projectId: string, platformId: string) => void
   reset: () => void
 }
 
@@ -144,6 +146,18 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       }),
     }))
   },
+
+  setFeaturedUntilTick: (projectId, tick) => set((state) => ({
+    projects: state.projects.map((p) =>
+      p.id === projectId ? { ...p, featuredUntilTick: tick } : p
+    ),
+  })),
+
+  setExclusivePlatform: (projectId, platformId) => set((state) => ({
+    projects: state.projects.map((p) =>
+      p.id === projectId ? { ...p, exclusivePlatformId: platformId } : p
+    ),
+  })),
 
   reset: () => set({ projects: [] }),
 }))
