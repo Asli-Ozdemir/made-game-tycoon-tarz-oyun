@@ -13,6 +13,7 @@ import { useTrainingStore } from '@/store/trainingStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useMarketStore } from '@/store/marketStore'
+import { useCampaignStore } from '@/store/campaignStore'
 
 export function serialize(): string {
   const gs  = useGameStore.getState()
@@ -82,6 +83,12 @@ export function serialize(): string {
       platforms:          useMarketStore.getState().platforms,
       offerCooldownUntil: useMarketStore.getState().offerCooldownUntil,
       pendingOffer:       useMarketStore.getState().pendingOffer,
+    },
+    campaign: {
+      campaigns:           useCampaignStore.getState().campaigns,
+      actionCooldowns:     useCampaignStore.getState().actionCooldowns,
+      devDiaryBonusUntil:  useCampaignStore.getState().devDiaryBonusUntil,
+      communityBonusUntil: useCampaignStore.getState().communityBonusUntil,
     },
   }
 
@@ -174,6 +181,14 @@ export function deserialize(json: string): void {
     platforms:          mkt.platforms          ?? { pc: { share: 60, reactiveDelta: 0 }, konsol: { share: 30, reactiveDelta: 0 }, mobil: { share: 10, reactiveDelta: 0 } },
     offerCooldownUntil: mkt.offerCooldownUntil ?? 0,
     pendingOffer:       mkt.pendingOffer       ?? null,
+  })
+
+  const camp = (s.campaign as any) ?? {}
+  useCampaignStore.setState({
+    campaigns:           camp.campaigns           ?? [],
+    actionCooldowns:     camp.actionCooldowns     ?? {},
+    devDiaryBonusUntil:  camp.devDiaryBonusUntil  ?? {},
+    communityBonusUntil: camp.communityBonusUntil ?? {},
   })
 
   useDayTimeStore.getState().reset()

@@ -31,6 +31,9 @@ import BankruptcyScreen from '@/components/BankruptcyScreen'
 import { useMarketStore } from '@/store/marketStore'
 import OfferModal from '@/components/OfferModal'
 import MarketPanel from '@/components/MarketPanel'
+import { useCampaignStore } from '@/store/campaignStore'
+import SocialEventToast from '@/components/SocialEventToast'
+import CampaignPanel    from '@/components/CampaignPanel'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -55,6 +58,7 @@ export default function App() {
       useEconomyStore.getState().scheduleSaleEvent()
       useMarketStore.getState().updatePlatformShares()
       useMarketStore.getState().schedulerTick()
+      useCampaignStore.getState().weeklyTick()
       const prevSeason = useTimeStore.getState().date.season
       advance()
       const tickCount = useTimeStore.getState().tickCount
@@ -102,6 +106,7 @@ export default function App() {
   const isInCrisis = useEconomyStore((s) => s.isInCrisis)
   const isBankrupt = useEconomyStore((s) => s.isBankrupt)
   const pendingOffer = useMarketStore((s) => s.pendingOffer)
+  const pendingToast = useCampaignStore((s) => s.pendingToast)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -216,6 +221,8 @@ export default function App() {
 
       {pendingOffer !== null && <OfferModal />}
       <MarketPanel />
+      {pendingToast !== null && <SocialEventToast />}
+      <CampaignPanel />
       {showSavePanel && <SaveLoadPanel />}
     </div>
   )

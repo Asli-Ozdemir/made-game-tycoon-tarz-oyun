@@ -15,6 +15,7 @@ import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useEconomyStore } from '@/store/economyStore'
 import { useMarketStore } from '@/store/marketStore'
+import { useCampaignStore } from '@/store/campaignStore'
 
 type SlotId = 1 | 2 | 3
 
@@ -75,6 +76,7 @@ export default function SaveLoadPanel() {
     useDayTimeStore.getState().reset()
     useEconomyStore.getState().reset()
     useMarketStore.getState().reset()
+    useCampaignStore.getState().reset()
 
     useSaveStore.getState().initSlots()
     setShowStartScreen(true)
