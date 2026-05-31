@@ -5,6 +5,9 @@ import { useWorldStore } from '@/store/worldStore'
 import { useSaveStore } from '@/store/saveStore'
 import { useEconomyStore } from '@/store/economyStore'
 import { dateToString } from '@/engine/timeEngine'
+import { useTrendStore } from '@/store/trendStore'
+import { useMarketStore } from '@/store/marketStore'
+import { GENRES } from '@/data/genres'
 
 const DAY_NAMES = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz']
 
@@ -24,6 +27,20 @@ export default function HUD() {
   const setGameMode = useWorldStore((s) => s.setGameMode)
   const setIsPaused = useDayTimeStore((s) => s.setIsPaused)
   const openSavePanel = useSaveStore((s) => s.openSavePanel)
+
+  const popularity      = useTrendStore((s) => s.popularity)
+  const openMarketPanel = useMarketStore((s) => s.openMarketPanel)
+
+  // En yüksek popülerlikli türü bul
+  const trendingGenre = Object.entries(popularity).length > 0
+    ? (() => {
+        const topEntry = Object.entries(popularity).reduce(
+          (best, [id, pop]) => pop > best.pop ? { id, pop } : best,
+          { id: '', pop: -1 }
+        )
+        return topEntry.id ? (GENRES[topEntry.id]?.name ?? null) : null
+      })()
+    : null
 
   const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
 
@@ -66,6 +83,18 @@ export default function HUD() {
             Masadan Kalk
           </button>
         )}
+        {trendingGenre && (
+          <span className="text-xs text-yellow-400 font-medium">
+            🔥 {trendingGenre}
+          </span>
+        )}
+        <button
+          onClick={() => openMarketPanel()}
+          title="Pazar Analizi"
+          className="text-gray-400 hover:text-white text-sm px-2 py-1 rounded hover:bg-gray-700 transition-colors"
+        >
+          📊
+        </button>
         <button
           onClick={openSavePanel}
           title="Kaydet / Yükle"
