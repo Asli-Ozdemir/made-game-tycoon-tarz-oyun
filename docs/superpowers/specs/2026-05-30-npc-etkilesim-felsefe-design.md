@@ -188,7 +188,7 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 ---
 
 ### Sıradan / Romantizm / Kasabalı
-> Arka planlar kısa stub — **TODO: birlikte genişletilecek.**
+> Aşağıda özet replikler; **genişletilmiş arka planlar bir alttaki "Sıradan/Romantizm/Kasabalı — Genişletilmiş Arka Planlar" bölümünde.** Romantizm adayı toplam **12** (6 kadın / 6 erkek).
 
 - **🌷 Greta Lund — Çiçekçi** *(sıradan).* Stub: emekli öğretmen, oğlu başkentte. T1 "Laleler patladı, al şu demeti." · T2 "Oğlum pek aramıyor, tezgâh sessiz." · T3 "Sen uğrayınca günüm güzelleşiyor."
 - **🎶 Elise Moreau — Kafe müzisyeni** *(romantizm adayı).* Stub: kasaba sahnesinde çalan genç müzisyen. T1 "Yeni şarkımda stüdyonun adı geçebilir." · T3(flört) "Her uğradığında bir saatim nasıl uçuyor anlamıyorum."
@@ -211,6 +211,72 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 - **🐟 Marek — İşsiz eski denizci** *(Søren'in dostu).* T1 "Søren kaptan oldu, ben karaya vurdum." · T2 "İş aramıyorum; sabah kahvem, öğlen güneşim var."
 - **🧶 Liesl — Örgücü, dedikodu merkezi** *(NPC'ler arası söylenti taşır).* T1 "Duydun mu, Rosa'nın gözü birine takılmış... neyse."
 - **🎨 Bea (15) — Duvarlara çizen genç** *(Nadia'ya özenir).* T1 "Nadia gibi sanatçı olacağım; sanat meslek değil mi yani?"
+
+### Sıradan/Romantizm/Kasabalı — Genişletilmiş Arka Planlar
+
+#### Romantizm adayları (12 · 6K/6E)
+
+**🎶 Elise Moreau — Kafe müzisyeni *(K)*.** Akşamları Hanna'nın hanında çalar. Yıllar önce kısa bir süre için gelmişti, denizin akustiğini sevdi, gitmeyi unuttu. İzlediği insanlar hakkında şarkı yazar; "gitmek üzerine" olanı hiç bitiremedi. Sıcaklığının ardında ince bir yalnızlık: kalabalığa söyler, eve tek döner. Flörtü, onu *gerçekten dinleyecek* birine duyduğu özlemi gizler. *Bağ:* Hanna'nın hanında çalar.
+
+**🔬 Daniel Pierce — Deniz biyoloğu *(E)*.** Koyu incelemek için geldi, limandaki küçük araştırma istasyonunda çalışır. Nazik, meraklı, insanlarla beceriksiz — gelgit havuzlarıyla aran daha iyi. Akademinin politikasından sahaya kaçtı. Özlemi: sessiz hayretini paylaşacak biri. *Bağ:* Theo ona ilginç balıklar getirir.
+
+**🏺 Nadia Petrova — Seramikçi *(K)*.** Kıyıda atölyeli özgür ruh; denizi resmeder, yaratırken vakti unutur. Tutmayan bir sanat hayatından sonra buraya yerleşti — burada kimse "pratik ol" demiyor. Özlemi: onu "aklını başına al" demeden seven biri. *Bağ:* genç Bea'ya ustalık eder.
+
+**🗼 Cassian Vale — Fenerci *(E)*.** Feneri bekler; münzevi, melankolik, geceleri yazar. Adını anmadığı bir kayıptan sonra yalnızlığa çekildi. Gemilere yol gösterir, kendi limanını bulamaz. En çok korktuğu şey istediği şey: yakınlık. *Bağ:* fener Søren'in limanına yakın; Marek onu tanır.
+
+**🥐 Rosa Bianchi — Fırın çırağı *(K; Aldo'nun yeğeni)*.** Babası ölünce amcası Aldo büyüttü; ekmek yapmayı öğreniyor. Kayba rağmen güneş gibi, beceriksizce şirin. Özlemi: "Aldo'nun yeğeni"nden fazlası olarak görülmek. *Bağ:* amcası Aldo; Bea ile arkadaş.
+
+**📰 Iris Lindqvist — Gazeteci *(K)*.** Şehrin gazetesini çıkarır, gözü sektörde. Keskin, atışmacı; sertliğinin altında kırılganlık. Oyuncu en iyi hikâyesi — ama habere âşık olabilir. *Bağ:* rakip/Crane haberlerini o duyurur; Vivian'la röportajda atışır.
+
+**🔧 Bjorn Adler — Tamirci *(E; Bruno'nun kardeşi)*.** Ne kırıksa onarır; sessiz, nazik bir dev. Ünlü inşaatçı ağabeyinin gölgesinde, küçük şeyleri onarmaktan memnun. Özlemi: "Bruno'nun kardeşi" değil, kendisi olarak görülmek. *Bağ:* ağabeyi Bruno; Søren'in teknesini onarır.
+
+**🩻 Elias Voss — Genç doktor *(E)*.** Marta'yla aynı muayenehanede; hevesli, uykusuz idealist, kendine bakmayı unutur. Büyük hastanenin "vaka numarası" düzeninden kaçıp buraya geldi. Özlemi: bir kez durup nefes almak, yanında biriyle. *Bağ:* Marta (mentor); Hanna'da geç çorba.
+
+**⚓ Sigrid Holm — Balıkçı *(K)*.** Tekneleri çeker, ağ atar — en güçlü bilek. Dobra, sert kabuk, yumuşak iç. Babası denizciydi; kimseye muhtaç olmamayı ondan öğrendi. Özlemi: zayıflık sanmadan yaslanabileceği biri. *Bağ:* Søren'le atışma; Marek'in eski dostu.
+
+**🍲 Matteo Ricci — Aşçı *(E)*.** Hanna'nın hanının mutfağını çeviren gürültülü, koca yürekli aşçı. Herkesi doyurur, sofra kurmayı sever. Özlemi: sofrasında her akşam aynı kişi. *Bağ:* Hanna (işveren); Aldo & Rosa (aile dostu).
+
+**🌿 Liv Andersen — Bahçıvan *(K)*.** Şehrin serasını işletir, Greta'ya fide yetiştirir. Dingin, şefkatli, yeşil parmaklı; sabırla büyütmeyi bilir. Özlemi: aceleye getirmeyen, birlikte büyüyecek biri. *Bağ:* Greta'ya fide verir.
+
+**🏊 Kai Lindgren — Yüzme hocası/cankurtaran *(E)*.** Sahilin güneşi; her sabah ilk o denize girer. Atletik, neşeli — ama herkesi kurtaranın gizli yorgunluğunu taşır. Özlemi: bir kez de birinin *onu* sudan çıkarması. *Bağ:* Rex'in arcade'i; gençlere (Pippa, Tomas) yüzme öğretir.
+
+#### Genç geliştiriciler (garaj üçlüsü)
+
+**💻 Lena Brandt *(Felix'in kızı)*.** Kendi kendini yetiştirmiş, yetenekli ama güvensiz. Geceleri kod yazar, babasından gizler; Felix "sağlam iş" diye tutturur (gizliden gurur duyar). Oyuncuyu hem "mümkünmüş" kanıtı hem korkutucu ayna görür. *Bağ:* baba Felix; üçlü; Remy'ye hayran.
+
+**💻 Sam Okoye.** Üçlünün pratik motoru; keskin, alaycı, işi bitirir. Sektörün acımasızlığı konusunda gerçekçi; "büyük şehre git" baskısını reddeder, buradan bir şey çıkacağını kanıtlamak ister. Hazır olunca oyuncunun kapısını ilk o çalar. *Bağ:* üçlü.
+
+**💻 Milo.** Hayalperest sanatçı; imkânsız hayaller, titrek beceri, kırılgan özgüven. Oyuncunun inadı ona cesaret verir. En kırılganları. *Bağ:* üçlü; oyuncunun genç hâlinin aynası.
+
+#### Çalışan kasabalılar
+
+**📮 Felix Brandt — Postacı.** Otuz yıldır çantayı taşır; her kapıyı, her sırrı bilir, söylemez. Dünyası kızı Lena; onu "sağlam işe" iter (hayallerin nasıl kırıldığını gördü) ama dergilerini saklar. Artık mektup gitmeyen kapılar sessiz sızısı. Felsefe mektuplarını da o getirir. *Bağ:* kızı Lena.
+
+**🍺 Hanna Vogel — Hancı.** Şehrin kalbi olan hanı işletir. Kocası denizde kayboldu; hanı kapatmadı, "insanların gidecek yeri olmalı". Oğlu Tomas'ı tek büyüttü — o kaçmak, Hanna devralmasını ister. Magnus'u çocukluğundan tanır. *Bağ:* oğlu Tomas; Magnus; Elise çalar; yasında Marta.
+
+**🌷 Greta Lund — Çiçekçi.** Emekli öğretmen; oğlu başkentte, pek aramıyor. Yalnız ama sıcak. Şehrin yetişkinlerinin yarısını çocukken o okuttu (Lena, Tomas, Bea, küçük Magnus). Nazik büyükanne. *Bağ:* başkentteki oğlu; Liv'den fide.
+
+**🏪 Otto Reinhardt — Bakkal.** Somurtkan, gizliden cömert (veresiye yazar, sessizce yiyecek bırakır). Zincirler işini bitirdi, inatla kepenk açar. Dul, hırçın yalnız; itiraf etmediği yumuşak yanı — Pjotr ve Marek'e sessizce ekmek bırakır. *Bağ:* işsizlere gizli yardım; Liesl'le atışma.
+
+**🧶 Liesl — Örgücü.** Herkesin işini bilen şehrin söylenti merkezi (meta: ilişki ağı bilgisini taşır). Dul, yalnız; dedikodu onun bağlı kalma yolu — çoğu zaman aslında insanları kollar. Bütün bağları bilir. *Bağ:* herkesi söylentiyle bağlar; Otto'yla atışır.
+
+#### Yaşlılar / işsizler
+
+**🎣 Old Pjotr.** Küçük atölyesi battı, hem işini hem kimliğini kaybetti; acılaşmak yerine boş günlerde tuhaf bir huzur buldu. İskelede "balık tutar" (asıl niyeti denize bakmak). Oyuncuya didinmeyi bırakmanın resmini gösterir. *Bağ:* sağlığını Marta kollar; Theo'ya komşu; Otto ekmek bırakır.
+
+**🐟 Marek *(Søren'in dostu)*.** Gençliğinde Søren'le aynı gemideydi; Søren kaptan oldu, Marek "karaya vurdu". Kıskanmaz; yaşamayı denizden çok sevdi. Sabah kahvesi, öğlen güneşiyle yetinir — hırsa nazik karşı ses. *Bağ:* Søren; Cassian; Sigrid; Otto.
+
+**👵👴 Wilhelm & Edith Stern.** Elli yıllık evli; aşkın sürebileceğinin canlı kanıtı — sır yok, her sabah birbirini yeniden seçmek. Wilhelm emekli saat ustası, Edith keskin dilli. Gölge: Wilhelm'in hafızası siliniyor; Edith her sabah kendini yeniden tanıtır, Wilhelm her sabah yeniden âşık olur. Oyuncunun boşanmasına dokunaklı karşıtlık. *Bağ:* sağlıklarını Marta kollar; şehrin eski hafızası.
+
+#### Gençler / çocuklar
+
+**🧒 Tomas (16) — Hanna'nın oğlu.** Huzursuz; annesi hanı devralmasını ister, o kaçmak ister — oyuncuyu "gidip bir şey olunabiliyormuş" kanıtı görür. Somurtkan, içi yumuşak; oyunlara meraklı ama kabul etmez. "Kal ya da git"in küçük yankısı. *Bağ:* annesi Hanna; Rex'in arcade'i; Kai yüzme öğretir.
+
+**🧒 Pippa (12) — İskele çocuğu.** Meraklı, durmadan soru soran küçük kâşif. Büyük şehir hakkında gözleri kocaman; oyuncuyu hayret kaynağı belleyip peşine takılır. Yarı öksüz, şehrin ortak çocuğu. Cebinde deniz kabukları. *Bağ:* Pjotr yanında oturtur; Kai yüzme öğretir.
+
+**🎨 Bea (15) — Duvarlara çizen genç.** Hevesli sanatçı; Nadia'ya tapar. Annesi "gerçek meslek" ister, Bea "sanat da meslek" diye direnir. İsyankâr-yaratıcı, kendi sesini arıyor. *Bağ:* Nadia (idol/usta); Rosa (arkadaş).
+
+---
 
 ### Aile/Bağ Ağı
 Felix → Lena (kızı) · Hanna → Tomas (oğlu) · Aldo → Rosa (yeğeni) · Bruno → Bjorn (kardeşi) · Søren → Marek (dostu) · Nadia → Bea (usta-çırak) · Greta → başkentteki oğlu · Liesl → herkesi söylentiyle bağlar · Wilhelm & Edith = aşkın kalıcı yüzü. *(Yarn değişkenleri + `npcs.ts` `relations` ile.)*
