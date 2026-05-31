@@ -28,6 +28,9 @@ import { useEconomyStore } from '@/store/economyStore'
 import SaleEventModal from '@/components/SaleEventModal'
 import CrisisModal      from '@/components/CrisisModal'
 import BankruptcyScreen from '@/components/BankruptcyScreen'
+import { useMarketStore } from '@/store/marketStore'
+import OfferModal from '@/components/OfferModal'
+import MarketPanel from '@/components/MarketPanel'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -50,6 +53,8 @@ export default function App() {
       useEconomyStore.getState().checkCrisis()
       useEconomyStore.getState().tickCrisis()
       useEconomyStore.getState().scheduleSaleEvent()
+      useMarketStore.getState().updatePlatformShares()
+      useMarketStore.getState().schedulerTick()
       const prevSeason = useTimeStore.getState().date.season
       advance()
       const tickCount = useTimeStore.getState().tickCount
@@ -96,6 +101,7 @@ export default function App() {
   const pendingSaleEventModal = useEconomyStore((s) => s.pendingSaleEventModal)
   const isInCrisis = useEconomyStore((s) => s.isInCrisis)
   const isBankrupt = useEconomyStore((s) => s.isBankrupt)
+  const pendingOffer = useMarketStore((s) => s.pendingOffer)
 
   const [toast, setToast] = useState<string | null>(null)
   const toastRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -208,6 +214,8 @@ export default function App() {
         </div>
       )}
 
+      {pendingOffer !== null && <OfferModal />}
+      <MarketPanel />
       {showSavePanel && <SaveLoadPanel />}
     </div>
   )

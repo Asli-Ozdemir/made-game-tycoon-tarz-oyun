@@ -4,6 +4,7 @@ import { computeProjectBonus } from '@/engine/employeeEngine'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useMarketStore } from '@/store/marketStore'
 import type { GameProject, PublishResult, ProjectScope } from '@/types'
 
 interface ProjectStoreState {
@@ -56,6 +57,9 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       ),
     }))
     const project = get().projects.find(p => p.id === id)
+    if (project?.platformId) {
+      useMarketStore.getState().applyReactiveDelta(project.platformId, -3)
+    }
     if (project?.contentType === 'dlc') {
       get().applyFollowUpEffect(project.parentProjectId, 'dlc', project.scope)
     } else if (project?.contentType === 'guncelleme') {

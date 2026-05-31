@@ -12,6 +12,7 @@ import { useEventStore } from '@/store/eventStore'
 import { useTrainingStore } from '@/store/trainingStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useMarketStore } from '@/store/marketStore'
 
 export function serialize(): string {
   const gs  = useGameStore.getState()
@@ -76,6 +77,11 @@ export function serialize(): string {
       isBankrupt:      useEconomyStore.getState().isBankrupt,
       saleEvents:      useEconomyStore.getState().saleEvents,
       nextSaleWeek:    useEconomyStore.getState().nextSaleWeek,
+    },
+    market: {
+      platforms:          useMarketStore.getState().platforms,
+      offerCooldownUntil: useMarketStore.getState().offerCooldownUntil,
+      pendingOffer:       useMarketStore.getState().pendingOffer,
     },
   }
 
@@ -161,6 +167,13 @@ export function deserialize(json: string): void {
     isBankrupt:      eco.isBankrupt      ?? false,
     saleEvents:      eco.saleEvents      ?? [],
     nextSaleWeek:    eco.nextSaleWeek    ?? 13,
+  })
+
+  const mkt = (s.market as any) ?? {}
+  useMarketStore.setState({
+    platforms:          mkt.platforms          ?? { pc: { share: 60, reactiveDelta: 0 }, konsol: { share: 30, reactiveDelta: 0 }, mobil: { share: 10, reactiveDelta: 0 } },
+    offerCooldownUntil: mkt.offerCooldownUntil ?? 0,
+    pendingOffer:       mkt.pendingOffer       ?? null,
   })
 
   useDayTimeStore.getState().reset()
