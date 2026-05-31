@@ -18,6 +18,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 4B — Ara Sahne Sistemi** | ✅ Bitti | `specs/2026-05-29-faz4b-ara-sahne-design.md` | `plans/2026-05-29-faz4b-ara-sahne.md` |
 | **Senaryo — Giriş Sahneleri** | ✅ Bitti | `specs/2026-05-30-senaryo-intro-sahneleri-design.md` | `plans/2026-05-30-senaryo-intro-sahneleri.md` |
 | **Faz 4C — Rakip Arc Senaryosu** | ✅ Bitti | `specs/2026-05-30-faz4c-rakip-arc-senaryo-design.md` | `plans/2026-05-30-faz4c-rakip-arc-senaryo.md` |
+| **Faz 4D-1 — Piyasa & Tür Trendi** | ✅ Bitti | `specs/2026-05-29-faz4d-1-piyasa-trendi-design.md` | `plans/2026-05-29-faz4d-1-piyasa-trendi.md` |
+| **Faz 4D-2 — Random Event Sistemi** | ✅ Bitti | — | `plans/2026-05-30-faz4d-2-random-event.md` |
+| **Faz 4D-3 — Çalışan Gelişimi** | ✅ Bitti | — | `plans/2026-05-30-faz4d-3-calisan-gelisimi.md` |
 | **Faz 4D-4 — Sequel & DLC** | ✅ Bitti | `specs/2026-05-30-faz4d-4-sequel-dlc-design.md` | `plans/2026-05-30-faz4d-4-sequel-dlc.md` |
 | **Faz 5 — Save/Load Sistemi** | ✅ Bitti | `specs/2026-05-30-save-load-design.md` | `plans/2026-05-30-save-load.md` |
 | **Faz 6A — Ekonomi Temeli** | ✅ Bitti | `specs/2026-05-30-ekonomi-temeli-design.md` | `plans/2026-05-30-ekonomi-temeli.md` |
