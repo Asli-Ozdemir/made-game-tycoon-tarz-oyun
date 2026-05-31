@@ -49,10 +49,18 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
 
   publishProject: (id, result) => {
     const tickCount = useTimeStore.getState().tickCount
+    const year = useTimeStore.getState().date.year
     set((s) => ({
       projects: s.projects.map((p) =>
         p.id === id
-          ? { ...p, status: 'yayinlandi', publishResult: result, publishTickCount: tickCount }
+          ? {
+              ...p,
+              status: 'yayinlandi',
+              publishResult: result,
+              publishTickCount: tickCount,
+              publishYear: year,
+              publishScore: result.score,
+            }
           : p
       ),
     }))

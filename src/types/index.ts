@@ -39,6 +39,8 @@ interface BaseProject {
   publishTickCount: number | null // yayınlandığı timeStore.tickCount; geliştirmede null
   featuredUntilTick:   number | null  // featured placement aktifken bitiş tick'i
   exclusivePlatformId: string | null  // exclusive deal kabul edildiyse platform id
+  publishYear?:  number   // yayınlandığı oyun yılı (timeStore.date.year)
+  publishScore?: number   // publish anındaki nihai skor
 }
 
 export interface StandaloneProject extends BaseProject {
