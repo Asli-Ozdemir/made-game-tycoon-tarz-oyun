@@ -11,6 +11,10 @@ import { useProjectStore } from '@/store/projectStore'
 import { useNewsStore } from '@/store/newsStore'
 import { useTrendStore } from '@/store/trendStore'
 
+const SEASON_INDEX: Record<string, number> = {
+  ilkbahar: 0, yaz: 1, sonbahar: 2, kis: 3,
+}
+
 export interface EventParticipation {
   eventId:         string
   projectId:       string
@@ -69,14 +73,15 @@ export const useIndustryEventStore = create<IndustryEventStore>((set, get) => ({
             rivalId: null,
             text: `🏆 "${winner.name}" Yılın Oyunu seçildi!`,
             year: thisYear,
-            season: 3,
+            season: SEASON_INDEX[date.season] ?? 0,
           })
         }
       } else {
         // Non-award: modal tetikle
         nextModal = event.id
 
-        // Pasif boost (sadece focusGenres doluysa)
+        // Pasif boost: sadece focusGenres doluysa. indie fuarlarının focusGenres=[]
+        // olduğundan bu guard onları atlar (tasarım gereği).
         if (event.focusGenres.length > 0 && event.passivePopBoost > 0) {
           for (const genreId of event.focusGenres) {
             useTrendStore.getState().boostPopularity(genreId, event.passivePopBoost)
@@ -147,7 +152,7 @@ export const useIndustryEventStore = create<IndustryEventStore>((set, get) => ({
       rivalId: null,
       text: `"${project.name}" — ${event.name} ${config.type} sunumu yapıldı!`,
       year: date.year,
-      season: ['ilkbahar', 'yaz', 'sonbahar', 'kis'].indexOf(date.season),
+      season: SEASON_INDEX[date.season] ?? 0,
     })
 
     set(s => ({ participations: [...s.participations, participation] }))

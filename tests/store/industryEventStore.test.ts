@@ -10,6 +10,7 @@ import { useTrendStore } from '@/store/trendStore'
 beforeEach(() => {
   useIndustryEventStore.getState().reset()
   useGameStore.setState({ money: 100000, reputation: 30, totalPublished: 0 })
+  useProjectStore.setState({ projects: [] })
   useTrendStore.setState({ popularity: { strateji: 50, simulasyon: 50, bulmaca: 50, aksiyon: 50, rpg: 50 }, previousPopularity: {}, phase: {} })
   useNewsStore.setState({ items: [], unreadCount: 0 })
 })
