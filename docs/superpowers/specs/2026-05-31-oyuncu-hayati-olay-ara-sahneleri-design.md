@@ -28,19 +28,31 @@ Bu sahneler **yıllık değil, durum değişimine** tetiklenir (para düşünce,
 ### Eski Eş ipliği
 Kovulmada bizi "başka biri var" deyip terk eden eş, yıllar sonra geri döner — kötü değil, hayat gibi.
 
-- **`eski_es_dugun`** *(tetik: `player_romance_*` set + yearsElapsed ≥ ~5)* — Felix davetiye getirir; oyuncu giderse:
-  - Eski Eş: "Geldin demek. Çağırmaya çekindim... ama gelmeni istedim."
-  - {{playerName}}: "Davetiyeyi görünce şaşırdım. Yine de buradayım."
-  - Eski Eş: "Mutlu görünüyorsun. Yanındaki sana yakışmış."
-  - Eski Eş: "O zaman seni bekleyemedim. Özür dilemeyeceğim — ama pişman da değilim. İkimiz de doğru yere vardık."
-  - {{playerName}}: "Vardık. Farklı teknelerle, aynı limana."
-  - Eski Eş: "...Bir dans? Eski bir dost olarak, bir kez." · {{playerName}}: "Bir kez."
-  - *(Bekar varyantı: oyuncu yalnız gider, daha melankolik — opsiyonel.)*
+**Profil/ses:** O dönem yalnızlığa ve ihmale dayanamadı, başkasına gitti; yıllar sonra yoluna girdi. Dürüst, sıcak ama suçluluk taşıyan; özür dilemez, inkâr da etmez — "ikimiz de doğru yere vardık" diyen olgunluk. *(İsim generic "Eski Eş"; kovulmadaki "Eş" ile tutarlı.)* Üç beat'lik arc: **para → düğün → son mektup.**
 
-- **`eski_es_para`** *(tetik: erken oyun `yearsElapsed ≤ ~3` + `money` kritik eşik altı)* — Felix zarf getirir:
-  - Eski Eş (mektup): "{{playerName}}, gururun var biliyorum. Ama aç kalmanı izleyemem. Borç say, istersen hiç geri verme. Hâlâ bir yerimde duruyorsun."
-  - {{playerName}}: "Geri yollamalıyım. ...Yollayamıyorum. Şimdilik."
-  - Etki: opsiyonel küçük `gameStore.addMoney(+X)` (gri yardım).
+- **`eski_es_para`** *(tetik: erken oyun `yearsElapsed ≤ ~3` + `money` kritik eşik altı)* — gurur vs yardım. Felix zarf getirir:
+  - Felix: "Sana bir zarf var. Gönderen... eski adresinden. Açayım mı, götüreyim mi?"
+  - {{playerName}}: "...Bırak."
+  - Eski Eş (mektup): "{{playerName}}. Battığını duydum — bu küçük şehirde her şey duyulur. İçinde biraz para var. Gururun var; borç de, hiç geri verme de. Sadece aç kalmanı izleyemem. Seni hâlâ bir yerimde taşıyorum — istemesem de."
+  - {{playerName}}: "Geri yollamalıyım. ...Kira yarın. Yollayamıyorum."
+  - {{playerName}}: "Teşekkür bile edemiyorum. Belki bir gün."
+  - Etki: küçük `gameStore.addMoney(+X)` (gri yardım); flag `eski_es_para_alindi`.
+
+- **`eski_es_dugun`** *(tetik: `player_romance_*` set + yearsElapsed ≥ ~5)* — Felix davetiye getirir; oyuncu giderse:
+  - Eski Eş: "Geldin demek. Çağırırken elim titredi; ama gelmeni istedim, başka türlü olmazdı."
+  - {{playerName}}: "Davetiyeyi görünce uzun düşündüm. Yine de buradayım."
+  - Eski Eş: "Mutlu görünüyorsun. Yanındaki sana yakışmış — gözlerin daha sakin artık."
+  - {{playerName}}: "Sen de mutlu görünüyorsun. Sonunda ikimiz de."
+  - Eski Eş: "O zaman seni bekleyemedim; yalnızlık ağırdı, sen hep ekrandaydın. Özür dilemeyeceğim — ama pişman da değilim. İkimiz de doğru yere vardık."
+  - {{playerName}}: "Vardık. Farklı teknelerle, aynı limana."
+  - Eski Eş: "...Bir dans? Eski bir dost olarak, bir kez. Sonra herkes kendi sofrasına." · {{playerName}}: "Bir kez."
+  - *(Bekar varyantı, opsiyonel: "Yalnız geldin... üzülme, ben de uzun yalnız kaldım. Birini bulacaksın." — daha melankolik.)*
+
+- **`eski_es_son_mektup`** *(tetik: geç oyun / `arcEnd` yakını)* — kapanış:
+  - Eski Eş (mektup): "{{playerName}}. Yıllar oldu. O düğünde dans ettiğimiz günü hatırlıyorum bazen. İkimiz de yaşlandık, ikimiz de yola devam ettik. Sana hiç kızmadım — sadece korkmuştum. Umarım o ev seni iyileştirdi. Tuz hâlâ aynı kokuyor mu?"
+  - {{playerName}}: *(mektubu katlar, çekmeceye koyar)* "Kokuyor. Hâlâ kokuyor."
+
+**Bağlar:** "tuz kokusu" → kovulma sahil evine callback; saklanan mektup → "saklanan nesne" motifi (Marcus/Nina/Clara); "farklı teknelerle aynı limana" → su/Søren teması.
 
 ### A) Çocuk anları *(koşul: `childIds` dolu — C1)*
 - **`cocuk_ilk_kelime`:** {{playerName}}: "İlk kelimesi 'baba/anne' olur sanmıştım." · Çocuk: "...Deniz." · {{playerName}}: "Deniz. Tabii — bu evin ilk öğrettiği şey."
