@@ -21,8 +21,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 4D-4 — Sequel & DLC** | ✅ Bitti | `specs/2026-05-30-faz4d-4-sequel-dlc-design.md` | `plans/2026-05-30-faz4d-4-sequel-dlc.md` |
 | **Faz 5 — Save/Load Sistemi** | ✅ Bitti | `specs/2026-05-30-save-load-design.md` | `plans/2026-05-30-save-load.md` |
 | **Faz 6A — Ekonomi Temeli** | ✅ Bitti | `specs/2026-05-30-ekonomi-temeli-design.md` | `plans/2026-05-30-ekonomi-temeli.md` |
+| **Faz 6B — Platform & Pazar Dinamikleri** | ✅ Bitti | `specs/2026-05-30-faz6b-pazar-dinamikleri-design.md` | `plans/2026-05-30-faz6b-pazar-dinamikleri.md` |
 
-**Testler:** 219/219 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 236/236 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -61,9 +62,15 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
+### Faz 6B — Platform & Pazar Dinamikleri Özeti
+
+`marketEngine.ts`: `computeBaseCurve` (yıl 1→10 PC/Konsol/Mobil lineer eğrisi, sonrası sabit), `computeNormalizedShares` (clamp ±15, normalize toplam=100), `computePlatformShareMultiplier` (pay>50→bonus, pay<20→ceza, 20-50→1.0), `decayReactiveDelta` (%20 sönümleme). `marketStore`: haftalık pay güncellemesi, reaktif delta (`applyReactiveDelta` proje yayınında -3 uygular), fırsat sistemi (exclusive/featured/price_cut, %12/hafta, 8 hafta cooldown). `scoreEngine`'e trend × platformShare × featured × exclusive × priceCut çarpanları eklendi. `MarketPanel` 3 sekme: platform payları bar grafik, tür trendleri doluluk + durum etiketi, fırsatlar kartı. `OfferModal` ESC'siz zorunlu karar ekranı. HUD'a 🔥 trending tür rozeti + 📊 butonu.
+
+---
+
 ## Devam Edilecek: Sıradaki Faz
 
-**Faz 6B — Platform & Pazar Dinamikleri + Pazarlama**: konsol/platform seçimi, indie vs AAA pazar, pazarlama kampanyaları, sosyal medya tepkileri.
+**Faz 6C — Pazarlama**: pazarlama kampanyaları, sosyal medya tepkileri.
 
 ---
 
