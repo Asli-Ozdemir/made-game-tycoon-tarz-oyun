@@ -187,6 +187,71 @@ NPC ağı oyuncunun asıl sorusuna çok sesli yanıt: her felsefe Crane'e/mücad
 
 ---
 
+### Felsefe NPC'leri — Genişletilmiş Replik Havuzları
+> Stardew yapısı: bol **günlük (T1, kalp<2, $day'e göre döner)** kısa replik + **kişisel (T2, kalp≥2)** + **derin/öğüt (T3, kalp≥4)**. Kısa replikler bile karaktere göre renklenir. Mektuplar yukarıdaki imza mektuplarıdır.
+
+**📚 Marcus — Stoacılık.**
+T1: "Naber? Otur istersen, çay demledim." · "Bugün deniz durgun. Okumaya iyi gün." · "Yeni bir kutu kitap geldi, daha açmadım." · "Sabahın bu saatini severim — kimse gelmeden önce." · "Şu rafı üçüncü kez diziyorum. İşim değil, huzurum." · "Yağmur gelecek; kemiklerim kitaplardan önce haber verir." · "Bir şey mi arıyorsun, yoksa denize mi bakıyorsun? İkisi de olur."
+T2: "Ben de zirvedeydim. Bir çöküş, bir ihanet... Kırılmadım, sadeleştim." · "Eski ortağım başarısının kupürlerini yollar. Okur, rafa kaldırırım. Kin yorucu."
+T3: "Hiçbir şey, üzerine anlam yüklenmedikçe iyi ya da kötü değildir — sadece bir deneyim." · "Peşindekinden nefret etmek, zincirini kendi boynuna takmaktır."
+
+**🪶 Theo — Taoizm.**
+T1: "Naber. Otur, su seni de yavaşlatsın." · "Balık var mı? Bilmiyorum, sormadım. Önemi de yok." · "Bak şu dalgaya — hiç acelesi yok, yine de kıyıya varıyor." · "Ağ yine yırtıldı. Onaracağım, ne zaman olursa." · "Güneş nereye giderse oraya bakarım. Plan yapmam." · "Rüzgâr döndü. Bugün başka türlü bir gün demek." · "Acelen mi var? Acele eden vardığı yeri göremez."
+T2: "Bir kulede oturdum, zirvede. Bir gün kalemi bıraktım, çıktım — sadece aktım." · "'Nasıl bıraktın' derler. Bırakmadım; su beni taşıdı, ben karşı koymayı bıraktım."
+T3: "Seni sıkıştıran güce kürekle değil suyla karşılık ver. Su zorlamaz ama dağı deler." · "Didinmeyi bırak demiyorum — doğru anı bekle, sonra tek hamle yeter."
+
+**🌒 Magnus — Nietzsche.**
+T1: "Naber mi? Naber sıradan insanların sorusu. Yine de otur." · "Gece denize bağırdım yine. Cevap vermedi — saygı duyarım." · "Şu martıya bak. Özgür sanıyorsun; balığın kölesi aslında." · "Uyumadım. Uyku ölümün ödünç hâli, fazla geliyor." · "Şu çürük tekne benim sarayım. Batmıyor — inadına." · "Bugün hiçbir şey yapmadım. Bazen en dürüst gün odur." · "Bana deli diyorlar. Deli, herkesin görmezden geldiğini yüksek sesle söyleyendir."
+T2: "Bir oyun yaptım, kuralları yaktı. 'Efsane' dediler; sonra aynı ağız beni yaktı." · "Zirveden düştüm, doğduğum yere sürünerek döndüm."
+T3: "Canavarlarla dövüşen kendi canavara dönüşmesin. Uçuruma uzun bakarsan, uçurum da sana bakar." · "Onu değil, kendini aş. Düşmanı geçmek kolay; kendini geçmek marifet."
+
+**🕳️ Nina — Nihilizm.**
+T1: "Naber? Fark etmez, ama sorman güzel." · "Bugün de güneş doğdu. Her gün aynı numara." · "Bir şey mi diyecektin? Söyle ya da söyleme — ikisi de olur." · "Deniz büyük, insan küçük. Rahatlatıcı, değil mi?" · "Vakit hep geçer; biz fark edince isim takıyoruz." · "Buraya hiçbir şey olmadığı için geldim. Plana uydu." · "Yorgun değilim, kızgın da. Sadece buradayım."
+T2: "On yıl inandım, hepsi tabloya döndü; bıraktım, daha hafifim." · "İnsanlar boşluğu korkunç sanır. Oysa sessiz. Alışınca rahat."
+T3: "Yensen de yenilsen de aynı hiçliğe akıyor. Bırak gitsin." · "Hiçbir şey önemli değilse, acımasız ol ya da iyi — fark yok." · *(çatlak, nadir)* "Eski bir oyun dosyam var. Açmıyorum, silemiyorum da. ...Neden, bilmiyorum."
+
+**🔧 Bruno — Erdem Etiği.**
+T1: "Naber. Elini ver — nasır tutmuş, iyi." · "Şu köprüyü babamla ördük; her sabah kontrol ederim." · "Acele iş yok bende. İyi yapılan iş kendi hızını bilir." · "Bugün bir kiriş düzlüyorum. Doğru açıyı bulunca içim rahat." · "Genç işçiler hızlı olmak ister; önce sağlam olmayı öğretiyorum." · "Ölçü her şey — ne fazla ne eksik. Harçta da, hayatta da." · "Yağmurdan sonra taş başka kokar."
+T2: "Bir müteahhit 'kirişi incelt' dedi; inceltmedim, attılar. Köprü hâlâ ayakta." · "Babam derdi: bir taşı gizlice yanlış koyarsan önce kendin çürürsün."
+T3: "İki yanlış var: korkup sinmek ya da öfkeyle acımasızlaşmak. Erdem ortada — cesaret." · "Onu yenmek değil, yenerken kim olduğunu korumak önemli."
+
+**🩺 Marta — Bakım Etiği.**
+T1: "Naber? Dur bakayım yüzüne... iyi görünmüyorsun. Su içtin mi?" · "Geç de olsa uğradın. Otur, ayakta dikilme." · "Sabah Pjotr'a baktım, yine üşütmüş." · "Eller soğuk; battaniye var." · "İyi uyudun mu? Gözlerin söylüyor, yalan söyleme." · "Bir çayı hak ettin. Otur, ben koyarım." · "Bütün gün başkalarına baktım; sıra sende. Nasılsın, gerçekten?"
+T2: "Annem hastalanınca kaldım; bence kazandım — bağ, gidilen yoldan kıymetli." · "Çökenlere 'kaynak' diyorlarmış; ben titreyen ellerini tuttum. Tablo titremez, insan titrer."
+T3: "Sana kötülük eden de kırılmış biri. Canavar sanırsan sen de katılaşırsın. İnsan kal." · "Onu yenerken yanındakini kaybetme." · "Herkese bakan sen — yığılırsan kim tutacak elini? Kendine de bak."
+
+**🎭 Remy — Absürdizm.**
+T1: "Naber! On birinci oyuna başladım. Batarsa rekor." · "Dün gece bir bug buldum, üç saat güldüm." · "Kahve mi içtin? Ben altıncıdayım." · "Şu rafa bak — on batık oyun, kupalarım." · "Bugün hiçbir şey satmadım. Neyse, devam." · "Fikir mi? Bin tane var, hepsi kötü; biri parlar bazen." · "Evren bugün de cevap vermedi; inadına bir satır daha yazdım."
+T2: "Bir gece bırakacaktım, boşluk çağırıyordu. Sonra güldüm — madem anlam yok, ben koyarım." · "Başkente gidip 'başarmayı' denedim, çiğnenip döndüm. En iyi kararımdı."
+T3: "Yenemeyebilirsin; önemi yok. Ezilirken bile oyununu yap — asıl isyan bu." · "Zafer de kandırmaca; Sisifos iterken mutludur."
+
+**⚓ Søren — Varoluşçuluk.**
+T1: "Naber. Gelgit dönüyor — otur, dümen başında bekleyemem." · "Üç gemi geç yanaştı, üçü de rüzgârı suçladı. Rüzgâr suçlanmaz." · "Deniz durgun; aldanma, en sakin su en derinidir." · "Şu tekneyi yüz kez onardım, yenisini almadım." · "Pusulaya her zaman güvenme." · "Marek geçti sabah, kahve içtik." · "Hava neyse o. Sen rotanı sor kendine."
+T2: "Babam donanmaya yazdırmıştı; imzalamadım, kendi teknemi aldım. O korku ilk kez bana aitti." · "Yıllarca başkasının rotasını tuttum; tutan da bendim, kabul etmiyordum."
+T3: "'Akıntı böyle, elimden gelmez' diyen yalan söylüyor. Akıntı karar vermez, sen verirsin." · "Sen mi seçtin, 'mecbur kaldım' deyip mi yaptın? İlki özgür kılar."
+
+**⚖️ Clara — Kant.**
+T1: "Naber. Sözleşme mi getirdin, sohbet mi? İkisine de bakarım." · "Sabah üç haksızlık düzelttim. İyi bir gün." · "İmzanı atmadan oku." · "Çayım var ama bardak az; adil bölüşürüz." · "Dün küçük bir geliştiriciye bedava sözleşme yazdım." · "Şu dolap benim hafızam; hiçbir sözü unutmam." · "Gün düzgün geçti — kimse aldatılmadı."
+T2: "Bir geliştiricinin hakkını gömmemi istediler; dosyayı kapattım, çıktım." · "Yarım dosyayı çekmecede tutarım — çizgiyi unutmamak için."
+T3: "Onu yenmek için onun yöntemini kullanma. İnsanları basamak yaparsan elinde sadece basamak kalır." · "Herkes senin yaptığını yapsa nasıl bir dünya? Kötüyse yapma; bazı zaferlerin bedeli onurundur."
+
+**🍞 Aldo — Epikürcülük.**
+T1: "Naber! Gel, fırın sıcak. Al şu somunu." · "Kahvaltı ettin mi? Etmedin, yüzünden belli." · "Bugün tarçınlı yaptım, koku sokağa yayıldı." · "Rosa'nın ekmeği yine yandı, gülüyoruz." · "Sıcak ekmek, peynir, bir dost — başka ne lazım?" · "Fazladan somun pişirdim, kapıya koydum; ihtiyacı olan alır." · "Acele etme, çay demleniyor."
+T2: "Yıldız peşinde mutsuzdum; kardeşim ölünce anladım, ödüller karın doyurmuyor." · "Rosa'nın gülüşü, kazandığım tüm yıldızlardan parlak."
+T3: "İhtiyacın mı var, korkun mu konuşuyor? Şan, güç — dipsiz kuyu." · "Huzurunu onun terazisine koyma. Ölümden değil, eksikten korkarım ben."
+
+**🕹️ Rex — Kirenaik Hedonizm.**
+T1: "Naber kanka! Yeni makine geldi, dene hadi!" · "Hayat kısa, jeton bol. Bir tur at." · "Bugünün rekorunu ben kırdım, yine." · "Müzik, ışık, gümbürtü — işte bu!" · "Dün ne yaptım hatırlamıyorum, yarın umurumda değil." · "Para geldi gitti, yine gelir; bu geceyi yaşayamazsın ama." · "Kapatma saati geldi neredeyse... bir tur daha ama."
+T2: "Sahnelerdeydim, kalabalık adımı bağırırdı. Biriktirmedim, pişman değilim." · "Sahne küçüldü; yıkılmadım, kendi köşemi kurdum."
+T3: "Hayatını gelecek bir zafere rehin veriyorsun. Ya o gün gelmezse?" · "Onu yendiğin gün mutlu olacağını sanıyorsun — yanılıyorsun. Mutluluk ertelenmez."
+
+**📈 Vivian — Faydacılık.**
+T1: "Naber. Vaktim kısıtlı ama iyi fikre vakit var. Anlat." · "Bu şehir yavaş, açıkçası dinlendirici." · "Bir stüdyo gördüm; üçünü eledim, birini fonladım. Matematik." · "Kahve içerim ama hızlı." · "İyi niyet güzel, bilanço daha güzel." · "Iris yine röportaj istedi; keskin kız." · "Günün toplamı artıdaysa iyi gündür."
+T2: "Başta bir dostun stüdyosunu sevgiden kurtarmaya çalıştım; beş stüdyoyu götürdü. Bir yüze şefkat, yüze ihanet olabilir." · "Hâlâ o dostun adını anarım; terazimi o katılaştırdı."
+T3: "Onu yenmek toplamda değer mi, egonu mu doyuruyor?" · "Amaç aracı haklı çıkarır — yeter ki toplam artıda olsun; çoğu kendi acısını fazla tartar."
+
+---
+
 ### Sıradan / Romantizm / Kasabalı
 > Aşağıda özet replikler; **genişletilmiş arka planlar bir alttaki "Sıradan/Romantizm/Kasabalı — Genişletilmiş Arka Planlar" bölümünde.** Romantizm adayı toplam **12** (6 kadın / 6 erkek).
 
