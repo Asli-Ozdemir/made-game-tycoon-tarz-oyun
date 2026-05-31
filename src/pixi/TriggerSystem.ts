@@ -1,40 +1,34 @@
+// src/pixi/TriggerSystem.ts
 import { useWorldStore } from '@/store/worldStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import type { LocationId } from '@/store/worldStore'
+import type { TriggerDef } from './mapData'
 
-export interface TriggerRect {
-  name: string
-  x: number
-  y: number
-  width: number
-  height: number
-}
+// TriggerRect artık TriggerDef ile aynı yapıda — re-export et
+export type { TriggerDef as TriggerRect }
 
-export function parseTriggers(tmxObjectLayer: Element): TriggerRect[] {
-  return Array.from(tmxObjectLayer.querySelectorAll('object')).map((obj) => ({
-    name:   obj.getAttribute('name') ?? '',
-    x:      parseFloat(obj.getAttribute('x') ?? '0'),
-    y:      parseFloat(obj.getAttribute('y') ?? '0'),
-    width:  parseFloat(obj.getAttribute('width') ?? '32'),
-    height: parseFloat(obj.getAttribute('height') ?? '32'),
-  }))
-}
-
-export function getActiveTrigger(triggers: TriggerRect[], px: number, py: number): string | null {
+export function getActiveTrigger(triggers: TriggerDef[], px: number, py: number): string | null {
   for (const t of triggers) {
-    if (px >= t.x && px < t.x + t.width && py >= t.y && py < t.y + t.height) {
+    if (px >= t.x && px < t.x + t.w && py >= t.y && py < t.y + t.h) {
       return t.name
     }
   }
   return null
 }
 
-const PLACEHOLDER_LOCATIONS = new Set(['rival_door', 'investor_door', 'arcade_door'])
 const LOCATION_MAP: Record<string, LocationId> = {
-  cafe_door:      'cafe',
-  fair_entrance:  'fair',
-  akademi_door:   'akademi',
+  cafe_door:     'cafe',
+  fair_entrance: 'fair',
+  akademi_door:  'akademi',
+  sahaf_door:    'sahaf',
+  balikci_door:  'balikci',
+  pub_door:      'pub',
 }
+
+const PLACEHOLDER_TRIGGERS = new Set([
+  'cicekci_door', 'kuyumcu_door', 'han_door',
+  'nexus_building', 'investor_office',
+])
 
 export function handleTrigger(triggerName: string): void {
   const { setGameMode, setLocation } = useWorldStore.getState()
@@ -46,8 +40,8 @@ export function handleTrigger(triggerName: string): void {
     return
   }
 
-  if (PLACEHOLDER_LOCATIONS.has(triggerName)) {
-    console.info(`${triggerName}: Faz 4'te açılacak`)
+  if (PLACEHOLDER_TRIGGERS.has(triggerName)) {
+    console.info('Yakında açılacak...')
     return
   }
 

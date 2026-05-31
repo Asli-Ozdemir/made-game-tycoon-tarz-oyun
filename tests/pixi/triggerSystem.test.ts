@@ -1,32 +1,48 @@
-import { describe, it, expect } from 'vitest'
-import { parseTriggers, getActiveTrigger } from '@/pixi/TriggerSystem'
+// tests/pixi/triggerSystem.test.ts
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { getActiveTrigger } from '@/pixi/TriggerSystem'
+import type { TriggerDef } from '@/pixi/mapData'
 
-const MOCK_TRIGGERS = [
-  { name: 'studio_desk',   x: 608, y: 320, width: 32, height: 32 },
-  { name: 'cafe_door',     x: 256, y: 192, width: 32, height: 32 },
-  { name: 'fair_entrance', x: 960, y: 480, width: 32, height: 32 },
+// getActiveTrigger artık TriggerDef[] alıyor (w/h yerine width/height değil)
+const MOCK_TRIGGERS: TriggerDef[] = [
+  { name: 'studio_desk',   x: 768,  y: 384,  w: 32, h: 32 },
+  { name: 'cafe_door',     x: 288,  y: 1216, w: 32, h: 32 },
+  { name: 'sahaf_door',    x: 256,  y: 512,  w: 32, h: 32 },
+  { name: 'balikci_door',  x: 1184, y: 480,  w: 32, h: 32 },
+  { name: 'pub_door',      x: 480,  y: 640,  w: 32, h: 32 },
+  { name: 'nexus_building',x: 1408, y: 1344, w: 32, h: 32 },
 ]
 
 describe('getActiveTrigger', () => {
   it('oyuncu trigger içindeyse trigger adını döner', () => {
-    // Player center (624, 336) — inside studio_desk (608–640, 320–352)
-    expect(getActiveTrigger(MOCK_TRIGGERS, 624, 336)).toBe('studio_desk')
+    expect(getActiveTrigger(MOCK_TRIGGERS, 784, 400)).toBe('studio_desk')
   })
 
   it('oyuncu trigger dışındaysa null döner', () => {
     expect(getActiveTrigger(MOCK_TRIGGERS, 0, 0)).toBeNull()
   })
 
-  it('oyuncu cafe_door içindeyse cafe_door döner', () => {
-    expect(getActiveTrigger(MOCK_TRIGGERS, 272, 208)).toBe('cafe_door')
+  it('sahaf_door trigger çalışır', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 272, 528)).toBe('sahaf_door')
   })
 
-  it('trigger sınırında tam olarak başladığında içeride sayar', () => {
-    expect(getActiveTrigger(MOCK_TRIGGERS, 608, 320)).toBe('studio_desk')
+  it('balikci_door trigger çalışır', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 1200, 496)).toBe('balikci_door')
   })
 
-  it('trigger sınırı dışında olmayan döndürmez', () => {
-    // x=640 is exactly at x+width boundary → outside (px < x+width means 640 < 640 = false)
-    expect(getActiveTrigger(MOCK_TRIGGERS, 640, 352)).toBeNull()
+  it('pub_door trigger çalışır', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 496, 656)).toBe('pub_door')
+  })
+
+  it('trigger sınırında tam başlangıçta içeride sayar', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 768, 384)).toBe('studio_desk')
+  })
+
+  it('trigger sınırı dışında (x+w) null döner', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 800, 384)).toBeNull()
+  })
+
+  it('nexus_building trigger çalışır', () => {
+    expect(getActiveTrigger(MOCK_TRIGGERS, 1420, 1360)).toBe('nexus_building')
   })
 })
