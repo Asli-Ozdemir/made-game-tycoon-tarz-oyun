@@ -58,10 +58,18 @@ Kovulmada bizi "başka biri var" deyip terk eden eş, yıllar sonra geri döner 
 - **`cocuk_ilk_kelime`:** {{playerName}}: "İlk kelimesi 'baba/anne' olur sanmıştım." · Çocuk: "...Deniz." · {{playerName}}: "Deniz. Tabii — bu evin ilk öğrettiği şey."
 - **`cocuk_gecmis_sorusu`** *(çocuk büyüyünce)*: Çocuk: "Neden hep deniz, neden geldin?" · {{playerName}}: "Şehir bir şeyimi aldı, deniz geri verdi. Bir gün anlarsın."
 
-### B) Eski hayattan biri — ahlaki seçim *(koşul: yearsElapsed eşik)*
-- **`eski_meslektas`** — seni günah keçisi yapılırken susan biri, düşmüş, iş ister:
-  - Eski Meslektaş: "O toplantıdaydım — senin suçlandığın. Sustum. Şimdi ben de battım. Bir iş... olur mu?"
-  - **Seçim:** *İşe al (affet)* / *Reddet (sustuğun gibi sus)* / *Otur, konuşalım* — 4C ahlaki aynasının kişisel yankısı. (Küçük seçim ekranı / dallanma.)
+### B) Eski meslektaş — ahlaki seçim *(koşul: orta-geç oyun, stüdyo kurulu, `once`)*
+**Profil:** Seni günah keçisi yaparken / fikrini çalarken **o odada olup susan** biri. Yıllar sonra endüstri onu da çiğnedi; sahil şehrine gelip iş/yardım ister. Oyuncu, kovulmayı yaşayanın **karar veren** tarafına geçer. *(Generic "Eski Meslektaş"; "o gün/o toplantı" arka plana göre.)* 3-dallı seçim = 4C resolution'ın kişisel aynası.
+
+- **`eski_meslektas`** — kurulum:
+  - Eski Meslektaş: "{{playerName}}? Gerçekten sensin. O gün, senin yıkıldığın gün aynı odadaydım."
+  - {{playerName}}: "Hatırlıyorum. Sustun."
+  - Eski Meslektaş: "Sustum, korktum. Sıram geldi de — beni de aynı tabloyla gönderdiler. Kendi stüdyonu kurmuşsun; bir şans, ne olursa."
+  - {{playerName}}: "..." → **▸ Seçim: Affet / Reddet / Otur, konuşalım**
+- **Dal A — Affet** *(işe al)*: {{playerName}}: "O sessizliğin ne olduğunu biliyorum — korku. Otur şu masaya." · Eski Meslektaş: "Senin yerinde olsam yapmazdım." · {{playerName}}: "Belki o yüzden ben buradayım. Kin taşımak yorucu — bırak gitsin." → işe alınır + flag `meslektas_affedildi`. *(Döngüyü kırmak.)*
+- **Dal B — Reddet**: {{playerName}}: "O gün bir şey deseydin... demedin." · Eski Meslektaş: "Hak ediyorum." · {{playerName}}: "Şimdi de ben demiyorum. Kapı orada." · *(gider)* {{playerName}}: "Adil. Ama tadı... Crane'in tadı." → flag `meslektas_reddedildi`. *(Sessizliğe sen dönüştün — karanlık ayna.)*
+- **Dal C — Otur, konuşalım**: {{playerName}}: "İş veremem, güvenmem zaman alır. Ama otur, bir kahve. Anlat." · Eski Meslektaş: "Kimse 'anlat' demedi bana yıllardır." · {{playerName}}: "O gün ikimiz de korktuk; ikimiz de o şirketin kurbanıyız belki." · Eski Meslektaş: "Teşekkür ederim — iş için değil, dinlediğin için." → flag `meslektas_konusuldu`. *(Ne döngü ne zulüm — bakım/Marta merceği.)*
+- **Bağ:** Flag'ler C2 epiloguna "nasıl bir insan oldun" katkısı; "Crane'in tadı" → ana tema callback.
 
 ### C) Yıl dönümü *(koşul: her ~10 yıl)*
 - **`sahil_yildonumu`:** {{playerName}}: "On yıl oldu bu eve geleli. Anahtar hâlâ saksının altında." *(aileyle / yalnız varyantı)*
