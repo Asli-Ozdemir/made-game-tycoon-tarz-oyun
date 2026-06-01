@@ -1,7 +1,18 @@
 # Oyun Durum Dosyası
-_Son güncelleme: 2026-06-01 (akşam)_
+_Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
+
+### NPC Diyalog Sistemi (2026-06-01)
+- T1/T2/T3 tier sistemi: dostluk 0→30→70 eşiğiyle açılır
+- Marcus (Stoacı Sahaf), Remy (Balıkçı), Theo (Pub) — her biri 5 diyalog
+- `src/data/npcDialogues.ts`: NPCDef, Dialogue, DialogueLine, DialogueChoice tipleri + içerik
+- `src/store/npcStore.ts`: relationship tracking, tier hesaplama, seenDialogues
+- `src/store/ideaSeedStore.ts`: Nostalji/Hikaye/Kaos/Zaman Yönetimi tohumları
+- `src/components/DialogueView.tsx`: paylaşımlı diyalog UI (liste → okuma → ödül)
+- SahafPanel / BalikciPanel / PubPanel güncellendi — DialogueView kullanıyor
+- Nehir değişikliği: coastRoom'daki `coastal_water` → `river` (renk 0x071a12)
+- 297 test geçiyor
 
 ### Harita Odaları (2026-06-01)
 - 3 ayrı harita odası: coast (50×22), bridge (50×6), city (50×24)
@@ -43,7 +54,8 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 ### Sıradaki Büyük Görevler
 - Köprü geçişinde otobüs animasyonu (isteğe bağlı)
 - NPC sprite'ları harita üzerinde
-- Sahaf / Balıkçı / Pub panel içerikleri (Marcus, Remy, Theo)
+- Zihin Geliştirme Ağacı — Fikir Tohumlarını harcama UI + beceri ağacı veri modeli
+- Hayat Yolu seçimi (Hırs / Huzur / Emek) — kalıcı seçim mekanik
 - DevTools otomatik açma production'dan kaldır (`electron/main.ts`)
 
 ---

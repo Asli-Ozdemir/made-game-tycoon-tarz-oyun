@@ -6,8 +6,8 @@ export const coastRoom: RoomDef = {
   widthTiles: 50,
   heightTiles: 22,   // rows 0–21
   zones: [
-    { rowStart: 0,  rowEnd: 3,  bgColor: 0x050e18, type: 'coastal_water' },
-    { rowStart: 4,  rowEnd: 6,  bgColor: 0x0d1a10, type: 'coastal_sand'  },
+    { rowStart: 0,  rowEnd: 3,  bgColor: 0x071a12, type: 'river'         },
+    { rowStart: 4,  rowEnd: 6,  bgColor: 0x0d1f0e, type: 'river_bank'    },
     { rowStart: 7,  rowEnd: 21, bgColor: 0x0d1e2a, type: 'coastal'       },
   ],
   buildings: [
