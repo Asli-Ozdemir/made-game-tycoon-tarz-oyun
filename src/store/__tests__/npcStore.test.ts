@@ -60,4 +60,13 @@ describe('npcStore — gainMultiplier', () => {
     useNPCStore.getState().penalizeNpc('marcus')
     expect(useNPCStore.getState().npcs['marcus'].relationship).toBeGreaterThanOrEqual(0)
   })
+
+  it('aynı dialogue tekrar oynanırsa multiplier artmaz', () => {
+    useNPCStore.setState(s => ({
+      gainMultipliers: { ...s.gainMultipliers, marcus: 0.5 },
+    }))
+    useNPCStore.getState().completeDialogue('marcus', 'dia_1', 10)
+    useNPCStore.getState().completeDialogue('marcus', 'dia_1', 10) // tekrar
+    expect(useNPCStore.getState().gainMultipliers['marcus']).toBe(0.55) // sadece bir kez artar
+  })
 })

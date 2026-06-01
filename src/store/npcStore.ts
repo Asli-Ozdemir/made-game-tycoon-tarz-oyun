@@ -61,7 +61,7 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
       const alreadySeen = prev.seenDialogueIds.includes(dialogueId)
       const multiplier = s.gainMultipliers[npcId] ?? 1.0
       const effectiveBonus = alreadySeen ? 0 : bonus * multiplier
-      const newMultiplier = Math.min(1.0, multiplier + 0.05)
+      const newMultiplier = alreadySeen ? multiplier : Math.min(1.0, multiplier + 0.05)
 
       return {
         npcs: {
