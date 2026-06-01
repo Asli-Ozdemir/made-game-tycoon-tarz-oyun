@@ -27,7 +27,7 @@ export const useLifePathStore = create<LifePathStore>((set, get) => ({
     set(s => ({ progress: { ...s.progress, [path]: newVal } }))
 
     // Threshold geçildi ve henüz kilitlenmemiş?
-    if (newVal >= PATH_THRESHOLD && get().activePathId === null) {
+    if (newVal >= PATH_THRESHOLD && activePathId === null) {
       set({ activePathId: path })
       useSkillTreeStore.setState({ selectedLifePath: path })
     }
@@ -49,10 +49,10 @@ export const useLifePathStore = create<LifePathStore>((set, get) => ({
     // 4. Eski yolun progressi düşer
     const penalizedProgress = Math.max(0, progress[activePathId] - 40)
 
-    set(s => ({
+    set({
       activePathId: newPath,
-      progress: { ...s.progress, [activePathId]: penalizedProgress },
-    }))
+      progress: { ...progress, [activePathId]: penalizedProgress },
+    })
   },
 
   reset() {
