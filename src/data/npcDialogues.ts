@@ -623,10 +623,118 @@ const magnus: NPCDef = {
   ],
 }
 
+// ─── MARTA ───────────────────────────────────────────────────────────────────
+
+const marta: NPCDef = {
+  id: 'marta',
+  name: 'Marta',
+  role: 'Hemşire',
+  philosophy: 'Bakım Etiği — Ahlak, rakamda değil; karşındaki insanın elini tutmakta başlar.',
+  emoji: '🩺',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'marta_t1_1',
+      tier: 1,
+      title: 'Yüzün Solgun',
+      lines: [
+        { speaker: 'npc',    text: '(sana bakar, kaşları çatılır) Dur bakayım... yüzün solgun. Bu taraflara yeni mi taşındın? Su içtin mi bugün?' },
+        { speaker: 'player', text: 'İyiyim, sadece...' },
+        { speaker: 'npc',    text: '"Sadece"si olmaz. Ben Marta, bu şehrin hemşiresiyim. Kırk yıldır herkese bakarım — sıra sana geldi galiba.' },
+        { speaker: 'player', text: 'Beni tanımıyorsun bile.' },
+        { speaker: 'npc',    text: 'Tanımam gerekmez. Yorgun bir insan, yorgun bir insandır. Otur şöyle.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'marta_t1_2',
+      tier: 1,
+      title: 'Defter Tutmam',
+      lines: [
+        { speaker: 'player', text: 'Bütün hastaları nasıl hatırlıyorsun?' },
+        { speaker: 'npc',    text: 'Defter tutmam. Herkesi ezbere bilirim. Çünkü benim için bir hasta, bir dosya değil — tanıdığım bir insan.' },
+      ],
+      choices: [
+        {
+          text: 'Bu yorucu olmalı.',
+          lines: [{ speaker: 'npc', text: 'Yorucu. Ama rakamlara bakmaktan az yorucu. Rakam titremez; insan titrer — işte o zaman elini tutarsın.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Hiç bırakmak istemedin mi?',
+          lines: [{ speaker: 'npc', text: 'Her gün. Sonra biri kapıyı çalar, ben de kalırım. Kırk yıldır aynı hikâye.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'marta_t2_1',
+      tier: 2,
+      title: 'Neden Kaldım',
+      lines: [
+        { speaker: 'player', text: 'Hiç buradan gitmedin mi?' },
+        { speaker: 'npc',    text: 'Bir kez şansım vardı. Başkent, büyük hastane, kariyer. Sonra annem hastalandı. Kaldım.' },
+        { speaker: 'player', text: 'Pişman mısın?' },
+        { speaker: 'npc',    text: '"Şansını kaçırdın" derler. Bence kazandım. Bağ, gidilen yoldan kıymetli — burada herkesin bir parçasını taşıyorum.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'marta_t2_2',
+      tier: 2,
+      title: 'Tablo Titremez',
+      lines: [
+        { speaker: 'npc',    text: 'Karşı yakadan, o büyük şirketten kırılıp gelen gençler oldu. Apex\'ten. "Kaynak" diyorlarmış onlara.' },
+        { speaker: 'player', text: '...' },
+        { speaker: 'npc',    text: 'Ben titreyen ellerini tuttum. Bir tabloda sayı olmuşlar. Ama tablo titremez — insan titrer. Bunu hep unutuyorlar orada.' },
+      ],
+      choices: [
+        {
+          text: 'Belki başka çareleri yoktu.',
+          lines: [{ speaker: 'npc', text: 'Belki. Ama bir insanı keserken ona bir kez baksalar... zaten bakmamak için tablo yaparlar.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sen ne yaptın onlara?',
+          lines: [{ speaker: 'npc', text: 'Çay. Sıcak bir oda. Ve "anlat" dedim. Bazen tedavi budur.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'marta_t3_1',
+      tier: 3,
+      title: 'İnsan Kal',
+      lines: [
+        { speaker: 'npc',    text: 'Şu peşindeki güçle savaşıyorsun. Yüzünden okunuyor. Hemşire olarak bir şey söyleyeyim mi?' },
+        { speaker: 'player', text: 'Söyle.' },
+        { speaker: 'npc',    text: 'Sana kötülük eden o adam da bir yerde kırılmış biri. Bu onu haklı çıkarmaz — ama canavar sanırsan, dövüşürken sen de katılaşırsın. İnsan kal.' },
+        { speaker: 'player', text: 'Ya kaybedersem?' },
+        { speaker: 'npc',    text: 'Onu yenip yanındakini kaybedersen, asıl o zaman kaybedersin. Bir de — herkese bakan sen, bir gün yığılırsan kim tutar elini? Kendine de bak.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
   theo,
   bruno,
   magnus,
+  marta,
 }
