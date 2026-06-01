@@ -19,6 +19,7 @@ export const bridgeRoom: RoomDef = {
     { x: 30 * TILE_SIZE, y: 0, w: 20 * TILE_SIZE, h: 6 * TILE_SIZE },
   ],
   spawnPoints: {
+    default:    { x: 24 * TILE_SIZE + 16, y: 3 * TILE_SIZE },  // corridor middle
     from_coast: { x: 24 * TILE_SIZE + 16, y: 1 * TILE_SIZE + 16 },
     from_city:  { x: 24 * TILE_SIZE + 16, y: 4 * TILE_SIZE + 16 },
   },

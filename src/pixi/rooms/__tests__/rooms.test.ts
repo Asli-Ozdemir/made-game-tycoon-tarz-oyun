@@ -56,8 +56,12 @@ describe('cityRoom', () => {
     expect(kafe.row).toBe(4)
   })
   it('city trigger y values are shifted -832px from original', () => {
-    const cafe = cityRoom.triggers.find(t => t.name === 'cafe_door')!
-    expect(cafe.y).toBe(384)
+    const cafe    = cityRoom.triggers.find(t => t.name === 'cafe_door')!
+    const nexus   = cityRoom.triggers.find(t => t.name === 'nexus_building')!
+    const akademi = cityRoom.triggers.find(t => t.name === 'akademi_door')!
+    expect(cafe.y).toBe(384)     // original 1216 - 832
+    expect(nexus.y).toBe(512)    // original 1344 - 832
+    expect(akademi.y).toBe(320)  // original 1152 - 832
   })
   it('has exit trigger to bridge at top', () => {
     const ex = cityRoom.exitTriggers.find(e => e.toRoom === 'bridge')!

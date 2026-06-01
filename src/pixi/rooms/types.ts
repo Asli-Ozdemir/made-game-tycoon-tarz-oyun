@@ -10,12 +10,9 @@ export interface ExitTriggerDef {
   h: number
 }
 
-export interface SpawnPoints {
-  default?: { x: number; y: number }
-  from_bridge?: { x: number; y: number }
-  from_coast?: { x: number; y: number }
-  from_city?: { x: number; y: number }
-}
+export type SpawnPoints = Partial<
+  Record<`from_${RoomId}` | 'default', { x: number; y: number }>
+>
 
 export interface RoomDef {
   id: RoomId
