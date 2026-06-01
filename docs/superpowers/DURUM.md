@@ -5,6 +5,8 @@
 Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
 Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
 
+> 🧭 **Önce `docs/superpowers/PROJE-BAGLAM.md`'yi oku** — oyunun fikrini/ruhunu/temasını anlatır (nehir şehri, kovulma→yeniden doğuş, kendini aşma vs Crane, felsefe NPC korosu, tycoon+RPG+yaşam-sim). Tüm ajanlar için temel bağlam.
+
 ---
 
 ## Tamamlanan Fazlar
