@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { coastRoom } from '../coastRoom'
 import { bridgeRoom } from '../bridgeRoom'
 import { cityRoom } from '../cityRoom'
