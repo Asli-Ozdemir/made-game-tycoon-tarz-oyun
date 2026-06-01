@@ -3,18 +3,18 @@ import { describe, it, expect } from 'vitest'
 import { SKILL_NODES } from '../skillTree'
 
 describe('skillTree node definitions', () => {
-  it('30 node tanımlanmış olmalı', () => {
-    expect(SKILL_NODES).toHaveLength(30)
+  it('33 node tanımlanmış olmalı', () => {
+    expect(SKILL_NODES).toHaveLength(33)
   })
 
   it('her node benzersiz id taşımalı', () => {
     const ids = SKILL_NODES.map(n => n.id)
-    expect(new Set(ids).size).toBe(30)
+    expect(new Set(ids).size).toBe(33)
   })
 
   it('tier dağılımı doğru olmalı', () => {
     const counts = [1,2,3,4,5].map(t => SKILL_NODES.filter(n => n.tier === t).length)
-    expect(counts).toEqual([6, 7, 7, 6, 4])
+    expect(counts).toEqual([7, 8, 8, 6, 4])
   })
 
   it('her dependsOn referansı var olan bir node id olmalı', () => {

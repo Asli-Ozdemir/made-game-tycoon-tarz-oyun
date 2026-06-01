@@ -17,6 +17,7 @@ const EMPTY: SeedCounts = {
   hikaye:         0,
   kaos:           0,
   zaman_yonetimi: 0,
+  analiz:         0,
 }
 
 export const useIdeaSeedStore = create<IdeaSeedStore>((set, get) => ({

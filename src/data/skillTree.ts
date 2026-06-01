@@ -267,6 +267,35 @@ export const SKILL_NODES: SkillNode[] = [
     dependsOn: ['kaos_t3', 'zmn_t3'],
   },
 
+  // ── Analiz node'ları (Emek yolu yan iş tohumları) ──────────────────────
+  {
+    id: 'analiz_t1',
+    tier: 1,
+    name: 'Keskin Göz',
+    description: 'Hiçbir detay gözünden kaçmaz.',
+    cost: [{ type: 'analiz', amount: 1 }],
+    effect: { type: 'bug_reduce', value: 0.05 },
+    dependsOn: [],
+  },
+  {
+    id: 'analiz_t2',
+    tier: 2,
+    name: 'Sistem Okuyucu',
+    description: 'Simülasyon oyunlarında gerçekçilik çıtasını yükseltirsin.',
+    cost: [{ type: 'analiz', amount: 2 }],
+    effect: { type: 'tycoon_bonus', stat: 'sim_quality', value: 0.08 },
+    dependsOn: ['analiz_t1'],
+  },
+  {
+    id: 'analiz_t3',
+    tier: 3,
+    name: 'Demir Mantık',
+    description: 'Sistematik düşünce hataları elimine eder.',
+    cost: [{ type: 'analiz', amount: 2 }, { type: 'zaman_yonetimi', amount: 1 }],
+    effect: { type: 'bug_reduce', value: 0.15 },
+    dependsOn: ['analiz_t2', 'zmn_t2'],
+  },
+
   // ── T5 (4 node, Hayat Yolu efsanevi) ──────────────────────────────────
   {
     id: 't5_hirs',

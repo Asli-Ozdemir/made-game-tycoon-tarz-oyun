@@ -1,12 +1,13 @@
 // src/data/npcDialogues.ts
 
-export type IdeaSeedType = 'nostalji' | 'hikaye' | 'kaos' | 'zaman_yonetimi'
+export type IdeaSeedType = 'nostalji' | 'hikaye' | 'kaos' | 'zaman_yonetimi' | 'analiz'
 
 export const IDEA_SEED_META: Record<IdeaSeedType, { label: string; color: string; emoji: string }> = {
   nostalji:       { label: 'Nostalji',       color: '#a78bfa', emoji: '🌙' },
   hikaye:         { label: 'Hikaye',          color: '#60a5fa', emoji: '📖' },
   kaos:           { label: 'Kaos',            color: '#f87171', emoji: '🌪️' },
   zaman_yonetimi: { label: 'Zaman Yönetimi',  color: '#34d399', emoji: '⏳' },
+  analiz:         { label: 'Analiz',          color: '#fbbf24', emoji: '🔍' },
 }
 
 export interface DialogueLine {
