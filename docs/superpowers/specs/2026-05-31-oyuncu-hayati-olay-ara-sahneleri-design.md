@@ -73,13 +73,27 @@ Kovulmada bizi "başka biri var" deyip terk eden eş, yıllar sonra geri döner 
 - **`wilhelm_yas_oyuncu`** — oyuncunun cenazeye/sonrasına dair kısa, sessiz anı (B'yi oyuncuya bağlar).
 
 ### F) Gelişemeyen çalışan — Ned Carver
-**Ned, baştan seçilebilir bir NPC:** sahil mahallesinde konuşulabilir, kalbi olan hevesli, yeteneksiz, içten hayalperest. **Arkadaş olunabilir.** Ayrıca **işe alınabilir** (özel aday, `noGrowth` — gelişmez).
-- **Replikler:** T1 "Naber patron! Üç satır kod yazdım, ikisi çalıştı... sanırım." · "Senin oyunlarınla büyüdüm." · "Yeteneğim yok diyorlar; çalışmaya devam." — T2 "Küçükken herkes 'yapamazsın' dedi; pes etmeyi bilmiyorum." — T3 "Sen benimle vakit kaybeden tek kişisin, patron. Sağ ol."
-- **Arc:** arkadaş ol → (işe al) → gelişmez → **dayanamayıp çıkarırsan** → `ned_evsiz`; **tutarsan** → `ned_kaliyor`.
-- **`ned_evsiz`** *(tetik: Ned işe alındı sonra kovuldu)* — *(yüksek kalpse daha yırtıcı: dostunu sokakta görmek)*:
-  - {{playerName}}: "Ned? Burada ne yapıyorsun?" · Ned: "İş bulamadım — kimse yeteneksizi istemiyor. Sen de istememiştin." · {{playerName}}: "..." · Ned: "Kızmadım. Haklıydın. Çabalamak yetmiyormuş." · {{playerName}}: "Beni de bir zamanlar böyle göndermişlerdi. Şimdi ben gönderdim." · Ned: "Boş ver beni. Sen büyük işler yaparsın. Ben sadece denemiştim."
-- **`ned_kaliyor`:** Ned: "Pek faydam yok, biliyorum. Ama kovmadın — unutmayacağım." · {{playerName}}: "Herkes bir tabloya sığmaz. Sen kal."
-- **Tema:** Kovulmayı yaşayan oyuncu, bir **dostunu** "verimsiz" diye kovuyor → Crane'in tablosunun + Marta'nın "tablo titremez, insan titrer"inin en kişisel hâli. Fayda(Vivian) ↔ Bakım(Marta) seçimi.
+**Profil/ses:** Buralı, hevesli, **yeteneksiz** ama yılmayan hayalperest; senin eski oyunlarınla büyümüş en büyük hayranın. Çaba ≠ yetenek gerçeğinin canlı hâli — liyakat/fayda mantığının insani karşı-argümanı. Sıcak, onurlu, asla zavallı değil. **Baştan seçilebilir NPC** (sahil mahallesi, kalbi var) + **işe alınabilir** (özel aday, `noGrowth` — gelişmez).
+
+**Kalp diyalogları:**
+- T1: "Naber patron! Sana 'patron' diyorum, alışkanlık — bir gün gerçekten olur belki." · "Bu gece üç saat kod çalıştım; hâlâ aynı hatayı yapıyorum ama azaldı gibi? Azaldı, değil mi?" · "Senin ilk oyununu yüz kere bitirdim, ezbere biliyorum."
+- T2: "Öğretmen 'el işine bak' demişti, orada da battım. Tek sevdiğim oyunlar." · "Annem 'gerçekçi ol' der; gerçekçi olsam yatakta yatardım."
+- T3 (arkadaşlık): "Sen benimle vakit kaybeden tek kişisin patron. Çoğu yeteneksizle konuşmaz bile. Unutmam." · "İtiraf edeyim: belki hiç beceremeyeceğim. Ama denerken mutluyum — bu da bir şeydir, değil mi?"
+
+**Arc:** arkadaş ol → (işe al) → gelişmez → **dayanamayıp çıkarırsan** → `ned_evsiz` (yüksek kalpse `ned_evsiz_dost`); **tutarsan** → `ned_kaliyor`.
+
+- **`ned_ise_alindi`:** Ned: "Beni mi? Gerçekten mi? Pişman etmeyeceğim — gece gündüz, yemin." · {{playerName}}: "Biliyorum Ned. Otur şu masaya." · Ned: "Kendi masam. Bir oyun stüdyosunda. *(sesi titrer)*"
+- **`ned_calisiyor`** *(ara ara, gelişmez)*: Ned: "Bütün geceyi verdim, bak çalıştı! ...bir kısmı. Gerisi yarın." · {{playerName}}: *(kod bozuk)* "...İdare eder, Ned."
+- **`ned_evsiz`** *(kovuldu — standart)*:
+  - {{playerName}}: "Ned, otur. Bu yürümüyor." · Ned: "Biliyordum, bekliyordum. Kızmadım — sen bana en uzun şansı verensin."
+  - *(sokakta)* {{playerName}}: "Ned? Burada ne..." · Ned: "İş bulamadım — kimse yeteneksizi istemiyor, sen bile sonunda istemedin. Haklıydın." · {{playerName}}: "Beni de bir zamanlar böyle göndermişlerdi." · Ned: "Boş ver beni. Sen büyük işler yaparsın; ben sadece denemiştim."
+- **`ned_evsiz_dost`** *(yüksek kalpse — dostluğa ihanet, daha yırtıcı)*:
+  - *(kovma)* Ned: "Sen de mi? ...Tamam, sorun değil. *(gülmeye çalışır, başaramaz)* En azından arkadaştık, o kalsın bende."
+  - *(sokakta)* Ned: "Selam patron. Korkma, para istemem. Sadece... bir ara konuşurduk ya, onu özledim. İşi değil — seni." · {{playerName}}: "Ned, ben—" · Ned: "Açıklama yapma. Rakamlar rakamdır; sen de öğrenmişsin. Kendine iyi bak."
+- **`ned_kaliyor`** *(tutarsan)*: Ned: "Beni kovmadın; herkes kovardı. Faydam yok, biliyorum." · {{playerName}}: "Herkes bir tabloya sığmaz, Ned. Sen kal." · Ned: "O zaman kahveyi ben yaparım — en iyi yaptığım iş! Stüdyonun morali bende."
+
+**Mekanik (employeeStore):** Ned özel aday — düşük skill + **`noGrowth: true`** (XP kazanmaz, sabit). İşe alınca çıktı zayıf; tutmak ekonomik yük ama `ned_kaliyor` sonrası **küçük moral bonusu** (şefkatin ödülü).
+**Tema:** Kovulmayı yaşayan oyuncu, bir **dostunu** "verimsiz" diye kovuyor → Crane'in tablosunun + Marta'nın "tablo titremez, insan titrer"inin en kişisel hâli. **Fayda(Vivian) ↔ Bakım(Marta)** seçimi.
 
 ---
 
