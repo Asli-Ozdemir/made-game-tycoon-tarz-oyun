@@ -33,7 +33,7 @@ export interface Dialogue {
 }
 
 export interface NPCDef {
-  id: 'marcus' | 'remy' | 'theo'
+  id: 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
   name: string
   role: string
   philosophy: string
@@ -405,8 +405,118 @@ const theo: NPCDef = {
   ],
 }
 
+// ─── BRUNO ───────────────────────────────────────────────────────────────────
+
+const bruno: NPCDef = {
+  id: 'bruno',
+  name: 'Bruno',
+  role: 'Mühendis',
+  philosophy: 'Erdem Etiği (Aristoteles) — Karakter, bir köprü gibi, alışkanlıkla ve ölçüyle örülür.',
+  emoji: '🔧',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'bruno_t1_1',
+      tier: 1,
+      title: 'Köprüyü Kuran',
+      lines: [
+        { speaker: 'npc',    text: '(bir şeyi ölçüyor) Dur, oraya basma — harç henüz tutmadı. ...Tamam, şimdi geç.' },
+        { speaker: 'player', text: 'Bunları sen mi yaptın?' },
+        { speaker: 'npc',    text: 'Bu köprüyü babamla ördük. Her gün üstünden geçiyorsun, fark etmeden. Bruno. Mühendis.' },
+        { speaker: 'player', text: 'İki yakayı bağlayan köprü mü?' },
+        { speaker: 'npc',    text: 'Bağlamak iyi iştir. Yıkmak kolay, bağlamak zor. Ben bağlayanlardanım.' },
+      ],
+      ideaSeed: 'zaman_yonetimi',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'bruno_t1_2',
+      tier: 1,
+      title: 'Mükemmellik Alışkanlıktır',
+      lines: [
+        { speaker: 'player', text: 'Aynı işi her gün yapmak sıkıcı değil mi?' },
+        { speaker: 'npc',    text: 'Sıkıcı? Bir köprü bir günde çökmez, bir günde de yükselmez. Her gün bir perçin. Mükemmellik bir eylem değil — alışkanlıktır.' },
+      ],
+      choices: [
+        {
+          text: 'Ya yeteneğin yoksa?',
+          lines: [{ speaker: 'npc', text: 'Yetenek başlangıçtır, alışkanlık ustalıktır. Her gün doğru olanı yap; yıllar seni usta yapar.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Hiç acele etmez misin?',
+          lines: [{ speaker: 'npc', text: 'Acele eden köprü ilk fırtınada gider. İyi yapılan iş kendi hızını bilir.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'bruno_t2_1',
+      tier: 2,
+      title: 'Kirişi İncelt',
+      lines: [
+        { speaker: 'npc',    text: 'Yıllar önce bir müteahhit geldi. "Kirişi incelt, kimse anlamaz" dedi — maliyet düşsün diye.' },
+        { speaker: 'player', text: 'İncelttin mi?' },
+        { speaker: 'npc',    text: 'Hayır. Sözleşmeyi kaybettim, parayı kaybettim. Ama o bina hâlâ ayakta — ben de.' },
+        { speaker: 'npc',    text: 'Babam derdi: bir taşı gizlice yanlış koyarsan, önce kendin çürürsün. Haklıydı.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'bruno_t2_2',
+      tier: 2,
+      title: 'Ölçü',
+      lines: [
+        { speaker: 'player', text: 'Crane diye birini duydun mu? Karşı yakada.' },
+        { speaker: 'npc',    text: "Apex'in adamı. Duydum. Her şeyi büyütmek ister — daha çok, daha hızlı." },
+        { speaker: 'player', text: 'Sen ne dersin?' },
+        { speaker: 'npc',    text: 'Ölçü her şeydir. Ne fazla, ne eksik. Fazla su koyarsan harç tutmaz; fazla hırs koyarsan adam tutmaz.' },
+      ],
+      choices: [
+        {
+          text: 'Ya kazanmak için fazlası gerekiyorsa?',
+          lines: [{ speaker: 'npc', text: 'O zaman kazanırsın ama tutmaz. Tuttuğunu sandığın şey bir gün çöker — kiriş gibi.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sen hiç büyümek istemedin mi?',
+          lines: [{ speaker: 'npc', text: 'İstedim. Sonra köprüme, üstünden geçen çocuklara baktım. Yeterince büyük zaten.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 5,
+    },
+    // ─── T3 ───
+    {
+      id: 'bruno_t3_1',
+      tier: 3,
+      title: 'Kim Olarak',
+      lines: [
+        { speaker: 'npc',    text: 'O karşı yakayla bir hesabın var, görüyorum. Büyüyorsun.' },
+        { speaker: 'player', text: 'Büyümek zorundayım.' },
+        { speaker: 'npc',    text: 'Büyü. Ama perçin perçin öğrendiğim bir şey var: önemli olan onu yenmek değil — yenerken kim olduğunu korumak.' },
+        { speaker: 'player', text: 'Ya ikisi aynı anda olmuyorsa?' },
+        { speaker: 'npc',    text: 'O zaman ölçüyü kaçırmışsındır. İki yanlış var: korkup sinmek, ya da öfkeyle onun gibi acımasızlaşmak. Erdem ortada — cesaret.' },
+        { speaker: 'npc',    text: '(köprüye vurur) Kazandığın gün hâlâ kendin olabilecek misin? Asıl mühendislik bu.' },
+      ],
+      ideaSeed: 'zaman_yonetimi',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
   theo,
+  bruno,
 }
