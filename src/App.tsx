@@ -41,6 +41,7 @@ import IndustryEventModal from '@/components/IndustryEventModal'
 import IndustryEventPanel from '@/components/IndustryEventPanel'
 import { useIndustryEventStore } from '@/store/industryEventStore'
 import { transitionToRoom } from '@/pixi/Game'
+import SleepOverlay from '@/components/SleepOverlay'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -225,6 +226,9 @@ export default function App() {
         <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center">
           <PubPanel />
         </div>
+      )}
+      {currentLocation === 'sleep' && (
+        <SleepOverlay />
       )}
 
       {/* Publish result */}
