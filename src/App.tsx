@@ -40,6 +40,7 @@ import CampaignPanel    from '@/components/CampaignPanel'
 import IndustryEventModal from '@/components/IndustryEventModal'
 import IndustryEventPanel from '@/components/IndustryEventPanel'
 import { useIndustryEventStore } from '@/store/industryEventStore'
+import { transitionToRoom } from '@/pixi/Game'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -51,6 +52,9 @@ export default function App() {
   const setOnWeeklyTick = useDayTimeStore((s) => s.setOnWeeklyTick)
   const gameMode        = useWorldStore((s) => s.gameMode)
   const currentLocation = useWorldStore((s) => s.currentLocation)
+  const transitionState = useWorldStore((s) => s.transitionState)
+  const currentRoomId   = useWorldStore((s) => s.currentRoomId)
+  const pendingRoomId   = useWorldStore((s) => s.pendingRoomId)
 
   // Wire weeklyTick callback once
   useEffect(() => {
@@ -254,6 +258,26 @@ export default function App() {
     </div>
     {/* Cutscene overlay — main div dışında, fixed pozisyon için containment yok */}
     {activeCutscene && <CutscenePlayer />}
+    <div
+      data-testid="room-fade-overlay"
+      style={{
+        position:   'fixed',
+        inset:      0,
+        background: '#000',
+        opacity:    transitionState === 'fading-out' ? 1 : 0,
+        transition: 'opacity 400ms ease',
+        pointerEvents: transitionState !== 'idle' ? 'all' : 'none',
+        zIndex: 100,
+      }}
+      onTransitionEnd={() => {
+        if (transitionState === 'fading-out' && pendingRoomId) {
+          transitionToRoom(pendingRoomId, currentRoomId)
+          useWorldStore.getState().setTransitionFadedOut()
+        } else if (transitionState === 'fading-in') {
+          useWorldStore.getState().completeTransition()
+        }
+      }}
+    />
     </>
   )
 }
