@@ -158,14 +158,15 @@ export default function App() {
   if (showStartScreen)   return <StartScreen />
   // Wizard gate — render wizard until character is created
   if (!isCreated)        return <CharacterCreationWizard />
-  if (activeCutscene)    return <CutscenePlayer />
   if (pendingResolution) return <ResolutionScreen />
   if (pendingEvent)      return <EventModal />
 
   const isTycoon = gameMode === 'tycoon'
 
   return (
+    <>
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#1a1a2e' }}>
+      {/* GameCanvas her zaman mount'ta — cutscene sırasında unmount olmaz */}
       <GameCanvas />
 
       {/* HUD — always visible */}
@@ -249,6 +250,10 @@ export default function App() {
       {pendingEventModal !== null && <IndustryEventModal />}
       <IndustryEventPanel />
       {showSavePanel && <SaveLoadPanel />}
+
     </div>
+    {/* Cutscene overlay — main div dışında, fixed pozisyon için containment yok */}
+    {activeCutscene && <CutscenePlayer />}
+    </>
   )
 }

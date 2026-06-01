@@ -12,10 +12,16 @@ const PLAYER_START_Y = 18 * TILE_SIZE + 16  // 592
 let app: Application | null = null
 let worldScene: WorldScene | null = null
 let player: Player | null = null
+// Session ID prevents stale async init from corrupting a newer init
+// (needed for React StrictMode which calls cleanup+remount in dev)
+let sessionId = 0
 
 export async function initGame(container: HTMLDivElement): Promise<Application> {
-  app = new Application()
-  await app.init({
+  destroyGame()                    // clear any previous instance
+  const mySession = ++sessionId    // claim this init slot
+
+  const newApp = new Application()
+  await newApp.init({
     resizeTo:        container,
     backgroundColor: 0x1a1a2e,
     antialias:       false,
@@ -23,6 +29,13 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
     resolution:      window.devicePixelRatio || 1,
   })
 
+  // If destroyGame() was called while we were awaiting, abort quietly
+  if (mySession !== sessionId) {
+    newApp.destroy(true, { children: true })
+    return newApp
+  }
+
+  app = newApp
   container.appendChild(app.canvas as HTMLCanvasElement)
 
   worldScene = new WorldScene(app)
@@ -46,6 +59,7 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
 }
 
 export function destroyGame() {
+  sessionId++   // invalidate any pending initGame
   if (app) {
     player?.destroy()
     app.destroy(true, { children: true })

@@ -8,22 +8,18 @@ export default function GameCanvas() {
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
-    let cleanup = false
 
-    initGame(el).then(() => {
-      if (cleanup) destroyGame()
+    initGame(el).catch((err) => {
+      console.error('[GameCanvas] initGame failed:', err)
     })
 
-    return () => {
-      cleanup = true
-      destroyGame()
-    }
+    return () => { destroyGame() }
   }, [])
 
   return (
     <div
       ref={containerRef}
-      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: '#1a1a2e' }}
     />
   )
 }

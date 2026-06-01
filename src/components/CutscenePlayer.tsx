@@ -194,13 +194,7 @@ export default function CutscenePlayer() {
   const studioName  = useCharacterStore((s) => s.studioName)
 
   // Siyah overlay opacity'si: 1 = tam siyah, 0 = sahne görünür
-  const [blackOpacity, setBlackOpacity] = useState(1)
-
-  // İlk açılış: siyahtan fade-in
-  useEffect(() => {
-    const t = setTimeout(() => setBlackOpacity(0), 50)
-    return () => clearTimeout(t)
-  }, [])
+  const [blackOpacity, setBlackOpacity] = useState(0)
 
   // Frame geçişi: isTransitioning → fade-out → nextFrame → fade-in
   useEffect(() => {

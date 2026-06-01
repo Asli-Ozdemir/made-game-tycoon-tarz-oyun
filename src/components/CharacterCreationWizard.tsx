@@ -28,7 +28,7 @@ export default function CharacterCreationWizard() {
     finalize()
     useRivalStore.getState().initRivals()
     useTrendStore.getState().initTrends()
-    useCutsceneStore.getState().startCutscene('kovulma')
+    useCutsceneStore.getState().startCutsceneForce('kovulma')
   }
 
   return (

@@ -1,7 +1,8 @@
 import { useNewsStore } from '@/store/newsStore'
 
 export default function NewsFeed() {
-  const items       = useNewsStore((s) => s.items.slice(0, 10))
+  const allItems    = useNewsStore((s) => s.items)
+  const items       = allItems.slice(0, 10)
   const unreadCount = useNewsStore((s) => s.unreadCount)
   const markSeen    = useNewsStore((s) => s.markSeen)
   const markAllSeen = useNewsStore((s) => s.markAllSeen)

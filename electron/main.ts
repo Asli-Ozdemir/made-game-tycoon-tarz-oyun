@@ -6,6 +6,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 800,
+    backgroundColor: '#0d1117',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true
@@ -15,6 +16,11 @@ function createWindow() {
     win.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'))
+  }
+
+  // Dev modunda DevTools otomatik aç
+  if (process.env.ELECTRON_RENDERER_URL) {
+    win.webContents.openDevTools({ mode: 'detach' })
   }
 }
 
