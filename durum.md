@@ -1,5 +1,5 @@
 # Oyun Durum Dosyası
-_Son güncelleme: 2026-06-01_
+_Son güncelleme: 2026-06-01 (akşam)_
 
 ## Tamamlananlar
 
@@ -38,7 +38,13 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 
 ### Cutscene (Düşük Öncelik)
 - Kovulma cutscene şu an CharacterCreationWizard'da `startCutsceneForce` ile tetikleniyor
-- Yeni oyun başlatınca görünmesi lazım — oda mimarisi sonrası test et
+- Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
+
+### Sıradaki Büyük Görevler
+- Köprü geçişinde otobüs animasyonu (isteğe bağlı)
+- NPC sprite'ları harita üzerinde
+- Sahaf / Balıkçı / Pub panel içerikleri (Marcus, Remy, Theo)
+- DevTools otomatik açma production'dan kaldır (`electron/main.ts`)
 
 ---
 
