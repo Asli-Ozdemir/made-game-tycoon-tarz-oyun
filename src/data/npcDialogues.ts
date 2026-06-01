@@ -514,9 +514,119 @@ const bruno: NPCDef = {
   ],
 }
 
+// ─── MAGNUS ──────────────────────────────────────────────────────────────────
+
+const magnus: NPCDef = {
+  id: 'magnus',
+  name: 'Magnus',
+  role: 'Sokak Filozofu',
+  philosophy: 'Nietzsche — Değerleri sürü değil sen dövürsün; kendini aş, uçuruma dikkat et.',
+  emoji: '🌒',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'magnus_t1_1',
+      tier: 1,
+      title: 'Uçurum Kenarı',
+      lines: [
+        { speaker: 'npc',    text: '(iskele ucunda, suya bakıyor, dönmeden) Sen de mi suya bakmaya geldin? Herkes gelir. Az kişi gerçekten bakar.' },
+        { speaker: 'player', text: 'Sen kimsin?' },
+        { speaker: 'npc',    text: 'Magnus. Bir zamanlar bir isimdim, şimdi bir soru işareti. İkisi de fena değil.' },
+        { speaker: 'player', text: 'Burada mı yaşıyorsun?' },
+        { speaker: 'npc',    text: 'Şu çürük teknede. Batmıyor — inadına. Tıpkı benim gibi.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'magnus_t1_2',
+      tier: 1,
+      title: 'İyi ve Kötü',
+      lines: [
+        { speaker: 'player', text: 'İnsanlar sana deli diyor.' },
+        { speaker: 'npc',    text: 'Deli, herkesin görmezden geldiğini yüksek sesle söyleyendir. Bak şu nehre — "iyi" mi akıyor, "kötü" mü? Hiçbiri. İyiyi, kötüyü biz uydurduk.' },
+      ],
+      choices: [
+        {
+          text: 'O zaman hiçbir şey önemli değil mi?',
+          lines: [{ speaker: 'npc', text: 'Hayır — her şey önemli, ama anlamı sen koyacaksın, sürü değil. Tanrı öldü, eleştirmen de. Değeri sen döveceksin.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sen ne değer dövdün?',
+          lines: [{ speaker: 'npc', text: 'Bir oyun. Kuralların hepsini yaktı. Sonra... başka bir hikâye. (acı gülümser) Sonra anlatırım.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'magnus_t2_1',
+      tier: 2,
+      title: 'Efsane',
+      lines: [
+        { speaker: 'player', text: 'O oyun neydi?' },
+        { speaker: 'npc',    text: 'Bu şehirde doğdum; herkes "fazla" derdi bana. Şehre gittim, kuralları yakan bir oyun yaptım — tür tanımlandı, "dahi" dediler.' },
+        { speaker: 'player', text: 'Sonra?' },
+        { speaker: 'npc',    text: 'Sonra aynı kalabalık döndü. Fazla radikal, fazla dik, fazla Magnus. Beni de yaktılar. Zirveden düştüm, doğduğum yere sürünerek döndüm.' },
+        { speaker: 'npc',    text: 'Hanna hâlâ "yine mi sen" der, gülerek. O, çocukluğumu bilir.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'magnus_t2_2',
+      tier: 2,
+      title: 'Düşmek',
+      lines: [
+        { speaker: 'player', text: 'Düşmek nasıldı?' },
+        { speaker: 'npc',    text: 'Yükseklik, düşmekten korkanlar içindir. Ben düştüm — ve düşerken bir şey gördüm.' },
+        { speaker: 'player', text: 'Ne?' },
+        { speaker: 'npc',    text: 'Dibe vurmak sağlam bir zemindir. Üstüne yeniden inşa edebilirsin. Korktuğun şey aslında özgürlüğün.' },
+      ],
+      choices: [
+        {
+          text: "'Beni öldürmeyen güçlendirir' mi?",
+          lines: [{ speaker: 'npc', text: 'Yarısı doğru. Bazısı sadece sakat bırakır. Marifet, sakatken bile yürümeye devam edebilmek.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Yeniden çıkmak istemedin mi?',
+          lines: [{ speaker: 'npc', text: 'İstedim. Ama kendim için, kalabalık için değil. O zaman çıkış başka bir şey oluyor.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 5,
+    },
+    // ─── T3 ───
+    {
+      id: 'magnus_t3_1',
+      tier: 3,
+      title: 'Uçurum',
+      lines: [
+        { speaker: 'npc',    text: 'O karşı yakadaki güçle dövüşüyorsun. Gözlerinde tanıdık bir şey var — benim bir zamanlar aynada gördüğüm.' },
+        { speaker: 'player', text: 'Onu yenmem gerek.' },
+        { speaker: 'npc',    text: 'Belki. Ama şunu söyleyeyim, sonra unut: canavarlarla dövüşen, kendi canavara dönüşmemeye dikkat etsin.' },
+        { speaker: 'player', text: '...' },
+        { speaker: 'npc',    text: 'Ve sakın unutma — uçuruma uzun bakarsan, uçurum da sana bakar. Onu değil, kendini aş. Düşmanı geçmek kolay; kendini geçmek marifet.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
   theo,
   bruno,
+  magnus,
 }
