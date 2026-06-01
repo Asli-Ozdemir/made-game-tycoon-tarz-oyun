@@ -1,6 +1,6 @@
 import type { ZoneDef, BuildingDef, TriggerDef, CollisionRect } from '../mapData'
 
-export type RoomId = 'coast' | 'bridge' | 'city'
+export type RoomId = 'coast' | 'bridge' | 'city' | 'park'
 
 export interface ExitTriggerDef {
   toRoom: RoomId
