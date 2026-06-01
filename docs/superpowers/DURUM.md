@@ -1,6 +1,6 @@
 # Proje Durumu — Nerede Kaldık
 
-**Son güncelleme:** 2026-05-31
+**Son güncelleme:** 2026-06-01
 
 Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
 Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
@@ -77,6 +77,30 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 ### Faz 6C — Pazarlama Özeti
 
 `campaignEngine.ts`: `CAMPAIGN_CONFIGS` (sosyal/influencer/billboard — peşin+haftalık+süre+çarpan), `computePreLaunchMultiplier` (max, stack yok), `computePostLaunchBonusRevenue` (publishRevenue × oran, süresi bitince 0), `rollSocialEvent` (viral: score≥80+kampanya+%15, review_bomb: score<40+kampanyasız+%10). `campaignStore`: `startCampaign` (peşin ödeme+isPreLaunch detect), `weeklyTick` (gider+itibar+bonus gelir+süresi biten+pasif olaylar), `triggerDevDiary` (2K$+itibar+5+cooldown 4h), `triggerCommunity` (5K$+itibar+10+cooldown 6h+2h bonus). `scoreEngine`'e `preLaunchMultiplier` eklendi. `ProjectCard`'a kampanya başlatma/durdurma butonları. `CampaignPanel` 3 sekme (aktif/aksiyonlar/geçmiş). `SocialEventToast` 4s bildirim. HUD'a 📣 butonu + aktif kampanya rozeti.
+
+---
+
+## Senaryo & Yaşam-Sim Tasarım Hattı — UYGULAMA BEKLİYOR
+
+Bu oturumda (claude PC'sinde) **spec + plan** olarak hazırlandı; **kod henüz yazılmadı** (bu PC'de değil). Önce NPC sistemi, sonra yaşlanma zinciri. Uygulama sırası önerisi:
+
+| Sıra | Sistem | Spec | Plan |
+|------|--------|------|------|
+| 1 | **NPC Etkileşim & Felsefe** (~36 NPC, Yarn/YarnBound, kalp/diyalog/mektup, 12 felsefe + 12 romantizm + kasabalılar) | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
+| 2 | **Yaşlanma & Yaşam-Olayı Çekirdeği (A)** (yaş/evre + life-event motoru + arcEnd) | `specs/2026-05-31-yaslanma-yasam-olayi-design.md` | `plans/2026-05-31-yaslanma-yasam-olayi.md` |
+| 3 | **NPC Yaşam Olayları (B)** (reşit/evlilik/doğum/ölüm/miras — A'ya veri) | `specs/2026-05-31-npc-yasam-olaylari-design.md` | `plans/2026-05-31-npc-yasam-olaylari.md` |
+| 4 | **Oyuncu Romantizm Arkı (C1)** (itiraf→evlilik→çocuk; player_romance/married bayrakları) | `specs/2026-05-31-oyuncu-romantizm-arki-design.md` | `plans/2026-05-31-oyuncu-romantizm-arki.md` |
+| 5 | **Final / Emeklilik Epilogu (C2)** (arcEnd → monolog + neredeler kartları) | `specs/2026-05-31-final-emeklilik-epilog-design.md` | `plans/2026-05-31-final-emeklilik-epilog.md` |
+| 6 | **Oyuncu-Hayatı & Olay Ara Sahneleri** (eski eş ipliği, Ned, eski meslektaş, çocuk, yıl dönümü, tükenmişlik, yas — duruma tetikli) | `specs/2026-05-31-oyuncu-hayati-olay-ara-sahneleri-design.md` | *(plan henüz yok; içerik derinleştiriliyor)* |
+
+**Çapraz notlar (uygulayıcıya):**
+- **C2 ↔ 4C:** Epilogda satın al/yok et ayrımı için `rivalStore.resolveRival` bir `lastResolution: ResolutionChoice` yazmalı (4C'ye küçük ek). Yoksa `destroyed→destroy` kabul.
+- **C2 ↔ B:** B olayları `uclu_studyo_kuruldu` ve `bea_mural_yapildi` bayraklarını da `setFlag` ile bırakmalı (epilog şehir kartı okur; yoksa satır atlanır).
+- **A:** `lifeStore.advanceYear` Dashboard'taki yıl-değişim `useEffect`'ine bağlanır (rival `simulateYear` yanına).
+- **C1/Romantizm:** çiçekçi (itiraf demeti) ve kuyumcu (yüzük) — harita trigger'ları (`cicekci_door`/`kuyumcu_door`) bu PC'de placeholder olarak mevcut; C1 onlara bağlanır.
+- **Dünya yapısı** (sahil ↔ köprü ↔ şehir, otobüs/araba): bu PC'de **Faz 7B harita yeniden tasarımı** ile uygulanıyor — NPC `spot`'ları ve servis trigger'larıyla örtüşür.
+
+**İçerik derinleştirme durumu (Oyuncu-Hayatı ara sahneleri):** ✅ eski eş ipliği (para→düğün→son mektup), ✅ Ned (kalp + 5 sahne + noGrowth). Bekleyen: eski meslektaş (3-dallı seçim), çocuk anları, yıl dönümü, tükenmişlik, yas + "her NPC'ye olay" genişlemesi.
 
 ---
 
