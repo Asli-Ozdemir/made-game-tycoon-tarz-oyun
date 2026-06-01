@@ -3,6 +3,15 @@ _Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
 
+### Zihin Geliştirme Ağacı (2026-06-01)
+- 30 node, 5 tier, radyal nöron layout
+- `src/data/skillTree.ts`: SkillNode tipleri + 30 node tanımı
+- `src/store/skillTreeStore.ts`: canUnlock, unlockNode, getNodeState, getActiveEffects
+- `src/components/SkillTreeCanvas.tsx`: PixiJS nöron rendering (loblu soma, dendrit, myelin akson)
+- `src/components/SkillTreePanel.tsx`: seed sayaçları, hover tooltip
+- `src/components/SleepOverlay.tsx`: uyku fade + gün sonu
+- Yatak trigger: coastRoom tile (26,14) → 'sleep' location
+
 ### NPC Diyalog Sistemi (2026-06-01)
 - T1/T2/T3 tier sistemi: dostluk 0→30→70 eşiğiyle açılır
 - Marcus (Stoacı Sahaf), Remy (Balıkçı), Theo (Pub) — her biri 5 diyalog
@@ -54,7 +63,6 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 ### Sıradaki Büyük Görevler
 - Köprü geçişinde otobüs animasyonu (isteğe bağlı)
 - NPC sprite'ları harita üzerinde
-- Zihin Geliştirme Ağacı — Fikir Tohumlarını harcama UI + beceri ağacı veri modeli
 - Hayat Yolu seçimi (Hırs / Huzur / Emek) — kalıcı seçim mekanik
 - DevTools otomatik açma production'dan kaldır (`electron/main.ts`)
 
