@@ -4,6 +4,7 @@ import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useSkillTreeStore } from '@/store/skillTreeStore'
 import { SKILL_NODES, type SkillNode } from '@/data/skillTree'
 import { IDEA_SEED_META } from '@/data/npcDialogues'
+import SkillTreeCanvas from '@/components/SkillTreeCanvas'
 
 interface Props {
   onWake: () => void
@@ -34,10 +35,9 @@ export default function SkillTreePanel({ onWake }: Props) {
         })}
       </div>
 
-      {/* Canvas alanı (SkillTreeCanvas placeholder) */}
-      {/* SkillTreeCanvas buraya gelecek — Task 6'da */}
-      <div className="flex-1 flex items-center justify-center">
-        <span className="text-gray-700 text-xs font-mono">nöronlar yükleniyor...</span>
+      {/* Canvas alanı */}
+      <div className="flex-1 relative">
+        <SkillTreeCanvas onHover={setHovered} />
       </div>
 
       {/* Alt bar — hover tooltip */}
