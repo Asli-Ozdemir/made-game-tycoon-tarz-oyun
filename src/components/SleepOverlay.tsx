@@ -1,6 +1,7 @@
 // src/components/SleepOverlay.tsx
 import { useEffect, useState } from 'react'
 import { useWorldStore } from '@/store/worldStore'
+import SkillTreePanel from '@/components/SkillTreePanel'
 
 interface Props {
   onWake?: () => void
@@ -39,15 +40,7 @@ export default function SleepOverlay({ onWake }: Props) {
         opacity: visible ? 1 : 0,
       }}
     >
-      {/* SkillTreePanel buraya gelecek — Task 5'te */}
-      <div className="text-purple-300 text-sm font-mono">Rüya yükleniyor...</div>
-
-      <button
-        onClick={wake}
-        className="absolute top-4 right-4 text-gray-600 hover:text-gray-400 text-xs transition-colors font-mono"
-      >
-        Uyan (ESC)
-      </button>
+      <SkillTreePanel onWake={wake} />
     </div>
   )
 }
