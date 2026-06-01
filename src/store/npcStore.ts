@@ -9,10 +9,12 @@ interface NPCState {
 
 interface NPCStore {
   npcs: Record<string, NPCState>
+  gainMultipliers: Record<string, number>
   getRelationship: (npcId: string) => number
   getTier: (npcId: string) => 1 | 2 | 3
   hasSeenDialogue: (npcId: string, dialogueId: string) => boolean
   completeDialogue: (npcId: string, dialogueId: string, bonus: number) => void
+  penalizeNpc: (npcId: string) => void
   getAvailableDialogues: (npcId: string) => Dialogue[]
 }
 
@@ -24,8 +26,17 @@ function initNpcs(): Record<string, NPCState> {
   return result
 }
 
+function initMultipliers(): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (const id of Object.keys(NPC_DEFS)) {
+    result[id] = 1.0
+  }
+  return result
+}
+
 export const useNPCStore = create<NPCStore>((set, get) => ({
   npcs: initNpcs(),
+  gainMultipliers: initMultipliers(),
 
   getRelationship(npcId) {
     return get().npcs[npcId]?.relationship ?? 0
@@ -48,15 +59,42 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
     set((s) => {
       const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
       const alreadySeen = prev.seenDialogueIds.includes(dialogueId)
+      const multiplier = s.gainMultipliers[npcId] ?? 1.0
+      const effectiveBonus = alreadySeen ? 0 : bonus * multiplier
+      const newMultiplier = Math.min(1.0, multiplier + 0.05)
+
       return {
         npcs: {
           ...s.npcs,
           [npcId]: {
-            relationship: Math.min(100, prev.relationship + (alreadySeen ? 0 : bonus)),
+            relationship: Math.min(100, prev.relationship + effectiveBonus),
             seenDialogueIds: alreadySeen
               ? prev.seenDialogueIds
               : [...prev.seenDialogueIds, dialogueId],
           },
+        },
+        gainMultipliers: {
+          ...s.gainMultipliers,
+          [npcId]: newMultiplier,
+        },
+      }
+    })
+  },
+
+  penalizeNpc(npcId) {
+    set((s) => {
+      const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
+      return {
+        npcs: {
+          ...s.npcs,
+          [npcId]: {
+            ...prev,
+            relationship: Math.max(0, prev.relationship - 20),
+          },
+        },
+        gainMultipliers: {
+          ...s.gainMultipliers,
+          [npcId]: 0.5,
         },
       }
     })
