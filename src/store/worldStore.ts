@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import type { RoomId } from '@/pixi/rooms/types'
 
 export type GameMode = 'exploration' | 'tycoon'
-export type LocationId = 'cafe' | 'fair' | 'akademi' | 'sahaf' | 'balikci' | 'pub' | null
+export type LocationId = 'cafe' | 'fair' | 'akademi' | 'sahaf' | 'balikci' | 'pub' | 'sleep' | null
 export type TransitionState = 'idle' | 'fading-out' | 'fading-in'
 
 interface WorldStore {

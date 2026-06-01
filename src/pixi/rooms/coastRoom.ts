@@ -21,6 +21,7 @@ export const coastRoom: RoomDef = {
     { name: 'sahaf_door',   x: 256,  y: 512, w: 32, h: 32 },
     { name: 'balikci_door', x: 1184, y: 480, w: 32, h: 32 },
     { name: 'pub_door',     x: 480,  y: 640, w: 32, h: 32 },
+    { name: 'yatak',        x: 832,  y: 448, w: 32, h: 32 },
   ],
   exitTriggers: [
     {

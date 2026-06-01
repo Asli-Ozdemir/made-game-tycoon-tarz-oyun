@@ -23,6 +23,7 @@ const LOCATION_MAP: Record<string, LocationId> = {
   sahaf_door:    'sahaf',
   balikci_door:  'balikci',
   pub_door:      'pub',
+  yatak:         'sleep',
 }
 
 const PLACEHOLDER_TRIGGERS = new Set([
