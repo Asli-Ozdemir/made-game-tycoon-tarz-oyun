@@ -3,6 +3,16 @@ _Son güncelleme: 2026-06-01_
 
 ## Tamamlananlar
 
+### Harita Odaları (2026-06-01)
+- 3 ayrı harita odası: coast (50×22), bridge (50×6), city (50×24)
+- `src/pixi/rooms/`: types.ts, coastRoom.ts, bridgeRoom.ts, cityRoom.ts
+- `WorldScene.loadRoom(room)`: per-oda rendering ve collision
+- `worldStore`: currentRoomId, transitionState, pendingRoomId + geçiş aksiyonları
+- `Game.ts`: `transitionToRoom(pendingRoomId, fromRoomId)` export
+- `App.tsx`: siyah fade overlay (400ms CSS transition) — oda geçişlerini koordine eder
+- Player hareketi geçiş sırasında dondurulur
+- 297+ test geçiyor
+
 ### Harita Yeniden Tasarımı (2026-06-01)
 - 50×50 tile harita (1600×1600px) — sahil + köprü + neon şehir
 - `mapData.ts`: ZONES, BUILDINGS (12), TRIGGERS (12), buildCollisionRects()
@@ -23,20 +33,8 @@ _Son güncelleme: 2026-06-01_
 
 ## Yarın Yapılacaklar
 
-### Harita Odaları (Öncelik: Yüksek)
-Mevcut mimari: tek büyük scrolling canvas (1600×1600px). Kullanıcı isteği: Stardew Valley gibi **ayrı harita odaları**:
-- **Oda 1 — Sahil**: sahil evi, sahaf, balıkçı, pub
-- **Oda 2 — Köprü**: geçiş odası (yürüyerek geçilir, kısa)
-- **Oda 3 — Şehir**: kafe, fuar, akademi, nexus, yatırımcı
-
-Geçiş mekanizması: odadan çıkınca siyah fade → yeni oda yüklenir → fade-in.
-Köprü kendi başına bir oda (otobüs/yürüyüş geçiş alanı).
-
-Mimari değişiklik gerekiyor:
-- `mapData.ts`'i per-oda veriye böl
-- `WorldScene`'e "aktif oda" kavramı ekle
-- Geçiş trigger'ları → oda değiştir
-- Oyuncu pozisyonu oda-koordinatına göre reset
+### Harita Odaları — TAMAMLANDI (2026-06-01)
+Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 
 ### Cutscene (Düşük Öncelik)
 - Kovulma cutscene şu an CharacterCreationWizard'da `startCutsceneForce` ile tetikleniyor
