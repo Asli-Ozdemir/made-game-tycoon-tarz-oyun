@@ -48,8 +48,8 @@ export class Player {
   getPosition() { return { x: this.x, y: this.y } }
 
   update(dt: number) {
-    const { gameMode, currentLocation } = useWorldStore.getState()
-    if (gameMode === 'tycoon' || currentLocation !== null) return
+    const { gameMode, currentLocation, transitionState } = useWorldStore.getState()
+    if (gameMode === 'tycoon' || currentLocation !== null || transitionState !== 'idle') return
 
     const dist = SPEED * dt
     let dx = 0

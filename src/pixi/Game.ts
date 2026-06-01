@@ -1,24 +1,30 @@
 // src/pixi/Game.ts
 import { Application } from 'pixi.js'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useWorldStore } from '@/store/worldStore'
 import { WorldScene } from './WorldScene'
 import { Player } from './Player'
 import { TILE_SIZE } from './mapData'
+import { coastRoom } from './rooms/coastRoom'
+import { bridgeRoom } from './rooms/bridgeRoom'
+import { cityRoom } from './rooms/cityRoom'
+import type { RoomDef } from './rooms/types'
+import type { RoomId } from './rooms/types'
 
-// Player başlangıç konumu: sahil evinin önü (tile 24, 18)
-const PLAYER_START_X = 24 * TILE_SIZE + 16  // 784
-const PLAYER_START_Y = 18 * TILE_SIZE + 16  // 592
+const ROOMS: Record<RoomId, RoomDef> = {
+  coast:  coastRoom,
+  bridge: bridgeRoom,
+  city:   cityRoom,
+}
 
 let app: Application | null = null
 let worldScene: WorldScene | null = null
 let player: Player | null = null
-// Session ID prevents stale async init from corrupting a newer init
-// (needed for React StrictMode which calls cleanup+remount in dev)
 let sessionId = 0
 
 export async function initGame(container: HTMLDivElement): Promise<Application> {
-  destroyGame()                    // clear any previous instance
-  const mySession = ++sessionId    // claim this init slot
+  destroyGame()
+  const mySession = ++sessionId
 
   const newApp = new Application()
   await newApp.init({
@@ -29,7 +35,6 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
     resolution:      window.devicePixelRatio || 1,
   })
 
-  // If destroyGame() was called while we were awaiting, abort quietly
   if (mySession !== sessionId) {
     newApp.destroy(true, { children: true })
     return newApp
@@ -40,8 +45,13 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
 
   worldScene = new WorldScene(app)
 
+  const startRoomId = useWorldStore.getState().currentRoomId
+  const startRoom = ROOMS[startRoomId]
+  worldScene.loadRoom(startRoom)
+
+  const spawn = startRoom.spawnPoints.default ?? { x: 24 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 }
   player = new Player(app, worldScene)
-  player.setPosition(PLAYER_START_X, PLAYER_START_Y)
+  player.setPosition(spawn.x, spawn.y)
 
   app.ticker.add((ticker) => {
     const deltaSeconds = ticker.deltaMS / 1000
@@ -58,8 +68,17 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
   return app
 }
 
+export function transitionToRoom(pendingRoomId: RoomId, fromRoomId: RoomId): void {
+  if (!worldScene || !player) return
+  const room = ROOMS[pendingRoomId]
+  worldScene.loadRoom(room)
+  const spawnKey = `from_${fromRoomId}` as `from_${RoomId}`
+  const spawn = room.spawnPoints[spawnKey] ?? room.spawnPoints.default ?? { x: 24 * TILE_SIZE + 16, y: TILE_SIZE + 16 }
+  player.setPosition(spawn.x, spawn.y)
+}
+
 export function destroyGame() {
-  sessionId++   // invalidate any pending initGame
+  sessionId++
   if (app) {
     player?.destroy()
     app.destroy(true, { children: true })
