@@ -730,6 +730,114 @@ const marta: NPCDef = {
   ],
 }
 
+// ─── CLARA ───────────────────────────────────────────────────────────────────
+
+const clara: NPCDef = {
+  id: 'clara',
+  name: 'Clara',
+  role: 'Noter',
+  philosophy: 'Kant / Deontoloji — Kural herkese aynı işlemeli; insan amaçtır, araç değil.',
+  emoji: '⚖️',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'clara_t1_1',
+      tier: 1,
+      title: 'Kural Kuraldır',
+      lines: [
+        { speaker: 'npc',    text: '(bir evrağa damga vururken) Bir saniye. İmza buraya, tarih şuraya. Eksik olursa geçersiz. ...Tamam, buyur.' },
+        { speaker: 'player', text: 'Çok titizsin.' },
+        { speaker: 'npc',    text: 'Titiz değil, tutarlıyım. Ben Clara. Bir kural varsa herkese aynı işler — sana da, belediye başkanına da. Yoksa kural değil, keyiftir.' },
+        { speaker: 'player', text: 'Bazen esnetmek gerekmez mi?' },
+        { speaker: 'npc',    text: '"Bir kez" diye esnetirsin, ertesi gün o "bir kez" başkasının kuralı olur. Ben esnetmem. Bedelini ödedim, ama esnetmem.' },
+      ],
+      ideaSeed: 'zaman_yonetimi',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'clara_t1_2',
+      tier: 1,
+      title: 'Beyaz Yalan',
+      lines: [
+        { speaker: 'npc',    text: 'İnsanlar bana "katı" der. Çünkü yalan söylemem — beyazını bile.' },
+        { speaker: 'player', text: 'Hiç mi? Birini incitmemek için bile mi?' },
+      ],
+      choices: [
+        {
+          text: 'Bazen yalan merhamettir.',
+          lines: [{ speaker: 'npc', text: 'Belki. Ama yalan söylediğin an, karşındakinin kendi yerine karar verme hakkını elinden alırsın. "Senin iyiliğin için" diyenler hep yalancı çıkar.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sana zarar vermedi mi bu?',
+          lines: [{ speaker: 'npc', text: 'Çok. Ama geceleri uyuyabiliyorum. Bunu herkes satın alamaz.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'clara_t2_1',
+      tier: 2,
+      title: 'Yarım Dosya',
+      lines: [
+        { speaker: 'player', text: 'Masandaki şu eski dosya — hiç açmıyorsun ama atmıyorsun da.' },
+        { speaker: 'npc',    text: '(durur) Onu fark ettin demek. Şehirdeyken avukattım. Büyük bir şirket küçük bir stüdyonun fikrini çalmıştı; dava bendeydi.' },
+        { speaker: 'player', text: 'Ne oldu?' },
+        { speaker: 'npc',    text: '"Birkaç satırı değiştir, dosyayı zayıflat" dediler. Reddettim. Ertesi hafta hiçbir büro beni işe almadı. Dava yarım kaldı, ben buraya döndüm.' },
+        { speaker: 'npc',    text: 'Dosyayı saklıyorum. Bitiremediğim için değil — neyi reddettiğimi unutmamak için.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'clara_t2_2',
+      tier: 2,
+      title: 'Araç Değil',
+      lines: [
+        { speaker: 'npc',    text: 'O karşı yakadaki şirket insanlara "kaynak" diyormuş. Beni asıl çıldırtan o kelime.' },
+        { speaker: 'player', text: 'Sadece bir kelime.' },
+        { speaker: 'npc',    text: 'Hayır. Bir insana "kaynak" dersen, onu tüketilecek bir şey sayarsın. İnsan amaçtır, araç değil. Bunu unutan her sistem, eninde sonunda birini öğütür.' },
+      ],
+      choices: [
+        {
+          text: 'Ama şirket kâr için var.',
+          lines: [{ speaker: 'npc', text: 'Kâr amaç olabilir. Ama insanın üstünden geçen kâr, hırsızlıktır — yasal olsa bile.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sen olsan ne yapardın?',
+          lines: [{ speaker: 'npc', text: 'Kuralı yazardım: kimse kimsenin merdiveni olmayacak. Saf mı? Belki. Ama saf olmayan her kural, birinin kullanılmasıyla biter.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'clara_t3_1',
+      tier: 3,
+      title: 'Herkese Aynı',
+      lines: [
+        { speaker: 'npc',    text: 'Şu adamla hesaplaşacaksın. Sana bir hukukçu aklı vereyim, bedava.' },
+        { speaker: 'player', text: 'Dinliyorum.' },
+        { speaker: 'npc',    text: 'Ona ne yaparsan yap, önce kendine sor: "Bunu bir kural yapsam, herkes bana da uygulasa, razı mıyım?" Razıysan yap. Değilsen, onu yenmek için ona benzemişsindir.' },
+        { speaker: 'player', text: 'Ya hak ettiyse?' },
+        { speaker: 'npc',    text: '"Hak etti" — en çok kanın döküldüğü cümle. Sen hak edişe değil kurala bak. O sana kuralsız davrandı diye sen de kuralsızlaşırsan, kazanan kuralsızlık olur — sen değil.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -737,4 +845,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   bruno,
   magnus,
   marta,
+  clara,
 }
