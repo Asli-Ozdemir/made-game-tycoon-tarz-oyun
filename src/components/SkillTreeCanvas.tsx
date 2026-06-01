@@ -3,6 +3,9 @@ import { useEffect, useRef } from 'react'
 import { Application, Graphics, Container } from 'pixi.js'
 import { SKILL_NODES, type SkillNode } from '@/data/skillTree'
 import { useSkillTreeStore } from '@/store/skillTreeStore'
+import { useLifePathStore } from '@/store/lifePathStore'
+import { PATH_THRESHOLD } from '@/data/lifePathData'
+import type { LifePath } from '@/data/skillTree'
 
 const CW = 760
 const CH = 540
@@ -167,6 +170,48 @@ function drawAxon(
   g.circle(x2, y2, 2).fill(0xffee00)
 }
 
+const ARC_R = 345
+
+const PATH_ARC_CONFIGS: { path: LifePath; startAngle: number; endAngle: number; color: number }[] = [
+  { path: 'huzur', startAngle: -2.8, endAngle: -0.3, color: 0x4488cc },
+  { path: 'hirs',  startAngle:  1.2, endAngle:  3.6, color: 0xff6644 },
+  { path: 'emek',  startAngle:  0.2, endAngle:  1.1, color: 0x88cc44 },
+]
+
+function drawPathArcs(
+  g: Graphics,
+  progress: Record<LifePath, number>,
+  activePathId: LifePath | null
+) {
+  for (const arc of PATH_ARC_CONFIGS) {
+    const pct      = Math.min(1, (progress[arc.path] ?? 0) / PATH_THRESHOLD)
+    const isActive = activePathId === arc.path
+    const span     = arc.endAngle - arc.startAngle
+
+    // Boş track
+    g.arc(CX, CY, ARC_R, arc.startAngle, arc.endAngle)
+      .stroke({ width: 5, color: 0x1a1a2e, alpha: 0.5 })
+
+    if (pct > 0) {
+      const fillEnd = arc.startAngle + span * pct
+      g.arc(CX, CY, ARC_R, arc.startAngle, fillEnd)
+        .stroke({
+          width: isActive ? 7 : 5,
+          color: arc.color,
+          alpha: isActive ? 1.0 : 0.65,
+        })
+
+      // Aktif yol: threshold noktasında parlak işaret
+      if (isActive && pct >= 1) {
+        const tx = CX + Math.cos(arc.endAngle) * ARC_R
+        const ty = CY + Math.sin(arc.endAngle) * ARC_R
+        g.circle(tx, ty, 5).fill({ color: arc.color, alpha: 0.9 })
+        g.circle(tx, ty, 8).stroke({ width: 1.5, color: arc.color, alpha: 0.4 })
+      }
+    }
+  }
+}
+
 interface Props {
   onHover: (node: SkillNode | null) => void
 }
@@ -197,9 +242,14 @@ export default function SkillTreeCanvas({ onHover }: Props) {
       if (appRef.current && !destroyed) renderTree(appRef.current)
     })
 
+    const unsubPath = useLifePathStore.subscribe(() => {
+      if (appRef.current && !destroyed) renderTree(appRef.current)
+    })
+
     return () => {
       destroyed = true
       unsub()
+      unsubPath()
       app.destroy()
     }
   }, [])
@@ -215,6 +265,12 @@ export default function SkillTreeCanvas({ onHover }: Props) {
         .fill({ color: 0xc8d4ff, alpha: ((i * 37) % 40) / 100 + 0.04 })
     }
     app.stage.addChild(bg)
+
+    // Yol yayları (arkaplan üstü, nöronların altı)
+    const arcLayer = new Graphics()
+    const { progress, activePathId } = useLifePathStore.getState()
+    drawPathArcs(arcLayer, progress, activePathId)
+    app.stage.addChild(arcLayer)
 
     const positions = new Map<string, { x: number; y: number }>()
     for (const node of SKILL_NODES) {

@@ -23,6 +23,13 @@ _Son güncelleme: 2026-06-01 (gece)_
 - Nehir değişikliği: coastRoom'daki `coastal_water` → `river` (renk 0x071a12)
 - 297 test geçiyor
 
+### Hayat Yolu Altyapısı (2026-06-01)
+- `src/data/lifePathData.ts`: PATH_THRESHOLD=100, PATH_NPC_MAP
+- `src/store/lifePathStore.ts`: serbest/kilitli faz, addProgress, switchPath (NPC cezası + progress reset)
+- `src/store/npcStore.ts`: gainMultiplier + penalizeNpc — yol değiştirince ilişki zayıflar
+- `src/components/SkillTreeCanvas.tsx`: dış halka yay göstergesi (Huzur/Hırs/Emek)
+- T5 node'ları artık lifePathStore üzerinden açılıyor
+
 ### Harita Odaları (2026-06-01)
 - 3 ayrı harita odası: coast (50×22), bridge (50×6), city (50×24)
 - `src/pixi/rooms/`: types.ts, coastRoom.ts, bridgeRoom.ts, cityRoom.ts
@@ -65,6 +72,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - NPC sprite'ları harita üzerinde
 - Hayat Yolu seçimi (Hırs / Huzur / Emek) — kalıcı seçim mekanik
 - DevTools otomatik açma production'dan kaldır (`electron/main.ts`)
+- Yan işler — mini oyun brainstorming (Hırs/Emek/Huzur per iş)
 
 ---
 
