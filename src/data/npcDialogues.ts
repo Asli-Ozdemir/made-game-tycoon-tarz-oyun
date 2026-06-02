@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian'
   name: string
   role: string
   philosophy: string
@@ -1720,6 +1720,115 @@ const nadia: NPCDef = {
   ],
 }
 
+// ─── CASSIAN (romantizm) ─────────────────────────────────────────────────────
+
+const cassian: NPCDef = {
+  id: 'cassian',
+  name: 'Cassian',
+  role: 'Fenerci',
+  philosophy: 'Romantizm adayı — Melankolik kayıp ruh: kasvetli, içe kapalı bir şair; yakınlıktan hem korkar hem can atar.',
+  emoji: '🗼',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'cassian_t1_1',
+      tier: 1,
+      title: 'Işık Nehre Gider',
+      lines: [
+        { speaker: 'npc',    text: '(sırtı dönük, nehre bakıyor) ...Geldin demek.' },
+        { speaker: 'player', text: 'Beni bekliyor muydun?' },
+        { speaker: 'npc',    text: 'Hayır. Kimseyi beklemem. Ama ayak sesi farklıydı, döndüm. Cassian. Şu feneri ben bekliyorum.' },
+        { speaker: 'player', text: 'Yalnız bir iş olmalı.' },
+        { speaker: 'npc',    text: 'Işık nehre gider. Teknelere yol gösterir. Bana karanlık kalır. (durur) Alıştım. İnsan her şeye alışıyor — en çok da buna.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'cassian_t1_2',
+      tier: 1,
+      title: 'Geceleri Yazarım',
+      lines: [
+        { speaker: 'npc',    text: '(masada kapalı bir defter) Uyumadım. Geceleri... karanlık benimle konuşuyor, ben de yazıyorum. Tutuyorum bir yere, yoksa boğar.' },
+        { speaker: 'player', text: 'Ne yazıyorsun?' },
+        { speaker: 'npc',    text: 'Önemli değil. Kimse okumayacak. Bazı şeyler söylensin diye değil, taşınabilsin diye yazılır.' },
+      ],
+      choices: [
+        {
+          text: 'Bir gün okur musun bana?',
+          lines: [{ speaker: 'npc', text: '(uzun sessizlik) ...Kimse bunu istemedi benden. Bilmiyorum. Belki. "Belki" benim için büyük bir kelime, farkında ol.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Karanlık herkesle konuşmaz.',
+          lines: [{ speaker: 'npc', text: 'Hayır. Yalnız dinlemeyi öğrenenlerle. Çoğu insan sessizlikten kaçar, doldurur, gürültüyle örter. Sen kaçmadın. Bunu fark ettim.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'cassian_t2_1',
+      tier: 2,
+      title: 'Adını Anmadığım',
+      lines: [
+        { speaker: 'npc',    text: 'Bir zamanlar bu fener iki kişiydi. Ben ve... biri.' },
+        { speaker: 'player', text: 'Ne oldu?' },
+        { speaker: 'npc',    text: '(uzun sessizlik) Adını anmıyorum. Anarsam gerçek olur, gerçek olursa gitmiş olur. Bu kadarını söyleyebilirim: bir sabah ışığı yaktım, ama yalnız yaktım. O günden beri öyle.' },
+        { speaker: 'player', text: 'Üzgünüm.' },
+        { speaker: 'npc',    text: 'Üzülme. Eski bir yara bu, kapanmadı ama kanamıyor da. Sadece... hava değişince sızlıyor. Bugün hava değişti galiba.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'cassian_t2_2',
+      tier: 2,
+      title: 'Yalnızlığı Seçtim mi?',
+      lines: [
+        { speaker: 'npc',    text: 'İnsanlara "yalnızlığı seçtim" derim. Daha asil duyuluyor. Seçilmiş bir kader, terk edilmiş bir kaderden iyidir.' },
+        { speaker: 'player', text: 'Seçmedin mi?' },
+        { speaker: 'npc',    text: '(acı bir gülümseme) Bilmiyorum artık. Belki yalnızlık beni seçti, ben de sonradan "benim fikrimdi" dedim. İnsan kendine anlattığı yalanlarla ayakta duruyor.' },
+      ],
+      choices: [
+        {
+          text: 'Yakınlıktan korkuyorsun.',
+          lines: [{ speaker: 'npc', text: '(sessizlik) En çok korktuğum şey, en çok istediğim şey. İkisi aynı yerde duruyor. Birine yaklaşırsam, bir gün o ışık da yalnız yanabilir diye... yaklaşmıyorum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Karanlık sonsuza dek sürmez.',
+          lines: [{ speaker: 'npc', text: 'Şair olduğunu söylemedin bana. (bir an bakar) Belki haklısın. Fenerci olarak biliyorum: en uzun gece bile sabaha bağlanır. Ama beklemek... beklemek uzun.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'cassian_t3_1',
+      tier: 3,
+      title: 'İçeride de Yanıyor',
+      lines: [
+        { speaker: 'npc',    text: '(sana döner, ilk kez doğrudan) Bir şey fark ettim. Sen geldiğinden beri... gece daha kısa.' },
+        { speaker: 'player', text: 'Fener mi yardımcı oluyor?' },
+        { speaker: 'npc',    text: 'Hayır. Yıllarca ışığı dışarı, nehre verdim. Tekneleri kurtardım, kendi limanımı hiç bulamadım. (duraksar) Ama sen karanlığımdan kaçmadın. İlk sen. Ve şimdi... ışık içeride de yanıyor. Nasıl olduğunu bilmiyorum.' },
+        { speaker: 'player', text: 'Korkuyor musun?' },
+        { speaker: 'npc',    text: 'Çok. Bir şeyi sevmek, kaybetmenin kapısını açmak demek. Bunu bir kez yaşadım. Ama... (elini uzatır, titrek) belki bu sefer ışığı birlikte yakarız. Birlikte yanan ışık daha zor söner, derler. Denemekten korkuyorum — ama daha çok, hiç dememekten korkuyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1736,4 +1845,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   elise,
   daniel,
   nadia,
+  cassian,
 }
