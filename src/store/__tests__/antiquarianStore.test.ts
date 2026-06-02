@@ -161,6 +161,15 @@ describe('antiquarianStore — advanceToIdentify', () => {
     useAntiquarianStore.getState().advanceToIdentify()
     expect(useAntiquarianStore.getState().phase).toBe('search')
   })
+
+  it('does nothing when no books are collected', () => {
+    useAntiquarianStore.getState().startShift(SHIFT_ID)
+    useAntiquarianStore.getState().advanceFromBriefing()
+    useAntiquarianStore.getState().selectLocation(LOC_ID)
+    // no collectBook call
+    useAntiquarianStore.getState().advanceToIdentify()
+    expect(useAntiquarianStore.getState().phase).toBe('search')
+  })
 })
 
 // ─── identifyBook ─────────────────────────────────────────────────────────────
@@ -225,6 +234,28 @@ describe('antiquarianStore — matchBook', () => {
     })
     useAntiquarianStore.getState().matchBook(REQ_1, BOOK_1)
     expect(useAntiquarianStore.getState().matches[REQ_1]).toBe(BOOK_1)
+  })
+
+  it('does nothing for unknown requestId', () => {
+    useAntiquarianStore.setState({
+      activeShift: ANTIQUARIAN_SHIFTS[0], phase: 'match',
+      selectedLocation: LOC_ID, collectedBooks: [BOOK_1],
+      identifications: { [BOOK_1]: ID_1_CORRECT },
+      matches: {}, mistakes: 0, completedShifts: [],
+    })
+    useAntiquarianStore.getState().matchBook('req_unknown', BOOK_1)
+    expect(useAntiquarianStore.getState().matches['req_unknown']).toBeUndefined()
+  })
+
+  it('does nothing for book not in collectedBooks', () => {
+    useAntiquarianStore.setState({
+      activeShift: ANTIQUARIAN_SHIFTS[0], phase: 'match',
+      selectedLocation: LOC_ID, collectedBooks: [BOOK_1],
+      identifications: { [BOOK_1]: ID_1_CORRECT },
+      matches: {}, mistakes: 0, completedShifts: [],
+    })
+    useAntiquarianStore.getState().matchBook(REQ_1, BOOK_2)
+    expect(useAntiquarianStore.getState().matches[REQ_1]).toBeUndefined()
   })
 })
 

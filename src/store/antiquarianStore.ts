@@ -101,9 +101,10 @@ export const useAntiquarianStore = create<AntiquarianStore>((set, get) => ({
   },
 
   advanceToIdentify() {
-    const { phase, selectedLocation } = get()
+    const { phase, selectedLocation, collectedBooks } = get()
     if (phase !== 'search') return
     if (!selectedLocation) return
+    if (collectedBooks.length === 0) return
     set({ phase: 'identify' })
   },
 
@@ -124,6 +125,11 @@ export const useAntiquarianStore = create<AntiquarianStore>((set, get) => ({
   },
 
   matchBook(requestId, bookId) {
+    const { activeShift, collectedBooks } = get()
+    if (!activeShift) return
+    const validRequest = activeShift.requests.some(r => r.id === requestId)
+    if (!validRequest) return
+    if (!collectedBooks.includes(bookId)) return
     set(s => ({ matches: { ...s.matches, [requestId]: bookId } }))
   },
 
