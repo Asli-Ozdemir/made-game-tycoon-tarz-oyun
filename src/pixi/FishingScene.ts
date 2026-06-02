@@ -426,12 +426,12 @@ export class FishingScene {
     this.app.stage.addChild(rlbl)
   }
 
-  private _drawVerticalBar(x: number, y: number, h: number, fill: number, color: number, label: string) {
+  private _drawVerticalBar(x: number, y: number, h: number, fillRatio: number, color: number, label: string) {
     const bg = new Graphics()
     bg.rect(x, y, 14, h).fill({ color: 0x0a1520, alpha: 0.8 })
     bg.stroke({ width: 1, color: 0x224455, alpha: 0.6 })
     this.app.stage.addChild(bg)
-    const fillH = h * fill
+    const fillH = h * fillRatio
     const bar = new Graphics()
     bar.rect(x + 1, y + h - fillH, 12, fillH).fill({ color, alpha: 0.85 })
     this.app.stage.addChild(bar)
