@@ -6,7 +6,6 @@ const STYLE_RULE  = new TextStyle({ fontFamily: 'monospace', fontSize: 11, fill:
 const STYLE_NAME  = new TextStyle({ fontFamily: 'monospace', fontSize: 16, fill: '#ffeecc' })
 const STYLE_VIP   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ffd700' })
 const STYLE_BAN   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ff4444' })
-const STYLE_CUE   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#8080a0', wordWrap: true, wordWrapWidth: 0 })
 const STYLE_ADMIT = new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#44cc44' })
 const STYLE_REJECT= new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#cc4444' })
 
@@ -100,8 +99,8 @@ export class DoorScene {
     }
 
     // Görünüm ipuçları
-    STYLE_CUE.wordWrapWidth = cardW - 32
-    const cueText = new Text({ text: guest.visualCues.join('\n'), style: STYLE_CUE })
+    const cueStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#8080a0', wordWrap: true, wordWrapWidth: cardW - 32 })
+    const cueText = new Text({ text: guest.visualCues.join('\n'), style: cueStyle })
     cueText.x = cardX + 16
     cueText.y = cardY + (guest.isBlacklisted ? 60 : 44)
     app.stage.addChild(cueText)
