@@ -41,13 +41,15 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | Sistem | Durum | Spec | Plan |
 |--------|-------|------|------|
 | **NPC Etkileşim & Felsefe** (tier 1/2/3, idea-seed, ilişki) | ✅ 12/12 felsefe NPC uygulandı (her biri kullanıcı onayıyla) | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
-| **Zihin Geliştirme Ağacı (Skill Tree)** (30 node, 5 tier) | ✅ Bitti | `specs/2026-06-01-skill-tree-design.md` | `plans/2026-06-01-skill-tree.md` |
+| **Zihin Geliştirme Ağacı (Skill Tree)** (36 node, 5 tier; +analiz +sosyallik dalları) | ✅ Bitti (efektler henüz oyuna bağlı değil) | `specs/2026-06-01-skill-tree-design.md` | `plans/2026-06-01-skill-tree.md` |
 | **Hayat Yolu Altyapısı** (Hırs/Huzur/Emek) | ✅ Bitti | `specs/2026-06-01-hayat-yolu-design.md` | `plans/2026-06-01-hayat-yolu.md` |
 | **Yan İş — Dedektif Asistanı** (vaka/kanıt/suçlama + analiz tohumu) | ✅ Altyapı bitti | `specs/2026-06-02-dedektif-asistani-design.md` | `plans/2026-06-02-dedektif-asistani.md` |
 | **Yan İş — Bar Bodyguard** (vardiya/kapı kararı/dövüş) | ✅ Altyapı bitti | `specs/2026-06-02-bar-bodyguard-design.md` | `plans/2026-06-02-bar-bodyguard.md` |
 
 ### NPC Diyalog Sistemi özeti
-T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diyaloglu** (her biri 5 diyalog: 2×T1, 2×T2, 1×T3): Marcus (Stoa/sahaf), Remy (Tao/balıkçı), Theo (absürd-varoluş/pub), Bruno (Aristoteles-erdem/mühendis), Magnus (Nietzsche/sokak filozofu), Marta (bakım etiği/hemşire), Clara (Kant/noter), Aldo (Epikür/bahçıvan), Yevgeni (nihilizm-Bazarov/teknisyen), Søren (Sartre/liman kaptanı), Rex (Kirenaik/arcade sahibi), Vivian (Fayda/yatırımcı). Son 3'ü kullanıcıyla satır satır onaylanarak yazıldı (bkz. PROJE-BAGLAM "⛔ NPC DİYALOGLARI"). `npcStore` (ilişki/tier/seenDialogues + gainMultiplier/penalizeNpc), `ideaSeedStore` (Nostalji/Hikaye/Kaos/Zaman Yönetimi/Analiz tohumları), paylaşımlı `DialogueView`. Sahaf/Balıkçı/Pub panelleri DialogueView'a bağlı. Hayat yolu eşlemesi (`PATH_NPC_MAP`): **huzur** = Marcus, Remy, Rex · **emek** = Theo, Søren · **hirs** = Vivian. T3'lerin hepsi Crane aynasına bağlanır.
+T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diyaloglu** (her biri 5 diyalog: 2×T1, 2×T2, 1×T3): Marcus (Stoa/sahaf), Remy (Tao/balıkçı), Theo (absürd-varoluş/pub), Bruno (Aristoteles-erdem/mühendis), Magnus (Nietzsche/sokak filozofu), Marta (bakım etiği/hemşire), Clara (Kant/noter), Aldo (Epikür/bahçıvan), Yevgeni (nihilizm-Bazarov/teknisyen), Søren (Sartre/liman kaptanı), Rex (Kirenaik/arcade sahibi), Vivian (Fayda/yatırımcı). Son 3'ü kullanıcıyla satır satır onaylanarak yazıldı (bkz. PROJE-BAGLAM "⛔ NPC DİYALOGLARI"). `npcStore` (ilişki/tier/seenDialogues + gainMultiplier/penalizeNpc), `ideaSeedStore` (Nostalji/Hikaye/Kaos/Zaman Yönetimi/Analiz/**Sosyallik** tohumları), paylaşımlı `DialogueView`. Sahaf/Balıkçı/Pub panelleri DialogueView'a bağlı. Hayat yolu eşlemesi (`PATH_NPC_MAP`): **huzur** = Marcus, Remy, Rex · **emek** = Theo, Søren · **hirs** = Vivian. T3'lerin hepsi Crane aynasına bağlanır.
+
+**Romantizm adayları (12, NPCDef yapısında — felsefe NPC'leriyle aynı sistem):** ✅ **Elise** (kafe müzisyeni/süslü diva, 🫂 sosyallik) yazıldı (1/12). Romantizm/sosyal konuşmalar **sosyallik** tohumu verir → skill tree'de yeni **sosyallik dalı** (sos_t1 `relationship_gain`, sos_t2 `reputation_bonus`, sos_t3 `salary_reduce`). T3 = flört (tipin gizli derinliği açılır). Kalan 11: Daniel, Nadia, Cassian, Rosa, Iris, Bjorn, Sigrid, Kai + 3. Her biri kullanıcı onayıyla yazılacak (PROJE-BAGLAM kuralı).
 
 ### Zihin Geliştirme Ağacı + Hayat Yolu özeti
 30 node / 5 tier radyal nöron layout, PixiJS rendering (`SkillTreeCanvas`), `skillTreeStore` (canUnlock/unlockNode/getNodeState/getActiveEffects), `SleepOverlay` (uyku → gün sonu, yatak trigger coastRoom). Hayat yolu: `lifePathData` (PATH_THRESHOLD=100, PATH_NPC_MAP), `lifePathStore` (serbest/kilitli faz, addProgress, switchPath → NPC cezası + progress reset), T5 node'ları lifePathStore üzerinden açılır, dış halka yay göstergesi (Huzur/Hırs/Emek).
@@ -132,7 +134,7 @@ NPC sistemi (sıra 1) **uygulandı** (yukarı taşındı — 9/12 NPC). Yaşlanm
 
 Açık uçlar (öncelik sırasız):
 - **Yan iş entegrasyonu** (dedektif + bar): posta kutusu altyapısı, companion NPC, harita girişleri, shift_04+/case_04+ içeriği.
-- **NPC kadrosunu tamamla:** 12 felsefe NPC bitti ✅, hayat-yolu eşlemeleri tam ✅ — kalan: 12 romantizm adayı + kasabalılar.
+- **NPC kadrosunu tamamla:** 12 felsefe NPC ✅, hayat-yolu eşlemeleri ✅, romantizm 1/12 (Elise ✅) — kalan 11 romantizm adayı + kasabalılar (her biri kullanıcı onayıyla).
 - **Yaşam-sim zinciri** (yukarıdaki tablo, sıra 2→6): yaşlanma çekirdeği → NPC yaşam olayları → romantizm → final/epilog → olay ara sahneleri.
 - **Cilalama:** UI iyileştirmeleri, balans, müzik/ses; DevTools otomatik açmayı production'dan kaldır.
 

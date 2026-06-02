@@ -12,6 +12,7 @@ export type SkillEffect =
   | { type: 'salary_reduce'; value: number }
   | { type: 'social_unlock'; target: string }
   | { type: 'reputation_bonus'; value: number }
+  | { type: 'relationship_gain'; value: number }
 
 export interface SkillNode {
   id: string
@@ -294,6 +295,35 @@ export const SKILL_NODES: SkillNode[] = [
     cost: [{ type: 'analiz', amount: 2 }, { type: 'zaman_yonetimi', amount: 1 }],
     effect: { type: 'bug_reduce', value: 0.15 },
     dependsOn: ['analiz_t2', 'zmn_t2'],
+  },
+
+  // ── Sosyallik node'ları (Romantizm/sosyal tohumlar) ────────────────────
+  {
+    id: 'sos_t1',
+    tier: 1,
+    name: 'Sıcak Karşılama',
+    description: 'İnsanlarla bağ kurmak sana kolay gelir; ilişkilerin daha hızlı gelişir.',
+    cost: [{ type: 'sosyallik', amount: 1 }],
+    effect: { type: 'relationship_gain', value: 0.10 },
+    dependsOn: [],
+  },
+  {
+    id: 'sos_t2',
+    tier: 2,
+    name: 'İnsan Sarrafı',
+    description: 'Karşındakini bir bakışta okursun; çevren stüdyonun adını taşır.',
+    cost: [{ type: 'sosyallik', amount: 2 }],
+    effect: { type: 'reputation_bonus', value: 5 },
+    dependsOn: ['sos_t1'],
+  },
+  {
+    id: 'sos_t3',
+    tier: 3,
+    name: 'Karizmatik Lider',
+    description: 'İnsanlar seninle çalışmak ister; daha düşük ücrete gönülden katılırlar.',
+    cost: [{ type: 'sosyallik', amount: 2 }, { type: 'hikaye', amount: 1 }],
+    effect: { type: 'salary_reduce', value: 0.12 },
+    dependsOn: ['sos_t2'],
   },
 
   // ── T5 (4 node, Hayat Yolu efsanevi) ──────────────────────────────────

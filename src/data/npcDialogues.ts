@@ -1,6 +1,6 @@
 // src/data/npcDialogues.ts
 
-export type IdeaSeedType = 'nostalji' | 'hikaye' | 'kaos' | 'zaman_yonetimi' | 'analiz'
+export type IdeaSeedType = 'nostalji' | 'hikaye' | 'kaos' | 'zaman_yonetimi' | 'analiz' | 'sosyallik'
 
 export const IDEA_SEED_META: Record<IdeaSeedType, { label: string; color: string; emoji: string }> = {
   nostalji:       { label: 'Nostalji',       color: '#a78bfa', emoji: '🌙' },
@@ -8,6 +8,7 @@ export const IDEA_SEED_META: Record<IdeaSeedType, { label: string; color: string
   kaos:           { label: 'Kaos',            color: '#f87171', emoji: '🌪️' },
   zaman_yonetimi: { label: 'Zaman Yönetimi',  color: '#34d399', emoji: '⏳' },
   analiz:         { label: 'Analiz',          color: '#fbbf24', emoji: '🔍' },
+  sosyallik:      { label: 'Sosyallik',       color: '#fb7185', emoji: '🫂' },
 }
 
 export interface DialogueLine {
@@ -34,7 +35,11 @@ export interface Dialogue {
 }
 
 export interface NPCDef {
-  id: 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
+  id:
+    // Felsefe NPC'leri
+    | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
+    // Romantizm adayları
+    | 'elise'
   name: string
   role: string
   philosophy: string
@@ -1388,6 +1393,115 @@ const vivian: NPCDef = {
   ],
 }
 
+// ─── ELISE (romantizm) ───────────────────────────────────────────────────────
+
+const elise: NPCDef = {
+  id: 'elise',
+  name: 'Elise',
+  role: 'Kafe Müzisyeni',
+  philosophy: 'Romantizm adayı — Süslü diva: cilanın altında kimsenin dinlemediğini bilen yalnız bir sanatçı.',
+  emoji: '🎶',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'elise_t1_1',
+      tier: 1,
+      title: 'Aa, Sen',
+      lines: [
+        { speaker: 'npc',    text: '(akort yaparken, başını kaldırmadan) Aa, sen. Hâlâ o eski ceket, değil mi? Neyse... otur bir yere, birazdan provam var.' },
+        { speaker: 'player', text: 'Burada mı çalıyorsun?' },
+        { speaker: 'npc',    text: 'Şimdilik. Elise. Bu kasabanın tek gerçek sesi — ki bu pek de iddialı sayılmaz, etrafa bakınca.' },
+        { speaker: 'player', text: 'Mütevazı biri olduğun belli.' },
+        { speaker: 'npc',    text: 'Mütevazılık keşfedilmemişler içindir. Ben sadece henüz doğru kişinin beni dinlemesini bekliyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'elise_t1_2',
+      tier: 1,
+      title: 'Doğru Dinleyici',
+      lines: [
+        { speaker: 'npc',    text: 'Bu akşamki şarkım harika olacak. Tabii beni hak eden bir kulak olursa salonda.' },
+        { speaker: 'player', text: 'Kalabalık seviyor mu seni?' },
+        { speaker: 'npc',    text: 'Kalabalık alkışlıyor. Alkışlamak başka, dinlemek başka. Çoğu masasındaki içkiyle konuşuyor, ben fon müziğiyim.' },
+      ],
+      choices: [
+        {
+          text: 'Belki şarkıların fazla onların üstünde.',
+          lines: [{ speaker: 'npc', text: '(ilk kez gülümser, hafif) Bunu söyleyen ilk kişisin. Çoğu "neşeli bir şey çal" der. Belki de... boş ver. Geç kaldım.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Büyük sahneleri neden denemiyorsun?',
+          lines: [{ speaker: 'npc', text: 'Denedim. Yıllar önce, bavulumla geldim, "burası geçici" dedim. (omuz silker) Sahne insanı tutuyor. Bir bakmışsın, geçici on yıl olmuş.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'elise_t2_1',
+      tier: 2,
+      title: 'Kimse Dinlemez',
+      lines: [
+        { speaker: 'npc',    text: 'Sana bir şey itiraf edeyim mi? Masa dolar, salon dolar. Ama kimse dinlemez. Gürültü isterler, melodi değil.' },
+        { speaker: 'player', text: 'Yine de her akşam çıkıyorsun.' },
+        { speaker: 'npc',    text: 'Çıkıyorum. Çünkü sahnede ışık varken, en azından görünüyorum. Işık sönünce... insan kendi sesini bile duymuyor.' },
+        { speaker: 'player', text: 'Bu yorucu olmalı.' },
+        { speaker: 'npc',    text: 'Cila yorucu. Ama çıkardığım an, altında ne kaldığını bilmiyorum. O yüzden çıkarmıyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'elise_t2_2',
+      tier: 2,
+      title: 'Çalmadığım Şarkı',
+      lines: [
+        { speaker: 'npc',    text: 'Bir şarkım var. Kimseye çalmadım. Fazla... gerçek. Sahnedeki Elise onu söyleyemez.' },
+        { speaker: 'player', text: 'Neden?' },
+        { speaker: 'npc',    text: 'Çünkü o şarkıda cila yok. Beğenmezlerse, beni beğenmemiş olurlar — şarkıyı değil. Bu riski almak için çok şey gerek.' },
+      ],
+      choices: [
+        {
+          text: 'Belki bir gün bana çalarsın.',
+          lines: [{ speaker: 'npc', text: '(sana bakar, bir an sessiz) Belki. Eğer hâlâ dinliyor olursan o gün geldiğinde.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Riski almayan şarkı, şarkı mıdır?',
+          lines: [{ speaker: 'npc', text: '(kısa bir kahkaha) Sözlerimi bana karşı kullanıyorsun. Sinir bozucu. Ve... galiba haklısın.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'elise_t3_1',
+      tier: 3,
+      title: 'Sadece Senin İçin',
+      lines: [
+        { speaker: 'npc',    text: '(salon boşalmış, sadece sen varsın) Herkes gitti. Genelde ben de bu saatte giderim. Ama... oturur musun bir dakika?' },
+        { speaker: 'player', text: 'Tabii.' },
+        { speaker: 'npc',    text: 'O çalmadığım şarkı var ya. (gitarı alır, duraksar) Yüzlerce kişiye söyledim sahnede, ama bu... bu sadece senin için. Çünkü sen gürültüyü değil, beni dinliyorsun.' },
+        { speaker: 'player', text: 'Korkuyor musun?' },
+        { speaker: 'npc',    text: 'Çok. Birinin gerçekten dinlemesi, alkıştan daha çok korkutuyor beni. Hem korkutuyor hem... hoşuma gidiyor. (çalmaya başlar) Kaçma, tamam mı? İlk kez cilasız çalıyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1401,4 +1515,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   soren,
   rex,
   vivian,
+  elise,
 }
