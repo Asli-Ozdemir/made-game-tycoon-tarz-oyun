@@ -3,6 +3,11 @@ _Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
 
+### Pub Garsonluk Altyapısı (2026-06-02)
+- `src/data/pubShifts.ts`: tip tanımları + 3 tam vardiya (pub_shift_01–03)
+- `src/store/pubStore.ts`: masa akışı, sipariş/pişirme/servis/başarısız, yanlış servis cezası, ödül hesaplama
+- `src/pixi/ServiceScene.ts`: masa turu arayüzü, sabır barları, pişirme zamanlayıcısı, sipariş seçim paneli
+
 ### Bar Bodyguard Altyapısı (2026-06-02)
 - `src/data/barShifts.ts`: tip tanımları + 3 tam vardiya (shift_01–03)
 - `src/store/barStore.ts`: startShift, makeGuestDecision, triggerIncident, chooseTensionOption, endFight, endShift, ödül hesaplama
@@ -83,6 +88,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
 
 ### Sıradaki Büyük Görevler
+- Pub garsonluk entegrasyonu: posta kutusu altyapısı, pub_shift_04–15 içeriği, harita entegrasyonu
 - Bar bodyguard entegrasyonu: posta kutusu altyapısı, shift_04–10 içeriği, harita entegrasyonu
 - Dedektif asistanı entegrasyonu: posta kutusu altyapısı, companion NPC, günlük akış, case_04–10 içeriği
 - Köprü geçişinde otobüs animasyonu (isteğe bağlı)
