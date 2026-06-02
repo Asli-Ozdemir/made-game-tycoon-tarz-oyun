@@ -1630,9 +1630,9 @@ const nadia: NPCDef = {
       lines: [
         { speaker: 'npc',    text: 'Naber! (elleri çamurlu, sana doğru kollarını açar ama dokunmaz) İçten sarıldım say, dokunursam seni de boyarım. Yeni mi takılıyorsun buralarda?' },
         { speaker: 'player', text: 'Burası senin atölyen mi?' },
-        { speaker: 'npc',    text: 'Atölye, ev, dünyam — hepsi bir. Nadia. Denizi resmederim, çömlek yaparım, vakti unuturum. Az önce saat sordun mu? Sorma, bilmiyorum, umurumda da değil.' },
+        { speaker: 'npc',    text: 'Atölye, ev, dünyam — hepsi bir. Nadia. Nehri resmederim, çömlek yaparım, vakti unuturum. Az önce saat sordun mu? Sorma, bilmiyorum, umurumda da değil.' },
         { speaker: 'player', text: 'Hep böyle mi yaşıyorsun?' },
-        { speaker: 'npc',    text: 'Başka türlüsünü denedim, boğuldum. Burada kimse "saat kaç, plan ne" demiyor. Deniz de demiyor, ben de.' },
+        { speaker: 'npc',    text: 'Başka türlüsünü denedim, boğuldum. Burada kimse "saat kaç, plan ne" demiyor. Nehir de demiyor, ben de.' },
       ],
       ideaSeed: 'sosyallik',
       relationshipBonus: 8,

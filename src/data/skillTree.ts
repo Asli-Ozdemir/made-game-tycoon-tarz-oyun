@@ -341,7 +341,7 @@ export const SKILL_NODES: SkillNode[] = [
     id: 't5_huzur',
     tier: 5,
     name: 'Huzurun Kökü',
-    description: 'Nehir gibi akar, deniz gibi derin. Huzur Yolu burada meyve verir.',
+    description: 'Nehir gibi akar, okyanus gibi derin. Huzur Yolu burada meyve verir.',
     cost: [{ type: 'nostalji', amount: 3 }, { type: 'hikaye', amount: 2 }],
     effect: { type: 'tycoon_bonus', stat: 'all_quality', value: 0.25 },
     dependsOn: ['nos_t4', 'hik_t4'],
