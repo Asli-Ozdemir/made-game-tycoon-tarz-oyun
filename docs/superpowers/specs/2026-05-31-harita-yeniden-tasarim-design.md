@@ -209,7 +209,7 @@ Yeni panel conditional'ları eklenir:
 Placeholder panel. Marcus, Remy, Theo'nun geleceğini sezdiren kısa metin.
 ```
 📚 Sahaf
-Eski kitaplar, solmuş mürekkep, deniz kokusu.
+Eski kitaplar, solmuş mürekkep, eski koku.
 Birisi buraya çok uğruyor olmalı.
 [Kapat]
 ```
