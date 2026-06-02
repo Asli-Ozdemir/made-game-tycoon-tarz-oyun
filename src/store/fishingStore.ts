@@ -5,6 +5,17 @@ import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useLifePathStore } from '@/store/lifePathStore'
 import type { FishingSession, CaughtFish } from '@/data/fishingSessions'
 
+export type FishingPhase =
+  | 'idle'
+  | 'briefing'
+  | 'spot_select'
+  | 'lure_select'
+  | 'jigging'
+  | 'reeling'
+  | 'cast_end'
+  | 'story_beat'
+  | 'result'
+
 export interface SessionResult {
   nostaljiSeeds: number
   hikayeSeeds:   number
@@ -15,6 +26,7 @@ export interface SessionResult {
 interface FishingStoreState {
   completedSessions: string[]
   activeSession:     FishingSession | null
+  phase:             FishingPhase
   currentCastIndex:  number
   selectedSpotId:    string | null
   selectedLureId:    string | null
@@ -23,6 +35,7 @@ interface FishingStoreState {
   storyBeatIndex:    number
 
   startSession(id: string): void
+  advanceFromBriefing(): void
   selectSpot(spotId: string): void
   selectLure(lureId: string): void
   advanceCast(caught: boolean, species?: string): void
@@ -40,6 +53,7 @@ function calcReward(catchCount: number, fragmentCount: number): Omit<SessionResu
 export const useFishingStore = create<FishingStoreState>((set, get) => ({
   completedSessions: [],
   activeSession:     null,
+  phase:             'idle',
   currentCastIndex:  0,
   selectedSpotId:    null,
   selectedLureId:    null,
@@ -53,6 +67,7 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
     if (!found) return
     set({
       activeSession:    found,
+      phase:            'briefing',
       currentCastIndex: 0,
       selectedSpotId:   null,
       selectedLureId:   null,
@@ -62,20 +77,27 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
     })
   },
 
+  advanceFromBriefing() {
+    if (get().phase !== 'briefing') return
+    set({ phase: 'spot_select' })
+  },
+
   selectSpot(spotId) {
     const { activeSession } = get()
+    if (get().phase !== 'spot_select') return
     if (!activeSession) return
     const valid = activeSession.spots.some(s => s.id === spotId)
     if (!valid) return
-    set({ selectedSpotId: spotId })
+    set({ selectedSpotId: spotId, phase: 'lure_select' })
   },
 
   selectLure(lureId) {
     const { activeSession } = get()
+    if (get().phase !== 'lure_select') return
     if (!activeSession) return
     const valid = activeSession.lures.some(l => l.id === lureId)
     if (!valid) return
-    set({ selectedLureId: lureId })
+    set({ selectedLureId: lureId, phase: 'jigging' })
   },
 
   advanceCast(caught, species) {
@@ -84,16 +106,20 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
     const newLog = caught && species && selectedSpotId && selectedLureId
       ? [...catchLog, { castIndex: currentCastIndex, spotId: selectedSpotId, lureId: selectedLureId, species }]
       : catchLog
+    const nextIndex = currentCastIndex + 1
+    const nextPhase: FishingPhase = nextIndex < activeSession.castCount ? 'story_beat' : 'result'
     set({
       catchLog:         newLog,
-      currentCastIndex: currentCastIndex + 1,
+      currentCastIndex: nextIndex,
       selectedSpotId:   null,
       selectedLureId:   null,
+      phase:            nextPhase,
     })
   },
 
   chooseDialogue(choiceId) {
     const { activeSession, storyBeatIndex, unlockedFragments } = get()
+    if (get().phase !== 'story_beat') return
     if (!activeSession) return
     const beat = activeSession.storyBeats[storyBeatIndex]
     if (!beat) return
@@ -102,20 +128,23 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
     const newFragments = choice.fragmentId && !unlockedFragments.includes(choice.fragmentId)
       ? [...unlockedFragments, choice.fragmentId]
       : unlockedFragments
-    set({ unlockedFragments: newFragments, storyBeatIndex: storyBeatIndex + 1 })
+    set({ unlockedFragments: newFragments, storyBeatIndex: storyBeatIndex + 1, phase: 'spot_select' })
   },
 
   endSession() {
     const { activeSession, catchLog, unlockedFragments } = get()
+    if (get().phase !== 'result') return null
     if (!activeSession) return null
     const { nostaljiSeeds, hikayeSeeds, progress } = calcReward(catchLog.length, unlockedFragments.length)
+    const bonusHikaye = activeSession.id === 'fishing_10' ? 5 : 0
     useIdeaSeedStore.getState().addSeed('nostalji', nostaljiSeeds)
-    useIdeaSeedStore.getState().addSeed('hikaye',   hikayeSeeds)
+    useIdeaSeedStore.getState().addSeed('hikaye',   hikayeSeeds + bonusHikaye)
     useLifePathStore.getState().addProgress('huzur', progress)
-    const result: SessionResult = { nostaljiSeeds, hikayeSeeds, progress, fragments: [...unlockedFragments] }
+    const result: SessionResult = { nostaljiSeeds, hikayeSeeds: hikayeSeeds + bonusHikaye, progress, fragments: [...unlockedFragments] }
     set(s => ({
       completedSessions: [...s.completedSessions, activeSession.id],
       activeSession:     null,
+      phase:             'idle',
       currentCastIndex:  0,
       selectedSpotId:    null,
       selectedLureId:    null,
@@ -130,6 +159,7 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
     set({
       completedSessions: [],
       activeSession:     null,
+      phase:             'idle',
       currentCastIndex:  0,
       selectedSpotId:    null,
       selectedLureId:    null,
