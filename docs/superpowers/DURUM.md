@@ -1,6 +1,6 @@
 # Proje Durumu — Nerede Kaldık
 
-**Son güncelleme:** 2026-06-01
+**Son güncelleme:** 2026-06-02
 
 Bu dosya, başka bir makinede çalışmaya devam ederken nerede kaldığımızı özetler.
 Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki spec/planları okut.
@@ -30,8 +30,30 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 6C — Pazarlama** | ✅ Bitti | `specs/2026-05-31-faz6c-pazarlama-design.md` | `plans/2026-05-31-faz6c-pazarlama.md` |
 | **Faz 7A — Endüstri Etkinlikleri** | ✅ Bitti | specs/2026-05-31-endustri-etkinlikleri-design.md | plans/2026-05-31-endustri-etkinlikleri.md |
 | **Faz 7B — Harita Yeniden Tasarımı** | ✅ Bitti | specs/2026-05-31-harita-yeniden-tasarim-design.md | plans/2026-06-01-harita-yeniden-tasarim.md |
+| **Harita Odaları** (coast/bridge/city + fade geçiş) | ✅ Bitti | — | plans/2026-06-01-harita-odalari.md |
 
-**Testler:** 296/296 geçiyor (`npx vitest run`). Build çalışıyor (`npm run build`).
+**Testler:** 380/380 geçiyor (`npx vitest run`, 37 dosya). Build çalışıyor (`npm run build`).
+
+---
+
+## Tamamlanan — RPG, Yaşam-Yolu & Yan İçerik (2026-06-01 → 06-02)
+
+| Sistem | Durum | Spec | Plan |
+|--------|-------|------|------|
+| **NPC Etkileşim & Felsefe** (tier 1/2/3, idea-seed, ilişki) | ✅ 12/12 felsefe NPC uygulandı (her biri kullanıcı onayıyla) | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
+| **Zihin Geliştirme Ağacı (Skill Tree)** (30 node, 5 tier) | ✅ Bitti | `specs/2026-06-01-skill-tree-design.md` | `plans/2026-06-01-skill-tree.md` |
+| **Hayat Yolu Altyapısı** (Hırs/Huzur/Emek) | ✅ Bitti | `specs/2026-06-01-hayat-yolu-design.md` | `plans/2026-06-01-hayat-yolu.md` |
+| **Yan İş — Dedektif Asistanı** (vaka/kanıt/suçlama + analiz tohumu) | ✅ Altyapı bitti | `specs/2026-06-02-dedektif-asistani-design.md` | `plans/2026-06-02-dedektif-asistani.md` |
+| **Yan İş — Bar Bodyguard** (vardiya/kapı kararı/dövüş) | ✅ Altyapı bitti | `specs/2026-06-02-bar-bodyguard-design.md` | `plans/2026-06-02-bar-bodyguard.md` |
+
+### NPC Diyalog Sistemi özeti
+T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diyaloglu** (her biri 5 diyalog: 2×T1, 2×T2, 1×T3): Marcus (Stoa/sahaf), Remy (Tao/balıkçı), Theo (absürd-varoluş/pub), Bruno (Aristoteles-erdem/mühendis), Magnus (Nietzsche/sokak filozofu), Marta (bakım etiği/hemşire), Clara (Kant/noter), Aldo (Epikür/bahçıvan), Yevgeni (nihilizm-Bazarov/teknisyen), Søren (Sartre/liman kaptanı), Rex (Kirenaik/arcade sahibi), Vivian (Fayda/yatırımcı). Son 3'ü kullanıcıyla satır satır onaylanarak yazıldı (bkz. PROJE-BAGLAM "⛔ NPC DİYALOGLARI"). `npcStore` (ilişki/tier/seenDialogues + gainMultiplier/penalizeNpc), `ideaSeedStore` (Nostalji/Hikaye/Kaos/Zaman Yönetimi/Analiz tohumları), paylaşımlı `DialogueView`. Sahaf/Balıkçı/Pub panelleri DialogueView'a bağlı. **Vivian** `hirs` hayat yoluna bağlandı (`PATH_NPC_MAP`); Søren/Rex yol eşlemesi henüz dokümante değil. T3'lerin hepsi Crane aynasına bağlanır.
+
+### Zihin Geliştirme Ağacı + Hayat Yolu özeti
+30 node / 5 tier radyal nöron layout, PixiJS rendering (`SkillTreeCanvas`), `skillTreeStore` (canUnlock/unlockNode/getNodeState/getActiveEffects), `SleepOverlay` (uyku → gün sonu, yatak trigger coastRoom). Hayat yolu: `lifePathData` (PATH_THRESHOLD=100, PATH_NPC_MAP), `lifePathStore` (serbest/kilitli faz, addProgress, switchPath → NPC cezası + progress reset), T5 node'ları lifePathStore üzerinden açılır, dış halka yay göstergesi (Huzur/Hırs/Emek).
+
+### Yan işler (Dedektif & Bar) özeti
+**Dedektif:** `detectiveCases` (3 tam vaka), `detectiveStore` (startCase/collectEvidence/advanceDay/makeAccusation/ödül), `ExamineScene` (zoom point&click kanıt), `parkRoom` (RoomId'ye 'park'), analiz tohum tipi + skill node'ları. **Bar:** `barShifts` (3 tam vardiya), `barStore` (vardiya/kapı kararı/gerginlik/dövüş/ödül), `DoorScene` (Papers Please tarzı kapı, A/D), `FightScene` (yumruk dövüşü overlay, Z/sol tık). İkisi de **entegrasyon bekliyor:** posta kutusu altyapısı, companion NPC, harita girişleri, shift_04+/case_04+ içeriği.
 
 ### Faz 3 özeti
 PixiJS tile-based şehir haritası, WASD karakter hareketi, Stardew tarzı günlük saat sistemi (`dayTimeStore`), tycoon/keşif çift modu (`worldStore`), trigger sistemi, Kafe ve Fuar panelleri. PixiJS kendi canvas'ını oluşturuyor; CSP'ye `unsafe-eval` eklendi (shader compilation için).
@@ -82,13 +104,13 @@ Faz 4B cutscene altyapısının `[PLACEHOLDER]` diyaloglarının yerine gerçek 
 
 ---
 
-## Senaryo & Yaşam-Sim Tasarım Hattı — UYGULAMA BEKLİYOR
+## Yaşam-Sim Tasarım Hattı — UYGULAMA BEKLİYOR
 
-Bu oturumda (claude PC'sinde) **spec + plan** olarak hazırlandı; **kod henüz yazılmadı** (bu PC'de değil). Önce NPC sistemi, sonra yaşlanma zinciri. Uygulama sırası önerisi:
+NPC sistemi (sıra 1) **uygulandı** (yukarı taşındı — 9/12 NPC). Yaşlanma zinciri ve sonrası hâlâ **spec + plan** hâlinde, kod yazılmadı. Kalan uygulama sırası:
 
 | Sıra | Sistem | Spec | Plan |
 |------|--------|------|------|
-| 1 | **NPC Etkileşim & Felsefe** (~36 NPC, Yarn/YarnBound, kalp/diyalog/mektup, 12 felsefe + 12 romantizm + kasabalılar) | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
+| ~~1~~ | ~~**NPC Etkileşim & Felsefe**~~ → ✅ 12/12 felsefe NPC uygulandı; kalan: 12 romantizm adayı + kasabalılar | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
 | 2 | **Yaşlanma & Yaşam-Olayı Çekirdeği (A)** (yaş/evre + life-event motoru + arcEnd) | `specs/2026-05-31-yaslanma-yasam-olayi-design.md` | `plans/2026-05-31-yaslanma-yasam-olayi.md` |
 | 3 | **NPC Yaşam Olayları (B)** (reşit/evlilik/doğum/ölüm/miras — A'ya veri) | `specs/2026-05-31-npc-yasam-olaylari-design.md` | `plans/2026-05-31-npc-yasam-olaylari.md` |
 | 4 | **Oyuncu Romantizm Arkı (C1)** (itiraf→evlilik→çocuk; player_romance/married bayrakları) | `specs/2026-05-31-oyuncu-romantizm-arki-design.md` | `plans/2026-05-31-oyuncu-romantizm-arki.md` |
@@ -106,9 +128,15 @@ Bu oturumda (claude PC'sinde) **spec + plan** olarak hazırlandı; **kod henüz 
 
 ---
 
-## Devam Edilecek: Sıradaki Faz
+## Devam Edilecek: Sıradaki Adımlar
 
-**Faz 7B — Oyun Polisajı**: UI iyileştirmeleri, balans tweaks, müzik/ses efektleri. Veya **Faz 7B — Başarımlar & Kilometre Taşları**: oyun içi ödül sistemi, oyuncu motivasyonu.
+Açık uçlar (öncelik sırasız):
+- **Yan iş entegrasyonu** (dedektif + bar): posta kutusu altyapısı, companion NPC, harita girişleri, shift_04+/case_04+ içeriği.
+- **NPC kadrosunu tamamla:** 12 felsefe NPC bitti ✅ — kalan: 12 romantizm adayı + kasabalılar; Søren/Rex hayat-yolu eşlemesi.
+- **Yaşam-sim zinciri** (yukarıdaki tablo, sıra 2→6): yaşlanma çekirdeği → NPC yaşam olayları → romantizm → final/epilog → olay ara sahneleri.
+- **Cilalama:** UI iyileştirmeleri, balans, müzik/ses; DevTools otomatik açmayı production'dan kaldır.
+
+> Not: Bu projede **iki durum dosyası** var — kök `durum.md` (oturum-bazlı detaylı log) ve bu `docs/superpowers/DURUM.md` (faz/spec haritası). İkisini de güncel tut.
 
 ---
 

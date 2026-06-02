@@ -1053,6 +1053,341 @@ const yevgeni: NPCDef = {
   ],
 }
 
+// ─── SØREN ───────────────────────────────────────────────────────────────────
+
+const soren: NPCDef = {
+  id: 'soren',
+  name: 'Søren',
+  role: 'Liman Kaptanı',
+  philosophy: 'Varoluşçuluk (Sartre) — Varoluş özden önce gelir; rotanı sen çizersin, "mecbur kaldım" bir yalandır.',
+  emoji: '⚓',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'soren_t1_1',
+      tier: 1,
+      title: 'Gelgit Dönüyor',
+      lines: [
+        { speaker: 'npc',    text: '(halatı bir kazığa dolarken, başını çevirmeden) Naber. Gelgit dönüyor — otur istersen ama dümen başında bekleyemem.' },
+        { speaker: 'player', text: 'Sen kaptan mısın?' },
+        { speaker: 'npc',    text: 'Bu limanın, evet. Søren. Sabah üç gemi geç yanaştı, üçü de rüzgârı suçladı. Rüzgâr suçlanmaz; rüzgâr sadece eser.' },
+        { speaker: 'player', text: 'Nehrin karşısından geldim.' },
+        { speaker: 'npc',    text: '(ilk kez bakar) Belli. Oradan gelenler hep bir şeyin onları "getirdiğini" sanır. Seni kimse getirmedi. Geldin.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'soren_t1_2',
+      tier: 1,
+      title: 'Aynı Tekne',
+      lines: [
+        { speaker: 'player', text: 'Tekneni soracaktım. Eski görünüyor ama bakımlı.' },
+        { speaker: 'npc',    text: 'Yüz kez onardım, yenisini almadım. Her tahtasını ben değiştirdim — yani artık ilk teknem mi, yoksa bambaşka bir şey mi, bilmiyorum.' },
+        { speaker: 'player', text: 'Yenisini alacak paran yok mu?' },
+        { speaker: 'npc',    text: 'Var. Ama bu tekne benim seçtiğim ilk şey. Onu atarsam, seçtiğimi de atarım.' },
+      ],
+      choices: [
+        {
+          text: 'Sadece bir tahta yığını.',
+          lines: [{ speaker: 'npc', text: 'Her şey sadece bir şeydir, ta ki birine ne anlam verene kadar. Anlamı ben koyarım, deniz değil. İşin zor yanı da bu — kimse senin yerine koymaz.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bağlanmışsın ona.',
+          lines: [{ speaker: 'npc', text: 'Bağlanmak başka. Ben her sabah onu yeniden seçiyorum. Bağ, seçimi bıraktığın yerde başlar; ben hâlâ seçiyorum.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'soren_t2_1',
+      tier: 2,
+      title: 'İmzalanmayan Kâğıt',
+      lines: [
+        { speaker: 'npc',    text: 'Babam donanmadaydı. Madalyalı bir subay. Ben daha doğmadan rütbem yazılmıştı sanki.' },
+        { speaker: 'player', text: 'Sen de mi asker oldun?' },
+        { speaker: 'npc',    text: 'Otuzuma varmadan komisyon kâğıdını önüme koydular. İmzalamadım. Hurda bir tekne aldım, tek başıma açıldım. İlk gece ödüm kopuyordu.' },
+        { speaker: 'player', text: 'Pişman oldun mu?' },
+        { speaker: 'npc',    text: 'Hayır. Çünkü o korku ilk kez bana aitti. Babamın çizdiği rotada korkmak bile onundu.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'soren_t2_2',
+      tier: 2,
+      title: 'Tutan Bendim',
+      lines: [
+        { speaker: 'npc',    text: 'Yıllarca başkasının rotasını tuttum sandım. Şirketler, sözleşmeler, "böyle gerekiyor" denen ne varsa.' },
+        { speaker: 'player', text: 'Mecburdun.' },
+        { speaker: 'npc',    text: 'Hayır. Dümeni tutan da bendim. Sadece kabul etmiyordum, çünkü kabul etmek sorumluluk demek. "Mecbur kaldım" demek, dümeni denize bırakıp suçu suya atmaktır.' },
+      ],
+      choices: [
+        {
+          text: 'Bazen gerçekten seçeneğin yoktur.',
+          lines: [{ speaker: 'npc', text: 'Seçenek hep vardır — sadece bazıları pahalıdır. "Yokmuş" demek, bedelini ödemeyi reddetmektir. Bunu kendine itiraf et, yeter; gerisi kolay.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bu ağır bir yük.',
+          lines: [{ speaker: 'npc', text: 'En ağırı. Her şeyi sen seçtiysen, saklanacak rüzgâr kalmaz. Ama bir kez taşımayı öğrenince — o yük seni dik tutar.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'soren_t3_1',
+      tier: 3,
+      title: 'Akıntı Karar Vermez',
+      lines: [
+        { speaker: 'npc',    text: 'Şu nehrin karşısındaki adam. Crane. Duydum, herkesi bir akıntıymış gibi anlatıyormuş — "su böyle aktı, ben de aktım" diye.' },
+        { speaker: 'player', text: 'Aşağı yukarı öyle. "Basamaktı, üstüne bastım" diyor.' },
+        { speaker: 'npc',    text: 'Yalan. Güzel paketlenmiş bir yalan. Akıntı karar vermez — sen verirsin. O da her seferinde bastığını seçti, sonra suya yıktı suçu.' },
+        { speaker: 'player', text: 'Peki ben? Ben de onu yenmek için aynısını yapacaksam?' },
+        { speaker: 'npc',    text: 'İşte tek soru bu: Sen mi seçtin, yoksa "mecbur kaldım" deyip mi yaptın? İkisi aynı şeyi yapsa bile aynı değil. İlki seni özgür kılar — ne yaptığını bilirsin. İkincisi seni Crane yapar.' },
+        { speaker: 'npc',    text: '(dümene dönerek) Ne yaparsan yap, önce kâğıdın altına kendi adını yaz. Rüzgârınkini değil.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
+// ─── REX ─────────────────────────────────────────────────────────────────────
+
+const rex: NPCDef = {
+  id: 'rex',
+  name: 'Rex',
+  role: 'Arcade Sahibi',
+  philosophy: 'Kirenaik Hedonizm — Tek gerçek şu an; yoğunluk süreyi yener, haz ertelenmez.',
+  emoji: '🕹️',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'rex_t1_1',
+      tier: 1,
+      title: 'Bir Tur At',
+      lines: [
+        { speaker: 'npc',    text: '(makinelerden birine vurarak) Naber kanka! Şu köşedeki yeni geldi, daha jeton bile yemedi. Dene hadi, ilk tur benden.' },
+        { speaker: 'player', text: 'Burası senin mi?' },
+        { speaker: 'npc',    text: 'Her ışığı, her gümbürtüsü. Rex. Hayat kısa, jeton bol — ben de ışıkları açık tutuyorum.' },
+        { speaker: 'player', text: 'Sabahın köründe kim oyun oynar ki?' },
+        { speaker: 'npc',    text: '"Sonra" diye bir yer yok kanka. Şu an varsın, makine duruyor, ışık yanıyor. Gerisi laf.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'rex_t1_2',
+      tier: 1,
+      title: 'Para Gelir Gider',
+      lines: [
+        { speaker: 'player', text: 'Bu kadar makine pahalıya patlıyordur.' },
+        { speaker: 'npc',    text: 'Patlıyor. Para geldi gitti, yine gelir. Ama bu geceyi bir daha yaşayamazsın — onu kasaya koyamazsın.' },
+        { speaker: 'player', text: 'Hiç mi biriktirmedin?' },
+        { speaker: 'npc',    text: 'Bir kuruş bile. Kazandığım her şeyi bir sonraki geceye yatırdım. Bana deli derler; ben onlara "ölmeden önce bir kere yaşadın mı?" derim.' },
+      ],
+      choices: [
+        {
+          text: 'Ya yarın hastalanırsan?',
+          lines: [{ speaker: 'npc', text: 'O zaman bugün yaşadığıma daha çok sevinirim. Yarını dert eden, bugünü zaten yaşamıyor demektir. İki kere ölür: bir korkarak, bir de gerçekten.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Yoğunluk her şey değil.',
+          lines: [{ speaker: 'npc', text: 'Belki. Ama sönük bir uzun ömür mü, yoksa bir gece gerçekten parlamak mı? Ben parlamayı seçtim. Süreyle değil, şiddetle ölçüyorum.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'rex_t2_1',
+      tier: 2,
+      title: 'Sahne Küçüldü',
+      lines: [
+        { speaker: 'npc',    text: '(duvardaki rozetli eski ceketi gösterir) Şuna bakma öyle. Bir zamanlar sahnelerdeydim. Şehir şehir gezerdik, kalabalık adımı bağırırdı.' },
+        { speaker: 'player', text: 'Ne oldu?' },
+        { speaker: 'npc',    text: 'Refleksler yavaşladı. Sahne küçüldü. Ama yıkılmadım — kendi köşemi kurdum, ışıkları ben açtım. Şimdi sahne bu.' },
+        { speaker: 'player', text: 'Özlemiyor musun o günleri?' },
+        { speaker: 'npc',    text: 'Özlemek geçmişi bugüne tercih etmek. Ben hiçbir geceyi bir diğerine değişmem. O da gerçekti, bu da gerçek.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'rex_t2_2',
+      tier: 2,
+      title: 'Kapanış Saati',
+      lines: [
+        { speaker: 'player', text: 'Hep geç kapatıyorsun. Müdavimler gideli saatler oldu.' },
+        { speaker: 'npc',    text: '(bir an gülümsemesi kayar) Kapanış saatini sevmem. Işıklar kısılınca, o sessizlik... bir şey yetişiyor sanki bana.' },
+        { speaker: 'player', text: 'Neymiş o şey?' },
+        { speaker: 'npc',    text: 'Bilmem. Sormamak için bir oyun daha açarım. (toparlanır) Boş ver, derin sular bana göre değil. Sen bir tur at, ben jeton getireyim.' },
+      ],
+      choices: [
+        {
+          text: 'Bazen o sessizlikte durmak lazım.',
+          lines: [{ speaker: 'npc', text: '(kısa duraklar) Belki. Ama herkesin bir kaçış makinesi var, kanka. Seninki oyun yapmak, benimki oynatmak. İkisi de ışığı açık tutmanın yolu.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bir oyun daha açalım o zaman.',
+          lines: [{ speaker: 'npc', text: 'İşte bu! Gördün mü, anlıyorsun beni. (jetonları şıngırdatır) Sessizlik bekleyebilir; o hep bekler zaten.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'rex_t3_1',
+      tier: 3,
+      title: 'O Gün Gelmezse',
+      lines: [
+        { speaker: 'npc',    text: 'Şu Crane meselesi seni yiyip bitiriyor. Yüzünden okunuyor — bütün gece tek bir makineye kilitlenmiş biri gibisin.' },
+        { speaker: 'player', text: 'Onu yendiğim gün rahatlayacağım.' },
+        { speaker: 'npc',    text: 'İşte orada yanılıyorsun. Hayatını gelecekteki bir zafere rehin veriyorsun. Ya o gün hiç gelmezse? Ya geldiğinde sen onu yaşayacak hâlde değilsen?' },
+        { speaker: 'player', text: 'O günü beklemekten başka ne yapabilirim?' },
+        { speaker: 'npc',    text: 'Bugünü de yaşayabilirsin. Onu yendiğin gün mutlu olacağını sanıyorsun — yanılıyorsun. Mutluluk ertelenmez kanka; ertelediğin şey mutluluk değil, sadece beklemek.' },
+        { speaker: 'npc',    text: '(omzuna vurur) Adamı ye, yık, ne istersen yap. Ama bu gece bir tur da kendin için at. Yoksa onu yensen bile kaybedersin.' },
+      ],
+      ideaSeed: 'kaos',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
+// ─── VIVIAN ──────────────────────────────────────────────────────────────────
+
+const vivian: NPCDef = {
+  id: 'vivian',
+  name: 'Vivian',
+  role: 'Yatırımcı',
+  philosophy: 'Faydacılık — En çok kişiye en çok iyilik; amaç toplam artıdaysa aracı haklı çıkarır.',
+  emoji: '📈',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'vivian_t1_1',
+      tier: 1,
+      title: 'Anlat, Dinliyorum',
+      lines: [
+        { speaker: 'npc',    text: '(telefonu cebine atar) Naber. Vaktim kısıtlı ama iyi bir fikre her zaman vakit var. Anlat.' },
+        { speaker: 'player', text: 'Tanışmadık. Sen kimsin?' },
+        { speaker: 'npc',    text: 'Vivian. Fon yönetiyorum. Bu küçük şehre ara sıra gelip yükselen stüdyolara bakıyorum. Bu sabah üçünü eledim, birini fonladım. Matematik.' },
+        { speaker: 'player', text: 'Soğuk geliyor kulağa.' },
+        { speaker: 'npc',    text: 'İyi niyet güzel, bilanço daha güzel. Fonladığım o bir stüdyo otuz kişiye maaş ödeyecek. Elediğim üçüne ağlasaydım, otuz kişi aç kalırdı.' },
+      ],
+      ideaSeed: 'analiz',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'vivian_t1_2',
+      tier: 1,
+      title: 'Terazi',
+      lines: [
+        { speaker: 'player', text: 'Her şeyi sayılarla mı tartıyorsun?' },
+        { speaker: 'npc',    text: 'Her şeyi toplamla tartıyorum. Bir karar daha çok kişiye daha çok iyilik getiriyorsa, doğrudur. Getirmiyorsa, ne kadar şirin görünürse görünsün yanlıştır.' },
+        { speaker: 'player', text: 'Ya tek bir kişi o toplamın altında ezilirse?' },
+        { speaker: 'npc',    text: 'O en zor sorum. Noterdeki Clara bana "insan araç olmaz" der. Belki haklı. Ama ben birini kurtarmak için yüzünü feda eden sistemleri de gördüm.' },
+      ],
+      choices: [
+        {
+          text: 'Çoğunluk her zaman haklı değildir.',
+          lines: [{ speaker: 'npc', text: 'Doğru. Ben çoğunluğu değil, toplam iyiliği savunuyorum — ikisi farklı şey. Bir azınlık daha fazla acı çekiyorsa, terazi onlardan yana eğilir. Mesele saymak değil, dürüstçe tartmak.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bu hesap insanı yormuyor mu?',
+          lines: [{ speaker: 'npc', text: 'Yoruyor. Ama duygularıma göre dağıtsaydım, sevdiğime çok verir, tanımadığım yüze hiç vermezdim. Tarafsızlık benim için merhametin ta kendisi — sadece daha sessiz bir hâli.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'vivian_t2_1',
+      tier: 2,
+      title: 'Beş Stüdyo',
+      lines: [
+        { speaker: 'npc',    text: 'Bu teraziyi hep böyle taşımadım. Bir yara verdi onu bana.' },
+        { speaker: 'player', text: 'Anlatır mısın?' },
+        { speaker: 'npc',    text: 'Kariyerimin başında bir dostumun stüdyosu batıyordu. Sırf sevdiğim için tüm fonumu oraya yığdım. Stüdyo yine battı — ve o parayla kurtulabilecek beş stüdyoyu da götürdü.' },
+        { speaker: 'player', text: 'Senin suçun değildi.' },
+        { speaker: 'npc',    text: 'Suç değil. Ders. O gün öğrendim: bir yüze gösterdiğim şefkat, yüz kişiye sessiz bir ihanetti. Ahlakımı o günden sonra toplam üzerine kurdum.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'vivian_t2_2',
+      tier: 2,
+      title: 'O İsim',
+      lines: [
+        { speaker: 'player', text: 'Bazen bir ismi mırıldanıyorsun. Hesap yaparken bile.' },
+        { speaker: 'npc',    text: '(durur) Kurtaramadığım o dostun adı. Terazimi katılaştıran kişi. Tuhaf değil mi — toplamı savunuyorum ama hâlâ o tek yüzü taşıyorum.' },
+        { speaker: 'player', text: 'Belki tam da o yüzden sayılara sığınıyorsun.' },
+        { speaker: 'npc',    text: 'Belki. Marta — hani şu hemşire — bana "sen bir insanı değil, bir tabloyu kurtarıyorsun" dedi. Doğru olabilir. Ama o tablo titrediğinde, altındaki yüzlerce isim de titriyor.' },
+      ],
+      choices: [
+        {
+          text: 'O tek yüzü unutmamalısın.',
+          lines: [{ speaker: 'npc', text: 'Unutmuyorum. Onu unutsam, terazi körelir. O isim benim vicdanım — toplamın insanı ezmesine izin vermeyeyim diye fısıldıyor.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Toplam, somut acıyı görmez ki.',
+          lines: [{ speaker: 'npc', text: 'En büyük zaafım bu, biliyorum. Yüzü olmayan bir iyilik kolayca canavara döner. Bu yüzden her hesabın sonunda bir kez de yüzlere bakmaya çalışıyorum. Çoğu yatırımcı bakmaz.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'vivian_t3_1',
+      tier: 3,
+      title: 'Toplamda Değer mi?',
+      lines: [
+        { speaker: 'npc',    text: 'Crane meselesi. Sana bir yatırımcı aklı vereyim, ücretsiz — nadir olur.' },
+        { speaker: 'player', text: 'Dinliyorum.' },
+        { speaker: 'npc',    text: 'Önce şunu sor: Onu yenmek toplamda gerçekten değer mi yaratıyor, yoksa sadece egonu mu doyuruyor? İkisi çok farklı bütçeler.' },
+        { speaker: 'player', text: 'Ya ikisi de doğruysa?' },
+        { speaker: 'npc',    text: 'O zaman acımasız olmaya hakkın var — ama sadece toplam gerçekten artıdaysa. Amaç aracı haklı çıkarır; yeter ki terazi kalabalıktan yana eğilsin, senin yaranı kapatmaktan yana değil.' },
+        { speaker: 'npc',    text: 'Ama dürüst olayım: çoğu kişi kendi acısını fazla tartar, sonra "herkesin iyiliği için" der. Crane de öyle dedi bir zamanlar. Terazine kendi öfkeni koyma — o gram seni ona benzetir.' },
+      ],
+      ideaSeed: 'analiz',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1063,4 +1398,7 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   clara,
   aldo,
   yevgeni,
+  soren,
+  rex,
+  vivian,
 }

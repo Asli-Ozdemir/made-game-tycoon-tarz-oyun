@@ -65,5 +65,15 @@ Apex Games'ten kovulma (arka plana göre 5 varyant: otomasyon/fikir çalınması
 - **Sandbox:** ana arc mecbur değil; istersen sadece yaşarsın.
 - Mekân: **"küçük şehir"** (kasaba değil).
 
+## ⛔ NPC DİYALOGLARI — ZORUNLU KURAL
+**NPC diyaloglarını kullanıcıya sormadan ASLA yazma.** Her karakteri **tek tek** kullanıcıya sun ve onayını al; diyalog metnini kullanıcı görmeden/onaylamadan koda yazma. Bu içerik küratörlü ve kişiseldir — toplu/otomatik üretilmez.
+
+**Akış (her NPC için):**
+1. Karakterin felsefesi, rolü, arka planı, idea-seed'i ve T1/T2/T3 beat'lerini **önce öner** (taslak metin olarak göster).
+2. Kullanıcı her satırı görüp düzeltsin/onaylasın.
+3. **Ancak onaydan sonra** `npcDialogues.ts`'e yaz.
+
+**Format/kalite referansı:** `src/data/npcDialogues.ts` içindeki **Yevgeni** bloğu örnek alınır. Yapı: NPCDef + **5 diyalog** — 2×T1 (ikincisi `choices` ile), 2×T2 (ikincisi `choices` ile), 1×T3 (Crane aynası, `relationshipBonus: 15`). Ton: buruk-gerçekçi, anlatıcısız, gri; her seçimin bir bedeli. idea-seed türü karakterin felsefesine uygun seçilir. T2'lerden biri NPC'nin "saklanan nesnesi"ne / yarasına değer (bkz. Tekrar eden motifler).
+
 ## Nasıl çalışıyoruz
 `brainstorming → writing-plans → (subagent-driven) executing`. Her sistem: spec → plan → kod. Durum `DURUM.md`'de; başlarken `git pull`, bitince `git push`.
