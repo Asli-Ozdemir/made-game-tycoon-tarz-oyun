@@ -839,6 +839,114 @@ const clara: NPCDef = {
   ],
 }
 
+// ─── ALDO ────────────────────────────────────────────────────────────────────
+
+const aldo: NPCDef = {
+  id: 'aldo',
+  name: 'Aldo',
+  role: 'Bahçıvan',
+  philosophy: 'Epikür — En büyük zenginlik: iyi bir sofra, birkaç dost, korkusuz bir akşam.',
+  emoji: '🌿',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'aldo_t1_1',
+      tier: 1,
+      title: 'Otur, Bir Şeyler Ye',
+      lines: [
+        { speaker: 'npc',    text: '(bir incir uzatır) Al, ağaçtan yeni kopardım. Para isteme, ye sadece. Burada herkes bir şey yer, biraz oturur.' },
+        { speaker: 'player', text: 'Sen kimsin?' },
+        { speaker: 'npc',    text: 'Aldo. Şu bahçenin delisi. Ekerim, sularım, toplarım, paylaşırım. Bütün işim bu.' },
+        { speaker: 'player', text: 'Sadece bu mu?' },
+        { speaker: 'npc',    text: '"Sadece" diyorsun ama dünyanın yarısı bunun için ömür tüketiyor: oturup huzurla bir incir yiyebilmek için. Ben kestirmeden geldim.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'aldo_t1_2',
+      tier: 1,
+      title: 'Yeter Ne Kadar',
+      lines: [
+        { speaker: 'npc',    text: 'İnsanlar hep "daha" der. Daha çok para, daha büyük ev, daha. Hiç sormazlar: ne kadarı yeter?' },
+        { speaker: 'player', text: 'Sen kaç paraya "yeter" dedin?' },
+      ],
+      choices: [
+        {
+          text: 'Ya yetmezse?',
+          lines: [{ speaker: 'npc', text: 'Yetmeyen para değil, içindeki delik. Onu parayla doldurursan delik büyür. Ben deliği gördüm, bahçeyle yamadım.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Hırssız yaşanır mı?',
+          lines: [{ speaker: 'npc', text: 'Hırs ateş gibidir; yemeğini pişirir ya da evini yakar. Mesele söndürmek değil, ne kadarına izin vereceğini bilmek.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'aldo_t2_1',
+      tier: 2,
+      title: 'Neden Bıraktım',
+      lines: [
+        { speaker: 'player', text: 'Hep burada mıydın?' },
+        { speaker: 'npc',    text: 'Yoo. Karşı yakada bir adım vardı, bir de unvanım. Kazandıkça kazandım. Bir sabah uyandım — her şeyim vardı ama hiçbir şeyimi istemiyordum.' },
+        { speaker: 'player', text: 'Sonra?' },
+        { speaker: 'npc',    text: 'Sattım hepsini. Dostlarım "delirdin" dedi. Ama masa dağılınca o dostların çoğu kayboldu; gerçek olan üç beş kişi buraya, bahçeye geldi.' },
+        { speaker: 'npc',    text: 'En büyük zenginlik buymuş, geç öğrendim: iyi bir sofra, iyi birkaç dost.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'aldo_t2_2',
+      tier: 2,
+      title: 'Ölümden Korkma',
+      lines: [
+        { speaker: 'npc',    text: 'Yaşlandım. İnsanlar "korkmuyor musun?" diye soruyor. Ölümden yani.' },
+        { speaker: 'player', text: 'Korkmuyor musun?' },
+        { speaker: 'npc',    text: 'Ne diye korkayım? Ben varken o yok; o gelince ben yokum. Hiç tanışmayacağız. Korkulacak şey ölüm değil — hiç yaşamadan ölmek.' },
+      ],
+      choices: [
+        {
+          text: 'Yine de huzursuz olmaz mı insan?',
+          lines: [{ speaker: 'npc', text: 'Huzursuzluğun çoğu, olmayan bir yarını bugünden yaşamaktan. Bugünün inciri tatlıyken, yarının fırtınasını niye çiğneyesin?' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Geriye bir şey kalsın istemez misin?',
+          lines: [{ speaker: 'npc', text: 'Bir ağaç diktim, gölgesinde tanımadığım biri oturacak. Bana yeter. İsim taşa değil, bahçeye kazınır.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'aldo_t3_1',
+      tier: 3,
+      title: 'Bahçeni Unutma',
+      lines: [
+        { speaker: 'npc',    text: 'O karşı yakadaki adamı yenmek istiyorsun. Anlıyorum. Ama bir ihtiyarın sözünü dinle.' },
+        { speaker: 'player', text: 'Söyle.' },
+        { speaker: 'npc',    text: 'Onunla dövüşürken onun oyununa girersin: "daha çok, daha büyük, ne pahasına olursa." Kazansan bile, kazandığın onun bahçesi olur — seninki değil.' },
+        { speaker: 'player', text: 'Peki ne yapayım?' },
+        { speaker: 'npc',    text: 'Yen, ama yıkma — fark var. Ve ne olursa olsun akşam sofrana, sevdiğin insanlara, kendi incirine dön. Onu yenip bahçeni kaybedersen, o seni yenmiştir. Asıl zafer, huzurunu ona kaptırmamak.' },
+      ],
+      ideaSeed: 'hikaye',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -847,4 +955,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   magnus,
   marta,
   clara,
+  aldo,
 }
