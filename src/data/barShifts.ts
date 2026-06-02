@@ -33,7 +33,7 @@ export interface BarShift {
   vipList: string[]           // Guest id listesi
   guests: Guest[]
   incidents: Incident[]
-  incidentTriggers: number[]  // hangi misafirden SONRA kesinti (0-bazlı index)
+  incidentTriggers: number[]  // hangi misafirin işlenmesinden SONRA kesinti tetiklenir (guests[] 0-bazlı index; örn. [1] = 2. misafirden sonra)
 }
 
 // ─── VARDIYA 1 — Kolay (4 misafir, 1 olay) ──────────────────────────────────
@@ -245,7 +245,7 @@ const shift03: BarShift = {
       isVip: false,
       isDrunk: true,
       isDangerous: false,
-      visualCues: ['Sallanıyor', 'Kravatı var (ama sarhoş)'],
+      visualCues: ['Sallanıyor', 'Kravatı var'],
       meetsNightRule: true,
     },
     {
