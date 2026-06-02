@@ -217,7 +217,7 @@ export const NEHIR_SHIFTS: NehirShift[] = [
     ],
   },
 
-  // ── Arc 4: The River Flows (session 10, normal) ──────────────────────────────
+  // ── Arc 3 cont.: The River Flows (session 10, normal) ───────────────────────
   {
     id: 'nehir_10', arcId: 'arc_karar', difficulty: 'normal',
     briefingLines: [
