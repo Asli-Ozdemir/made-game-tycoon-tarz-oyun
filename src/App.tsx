@@ -9,7 +9,8 @@ import AcademyPanel from '@/components/AcademyPanel'
 import SahafPanel   from '@/components/SahafPanel'
 import BalikciPanel from '@/components/BalikciPanel'
 import PubPanel     from '@/components/PubPanel'
-import BarPanel     from '@/components/BarPanel'
+import BarPanel        from '@/components/BarPanel'
+import DetectivePanel  from '@/components/DetectivePanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -231,6 +232,11 @@ export default function App() {
       {currentLocation === 'bar' && (
         <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center">
           <BarPanel />
+        </div>
+      )}
+      {currentLocation === 'detective' && (
+        <div className="absolute inset-0 z-20 bg-black/75 flex items-center justify-center">
+          <DetectivePanel />
         </div>
       )}
       {currentLocation === 'sleep' && (
