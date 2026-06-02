@@ -11,6 +11,7 @@ import BalikciPanel from '@/components/BalikciPanel'
 import PubPanel     from '@/components/PubPanel'
 import BarPanel        from '@/components/BarPanel'
 import DetectivePanel  from '@/components/DetectivePanel'
+import NehirPanel     from '@/components/NehirPanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -237,6 +238,11 @@ export default function App() {
       {currentLocation === 'detective' && (
         <div className="absolute inset-0 z-20 bg-black/75 flex items-center justify-center">
           <DetectivePanel />
+        </div>
+      )}
+      {currentLocation === 'nehir' && (
+        <div className="absolute inset-0 z-20 bg-black/65 flex items-center justify-center">
+          <NehirPanel />
         </div>
       )}
       {currentLocation === 'sleep' && (
