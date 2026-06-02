@@ -137,6 +137,7 @@ export class ExamineScene {
         options.onClose()
       }
     }
+    if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler)
     window.addEventListener('keydown', onKey)
     this._keyHandler = onKey
   }

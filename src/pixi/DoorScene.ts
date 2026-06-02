@@ -2,6 +2,14 @@
 import { Application, Graphics, Text, TextStyle } from 'pixi.js'
 import type { Guest } from '@/data/barShifts'
 
+const STYLE_RULE  = new TextStyle({ fontFamily: 'monospace', fontSize: 11, fill: '#ffaa44' })
+const STYLE_NAME  = new TextStyle({ fontFamily: 'monospace', fontSize: 16, fill: '#ffeecc' })
+const STYLE_VIP   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ffd700' })
+const STYLE_BAN   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ff4444' })
+const STYLE_CUE   = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#8080a0', wordWrap: true, wordWrapWidth: 0 })
+const STYLE_ADMIT = new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#44cc44' })
+const STYLE_REJECT= new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#cc4444' })
+
 export interface DoorSceneOptions {
   canvas: HTMLCanvasElement
   width: number
@@ -52,8 +60,7 @@ export class DoorScene {
     ruleBg.rect(0, 0, width, 36).fill({ color: 0x1a0a00, alpha: 1 })
     app.stage.addChild(ruleBg)
 
-    const ruleStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 11, fill: '#ffaa44' })
-    const ruleText = new Text({ text: `Gece Kuralı: ${nightRule}`, style: ruleStyle })
+    const ruleText = new Text({ text: `Gece Kuralı: ${nightRule}`, style: STYLE_RULE })
     ruleText.x = 12
     ruleText.y = 10
     app.stage.addChild(ruleText)
@@ -71,16 +78,14 @@ export class DoorScene {
     app.stage.addChild(card)
 
     // İsim
-    const nameStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 16, fill: '#ffeecc' })
-    const nameText = new Text({ text: guest.name, style: nameStyle })
+    const nameText = new Text({ text: guest.name, style: STYLE_NAME })
     nameText.x = cardX + 16
     nameText.y = cardY + 14
     app.stage.addChild(nameText)
 
     // VIP rozeti
     if (guest.isVip) {
-      const vipStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ffd700' })
-      const vipText = new Text({ text: '★ VIP', style: vipStyle })
+      const vipText = new Text({ text: '★ VIP', style: STYLE_VIP })
       vipText.x = cardX + cardW - 52
       vipText.y = cardY + 16
       app.stage.addChild(vipText)
@@ -88,16 +93,15 @@ export class DoorScene {
 
     // Yasak rozeti
     if (guest.isBlacklisted) {
-      const banStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#ff4444' })
-      const banText = new Text({ text: '⚠ YASAK LİSTE', style: banStyle })
+      const banText = new Text({ text: '⚠ YASAK LİSTE', style: STYLE_BAN })
       banText.x = cardX + 16
       banText.y = cardY + 38
       app.stage.addChild(banText)
     }
 
     // Görünüm ipuçları
-    const cueStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#8080a0', wordWrap: true, wordWrapWidth: cardW - 32 })
-    const cueText = new Text({ text: guest.visualCues.join('\n'), style: cueStyle })
+    STYLE_CUE.wordWrapWidth = cardW - 32
+    const cueText = new Text({ text: guest.visualCues.join('\n'), style: STYLE_CUE })
     cueText.x = cardX + 16
     cueText.y = cardY + (guest.isBlacklisted ? 60 : 44)
     app.stage.addChild(cueText)
@@ -120,8 +124,7 @@ export class DoorScene {
     })
     app.stage.addChild(admitBg)
 
-    const admitStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#44cc44' })
-    const admitText = new Text({ text: 'İçeri Al  [A]', style: admitStyle })
+    const admitText = new Text({ text: 'İçeri Al  [A]', style: STYLE_ADMIT })
     admitText.anchor.set(0.5, 0.5)
     admitText.x = cardX + btnW / 2
     admitText.y = btnY + btnH / 2
@@ -140,8 +143,7 @@ export class DoorScene {
     })
     app.stage.addChild(rejectBg)
 
-    const rejectStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 13, fill: '#cc4444' })
-    const rejectText = new Text({ text: 'Reddet  [D]', style: rejectStyle })
+    const rejectText = new Text({ text: 'Reddet  [D]', style: STYLE_REJECT })
     rejectText.anchor.set(0.5, 0.5)
     rejectText.x = cardX + cardW - btnW / 2
     rejectText.y = btnY + btnH / 2
@@ -153,6 +155,7 @@ export class DoorScene {
       if (e.key === 'a' || e.key === 'A') options.onAdmit()
       if (e.key === 'd' || e.key === 'D') options.onReject()
     }
+    if (this._keyHandler) window.removeEventListener('keydown', this._keyHandler)
     window.addEventListener('keydown', onKey)
     this._keyHandler = onKey
   }
