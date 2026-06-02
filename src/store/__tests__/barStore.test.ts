@@ -190,6 +190,8 @@ describe('barStore — endShift', () => {
     const result = useBarStore.getState().endShift()
     expect(result?.seeds).toBe(2)
     expect(result?.progress).toBe(8)
+    expect(useIdeaSeedStore.getState().seeds.kaos).toBe(2)
+    expect(useLifePathStore.getState().progress.emek).toBe(8)
   })
 
   it('kavga kaybedildi → 1 tohum, +3 emek', () => {
@@ -201,6 +203,8 @@ describe('barStore — endShift', () => {
     const result = useBarStore.getState().endShift()
     expect(result?.seeds).toBe(1)
     expect(result?.progress).toBe(3)
+    expect(useIdeaSeedStore.getState().seeds.kaos).toBe(1)
+    expect(useLifePathStore.getState().progress.emek).toBe(3)
   })
 
   it('≥3 yanlış karar → 1 tohum, +3 emek', () => {
@@ -229,6 +233,9 @@ describe('barStore — endShift', () => {
 
 describe('barStore — reset', () => {
   it('tüm state sıfırlanır', () => {
+    useBarStore.getState().startShift(SHIFT_ID)
+    useBarStore.getState().makeGuestDecision(GUEST_OK, 'admit')
+    useBarStore.getState().endShift()  // completedShifts now has SHIFT_ID
     useBarStore.getState().startShift(SHIFT_ID)
     useBarStore.getState().makeGuestDecision(GUEST_OK, 'admit')
     useBarStore.getState().reset()

@@ -98,30 +98,33 @@ export const useBarStore = create<BarStore>((set, get) => ({
   },
 
   chooseTensionOption(optionIndex) {
-    const { activeIncident, tensionLevel, currentTensionStep } = get()
-    if (!activeIncident) return
-    const step = activeIncident.tensionSteps[currentTensionStep]
-    if (!step) return
-    const option = step.options[optionIndex]
-    if (!option) return
+    set(s => {
+      if (!s.activeIncident) return s
+      const step = s.activeIncident.tensionSteps[s.currentTensionStep]
+      if (!step) return s
+      const option = step.options[optionIndex]
+      if (!option) return s
 
-    const newTension = Math.max(0, Math.min(100, tensionLevel + option.tensionDelta))
+      const newTension = Math.max(0, Math.min(100, s.tensionLevel + option.tensionDelta))
 
-    if (newTension <= 0) {
-      set({ tensionLevel: 0, activeIncident: null, incidentOutcome: 'dialogue' })
-      return
-    }
+      if (newTension <= 0) {
+        return { ...s, tensionLevel: 0, activeIncident: null, incidentOutcome: 'dialogue' }
+      }
+      if (newTension >= 100) {
+        return { ...s, tensionLevel: 100, fightActive: true, playerHealth: 3 }
+      }
 
-    if (newTension >= 100) {
-      set({ tensionLevel: 100, fightActive: true, playerHealth: 3 })
-      return
-    }
+      const isLastStep = s.currentTensionStep + 1 >= s.activeIncident.tensionSteps.length
+      if (isLastStep) {
+        // Steps exhausted — resolve based on fightIfUnresolved
+        if (s.activeIncident.fightIfUnresolved) {
+          return { ...s, tensionLevel: newTension, fightActive: true, playerHealth: 3 }
+        }
+        return { ...s, tensionLevel: 0, activeIncident: null, incidentOutcome: 'dialogue' }
+      }
 
-    const nextStep = currentTensionStep + 1 < activeIncident.tensionSteps.length
-      ? currentTensionStep + 1
-      : currentTensionStep
-
-    set({ tensionLevel: newTension, currentTensionStep: nextStep })
+      return { ...s, tensionLevel: newTension, currentTensionStep: s.currentTensionStep + 1 }
+    })
   },
 
   endFight(playerWon) {
@@ -141,7 +144,7 @@ export const useBarStore = create<BarStore>((set, get) => ({
     useLifePathStore.getState().addProgress('emek', progress)
 
     set(s => ({
-      completedShifts: [...s.completedShifts, activeShift.id],
+      completedShifts: [...s.completedShifts, s.activeShift!.id],
       activeShift: null,
       currentGuestIndex: 0,
       doorDecisions: {},
