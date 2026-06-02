@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise'
+    | 'elise' | 'daniel' | 'nadia'
   name: string
   role: string
   philosophy: string
@@ -1502,6 +1502,224 @@ const elise: NPCDef = {
   ],
 }
 
+// ─── DANIEL (romantizm) ──────────────────────────────────────────────────────
+
+const daniel: NPCDef = {
+  id: 'daniel',
+  name: 'Daniel',
+  role: 'Deniz Biyoloğu',
+  philosophy: 'Romantizm adayı — Utangaç profesör: insanlarla beceriksiz, deniz canlılarıyla rahat; sessiz hayretini paylaşacak biri arar.',
+  emoji: '🔬',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'daniel_t1_1',
+      tier: 1,
+      title: 'Islak Eller',
+      lines: [
+        { speaker: 'npc',    text: 'Ah, merhaba! (ellerini pantolonuna siler) Pardon, ellerim ıslak — gelgit havuzundaydım. Bir şeye mi... yoksa sadece mi?' },
+        { speaker: 'player', text: 'Sadece bakıyorum. Burada ne yapıyorsun?' },
+        { speaker: 'npc',    text: 'Araştırma. Şu küçük istasyon benim. Daniel. Koyu inceliyorum — kim gelir gider, kim kiminle yaşar, suyun altında. İnsanlardan çok... denizanalarını anlıyorum, açıkçası.' },
+        { speaker: 'player', text: 'Mütevazı bir alan değil.' },
+        { speaker: 'npc',    text: 'Değil! (gözleri parlar, sonra kendini tutar) Pardon. Heyecanlanınca konuşuyorum. Genelde insanlar bu noktada uzaklaşıyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'daniel_t1_2',
+      tier: 1,
+      title: 'Mükemmel Kabuk',
+      lines: [
+        { speaker: 'npc',    text: '(avucunu açar) Şuna bak — bir salyangoz kabuğu. Logaritmik sarmal, kusursuz. Doğa matematik biliyor da bizi haberdar etmemiş gibi.' },
+        { speaker: 'player', text: 'Sıradan bir kabuk sanırdım.' },
+        { speaker: 'npc',    text: 'Hiçbir şey sıradan değil, yeterince yakından bakınca. Sorun şu ki çoğu insan yakından bakmaya vakit ayırmıyor.' },
+      ],
+      choices: [
+        {
+          text: 'Anlat, dinliyorum.',
+          lines: [{ speaker: 'npc', text: '(yüzü aydınlanır) Gerçekten mi? Tamam, tamam — şu sarmalın açısı her türde aynı, 137 derece. Buna "altın açı" diyorlar. Üç saat anlatırım, durdur beni yoksa.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'İnsanlar neden uzaklaşıyor sence?',
+          lines: [{ speaker: 'npc', text: '(omuz silker, mahcup) Çünkü ben "merhaba"yı atlayıp doğrudan denizanası sinir sistemine geçiyorum galiba. Sohbet... benim için yabancı bir dil. Deniz daha kolay.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'daniel_t2_1',
+      tier: 2,
+      title: 'Atıf Peşinde',
+      lines: [
+        { speaker: 'npc',    text: 'Eskiden üniversitedeydim, biliyor musun? İyi bir bölüm, parlak gelecek, falan.' },
+        { speaker: 'player', text: 'Neden bıraktın?' },
+        { speaker: 'npc',    text: 'Bırakmadım sayılır, kaçtım. Herkes atıf peşindeydi — kim kimi kaç kez kaynak göstermiş. Ben sadece denizi merak ediyordum, ama merak orada bir suçtu sanki. "Yayınla ya da yok ol" diyorlardı.' },
+        { speaker: 'player', text: 'Burada yok mu oldun yani?' },
+        { speaker: 'npc',    text: '(güler) Belki akademiye göre oldum. Ama ilk kez bir şeyi kimse "ne işe yarayacak?" diye sormadan inceliyorum. Yok oluş buysa, suya memnuniyetle batarım.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'daniel_t2_2',
+      tier: 2,
+      title: 'Susmuyorum',
+      lines: [
+        { speaker: 'npc',    text: 'Seni sıkıyor muyum? Dürüst ol. Bir konuyu sevince susamıyorum, bu bir kusur — söylediler bana, defalarca.' },
+        { speaker: 'player', text: 'Kusur mu, yoksa onları rahatsız eden başka bir şey mi?' },
+        { speaker: 'npc',    text: '(durur) ...Bunu hiç böyle düşünmemiştim.' },
+      ],
+      choices: [
+        {
+          text: 'Tutkulu olman kusur değil.',
+          lines: [{ speaker: 'npc', text: 'Belki. Belki yanlış insanlara anlatıyordum. Bir şeyi sevip de anlatamamak... sanırım en yalnız hâli bu sevginin.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bana anlatmaya devam et.',
+          lines: [{ speaker: 'npc', text: '(bir an sana bakar, kulakları kızarır) Tamam. Ama uyarayım — gelgit tablolarına geçersek, akşam olur. Sen istedin ama.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'daniel_t3_1',
+      tier: 3,
+      title: 'Senin Adınla',
+      lines: [
+        { speaker: 'npc',    text: 'Sana bir şey göstereceğim, ama gülme. (bir kavanoz uzatır, içinde küçük bir deniz canlısı) Geçen ay yeni bir tür buldum. Kayıtlara geçmesi için bir isim vermem gerekiyordu.' },
+        { speaker: 'player', text: 'Ne ad verdin?' },
+        { speaker: 'npc',    text: '(sessizce) Seninkini. Resmî kayıtta, Latince ekiyle. Yani artık bilim, sen var olduğunu bilmese de seni biliyor.' },
+        { speaker: 'player', text: 'Daniel, bu...' },
+        { speaker: 'npc',    text: 'Biliyorum, biliyorum, tuhaf. Ama ben hayatımı şeyleri çözmeye adadım — akıntıları, kabukları, sinir sistemlerini. Seni ise çözemiyorum, ve... (derin nefes) ilk kez bir şeyi çözmek istemiyorum. Sadece, yanında durup bakmak istiyorum. Bir ömür yeter mi, bilmiyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
+// ─── NADIA (romantizm) ───────────────────────────────────────────────────────
+
+const nadia: NPCDef = {
+  id: 'nadia',
+  name: 'Nadia',
+  role: 'Seramikçi',
+  philosophy: 'Romantizm adayı — Bohem özgür ruh: anı yaşar, kusuru kucaklar; bağlanmanın boğmasından korkar ama sadıktır.',
+  emoji: '🏺',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'nadia_t1_1',
+      tier: 1,
+      title: 'Çamurlu Eller',
+      lines: [
+        { speaker: 'npc',    text: 'Naber! (elleri çamurlu, sana doğru kollarını açar ama dokunmaz) İçten sarıldım say, dokunursam seni de boyarım. Yeni mi takılıyorsun buralarda?' },
+        { speaker: 'player', text: 'Burası senin atölyen mi?' },
+        { speaker: 'npc',    text: 'Atölye, ev, dünyam — hepsi bir. Nadia. Denizi resmederim, çömlek yaparım, vakti unuturum. Az önce saat sordun mu? Sorma, bilmiyorum, umurumda da değil.' },
+        { speaker: 'player', text: 'Hep böyle mi yaşıyorsun?' },
+        { speaker: 'npc',    text: 'Başka türlüsünü denedim, boğuldum. Burada kimse "saat kaç, plan ne" demiyor. Deniz de demiyor, ben de.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'nadia_t1_2',
+      tier: 1,
+      title: 'Eğri Vazo',
+      lines: [
+        { speaker: 'npc',    text: '(bir vazo uzatır) Şuna bak. Boynu eğri, değil mi? Çırağım Bea "bozuk" dedi, atacaktı.' },
+        { speaker: 'player', text: 'Biraz eğri gerçekten.' },
+        { speaker: 'npc',    text: 'Mükemmel olsa sıkıcı olurdu. Eğri olan, elimin o gün nasıl titrediğini saklıyor içinde. Kusur dediğin şey, aslında bir parmak izi.' },
+      ],
+      choices: [
+        {
+          text: 'Demek hataları seviyorsun.',
+          lines: [{ speaker: 'npc', text: 'Hata yok ki — sadece beklemediğin şeyler var. Plan yaparsan hayat seni şaşırtamaz; ben şaşırmayı severim. Çamur nereye giderse, ben de oraya.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: "Bea'ya ne öğretiyorsun?",
+          lines: [{ speaker: 'npc', text: 'Teknikten çok, korkmamayı. Bozmaktan korkarsan hiçbir şey yapamazsın. Çoğu insana bunu kimse söylememiş; ben Bea\'ya küçükken söylüyorum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'nadia_t2_1',
+      tier: 2,
+      title: 'Pratik Ol',
+      lines: [
+        { speaker: 'npc',    text: 'Bir zamanlar şehirdeydim. Sergiler, galeriler, "kariyer."' },
+        { speaker: 'player', text: 'Tutmadı mı?' },
+        { speaker: 'npc',    text: 'Tuttu aslında, sorun oydu. Herkes "pratik ol, satılanı yap, markanı kur" diyordu. Sanatım fatura ödeyen bir makineye döndü. Bir sabah fırçayı bıraktım, trene bindim, buraya geldim.' },
+        { speaker: 'player', text: 'Pişman değil misin?' },
+        { speaker: 'npc',    text: 'Bazen aç kalıyorum. Ama ilk kez yaptığım şey bana ait. "Pratik" kelimesi bir insanın içindeki rengi öldürebiliyor — ben rengimi geri istedim.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'nadia_t2_2',
+      tier: 2,
+      title: 'Bağlanmak Boğar',
+      lines: [
+        { speaker: 'npc',    text: 'Sana karşı dürüst olayım, çünkü dürüst olmadığımda kil çatlıyor. Senden hoşlanıyorum. Ve bu beni biraz... ürkütüyor.' },
+        { speaker: 'player', text: 'Neden ürkütüyor?' },
+        { speaker: 'npc',    text: 'Çünkü bağlanmak boğar diye korkarım. Birine yer açınca, o yer bir gün kafes olur sandım hep.' },
+      ],
+      choices: [
+        {
+          text: 'Bağ kafes olmak zorunda değil.',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik) Belki. Belki yanlış ellerde kafes oldu hep. Açık denizde de iki tekne yan yana gidebilir, birbirini bağlamadan. Hiç böyle düşünmemiştim.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: "Ben seni 'pratik ol' demeden severim.",
+          lines: [{ speaker: 'npc', text: '(sana bakar, elindeki kili bırakır) ...Bunu yıllardır bekliyormuşum gibi söyledin. Bu cümleyi kimse kurmadı bana, hiç.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'nadia_t3_1',
+      tier: 3,
+      title: 'Birlikte Bir Şey',
+      lines: [
+        { speaker: 'npc',    text: '(çarkın başına oturur, yanındaki tabureyi gösterir) Gel, otur şuraya. Yakına.' },
+        { speaker: 'player', text: 'Ne yapıyoruz?' },
+        { speaker: 'npc',    text: 'Birlikte bir şey yapalım. Ne olacağını bilmiyorum — en güzeli de bu. (ellerini senin ellerinin üstüne koyar, çamurun içinde) Bak, çark dönüyor, şekil kendini buluyor. Plan yok. Sadece sen, ben, ve ne çıkacağını bilmediğimiz bu şey.' },
+        { speaker: 'player', text: 'Eğri çıkabilir.' },
+        { speaker: 'npc',    text: '(güler, gözleri parlak) Umarım çıkar. Seni kilden yapmaya kalksam ellerim titrerdi zaten — fazla bakardım yüzüne, çark dururdu. Mükemmel olmasını istemiyorum bunun. Sadece... yanımda olmanı istiyorum. O yeter. İlk kez bir şeyin sürmesini istiyorum, bitmesini değil.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1516,4 +1734,6 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   rex,
   vivian,
   elise,
+  daniel,
+  nadia,
 }
