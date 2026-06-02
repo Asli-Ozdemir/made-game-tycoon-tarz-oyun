@@ -133,6 +133,7 @@ export class ServiceScene {
   }
 
   private _doFailTable(tableId: string) {
+    if (this.destroyed) return
     const t = this._tables[tableId]
     if (!t || t.status === 'served' || t.status === 'failed') return
     this._stopPatienceTimer(tableId)
