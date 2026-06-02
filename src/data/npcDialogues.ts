@@ -947,6 +947,112 @@ const aldo: NPCDef = {
   ],
 }
 
+// ─── YEVGENI ─────────────────────────────────────────────────────────────────
+
+const yevgeni: NPCDef = {
+  id: 'yevgeni',
+  name: 'Yevgeni',
+  role: 'Teknisyen',
+  philosophy: 'Nihilizm/Materyalizm — Faydası yoksa yık; doğa tapınak değil, atölyedir.',
+  emoji: '🔬',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'yevgeni_t1_1',
+      tier: 1,
+      title: 'Çalışır ya da Çalışmaz',
+      lines: [
+        { speaker: 'npc',    text: '(bir devreyi söküyor, başını kaldırmaz) Ne istiyorsun? Bozuksa bırak, bakarım. Bozuk değilse vaktimi alma.' },
+        { speaker: 'player', text: 'Sadece tanışmak—' },
+        { speaker: 'npc',    text: 'Tanışmak. (kısa bakar) Yevgeni. İşim, bu makineleri açıp neden öldüklerini bulmak. İnsanlar "ruhu çıktı" der; ben kondansatörü gösteririm. Hangisi doğru, sen söyle.' },
+        { speaker: 'player', text: 'Her şeyin bir açıklaması var diyorsun.' },
+        { speaker: 'npc',    text: 'Her şeyin. Açıklayamadığın şey, henüz sökmediğin şeydir. Mucize, cehaletin kibarcasıdır.' },
+      ],
+      ideaSeed: 'analiz',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'yevgeni_t1_2',
+      tier: 1,
+      title: 'Tapınak Değil',
+      lines: [
+        { speaker: 'npc',    text: 'İnsanlar şu nehre bakıp şiir yazıyor. Ben akış hızını, çözünmüş oksijeni düşünüyorum. Doğa tapınak değil, atölye.' },
+        { speaker: 'player', text: 'Güzelliğe yer yok mu yani?' },
+      ],
+      choices: [
+        {
+          text: 'Bu çok soğuk bir bakış.',
+          lines: [{ speaker: 'npc', text: 'Soğuk olan dürüstlüktür. Sıcaklık istiyorsan battaniye al. Ben sana gerçeği veririm; gerçek nadiren sıcaktır.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Peki neye inanıyorsun?',
+          lines: [{ speaker: 'npc', text: 'İşe yarayana. Bir köprü ayakta duruyorsa doğrudur. Bir fikir insanı taşıyorsa doğrudur. Gerisi süs.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'yevgeni_t2_1',
+      tier: 2,
+      title: 'Babamın Mektupları',
+      lines: [
+        { speaker: 'player', text: 'Şu çekmecedeki mektup destesi — makine değil ama hep orada.' },
+        { speaker: 'npc',    text: '(durur, tornavidayı bırakır) ...Babamdan. Köyde yaşar, her hafta yazar. El yazısı, pul, hepsi. Tam bir zaman kaybı.' },
+        { speaker: 'player', text: 'Cevap yazıyor musun?' },
+        { speaker: 'npc',    text: '...Bazen. (sessizlik) Saçma, biliyorum. Hepsi karbon ve mürekkep. "Sakladığım her şeyin bir faydası var" derdim — bunların faydasını bulamadım. Galiba yararsız bir şeyi ilk kez seviyorum. Bu beni rahatsız ediyor.' },
+      ],
+      ideaSeed: 'nostalji',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'yevgeni_t2_2',
+      tier: 2,
+      title: 'Otorite',
+      lines: [
+        { speaker: 'npc',    text: 'Herkes birine tapıyor. Patron, üstat, "büyük adam." Ben kimsenin önünde eğilmem. Unvan, korkağın zırhıdır.' },
+        { speaker: 'player', text: 'Hiç saygı duymaz mısın?' },
+      ],
+      choices: [
+        {
+          text: 'Saygı gerekmez mi?',
+          lines: [{ speaker: 'npc', text: 'Saygı kazanılır, talep edilmez. "Şirketi ben kurdum" diyene sorarım: peki kim çalıştırdı? Taç, onu giydirenlerindir.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Yıkmak kolay, ya kurmak?',
+          lines: [{ speaker: 'npc', text: 'Haklısın, en zayıf yanım bu. Çürüğü görürüm, yerine ne koyacağımı her zaman bilemem. Belki o yüzden makine tamir ediyorum, dünya değil.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 ───
+    {
+      id: 'yevgeni_t3_1',
+      tier: 3,
+      title: 'Onu da Sök',
+      lines: [
+        { speaker: 'npc',    text: 'Şu Crane denen adam. Onu büyük bir şey sanıyor, korkuyorsun. Yanlış. Onu da bir makine gibi gör.' },
+        { speaker: 'player', text: 'Nasıl yani?' },
+        { speaker: 'npc',    text: 'Aç, parçalarına ayır. Neden çalışıyor? Korkuyla. Korku da bir mekanizma — kaynağını kesersen durur. Onu efsane yapan, ona tapanlar. Tapmayı bırak, küçülür.' },
+        { speaker: 'player', text: 'Sen olsan yıkar mıydın?' },
+        { speaker: 'npc',    text: '(duraksar) Eskiden "evet, sök at" derdim. Ama şu mektuplardan beri... bir şeyi yıkmadan önce yerine ne koyacağını bil. Yoksa sadece enkaz olursun — ondan farkın kalmaz. Bunu bana hayat öğretti, kitap değil.' },
+      ],
+      ideaSeed: 'analiz',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -956,4 +1062,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   marta,
   clara,
   aldo,
+  yevgeni,
 }
