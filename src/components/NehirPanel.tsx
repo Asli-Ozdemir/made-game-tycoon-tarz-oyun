@@ -27,14 +27,13 @@ export default function NehirPanel() {
 
   const activeShift      = useNehirStore((s) => s.activeShift)
   const completedShifts  = useNehirStore((s) => s.completedShifts)
-  const lastDamage       = useNehirStore((s) => s.lastDamage)
-  const lastTimeLeft     = useNehirStore((s) => s.lastTimeLeft)
 
   const [phase, setPhase]               = useState<PanelPhase>('briefing')
   const [shiftResult, setShiftResult]   = useState<ShiftResult | null>(null)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sceneRef  = useRef<RaftScene | null>(null)
+  const lastResultRef = useRef<{ damage: number; timeLeft: number } | null>(null)
 
   // Pause clock while panel is open
   useEffect(() => {
@@ -75,6 +74,8 @@ export default function NehirPanel() {
         scene?.destroy()
         sceneRef.current = null
         const result = useNehirStore.getState().endShift()
+        // Capture before endShift zeroes them
+        lastResultRef.current = { damage, timeLeft }
         setShiftResult(result)
         setPhase('result')
       },
@@ -112,9 +113,8 @@ export default function NehirPanel() {
     // activeShift is cleared by endShift — look up by completedShifts last entry
     const lastId = useNehirStore.getState().completedShifts.slice(-1)[0]
     const shift  = NEHIR_SHIFTS.find(s => s.id === lastId)
-    if (!shift) return []
-    const d = lastDamage
-    const t = lastTimeLeft
+    if (!shift || !lastResultRef.current) return []
+    const { damage: d, timeLeft: t } = lastResultRef.current
     if (d === 0 && t > 0) return shift.resultLines.good
     if (d >= 3 || t <= 0) return shift.resultLines.bad
     return shift.resultLines.okay
