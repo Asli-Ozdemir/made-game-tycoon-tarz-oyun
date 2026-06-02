@@ -3,6 +3,11 @@ _Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
 
+### Antiquarian's Assistant Infrastructure (2026-06-02)
+- `src/data/antiquarianShifts.ts`: interfaces + 3 full sessions (antiq_shift_01–03)
+- `src/store/antiquarianStore.ts`: 4-phase state machine (briefing/search/identify/match), reward calculation, cross-store
+- `src/pixi/AntiquarianScene.ts`: briefing display, location select, book grid, identify selectors, match UI
+
 ### Pub Garsonluk Altyapısı (2026-06-02)
 - `src/data/pubShifts.ts`: tip tanımları + 3 tam vardiya (pub_shift_01–03)
 - `src/store/pubStore.ts`: masa akışı, sipariş/pişirme/servis/başarısız, yanlış servis cezası, ödül hesaplama
@@ -88,6 +93,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
 
 ### Sıradaki Büyük Görevler
+- Antiquarian's assistant integration: mailbox trigger, antiq_shift_04–08 content, map location entry
 - Pub garsonluk entegrasyonu: posta kutusu altyapısı, pub_shift_04–15 içeriği, harita entegrasyonu
 - Bar bodyguard entegrasyonu: posta kutusu altyapısı, shift_04–10 içeriği, harita entegrasyonu
 - Dedektif asistanı entegrasyonu: posta kutusu altyapısı, companion NPC, günlük akış, case_04–10 içeriği
