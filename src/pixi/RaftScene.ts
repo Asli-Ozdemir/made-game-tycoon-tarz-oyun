@@ -85,6 +85,7 @@ export class RaftScene {
 
   private _onKey = (e: KeyboardEvent) => {
     if (this.destroyed || this.done) return
+    if (e.repeat) return
     if (e.code === 'ArrowLeft'  || e.code === 'KeyA') this.raftVY -= PADDLE_FORCE
     if (e.code === 'ArrowRight' || e.code === 'KeyD') this.raftVY += PADDLE_FORCE
   }
@@ -194,6 +195,7 @@ export class RaftScene {
     this._drawSky(W, H)
     this._drawSilhouette(W)
     this._drawRiver(W)
+    this._drawGround(W, H)
     this._drawCurrentLines(W)
     this._drawObstacles(W)
     this._drawRaft(W)
@@ -230,10 +232,13 @@ export class RaftScene {
     // Bank lines
     river.rect(0, this.riverTop,      W, 3).fill({ color: 0x1a3a4a })
     river.rect(0, this.riverBot - 3,  W, 3).fill({ color: 0x1a3a4a })
-    // Ground strips
-    river.rect(0, 0,              W, this.riverTop).fill({ color: 0x080e08 })
-    river.rect(0, this.riverBot,  W, this.opts.height - this.riverBot).fill({ color: 0x080e08 })
     this.app.stage.addChild(river)
+  }
+
+  private _drawGround(W: number, H: number) {
+    const g = new Graphics()
+    g.rect(0, this.riverBot, W, H - this.riverBot).fill({ color: 0x080e08 })
+    this.app.stage.addChild(g)
   }
 
   private _drawCurrentLines(W: number) {
