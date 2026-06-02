@@ -1077,7 +1077,7 @@ const soren: NPCDef = {
       lines: [
         { speaker: 'npc',    text: '(halatı bir kazığa dolarken, başını çevirmeden) Naber. Gelgit dönüyor — otur istersen ama dümen başında bekleyemem.' },
         { speaker: 'player', text: 'Sen kaptan mısın?' },
-        { speaker: 'npc',    text: 'Bu limanın, evet. Søren. Sabah üç gemi geç yanaştı, üçü de rüzgârı suçladı. Rüzgâr suçlanmaz; rüzgâr sadece eser.' },
+        { speaker: 'npc',    text: 'Bu limanın, evet. Søren. Sabah üç tekne geç yanaştı, üçü de rüzgârı suçladı. Rüzgâr suçlanmaz; rüzgâr sadece eser.' },
         { speaker: 'player', text: 'Nehrin karşısından geldim.' },
         { speaker: 'npc',    text: '(ilk kez bakar) Belli. Oradan gelenler hep bir şeyin onları "getirdiğini" sanır. Seni kimse getirmedi. Geldin.' },
       ],
@@ -1097,7 +1097,7 @@ const soren: NPCDef = {
       choices: [
         {
           text: 'Sadece bir tahta yığını.',
-          lines: [{ speaker: 'npc', text: 'Her şey sadece bir şeydir, ta ki birine ne anlam verene kadar. Anlamı ben koyarım, deniz değil. İşin zor yanı da bu — kimse senin yerine koymaz.' }],
+          lines: [{ speaker: 'npc', text: 'Her şey sadece bir şeydir, ta ki birine ne anlam verene kadar. Anlamı ben koyarım, akıntı değil. İşin zor yanı da bu — kimse senin yerine koymaz.' }],
           ideaSeed: 'kaos',
           relationshipBonus: 5,
         },
@@ -1132,7 +1132,7 @@ const soren: NPCDef = {
       lines: [
         { speaker: 'npc',    text: 'Yıllarca başkasının rotasını tuttum sandım. Şirketler, sözleşmeler, "böyle gerekiyor" denen ne varsa.' },
         { speaker: 'player', text: 'Mecburdun.' },
-        { speaker: 'npc',    text: 'Hayır. Dümeni tutan da bendim. Sadece kabul etmiyordum, çünkü kabul etmek sorumluluk demek. "Mecbur kaldım" demek, dümeni denize bırakıp suçu suya atmaktır.' },
+        { speaker: 'npc',    text: 'Hayır. Dümeni tutan da bendim. Sadece kabul etmiyordum, çünkü kabul etmek sorumluluk demek. "Mecbur kaldım" demek, dümeni akıntıya bırakıp suçu suya atmaktır.' },
       ],
       choices: [
         {
@@ -1412,7 +1412,7 @@ const elise: NPCDef = {
       lines: [
         { speaker: 'npc',    text: '(akort yaparken, başını kaldırmadan) Aa, sen. Hâlâ o eski ceket, değil mi? Neyse... otur bir yere, birazdan provam var.' },
         { speaker: 'player', text: 'Burada mı çalıyorsun?' },
-        { speaker: 'npc',    text: 'Şimdilik. Elise. Bu kasabanın tek gerçek sesi — ki bu pek de iddialı sayılmaz, etrafa bakınca.' },
+        { speaker: 'npc',    text: 'Şimdilik. Elise. Bu şehrin tek gerçek sesi — ki bu pek de iddialı sayılmaz, etrafa bakınca.' },
         { speaker: 'player', text: 'Mütevazı biri olduğun belli.' },
         { speaker: 'npc',    text: 'Mütevazılık keşfedilmemişler içindir. Ben sadece henüz doğru kişinin beni dinlemesini bekliyorum.' },
       ],
@@ -1507,8 +1507,8 @@ const elise: NPCDef = {
 const daniel: NPCDef = {
   id: 'daniel',
   name: 'Daniel',
-  role: 'Deniz Biyoloğu',
-  philosophy: 'Romantizm adayı — Utangaç profesör: insanlarla beceriksiz, deniz canlılarıyla rahat; sessiz hayretini paylaşacak biri arar.',
+  role: 'Nehir Biyoloğu',
+  philosophy: 'Romantizm adayı — Utangaç profesör: insanlarla beceriksiz, nehir canlılarıyla rahat; sessiz hayretini paylaşacak biri arar.',
   emoji: '🔬',
   tier2Threshold: 30,
   tier3Threshold: 70,
@@ -1521,7 +1521,7 @@ const daniel: NPCDef = {
       lines: [
         { speaker: 'npc',    text: 'Ah, merhaba! (ellerini pantolonuna siler) Pardon, ellerim ıslak — gelgit havuzundaydım. Bir şeye mi... yoksa sadece mi?' },
         { speaker: 'player', text: 'Sadece bakıyorum. Burada ne yapıyorsun?' },
-        { speaker: 'npc',    text: 'Araştırma. Şu küçük istasyon benim. Daniel. Koyu inceliyorum — kim gelir gider, kim kiminle yaşar, suyun altında. İnsanlardan çok... denizanalarını anlıyorum, açıkçası.' },
+        { speaker: 'npc',    text: 'Araştırma. Şu küçük istasyon benim. Daniel. Nehri inceliyorum — kim gelir gider, kim kiminle yaşar, suyun altında. İnsanlardan çok... su semenderlerini anlıyorum, açıkçası.' },
         { speaker: 'player', text: 'Mütevazı bir alan değil.' },
         { speaker: 'npc',    text: 'Değil! (gözleri parlar, sonra kendini tutar) Pardon. Heyecanlanınca konuşuyorum. Genelde insanlar bu noktada uzaklaşıyor.' },
       ],
@@ -1546,7 +1546,7 @@ const daniel: NPCDef = {
         },
         {
           text: 'İnsanlar neden uzaklaşıyor sence?',
-          lines: [{ speaker: 'npc', text: '(omuz silker, mahcup) Çünkü ben "merhaba"yı atlayıp doğrudan denizanası sinir sistemine geçiyorum galiba. Sohbet... benim için yabancı bir dil. Deniz daha kolay.' }],
+          lines: [{ speaker: 'npc', text: '(omuz silker, mahcup) Çünkü ben "merhaba"yı atlayıp doğrudan su semenderi sinir sistemine geçiyorum galiba. Sohbet... benim için yabancı bir dil. Nehir daha kolay.' }],
           ideaSeed: 'sosyallik',
           relationshipBonus: 5,
         },
@@ -1561,7 +1561,7 @@ const daniel: NPCDef = {
       lines: [
         { speaker: 'npc',    text: 'Eskiden üniversitedeydim, biliyor musun? İyi bir bölüm, parlak gelecek, falan.' },
         { speaker: 'player', text: 'Neden bıraktın?' },
-        { speaker: 'npc',    text: 'Bırakmadım sayılır, kaçtım. Herkes atıf peşindeydi — kim kimi kaç kez kaynak göstermiş. Ben sadece denizi merak ediyordum, ama merak orada bir suçtu sanki. "Yayınla ya da yok ol" diyorlardı.' },
+        { speaker: 'npc',    text: 'Bırakmadım sayılır, kaçtım. Herkes atıf peşindeydi — kim kimi kaç kez kaynak göstermiş. Ben sadece akarsuları merak ediyordum, ama merak orada bir suçtu sanki. "Yayınla ya da yok ol" diyorlardı.' },
         { speaker: 'player', text: 'Burada yok mu oldun yani?' },
         { speaker: 'npc',    text: '(güler) Belki akademiye göre oldum. Ama ilk kez bir şeyi kimse "ne işe yarayacak?" diye sormadan inceliyorum. Yok oluş buysa, suya memnuniyetle batarım.' },
       ],
@@ -1599,7 +1599,7 @@ const daniel: NPCDef = {
       tier: 3,
       title: 'Senin Adınla',
       lines: [
-        { speaker: 'npc',    text: 'Sana bir şey göstereceğim, ama gülme. (bir kavanoz uzatır, içinde küçük bir deniz canlısı) Geçen ay yeni bir tür buldum. Kayıtlara geçmesi için bir isim vermem gerekiyordu.' },
+        { speaker: 'npc',    text: 'Sana bir şey göstereceğim, ama gülme. (bir kavanoz uzatır, içinde küçük bir nehir canlısı) Geçen ay yeni bir tür buldum. Kayıtlara geçmesi için bir isim vermem gerekiyordu.' },
         { speaker: 'player', text: 'Ne ad verdin?' },
         { speaker: 'npc',    text: '(sessizce) Seninkini. Resmî kayıtta, Latince ekiyle. Yani artık bilim, sen var olduğunu bilmese de seni biliyor.' },
         { speaker: 'player', text: 'Daniel, bu...' },
@@ -1689,7 +1689,7 @@ const nadia: NPCDef = {
       choices: [
         {
           text: 'Bağ kafes olmak zorunda değil.',
-          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik) Belki. Belki yanlış ellerde kafes oldu hep. Açık denizde de iki tekne yan yana gidebilir, birbirini bağlamadan. Hiç böyle düşünmemiştim.' }],
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik) Belki. Belki yanlış ellerde kafes oldu hep. Açık suda da iki tekne yan yana gidebilir, birbirini bağlamadan. Hiç böyle düşünmemiştim.' }],
           ideaSeed: 'kaos',
           relationshipBonus: 5,
         },

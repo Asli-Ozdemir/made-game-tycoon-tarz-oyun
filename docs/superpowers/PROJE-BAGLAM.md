@@ -22,6 +22,8 @@ Büyük bir oyun şirketinden kovulup boşanan, orta yaşlı bir insanın; nehri
 - **Neon şehir yakası** (kuzey) — karanlık, mor neon, endüstriyel, hırslı. Apex Games, yatırımcılar, büyük sektör burada.
 - **Eski liman kenti (deniz)** = geçmiş; oyuncunun kovulduğu/boşandığı yer. "Nehrin karşısından geldin" = o hayattan kaçtın.
 
+> ⚠️ **Tutarlılık:** Burası tek bir **şehir** (asla "kasaba" deme). Nehir, şehrin **müstakil/konut kısmını** (ev yakası) ile **büyük binaları** (kurumsal/neon yaka) ayırır. **Şimdiki şehirde deniz yoktur** — su = nehir; deniz yalnızca *geçmiştir*. NPC diyaloglarında deniz/liman/gemi yerine nehir/iskele/tekne kullan (istisna: bir karakter bilerek geçmiş deniz kentini anıyorsa, ör. Remy).
+
 Oyuncu **sahil evinde, yalnız, parasız başlar.** Ofis tutacak parası olana dek sahil yakasında takılır; büyüdükçe nehri geçer.
 
 ## Kahramanın yayı
