@@ -167,6 +167,7 @@ describe('detectiveStore — reset', () => {
     expect(s.activeCase).toBeNull()
     expect(s.dayCount).toBe(0)
     expect(s.collectedEvidence).toEqual([])
+    expect(s.chainPosition).toBeNull()
     expect(s.completedCases).toEqual([])
   })
 })

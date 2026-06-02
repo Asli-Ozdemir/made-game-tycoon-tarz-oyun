@@ -76,13 +76,13 @@ export const useDetectiveStore = create<DetectiveStore>((set, get) => ({
     useIdeaSeedStore.getState().addSeed('analiz', seeds)
     useLifePathStore.getState().addProgress('emek', progress)
 
-    set({
+    set(s => ({
       activeCase: null,
       dayCount: 0,
       collectedEvidence: [],
       chainPosition: null,
-      completedCases: [...completedCases, activeCase.id],
-    })
+      completedCases: [...s.completedCases, activeCase.id],
+    }))
 
     return result
   },
