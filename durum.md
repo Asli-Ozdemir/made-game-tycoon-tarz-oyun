@@ -3,6 +3,12 @@ _Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
 
+### Bar Bodyguard Altyapısı (2026-06-02)
+- `src/data/barShifts.ts`: tip tanımları + 3 tam vardiya (shift_01–03)
+- `src/store/barStore.ts`: startShift, makeGuestDecision, triggerIncident, chooseTensionOption, endFight, endShift, ödül hesaplama
+- `src/pixi/DoorScene.ts`: Papers Please kapı arayüzü, A/D klavye kısayolları
+- `src/pixi/FightScene.ts`: yumruk dövüşü overlay, düşman otomatik saldırı, Z/sol tık
+
 ### Dedektif Asistanı Altyapısı (2026-06-02)
 - `src/data/npcDialogues.ts`: analiz tohum tipi eklendi
 - `src/store/ideaSeedStore.ts`: analiz sayacı eklendi
@@ -77,6 +83,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
 
 ### Sıradaki Büyük Görevler
+- Bar bodyguard entegrasyonu: posta kutusu altyapısı, shift_04–10 içeriği, harita entegrasyonu
 - Dedektif asistanı entegrasyonu: posta kutusu altyapısı, companion NPC, günlük akış, case_04–10 içeriği
 - Köprü geçişinde otobüs animasyonu (isteğe bağlı)
 - NPC sprite'ları harita üzerinde
