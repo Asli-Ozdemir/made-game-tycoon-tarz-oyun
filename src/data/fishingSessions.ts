@@ -48,8 +48,13 @@ export interface CaughtFish {
   species:   string
 }
 
+// ─── Fragment IDs ─────────────────────────────────────────────────────────────
+// fragmentId values in StoryBeat choices are forward references consumed by the
+// story/narrative system (not defined in this file). Stores and scenes must
+// treat them as opaque string keys. A null fragmentId means no fragment unlocks.
+
 // ─── Shared lures (same three every session) ─────────────────────────────────
-const LURES: Lure[] = [
+const LURES: Lure[] = [ // do not mutate — shared across all sessions
   { id: 'live_bait',   label: 'Live Bait',    targetFish: ['mackerel', 'anchovy', 'flounder'] },
   { id: 'metal_spoon', label: 'Metal Spoon',  targetFish: ['sea_bass', 'bluefish', 'bonito'] },
   { id: 'soft_lure',   label: 'Soft Lure',    targetFish: ['red_mullet', 'sea_bream', 'flounder'] },
@@ -325,7 +330,7 @@ const session09: FishingSession = {
 }
 
 const session10: FishingSession = {
-  id: 'fishing_10', arcId: 'arc_family', difficulty: 'normal', castCount: 3,
+  id: 'fishing_10', arcId: 'arc_family', difficulty: 'normal', castCount: 3, // intentional cool-down — final session, narrative close
   briefingText: "Just open water today. No tricks. I want to talk while we fish.",
   spots: [SPOT_OPEN],
   lures: LURES,
