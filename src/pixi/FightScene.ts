@@ -76,12 +76,6 @@ export class FightScene {
     hintText.y = height - 22
     app.stage.addChild(hintText)
 
-    // ── Tıklama ile yumruk ────────────────────────────────────────────────
-    app.stage.eventMode = 'static'
-    app.stage.on('pointerdown', () => {
-      if (this.destroyed) return
-      this._playerPunch()
-    })
   }
 
   private _drawHealthBar(x: number, y: number, barWidth: number, label: string, health: number, color: number) {
@@ -188,6 +182,13 @@ export class FightScene {
     }
     window.addEventListener('keydown', onKey)
     this._keyHandler = onKey
+
+    // Click/tap punch — registered once here, not in _render()
+    this.app.stage.eventMode = 'static'
+    this.app.stage.on('pointerdown', () => {
+      if (this.destroyed) return
+      this._playerPunch()
+    })
   }
 
   destroy() {
