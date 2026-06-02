@@ -471,9 +471,12 @@ export class AntiquarianScene {
 
     if (hasPendingOrDone) {
       const isLast = this._currentIdentifyIdx === this._collectedBooks.length - 1
-      const allIdentified = this._collectedBooks.every(id => this._identifications[id] !== undefined)
-      const btnLabel = isLast && allIdentified ? 'Proceed to Matching →' : 'Next Book →'
-      const btnAction = isLast && allIdentified
+      const allOthersDone = this._collectedBooks
+        .filter((_, idx) => idx !== this._currentIdentifyIdx)
+        .every(id => this._identifications[id] !== undefined)
+      const willBeAllDone = isLast && allOthersDone
+      const btnLabel  = willBeAllDone ? 'Proceed to Matching →' : 'Next Book →'
+      const btnAction = willBeAllDone
         ? () => { this.submitIdentification(); this.advanceToMatch() }
         : () => { this.submitIdentification() }
 
