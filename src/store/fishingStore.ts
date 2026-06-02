@@ -101,6 +101,7 @@ export const useFishingStore = create<FishingStoreState>((set, get) => ({
   },
 
   advanceCast(caught, species) {
+    if (get().phase !== 'jigging') return
     const { activeSession, currentCastIndex, selectedSpotId, selectedLureId, catchLog } = get()
     if (!activeSession) return
     const newLog = caught && species && selectedSpotId && selectedLureId
