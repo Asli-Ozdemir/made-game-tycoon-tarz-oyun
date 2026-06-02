@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { computeWeeklyCosts } from '@/engine/economyEngine'
+import { getSkillBonuses } from '@/engine/skillEffectEngine'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useProjectStore } from '@/store/projectStore'
@@ -87,7 +88,9 @@ export const useEconomyStore = create<EconomyStoreState>((set, get) => ({
     const money = useGameStore.getState().money
     const { isInCrisis } = get()
     if (money < 0 && !isInCrisis) {
-      set({ isInCrisis: true, crisisWeeksLeft: 4 })
+      const { crisisDurationReduction } = getSkillBonuses()
+      const weeks = Math.max(1, Math.round(4 * (1 - crisisDurationReduction)))
+      set({ isInCrisis: true, crisisWeeksLeft: weeks })
     } else if (money >= 0 && isInCrisis) {
       set({ isInCrisis: false, crisisWeeksLeft: 0 })
     }

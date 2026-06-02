@@ -10,6 +10,7 @@ import { useTimeStore } from '@/store/timeStore'
 import { computePreLaunchMultiplier } from '@/engine/campaignEngine'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useIndustryEventStore } from '@/store/industryEventStore'
+import { getSkillBonuses } from '@/engine/skillEffectEngine'
 
 interface ScoreOptions {
   reputation: number
@@ -113,7 +114,8 @@ export function calculatePublishResult(
   const basePrice      = project.price > 0 ? project.price : (dlcOverride ?? platform?.pricePerUnit ?? 20)
   const pricePerUnit   = computeEffectivePrice(basePrice, project.discountPct ?? null)
   const salesAdjusted  = Math.round(sales * computeSalesMultiplier(project.discountPct ?? null))
-  const revenue        = salesAdjusted * pricePerUnit
+  const { incomeMult } = getSkillBonuses()
+  const revenue        = Math.round(salesAdjusted * pricePerUnit * incomeMult)
 
   return { score, sales: salesAdjusted, revenue, publishDate: opts.publishDate }
 }

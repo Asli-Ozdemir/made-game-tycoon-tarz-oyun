@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { SKILL_NODES } from '@/data/skillTree'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
+import { useGameStore } from '@/store/gameStore'
 
 type NodeState = 'locked' | 'unlockable' | 'active'
 
@@ -36,6 +37,9 @@ export const useSkillTreeStore = create<SkillTreeStore>((set, get) => ({
       useIdeaSeedStore.getState().spendSeed(c.type, c.amount)
     }
     set(s => ({ unlockedNodeIds: [...s.unlockedNodeIds, id] }))
+    if (node.effect.type === 'reputation_bonus') {
+      useGameStore.getState().gainReputation(node.effect.value)
+    }
   },
 
   getNodeState(id): NodeState {

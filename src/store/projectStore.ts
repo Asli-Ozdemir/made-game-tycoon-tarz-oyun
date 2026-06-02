@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { tickProject, isProjectComplete } from '@/engine/projectEngine'
 import { computeProjectBonus } from '@/engine/employeeEngine'
+import { getSkillBonuses } from '@/engine/skillEffectEngine'
 import { useEmployeeStore } from '@/store/employeeStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
@@ -38,7 +39,8 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
         if (p.status !== 'gelistirme') return p
         const assignedEmps = employees.filter((e) => e.assignedProjectId === p.id)
         const bonus = computeProjectBonus(assignedEmps)
-        const next = tickProject(p, bonus)
+        const qualityMult = getSkillBonuses().qualityMultForGenre(p.genreId)
+        const next = tickProject(p, bonus, qualityMult)
         if (isProjectComplete(next)) completed.push(next)
         return next
       })

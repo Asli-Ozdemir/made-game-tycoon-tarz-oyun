@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { nanoid } from 'nanoid'
 import { generateCandidates, rollLifeEvents, applyXpGains, tickEmployeeXp } from '@/engine/employeeEngine'
+import { getSkillBonuses } from '@/engine/skillEffectEngine'
 import { COURSES, SKILL_CAPS } from '@/data/courses'
 import type { Employee, LifeEvent, SkillKey } from '@/types/employee'
 
@@ -64,7 +65,9 @@ export const useEmployeeStore = create<EmployeeStoreState>((set, get) => ({
     const quitters = employees.filter((e) =>
       events.some((ev) => ev.employeeId === e.id && ev.quitsJob)
     )
-    const totalSalary = employees.reduce((sum, e) => sum + e.salary, 0)
+    const rawSalary = employees.reduce((sum, e) => sum + e.salary, 0)
+    const { salaryReduction } = getSkillBonuses()
+    const totalSalary = Math.round(rawSalary * (1 - salaryReduction))
 
     set((s) => ({
       employees: s.employees
