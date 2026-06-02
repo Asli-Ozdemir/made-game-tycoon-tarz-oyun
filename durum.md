@@ -3,6 +3,15 @@ _Son güncelleme: 2026-06-01 (gece)_
 
 ## Tamamlananlar
 
+### Dedektif Asistanı Altyapısı (2026-06-02)
+- `src/data/npcDialogues.ts`: analiz tohum tipi eklendi
+- `src/store/ideaSeedStore.ts`: analiz sayacı eklendi
+- `src/data/skillTree.ts`: analiz_t1/t2/t3 node'ları eklendi
+- `src/pixi/rooms/parkRoom.ts`: park odası + RoomId'ye 'park' eklendi
+- `src/data/detectiveCases.ts`: vaka veri modeli + 3 tam vaka (case_01–03)
+- `src/store/detectiveStore.ts`: startCase, collectEvidence, advanceDay, makeAccusation, ödül dağıtımı
+- `src/pixi/ExamineScene.ts`: zoom-in overlay, iç içe point&click kanıt inceleme
+
 ### Zihin Geliştirme Ağacı (2026-06-01)
 - 30 node, 5 tier, radyal nöron layout
 - `src/data/skillTree.ts`: SkillNode tipleri + 30 node tanımı
@@ -68,6 +77,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
 
 ### Sıradaki Büyük Görevler
+- Dedektif asistanı entegrasyonu: posta kutusu altyapısı, companion NPC, günlük akış, case_04–10 içeriği
 - Köprü geçişinde otobüs animasyonu (isteğe bağlı)
 - NPC sprite'ları harita üzerinde
 - Hayat Yolu seçimi (Hırs / Huzur / Emek) — kalıcı seçim mekanik
