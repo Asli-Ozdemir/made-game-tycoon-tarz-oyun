@@ -47,7 +47,7 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Yan İş — Bar Bodyguard** (vardiya/kapı kararı/dövüş) | ✅ Altyapı bitti | `specs/2026-06-02-bar-bodyguard-design.md` | `plans/2026-06-02-bar-bodyguard.md` |
 
 ### NPC Diyalog Sistemi özeti
-T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diyaloglu** (her biri 5 diyalog: 2×T1, 2×T2, 1×T3): Marcus (Stoa/sahaf), Remy (Tao/balıkçı), Theo (absürd-varoluş/pub), Bruno (Aristoteles-erdem/mühendis), Magnus (Nietzsche/sokak filozofu), Marta (bakım etiği/hemşire), Clara (Kant/noter), Aldo (Epikür/bahçıvan), Yevgeni (nihilizm-Bazarov/teknisyen), Søren (Sartre/liman kaptanı), Rex (Kirenaik/arcade sahibi), Vivian (Fayda/yatırımcı). Son 3'ü kullanıcıyla satır satır onaylanarak yazıldı (bkz. PROJE-BAGLAM "⛔ NPC DİYALOGLARI"). `npcStore` (ilişki/tier/seenDialogues + gainMultiplier/penalizeNpc), `ideaSeedStore` (Nostalji/Hikaye/Kaos/Zaman Yönetimi/Analiz tohumları), paylaşımlı `DialogueView`. Sahaf/Balıkçı/Pub panelleri DialogueView'a bağlı. **Vivian** `hirs` hayat yoluna bağlandı (`PATH_NPC_MAP`); Søren/Rex yol eşlemesi henüz dokümante değil. T3'lerin hepsi Crane aynasına bağlanır.
+T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diyaloglu** (her biri 5 diyalog: 2×T1, 2×T2, 1×T3): Marcus (Stoa/sahaf), Remy (Tao/balıkçı), Theo (absürd-varoluş/pub), Bruno (Aristoteles-erdem/mühendis), Magnus (Nietzsche/sokak filozofu), Marta (bakım etiği/hemşire), Clara (Kant/noter), Aldo (Epikür/bahçıvan), Yevgeni (nihilizm-Bazarov/teknisyen), Søren (Sartre/liman kaptanı), Rex (Kirenaik/arcade sahibi), Vivian (Fayda/yatırımcı). Son 3'ü kullanıcıyla satır satır onaylanarak yazıldı (bkz. PROJE-BAGLAM "⛔ NPC DİYALOGLARI"). `npcStore` (ilişki/tier/seenDialogues + gainMultiplier/penalizeNpc), `ideaSeedStore` (Nostalji/Hikaye/Kaos/Zaman Yönetimi/Analiz tohumları), paylaşımlı `DialogueView`. Sahaf/Balıkçı/Pub panelleri DialogueView'a bağlı. Hayat yolu eşlemesi (`PATH_NPC_MAP`): **huzur** = Marcus, Remy, Rex · **emek** = Theo, Søren · **hirs** = Vivian. T3'lerin hepsi Crane aynasına bağlanır.
 
 ### Zihin Geliştirme Ağacı + Hayat Yolu özeti
 30 node / 5 tier radyal nöron layout, PixiJS rendering (`SkillTreeCanvas`), `skillTreeStore` (canUnlock/unlockNode/getNodeState/getActiveEffects), `SleepOverlay` (uyku → gün sonu, yatak trigger coastRoom). Hayat yolu: `lifePathData` (PATH_THRESHOLD=100, PATH_NPC_MAP), `lifePathStore` (serbest/kilitli faz, addProgress, switchPath → NPC cezası + progress reset), T5 node'ları lifePathStore üzerinden açılır, dış halka yay göstergesi (Huzur/Hırs/Emek).
@@ -132,7 +132,7 @@ NPC sistemi (sıra 1) **uygulandı** (yukarı taşındı — 9/12 NPC). Yaşlanm
 
 Açık uçlar (öncelik sırasız):
 - **Yan iş entegrasyonu** (dedektif + bar): posta kutusu altyapısı, companion NPC, harita girişleri, shift_04+/case_04+ içeriği.
-- **NPC kadrosunu tamamla:** 12 felsefe NPC bitti ✅ — kalan: 12 romantizm adayı + kasabalılar; Søren/Rex hayat-yolu eşlemesi.
+- **NPC kadrosunu tamamla:** 12 felsefe NPC bitti ✅, hayat-yolu eşlemeleri tam ✅ — kalan: 12 romantizm adayı + kasabalılar.
 - **Yaşam-sim zinciri** (yukarıdaki tablo, sıra 2→6): yaşlanma çekirdeği → NPC yaşam olayları → romantizm → final/epilog → olay ara sahneleri.
 - **Cilalama:** UI iyileştirmeleri, balans, müzik/ses; DevTools otomatik açmayı production'dan kaldır.
 
