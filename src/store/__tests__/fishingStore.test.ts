@@ -191,6 +191,7 @@ describe('fishingStore — advanceCast', () => {
     // fishing_01 has castCount=3; after first cast nextIndex=1 < 3
     reachJigging('fishing_01')
     useFishingStore.getState().advanceCast(false)
+    expect(useFishingStore.getState().currentCastIndex).toBe(1)
     expect(useFishingStore.getState().phase).toBe('story_beat')
   })
 
@@ -212,6 +213,7 @@ describe('fishingStore — advanceCast', () => {
     useFishingStore.getState().selectLure('live_bait')
     // cast 2 → result (last cast, nextIndex=3 >= 3)
     useFishingStore.getState().advanceCast(false)
+    expect(useFishingStore.getState().currentCastIndex).toBe(3)
     expect(useFishingStore.getState().phase).toBe('result')
   })
 
@@ -238,6 +240,7 @@ describe('fishingStore — chooseDialogue', () => {
     reachStoryBeat()
     useFishingStore.getState().chooseDialogue('c_01_1b') // fragmentId: 'frag_lighthouse_01'
     expect(useFishingStore.getState().unlockedFragments).toContain('frag_lighthouse_01')
+    expect(useFishingStore.getState().phase).toBe('spot_select')
   })
 
   it('does not unlock when fragmentId is null', () => {
