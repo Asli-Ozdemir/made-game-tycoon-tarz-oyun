@@ -11,7 +11,6 @@ const STYLE_BODY        = new TextStyle({ fontFamily: 'monospace', fontSize: 10,
 const STYLE_HINT        = new TextStyle({ fontFamily: 'monospace', fontSize: 9,  fill: '#3a3a50' })
 const STYLE_BTN_NORMAL  = new TextStyle({ fontFamily: 'monospace', fontSize: 11, fill: '#8080c0' })
 const STYLE_BTN_PRIMARY = new TextStyle({ fontFamily: 'monospace', fontSize: 12, fill: '#44cc88' })
-const STYLE_BTN_CANCEL  = new TextStyle({ fontFamily: 'monospace', fontSize: 12, fill: '#cc4444' })
 const STYLE_SELECTED    = new TextStyle({ fontFamily: 'monospace', fontSize: 11, fill: '#44ccff' })
 const STYLE_REQ_DONE    = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#448844' })
 const STYLE_REQ_OPEN    = new TextStyle({ fontFamily: 'monospace', fontSize: 10, fill: '#8080a0' })
@@ -141,16 +140,7 @@ export class AntiquarianScene {
 
   private _doMatch(requestId: string) {
     if (this.destroyed) return
-    if (this._selectedRequestId === null) {
-      // Select this request
-      this._selectedRequestId = requestId
-    } else if (this._selectedRequestId === requestId) {
-      // Deselect
-      this._selectedRequestId = null
-    } else {
-      // Already have a selected request — re-select this one
-      this._selectedRequestId = requestId
-    }
+    this._selectedRequestId = this._selectedRequestId === requestId ? null : requestId
     this._render()
   }
 
@@ -386,8 +376,6 @@ export class AntiquarianScene {
     const bookData = allBooks.find(b => b.id === bookId)
     if (!bookData) return
 
-    const alreadyDone = this._identifications[bookId] !== undefined
-
     // Header
     const headerBg = new Graphics()
     headerBg.rect(0, 0, width, 38).fill({ color: 0x120e08, alpha: 1 })
@@ -479,9 +467,7 @@ export class AntiquarianScene {
     })
 
     // Confirm / Next button
-    const hasPendingOrDone =
-      (this._pendingIdent.condition !== undefined && this._pendingIdent.period !== undefined) ||
-      alreadyDone
+    const hasPendingOrDone = this._pendingIdent.condition !== undefined && this._pendingIdent.period !== undefined
 
     if (hasPendingOrDone) {
       const isLast = this._currentIdentifyIdx === this._collectedBooks.length - 1
