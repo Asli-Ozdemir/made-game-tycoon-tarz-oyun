@@ -41,10 +41,16 @@ export const useDetectiveStore = create<DetectiveStore>((set, get) => ({
   },
 
   collectEvidence(evidenceId) {
-    if (!get().activeCase) return
+    const { activeCase } = get()
+    if (!activeCase) return
+    const node = activeCase.evidence.find(e => e.id === evidenceId)
+    if (!node) return
     set(s => {
       if (s.collectedEvidence.includes(evidenceId)) return s
-      return { collectedEvidence: [...s.collectedEvidence, evidenceId] }
+      return {
+        collectedEvidence: [...s.collectedEvidence, evidenceId],
+        chainPosition: node.pointsTo,
+      }
     })
   },
 

@@ -62,6 +62,26 @@ describe('detectiveStore — collectEvidence', () => {
     useDetectiveStore.getState().collectEvidence('ev_canta')
     expect(useDetectiveStore.getState().collectedEvidence).toHaveLength(0)
   })
+
+  it('ev_canta toplanınca chainPosition suspect_dilara olur', () => {
+    useDetectiveStore.getState().startCase(CASE_ID)
+    useDetectiveStore.getState().collectEvidence('ev_canta')
+    expect(useDetectiveStore.getState().chainPosition).toBe('suspect_dilara')
+  })
+
+  it('ev_sigara toplanınca chainPosition suspect_mete olur', () => {
+    useDetectiveStore.getState().startCase(CASE_ID)
+    useDetectiveStore.getState().collectEvidence('ev_sigara')
+    expect(useDetectiveStore.getState().chainPosition).toBe('suspect_mete')
+  })
+
+  it('aynı kanıt tekrar toplanınca chainPosition son değerde kalır', () => {
+    useDetectiveStore.getState().startCase(CASE_ID)
+    useDetectiveStore.getState().collectEvidence('ev_canta')
+    expect(useDetectiveStore.getState().chainPosition).toBe('suspect_dilara')
+    useDetectiveStore.getState().collectEvidence('ev_canta')
+    expect(useDetectiveStore.getState().chainPosition).toBe('suspect_dilara')
+  })
 })
 
 describe('detectiveStore — advanceDay', () => {
