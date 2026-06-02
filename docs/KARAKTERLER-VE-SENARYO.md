@@ -1,8 +1,6 @@
 # Karakterler ve Senaryo — Macenta Koyu
 
-Son güncelleme: 2026-06-02
-
-Bu belge, oyunun tüm karakter ve senaryo yapısını özetler. Geliştirme sırasında hızlı referans kaynağıdır.
+Son güncelleme: 2026-06-03
 
 ---
 
@@ -10,242 +8,284 @@ Bu belge, oyunun tüm karakter ve senaryo yapısını özetler. Geliştirme sır
 
 ### Oyuncunun Hikâyesi
 
-Oyuncu, büyük bir oyun şirketi olan **Apex Games**'ten kovulur. Victor Crane'in kararıyla, "kaynak optimizasyonu" adı altında işten çıkarılır. Nehri geçerek **Macenta Koyu**'na yerleşir. Hedef: sıfırdan bağımsız stüdyo kurarak Apex'e rakip olmak. Süre: 30 yıl (oyun içi).
+Oyuncu, büyük bir oyun şirketi olan **Nexus Games**'ten kovulur. Victor Crane'in kararıyla "kaynak optimizasyonu" adı altında işten çıkarılır. Nehri geçerek **Macenta Koyu**'na yerleşir. Hedef: sıfırdan bağımsız stüdyo kurarak Nexus'a rakip olmak. Süre: 30 yıl (oyun içi).
 
-**Yapı:** Tycoon modu (stüdyo inşa etme) + keşif modu (şehri gez, NPC'lerle konuş, side job yap). İki yakadaki iki dünya: eski şehir (kurumsal, Apex, geçmiş) vs. Macenta Koyu (organik, bağımsız, gelecek).
+**5 farklı başlangıç arka planı:**
 
-### Rakip — Victor Crane (Apex Games CEO)
+| Arka Plan | İşten Çıkarılma Sahnesi | Özellik |
+|---|---|---|
+| **KK Uzmanı** | İK Müdürü — "Otomasyon senden hızlı" | Eski çalışanların kovulmasında imzası var |
+| **Yaratıcı Direktör** | Patron — "Fikir şirkete aittir" | İmzasız jenerik, çalınan konsept |
+| **Baş Mühendis** | Patron — "Batan proje senin" | Hep yazılı uyardı, dinlenilmedi |
+| **Yapımcı** | Yeni CEO — "Çok şey biliyorsun, tehlikelisin" | Tazminat + sessizlik anlaşması |
+| **Eski CEO** | Kurul Başkanı — "Şirket artık senden büyük" | Kurduğu şirketten oybirliğiyle çıkarıldı |
 
-- Oyuncuyu işten çıkaran kişi
-- Pragmatik, soğuk, "sonuç herkesi haklı kılar" mantığı
-- Doğrudan diyalog yok — NPC'lerin lens'inden anlaşılır
-- Oyun içi etkisi: rakip çıkışlar, pazar baskısı, eski çalışanlarını seni gölgelemek için kullanma girişimleri
-- Epilog'da iki olasılık: yenilgi veya Nexus kararı
+Her varyantta sahne üçü içerir: ofis (kovulma) → yatak odası (eş: "Başka biri var") → mahkeme (anlaşmalı boşanma) → kıyı (yeniden başlangıç, stüdyo adı).
 
-### Epilog — İki Son
+**Yapı:** Tycoon modu (stüdyo inşa etme) + keşif modu (şehri gez, NPC'lerle konuş, side job yap). İki yakadaki iki dünya: eski şehir (kurumsal, Nexus, geçmiş) vs. Macenta Koyu (organik, bağımsız, gelecek).
 
-**Crane Sonu:** Apex'i oyun çıkararak geçme. 30 yıl sonra Crane emekliliğini ilan eder; düşüşü sektör tarafından onaylanmış değil, sessizce biter. Sence bu bir zafer miydi?
+---
 
-**Nexus Sonu:** Crane bir noktada iş birliği teklif eder. Kabul et → stüdyonu Apex ile birleştirirsin, daha büyük ama daha az senin. Red et → küçük ama tamamen kendi stüdyonla bitirirsin.
+## Ana Antagonist — Victor Crane
+
+**Şirketi:** Nexus Games (major rakip, 1990'dan beri, aggressive)  
+**Yardımcısı:** Klein (her nexus sahnesinde yanında)
+
+Crane, oyunun doğrudan sahne diyaloğu olan tek antagonistidir. Makyavel'i sık alıntılar: *"Sevgi ucuzlar, korku tutar."*
+
+**Sahne arci:**
+1. **`nexus_notice`** (erken oyun) — Klein haberi getirir. Crane oyuncuyu arka planda değerlendirir. Her arka plan varyantı için ayrı diyalog (yapımcı/kk_uzmani/eski_ceo/yaratici_direktor/bas_muhendis).
+2. **`nexus_meeting`** (orta oyun) — İlk yüz yüze buluşma. "Sıkılmıştım, iyi rakip iyi aynadır."
+3. **`nexus_resolution`** (oyun sonu) — 4 karar yolu:
+   - **Buyout** — Stüdyoyu satın al: "Artık benden daha korkunçsun. İkimiz de aynı yere vardık."
+   - **Destroy** — Skandalı basına ver: "Gömülen benim. Ama düsturumu taçlandırdın."
+   - **Forgive** — Hiçbirini kullanma: "Ham, katıksız iyi insanlar varmış. Ben hep masal sanırdım."
+   - **Merge** — Birleşme teklifi: "Ortak olalım. Ama gözünü dört aç." / "Sen de."
+
+**Klein:** Crane'in yakın yardımcısı. Haberleri getirir, durumu raporlar. Kendi görüşü yok — salt lens karakteri.
+
+---
+
+## Giriş Cutscene Karakterleri
+
+| Karakter | Rol | Nerede Görünür |
+|---|---|---|
+| **İK Müdürü** | Personel müdürü | kovulma — kk_uzmani |
+| **Patron** | Şirket sahibi | kovulma — yaratici_direktor, bas_muhendis |
+| **Yeni CEO** | Devralma sonrası CEO | kovulma — yapimci |
+| **Kurul Başkanı** | Şirket kurulu başkanı | kovulma — eski_ceo |
+| **Eş** | Oyuncunun eski eşi | kovulma — tüm varyantlar (yatak odası sahnesi) |
+| **Hâkim** | Boşanma mahkemesi | kovulma — tüm varyantlar (mahkeme sahnesi) |
+| **Sunucu** | Ödül töreni sunucusu | awards_win, awards_lose_to_nexus |
+| **Rakip Kurucu** | Bağımsız stüdyo kurucusu | indie_resolution |
+
+**Eş:** Her arka plan varyantında farklı ton alır ama mesaj aynıdır — "Hep işini seçtin, ben hep yalnızdım. Başka biri var." Anlaşmalı boşanmaya razı olur. Son sözü arka plana göre değişir.
+
+---
+
+## Rakip Şirketler
+
+### Sabit Rakipler
+
+| Şirket | Tier | Kişilik | Kurulus | Favori Tür | Not |
+|---|---|---|---|---|---|
+| **Nexus Games** | major | aggressive | 1990 | RPG, Aksiyon | Eski işveren, Crane'in şirketi |
+| **PixelForge** | mid | friendly | 1995 | Bulmaca, Simülasyon | — |
+| **Ironclad Studios** | mid | aggressive | 1993 | Strateji, Aksiyon | — |
+| **Starlight Interactive** | mid | secretive | 1997 | Macera, RPG | — |
+| **Tiny Worlds** | indie | friendly | 1998 | Simülasyon, Bulmaca | — |
+| **Glitch Lab** | indie | defensive | 1999 | Aksiyon, Bulmaca | — |
+
+### Prosedürel Rakipler
+
+Oyun ilerledikçe rastgele üretilir (PixelWorks, NovaForge, vb.). Indie tier, aggressive/friendly/defensive/secretive kişilik, 1–40 şöhret eşiği.
 
 ---
 
 ## Hayat Yolları (Life Paths)
 
-Oyun süresince biriken idea seed'leri hayat yolunu belirler. Her yolun kendine özgü gameplay bonusları ve epilog nüansları var.
+Üç resmi yol var. Eşik: **100 puan**. İlgili NPC'lerle ilişki kurarak ve side job'larla biriktirilir.
 
-| Yol | Ana Seed | Nasıl Birikir | Sonuç Tonu |
+| Yol | Seed | Bağlı NPC'ler | Skill Ağacı Kilidi |
 |---|---|---|---|
-| **Emek** | emek | Søren side job, ciddi yan işler | Sessiz onur, uzun soluk |
-| **Huzur** | nostalji | Remy fishing, sakin NPC diyalogları | Kabul, yavaş yavaş yavaşlamak |
-| **Kaos** | kaos | Magnus, Rex, risk içeren seçimler | Tutarsız ama özgün, yıkıcı-yaratıcı |
-| **Analiz** | analiz | Yevgeni, Vivian, sistematik kararlar | Soğuk doğruluk, az empati |
-| **Hikâye** | hikaye | Marcus, Marta, derin NPC bağları | İnsan odaklı, içgüdüsel |
+| **Huzur** | nostalji | Marcus, Remy, Rex | T5: `t5_huzur` — "Nehir gibi akar, okyanus gibi derin." |
+| **Emek** | emek | Theo, Søren | T5: `t5_emek` |
+| **Hırs** | analiz/kaos | Vivian | T5: `t5_hirs` |
 
 ---
 
 ## Felsefe NPC'leri (12 kişi)
 
-Her NPC 3 tier'da (10/30/70 ilişki puanı) açılır. T3 diyalog Crane meselesine doğrudan değinir.
+Her NPC 3 tier'da açılır (10 / 30 / 70 ilişki puanı). T3 Crane meselesine doğrudan değinir.
 
 ---
 
 ### Marcus — Sahaf
-- **Rol:** Sahaf arşivisti
-- **Felsefe:** Stoa — Kontrol edebileceğine odaklan, kalanı bırak.
-- **Emoji:** 📚
-- **Arka plan:** Büyük şehirde kütüphane direktörüydü. Değerli bir koleksiyonu dijitalleştirme kararına karşı çıkınca görevden alındı. Binlerce kitabı taşıyarak Macenta Koyu'na döndü. "Kitaplar hâlâ burada" — ama o da burada.
-- **Yan iş:** Sahaf Arşiv (nostalji + hikaye seeds)
-- **T3 mesajı:** Crane'i kontrol etmeye çalışma, kendi işini yap. Kontrolsüz olanlara enerji verme.
+**Rol:** Sahaf arşivisti | **Felsefe:** Stoa — Kontrol edebileceğine odaklan, kalanı bırak.  
+**Emoji:** 📚 | **Yan İş:** Sahaf Arşiv (nostalji + hikaye)
+
+Büyük şehirde kütüphane direktörüydü. Değerli bir koleksiyonu dijitalleştirme kararına karşı çıkınca görevden alındı. Binlerce kitabı taşıyarak döndü. *"Kitaplar hâlâ burada."* Masasında eski fişler, paslanmış raflar, düzensiz arşiv. T2'de dijitalleştirme dayatmasının hikâyesi çıkar. **T3:** "Crane'in varlığına enerji harcama. Onu kontrol etmeye çalışırsan, o seni yönetmiş olur."
 
 ---
 
 ### Remy — Balıkçı
-- **Rol:** Sabah balıkçısı
-- **Felsefe:** Tao — Zorlamadan akmak; nehir nereye giderse oraya gider.
-- **Emoji:** 🎣
-- **Arka plan:** Büyük bir liman kentinden geldi. Orada deniz vardı ama nehir yoktu; nehir onun için özgürlük demek. "Nehrin bir yönü var. Nereye gittiğini biliyor. Deniz her yere gidebilir — yani hiçbir yere gitmiyor aslında."
-- **Yan iş:** Balıkçılık (nostalji → huzur path)
-- **T3 mesajı:** Crane'e karşı güç kullanma, sadece kendi yönünde ilerle. Nehir kayayı yıkmaz — onu aşar.
+**Rol:** Sabah balıkçısı | **Felsefe:** Tao — Zorlamadan akmak; nehrin nereye gittiğini bilmek.  
+**Emoji:** 🎣 | **Yan İş:** Balıkçılık (nostalji → huzur path)
+
+Büyük bir liman kentinden geldi, orada deniz vardı ama nehir yoktu. *"Nehrin bir yönü var. Nereye gittiğini biliyor. Deniz her yere gidebilir — yani hiçbir yere gitmiyor."* T2'de kasabadan ayrılış hikâyesi. Dedektif Vaka 3'te tanık olarak çapraz geçiş yapıyor. **T3:** "Crane'e karşı güç kullanma. Nehir kayayı yıkmaz — onu aşar."
 
 ---
 
 ### Theo — Pub Barman
-- **Rol:** Pub barmanı
-- **Felsefe:** Varoluşçuluk (Camus) — Absürdlüğe rağmen yaşa, güneşe bak, içki dök.
-- **Emoji:** 🍺
-- **Arka plan:** Akademisyen. Anlam arayışının kendisinin anlamsız olduğunu fark etti. Şimdi bar sapında anlam arıyor — yoktur bildiği hâlde. "Camus kahkaha attı ve içki döktü. Ben de öyle."
-- **Yan iş:** Pub Garsonluk (zaman_yonetimi + kaos)
-- **T3 mesajı:** Crane meselesini çok ciddiye alma. Absürd dünyada ciddiyet de absürd; gül, devam et.
+**Rol:** Pub barmanı | **Felsefe:** Varoluşçuluk (Camus) — Absürdlüğe rağmen yaşa.  
+**Emoji:** 🍺 | **Yan İş:** Pub Garsonluk (zaman_yonetimi + kaos)
+
+Akademisyen. Anlam arayışının kendisinin anlamsız olduğunu fark etti, barda kaldı. *"Camus kahkaha attı ve içki döktü. Ben de öyle."* T2'de anlam krizinin doruk noktası. **T3:** "Crane meselesini çok ciddiye alma. Absürd dünyada ciddiyet de absürd; gül, devam et."
 
 ---
 
 ### Bruno — Mühendis
-- **Rol:** Köprü mühendisi
-- **Felsefe:** Aristoteles — Erdem pratikle gelir; iyi insan olmak bir alışkanlıktır, bir sıfat değil.
-- **Emoji:** 🔧
-- **Arka plan:** Köprüler inşa etmiş, bir tanesi hatalı hesap nedeniyle (şirketin baskısıyla) kritik malzeme değiştirildi. Neyse ki olay yaşanmadan yakalandı, ama Bruno o köprüye bir daha bakmadı. "Erdem, bir kez ödün verdiğinde kaybolmaz — ama kırılır."
-- **T3 mesajı:** Crane'e karşı dürüst kal; zafer, dürüstlüğü feda etmeden gelsin yoksa inşa ettiğin çürür.
+**Rol:** Köprü mühendisi | **Felsefe:** Aristoteles — Erdem pratikle kazanılır, bir sıfat değil.  
+**Emoji:** 🔧
+
+Köprüler inşa etti. Bir tanesinde şirket baskısıyla kritik malzeme değiştirildi; olay yaşanmadan yakalandı ama Bruno o köprüye bir daha bakmadı. *"Erdem, bir kez ödün verdiğinde kaybolmaz — ama kırılır."* **T3:** "Zafer, dürüstlüğü feda etmeden gelsin. Aksi hâlde inşa ettiğin çürür."
 
 ---
 
 ### Magnus — Sokak Filozofu
-- **Rol:** Çürük teknede yaşayan Nietzscheci
-- **Felsefe:** Nietzsche — Değerleri sen dövürsün; sürü değil, kendin aş, uçuruma dikkat et.
-- **Emoji:** 🌒
-- **Arka plan:** Kendi şehrinde "dahi" denen bir oyun yaptı, kuralları yıktı. Sonra aynı kalabalık onu yaktı — fazla radikal, fazla dik. Sürünerek doğduğu yere döndü. Hanna onu çocukluğundan beri tanır.
-- **T3 mesajı:** Canavarla dövüşürken canavara dönme. Crane'i değil, kendini aş.
+**Rol:** Çürük teknede yaşayan Nietzscheci | **Felsefe:** Nietzsche — Değerleri sen dövürsün; sürü değil, kendini aş.  
+**Emoji:** 🌒
+
+Kendi şehrinde "dahi" denen bir oyun yaptı, kuralları yıktı; sonra aynı kalabalık onu yaktı — fazla radikal, fazla Magnus. Sürünerek doğduğu yere döndü. Hanna onu çocukluğundan tanır. **T3:** *"Canavarlarla dövüşen, kendi canavara dönüşmemeye dikkat etsin. Uçuruma uzun bakarsan, uçurum da sana bakar. Crane'i değil, kendini aş."*
 
 ---
 
 ### Marta — Hemşire
-- **Rol:** Şehrin tek hemşiresi
-- **Felsefe:** Bakım Etiği — Ahlak, rakamda değil; karşındaki insanın elini tutmakta başlar.
-- **Emoji:** 🩺
-- **Arka plan:** Başkente gitme şansı vardı; annesi hastalanınca kaldı. Kırk yıldır herkese bakıyor, hiç defter tutmuyor — hepsini ezbere biliyor. Apex'ten kırılanların elini tuttu, "tablo titremez ama insan titrer" diyor.
-- **T3 mesajı:** Crane'e karşı savaşırken insan kal. Ona da bakarken katılaşma.
+**Rol:** Şehrin hemşiresi | **Felsefe:** Bakım Etiği — Ahlak, karşındakinin elini tutmakta başlar.  
+**Emoji:** 🩺
+
+Başkente gitme şansı vardı; annesi hastalanınca kaldı. Kırk yıldır herkese bakıyor, hiç defter tutmuyor. Apex'ten kırılanların elini tuttu. *"Tablo titremez, insan titrer."* **T3:** *"Crane'e karşı savaşırken insan kal. Onu canavara benzersen, savaşırken katılaşırsın."*
 
 ---
 
 ### Clara — Noter
-- **Rol:** Şehrin noteri
-- **Felsefe:** Kant / Deontoloji — Kural herkese eşit işlemeli; insan amaçtır, araç değil.
-- **Emoji:** ⚖️
-- **Arka plan:** Avukattı. Büyük bir şirket küçük bir stüdyonun fikrini çalmıştı; davayı "zayıflat" dediklerinde reddetti. Hiçbir büro onu işe almadı, buraya döndü. Masasında yarım bir dosya var — bitirememek için değil, neyi reddettiğini unutmamak için.
-- **T3 mesajı:** Ne yaparsan yap, önce "bunu kural yapsam herkese uygulasa razı olur muyum?" diye sor. Değilsen, onu yenmek için ona benzemişsindir.
+**Rol:** Şehrin noteri | **Felsefe:** Kant / Deontoloji — Kural herkese eşit; insan amaçtır, araç değil.  
+**Emoji:** ⚖️
+
+Avukattı. Büyük şirket küçük stüdyonun fikrini çalmıştı; davayı "zayıflat" dediklerinde reddetti. Hiçbir büro işe almadı, buraya döndü. Masasında yarım bir dosya var — *"neyi reddettiğimi unutmamak için."* Vivian'la Marta'yı ve `karşı yakadaki şirketi` doğrudan anar. **T3:** *"Ne yaparsan yap, önce 'bunu kural yapsam herkese uygulasa razı mıyım?' diye sor."*
 
 ---
 
 ### Aldo — Bahçıvan
-- **Rol:** İncir bahçesi sahibi
-- **Felsefe:** Epikür — En büyük zenginlik: iyi bir sofra, birkaç dost, korkusuz bir akşam.
-- **Emoji:** 🌿
-- **Arka plan:** Karşı yakada serveti ve unvanı vardı. Bir sabah hiçbirini istemediğini fark etti. Sattı hepsini, bahçeye döndü. "İsim taşa değil, bahçeye kazınır."
-- **T3 mesajı:** Crane'i yen, ama yıkma — fark var. Ve akşam sofrana dön. Onu yenip bahçeni kaybedersen, o seni yenmiş demektir.
+**Rol:** İncir bahçesi sahibi | **Felsefe:** Epikür — En büyük zenginlik: iyi sofra, birkaç dost, korkusuz akşam.  
+**Emoji:** 🌿
+
+Karşı yakada serveti ve unvanı vardı; hepsini sattı, bahçeye döndü. *"İsim taşa değil, bahçeye kazınır."* Masa dağılınca gerçek dostlarının bahçeye geldiğini fark etti. **T3:** *"Crane'i yen, ama yıkma — fark var. Onu yenip bahçeni kaybedersen, o seni yenmiş olur."*
 
 ---
 
 ### Yevgeni — Teknisyen
-- **Rol:** Elektronik tamircisi
-- **Felsefe:** Nihilizm/Materyalizm — Faydası yoksa yık; doğa tapınak değil, atölyedir.
-- **Emoji:** 🔬
-- **Arka plan:** Her şeyi mekanizmasına indirger. Otorite tanımaz. Ama babasından gelen mektupları saklar — "karbon ve mürekkep" ama faydasını bulamıyor, galiba yararsız bir şeyi ilk kez seviyor. Bu onu rahatsız ediyor.
-- **T3 mesajı:** Crane'i de bir makine gibi gör: parçalarına ayır, neyle çalıştığını bul, kaynağını kes. Ama yıkmadan önce yerine ne koyacağını bil.
+**Rol:** Elektronik tamircisi | **Felsefe:** Nihilizm/Materyalizm — Faydası yoksa yık; doğa atölyedir.  
+**Emoji:** 🔬
+
+Her şeyi mekanizmasına indirger. Otoriteyi reddeder. Ama babasından gelen mektupları bir çekmecede saklar — *"karbon ve mürekkep"* ama faydasını bir türlü bulamamış. *"Galiba yararsız bir şeyi ilk kez seviyorum. Bu beni rahatsız ediyor."* **T3:** *"Crane'i bir makine gibi gör — korkuyla çalışıyor, korkuyu kes. Ama yıkmadan önce yerine ne koyacağını bil."*
 
 ---
 
 ### Søren — Liman Kaptanı
-- **Rol:** Nehir kaptanı
-- **Felsefe:** Varoluşçuluk (Sartre) — Varoluş özden önce gelir; rotanı sen çizersin, "mecbur kaldım" bir yalandır.
-- **Emoji:** ⚓
-- **Arka plan:** Babası donanmadaydı; Søren imzalanmayan komisyon kâğıdını reddetti, hurda bir tekne aldı, tek başına açıldı. Lasse adlı genç tayfasını dar geçitte kaybetti — "devam et" dedi, Lasse geçemedi. Yıllarca mazeret aradı, bulamadı. Şimdi her akşam nehirde sal seferi yapıyor.
-- **Yan iş:** Nehir Sal Kaptanlığı (kaos + zaman_yonetimi → emek path, 10 session, 3 arc)
-- **T3 mesajı:** Crane "mecbur kaldım" diyerek her seçimini akıntıya yıkıyor. Bu yalan. Dümeni tutan bendim — kabul etmemek sorumluluktan kaçmaktır. Sen de öyle yapma.
+**Rol:** Nehir kaptanı | **Felsefe:** Varoluşçuluk (Sartre) — Rotanı sen çizersin; "mecbur kaldım" yalandır.  
+**Emoji:** ⚓ | **Yan İş:** Nehir Sal Kaptanlığı (kaos + zaman_yonetimi → emek path)
+
+Babası donanmadaydı; komisyon kâğıdını reddetti, tek başına açıldı. Lasse adlı genç tayfasını dar geçitte fırtınada kaybetti — "devam et" demişti, Lasse geçemedi. Yıllarca mazeret aradı, bulamadı. Her akşam nehirde sal seferi yapıyor. 10 session, 3 arc:
+- **Arc 1 (1-3, easy):** Ekip — "Eskiden dörttük bu nehirde. Şimdi tekimi."
+- **Arc 2 (4-6, normal/hard):** Fırtına Gecesi — kararın yavaş yavaş ortaya çıkışı
+- **Arc 3 (7-10, hard→normal):** Lasse — "Geçemedi. Ben geçtim. Mazeret aradım yıllarca — bulamadım."
+
+T1 diyalogunda "Bu limanın, evet. Søren. Sabah üç tekne geç yanaştı — üçü de rüzgârı suçladı. Rüzgâr suçlanmaz; rüzgâr sadece eser." **T3:** *"Crane 'akıntı böyle aktı' diyor. Yalan. Dümeni tutan da bendim — kabul etmemek sorumluluktan kaçmak."*
 
 ---
 
 ### Rex — Arcade Sahibi
-- **Rol:** Arcade oyun salonu sahibi
-- **Felsefe:** Kirenaik Hedonizm — Tek gerçek şu an; yoğunluk süreyi yener, haz ertelenmez.
-- **Emoji:** 🕹️
-- **Arka plan:** Bir zamanlar sahnelerdeydi, kalabalık adını bağırırdı. Refleksler yavaşladı, sahne küçüldü. Kendi köşesini kurdu, ışıkları kendisi açıyor. Kazandığı her şeyi "bir sonraki geceye" yatırdı — birikimi yok, pişmanlığı da.
-- **T3 mesajı:** Crane'i yendiğin gün mutlu olacağını sanıyorsun — yanılıyorsun. Mutluluk ertelenmez; bu gece de kendin için bir tur at.
+**Rol:** Oyun salonu sahibi | **Felsefe:** Kirenaik Hedonizm — Tek gerçek şu an; yoğunluk süreyi yener.  
+**Emoji:** 🕹️
+
+Bir zamanlar sahnelerdeydi, kalabalık adını bağırırdı. Refleksler yavaşladı, sahne küçüldü, kendi köşesini kurdu. Kazandığı her şeyi "bir sonraki geceye yatırdı" — birikimi yok, pişmanlığı da. Geç kapanış saatinde ışıkları söndürmekten korkar — *"bir şey yetişiyor sanki bana."* **T3:** *"Crane'i yendiğin gün mutlu olacağını sanıyorsun — yanılıyorsun. Mutluluk ertelenmez; bu gece de kendin için bir tur at."*
 
 ---
 
 ### Vivian — Yatırımcı
-- **Rol:** Fon yöneticisi
-- **Felsefe:** Faydacılık — En çok kişiye en çok iyilik; amaç toplam artıdaysa araç haklı çıkar.
-- **Emoji:** 📈
-- **Arka plan:** Kariyer başında bir dostunun batan stüdyosuna tüm fonunu yatırdı — sevdiği için. Stüdyo yine battı, o parayla kurtulabilecek beş stüdyo da gitti. O günden beri ahlakını "toplam" üzerine kurdu. Ama o dostun adını hâlâ mırıldanıyor.
-- **T3 mesajı:** Crane'i yenmek gerçekten toplama değer mi, yoksa sadece egonu mu doyuruyor? İkisi farklı bütçeler. Kendi öfkeni teraziye koyma — o gram seni ona benzetir.
+**Rol:** Fon yöneticisi | **Felsefe:** Faydacılık — En çok kişiye en çok iyilik; toplam artıdaysa araç haklı çıkar.  
+**Emoji:** 📈
+
+Kariyer başında bir dostunun stüdyosuna tüm fonunu yatırdı — sevdiği için. Stüdyo yine battı, o parayla kurtulabilecek beş stüdyo da gitti. O günden beri ahlakını "toplam" üzerine kurdu. Ama o dostun adını hesap yaparken hâlâ mırıldanıyor. Clara'yı ve Marta'yı oyun içinde anar. **T3:** *"Crane'i yenmek toplama gerçekten değer mi, yoksa egonu mu doyuruyor? Kendi öfkeni teraziye koyma — o gram seni ona benzetir."*
 
 ---
 
 ## Romantizm Adayları (4 kişi)
 
-T3'te flört diyaloğu açılır. Oyuncu en fazla biriyle devam edebilir (ilerleyen versiyonlarda).
+T3'te flört diyaloğu açılır. Arka plan türüyle bağlantısı yok — herkes ulaşabilir.
 
 ---
 
 ### Elise — Kafe Müzisyeni
-- **Rol:** Kafe müzisyeni, süslü diva
-- **Gerçek:** Cilanın altında kimsenin dinlemediğini bilen yalnız bir sanatçı.
-- **Emoji:** 🎶
-- **T3:** Salon boşaldığında tek seyirciye — sana — cilasız çalıyor. "Birinin gerçekten dinlemesi, alkıştan daha çok korkutuyor."
+**Rol:** Kafe müzisyeni | **Emoji:** 🎶
+
+Dışarıda: süslü diva, "bu şehrin tek gerçek sesi." İçeride: cilanın altında kimsenin dinlemediğini bilen yalnız bir sanatçı. Büyük sahneleri denedi, *"sahne tuttu"* — geçici on yıl oldu. Çalmadığı bir şarkı var: "fazla gerçek." **T3:** Salon boşaldığında sana cilasız çalıyor. *"Birinin gerçekten dinlemesi, alkıştan daha çok korkutuyor beni. Hem korkutuyor hem... hoşuma gidiyor."*
 
 ---
 
 ### Daniel — Nehir Biyoloğu
-- **Rol:** Araştırma biyoloğu
-- **Gerçek:** İnsanlarla beceriksiz, su semenderleriyle rahat. Sessiz hayretini paylaşacak biri arıyor.
-- **Emoji:** 🔬
-- **T3:** Yeni keşfettiği türe senin adını veriyor. "Bilim, sen var olduğunu bilmese de seni biliyor."
+**Rol:** Araştırma biyoloğu | **Emoji:** 🔬
+
+İnsanlarla beceriksiz, nehir canlılarıyla rahat. Üniversiteden kaçtı — *"merak orada suçtu, atıf peşindeydiler."* Konuşmayı sevince durduramıyor: *"Genelde insanlar bu noktada uzaklaşıyor."* **T3:** Yeni keşfettiği türe senin adını veriyor (Latince ekiyle, resmî kayıtta). *"Seni çözemiyorum, ve ilk kez bir şeyi çözmek istemiyorum."*
 
 ---
 
 ### Nadia — Seramikçi
-- **Rol:** Atölye seramikçisi
-- **Gerçek:** Bohem özgür ruh. Bağlanmanın boğacağından korkar ama aslında sadıktır.
-- **Emoji:** 🏺
-- **T3:** Birlikte çark başında çalışıyor, ne çıkacağını bilmeden. "Eğri çıkarsa umarım. İlk kez bir şeyin bitmesini değil, sürmesini istiyorum."
+**Rol:** Atölye seramikçisi | **Emoji:** 🏺
+
+Bohem özgür ruh. Şehirde galerisi vardı, "pratik ol, markanı kur" diyince trene bindi, buraya geldi. *"Rengimi geri istedim."* Eğri vazoları atar — *"kusur değil, parmak izi."* Bağlanmaktan korkar ama sadıktır. **T3:** Çark başında birlikte çalışıyor, sonucu bilmeden. *"İlk kez bir şeyin bitmesini değil, sürmesini istiyorum."*
 
 ---
 
 ### Cassian — Fenerci
-- **Rol:** Nehir feneri bekçisi
-- **Gerçek:** Melankolik kayıp ruh. Bir zamanlar fener iki kişiydi; geride tek o kaldı. Yakınlıktan hem korkar hem can atar.
-- **Emoji:** 🗼
-- **T3:** "Sen geldiğinden beri gece daha kısa. Yıllarca ışığı dışarı, nehre verdim — ama kendi limanımı hiç bulamadım."
+**Rol:** Nehir feneri bekçisi | **Emoji:** 🗼
+
+Melankolik. Bir zamanlar fener iki kişiydi — adını anmıyor birinin ("anarsam gerçek olur, gerçek olursa gitmiş olur"). Geceleri yazar, kimseye okumaz. *"Işık nehre gider. Bana karanlık kalır."* Yalnızlığı seçtiğini söyler ama *"belki yalnızlık beni seçti."* **T3:** *"Sen geldiğinden beri gece daha kısa. İlk kez ışık içeride de yanıyor — nasıl olduğunu bilmiyorum."*
 
 ---
 
-## Side Job'lar — Özet
+## Side Job'lar — Tam Liste
 
 ### 1. Pub Garsonluk (Theo)
-- **Tema:** Dave the Diver tarzı, zaman/hız baskısı
+- **Mekanik:** 15 vardiya. 3-4 masa, her masada 1-2 müşteri, sipariş + sabır barı. Gizli istekler bazı müşterilerde masaya gidince ortaya çıkar.
 - **Seeds:** zaman_yonetimi + kaos
-- **Mekanik:** Siparişleri sıralı servis et, yanlış masa = kaos
+- **Müşteriler:** Ayşe, Mert, Kemal (fıstık alerjisi), Deniz, Serkan, Leyla, Cenk, Seda, Burcu, Emre, Neslihan, Nuri, Fatma, Osman, Zeynep, Koray, Emir, İpek, Can vb. (15 vardiyada çok sayıda adlandırılmış karakter)
 
 ### 2. Sahaf Arşiv (Marcus)
-- **Tema:** Nostalji, hikâye, kitap sınıflandırma
+- **Mekanik:** Kitapları doğru kategoriye/rafa yerleştir, kırık notları onar.
 - **Seeds:** nostalji + hikaye
-- **Mekanik:** Kitapları doğru raf/kategoriye yerleştir, kırık notları onar
 
-### 3. Bar Bodyguard
-- **Tema:** Papers Please tarzı, kaos/emek
+### 3. Bar Bodyguard (kapı görevlisi)
+- **Mekanik:** 10 vardiya. Papers Please tarzı — gece kuralı, kara liste, VIP listesi, sarhoş/tehlikeli görsel ipuçları.
 - **Seeds:** kaos + emek
-- **Mekanik:** Kapıda misafirleri değerlendir: listeye bak, yüzü tara, karar ver
+- **Misafirler:** Ayşe, Mehmet, Volkan (kara listede), Selin, Deniz, Berk, Cem, Hande, Serhat, Rıza, Pınar, Tuncay, Yasemin, Aydın, Özge, vb.
 
 ### 4. Dedektif Asistanı
-- **Tema:** Analiz/emek, ipuçlarını birleştirme
+- **Mekanik:** 3 vaka. Sahneyi tara, kanıtları incele, şüphelilerle konuş, suçluyu bul. Gün limiti var.
 - **Seeds:** analiz + emek
-- **Mekanik:** Sahne tarama, ipucu eşleştirme, dedektife rapor
+
+**Vaka 1 — Parkta Kayıp Evrak** (dayLimit: 4, konum: park)
+- Suçlu: **Mete Doğan** (Finansal Danışman) — zorla evrak aldı
+- Masum: **Dilara** (parkta yürüyüşçü)
+
+**Vaka 2 — Kuyumcu Soygunu** (dayLimit: 5, konum: city)
+- Suçlu: **Kadir Usta** (tamirci) — borca battı, solvent kokusu, 44 numara
+- Masumlar: **Zehra Hanım** (dükkan sahibi), **Ali** (kafe müşterisi)
+
+**Vaka 3 — Limanın Kayıp Teknesi** (dayLimit: 5, konum: coast)
+- Suçlu: **Nikos** (balıkçı) — sigorta dolandırıcılığı, dalış maskesi
+- Tanık: **Remy** (NPC çapraz geçişi: "Geceleri garip sesler duydum limandan")
 
 ### 5. Balıkçılık (Remy)
-- **Tema:** Sakin, huzur yolu, nostalji/hikâye
-- **Seeds:** nostalji → huzur path
-- **NPC:** Remy seni öğretiyor
-- **Durum:** Tasarım/implementasyon — kontrol et
+- **Mekanik:** PixiJS sahnesi (FishingScene), Remy öğretiyor
+- **Seeds:** nostalji → huzur path progress
+- **Durum:** fishingSessions.ts + FishingScene.ts mevcut
 
 ### 6. Nehir Sal Kaptanlığı (Søren)
-- **Tema:** Varoluşçu yüzleşme, 10 session, 3 arc
-- **Seeds:** kaos + zaman_yonetimi → emek path progress (+5 session 10 bonusu)
-- **Mekanik:** PixiJS yan-kaydırmalı, A/D ile kürek, akıntı ve engeller
-- **Arc 1 (1-3):** Ekip — sert ama adil öğretici Søren, geçmişten kırıntılar
-- **Arc 2 (4-6):** Fırtına Gecesi — ekipten biri yoktur artık, neden çıkıyor
-- **Arc 3 (7-9):** Karar — Lasse, dar geçit, "devam et" kararı ve sonucu
-- **Arc 4 (10):** Nehir Akar — kabul, "nehir yanlış yöne akmaz — aşağıya akar"
+- **Mekanik:** PixiJS yan-kaydırmalı (RaftScene). A/D = sol/sağ kürek. Akıntı + engeller (rock, narrows, debris). 3 hasar hakkı. Süre baskısı.
+- **Seeds:** kaos + zaman_yonetimi → emek path progress (+5 bonus session 10'da)
+- **10 session, 3 arc:** Arc ekip (1-3 easy) → Arc fırtına (4-6 normal/hard) → Arc karar (7-10 hard/normal)
+- **Dosyalar:** `nehirShifts.ts`, `nehirStore.ts`, `RaftScene.ts`, `NehirPanel.tsx`
 
 ---
 
 ## Dünya Lore Notları
 
-- **Şimdiki şehir:** Macenta Koyu — nehir kenti. Su = nehir. Deniz yok.
-- **Geçmiş şehir:** Karşı yakadaki eski liman kenti — deniz, gemi, büyük şirket. Apex orada.
-- **Kural:** Diyalogda "deniz" sadece geçmişe atıfla kullanılır (ör. Remy eski kentinden bahsederken).
-- **İstisna karakterler:** Remy (liman kentini anıyor), Cassian'ın "deniz kabukları" (geçmişten nesne) — bunlar korunuyor.
-- **Düzeltilen:** Nadia T1 "Denizi/Nehri resmederim", skillTree "okyanus gibi derin".
+- **Şimdiki şehir — Macenta Koyu:** Nehir kenti. Su = nehir. Deniz yok.
+- **Karşı yaka:** Eski liman kenti — deniz, gemi, büyük şirket, Nexus orada.
+- **Kural:** Diyalogda "deniz" sadece geçmişe atıfla. Remy hariç (bilerek eski kentini anıyor).
+- **Düzeltilen yerler:** Nadia T1 (Nehri resmederim), skillTree huzur açıklaması (okyanus gibi derin).
 
 ---
 
@@ -253,31 +293,34 @@ T3'te flört diyaloğu açılır. Oyuncu en fazla biriyle devam edebilir (ilerle
 
 ```
 src/data/
-  npcDialogues.ts        — 16 NPC, tüm tier diyalogları
-  nehirShifts.ts         — 10 shift, 3 arc (Søren raft)
-  fishingSessions.ts     — Remy balıkçılık session'ları
-  pubShifts.ts           — Theo pub garsonluk
-  barShifts.ts           — Bar bodyguard
-  skillTree.ts           — Beceri ağacı
+  npcDialogues.ts        — 16 NPC diyaloğu (12 felsefe + 4 romantizm)
+  cutscenes.ts           — Tüm cutscene'ler (kovulma, ilk_yayin, nexus_*, awards_*, indie_resolution)
+  rivals.ts              — Sabit rakipler + prosedürel üretici
+  detectiveCases.ts      — 3 dedektif vakası + şüpheli karakterler
+  nehirShifts.ts         — 10 sal seferi (Søren arc)
+  fishingSessions.ts     — Remy balıkçılık oturumları
+  pubShifts.ts           — 15 pub garsonluk vardiyası
+  barShifts.ts           — 10 bar bodyguard vardiyası
+  antiquarianShifts.ts   — Sahaf arşiv vardiyaları
+  skillTree.ts           — Beceri ağacı (LifePath: huzur/emek/hirs)
+  lifePathData.ts        — PATH_THRESHOLD=100, PATH_NPC_MAP
+  topics.ts, genres.ts   — Oyun içerik veri
+  events.ts              — Rastgele olaylar
+  industryEvents.ts      — Sektör olayları
+  courses.ts             — Eğitim/kurs sistemi
+  backgrounds.ts         — Oyuncu arka planları (5 varyant)
 
 src/store/
-  nehirStore.ts          — Sal kaptanlığı state machine
-  fishingStore.ts        — Balıkçılık state machine
-  worldStore.ts          — Lokasyon, saat, global durum
-  ideaSeedStore.ts       — Seed birikimi
-  lifePathStore.ts       — Hayat yolu progress
+  nehirStore.ts, fishingStore.ts
+  worldStore.ts, ideaSeedStore.ts, lifePathStore.ts
 
 src/pixi/
-  RaftScene.ts           — Nehir sal sahnesi (PixiJS)
-  FishingScene.ts        — Balıkçılık sahnesi (PixiJS)
+  RaftScene.ts, FishingScene.ts
 
 src/components/
-  NehirPanel.tsx         — Sal kaptanlığı React panel
-  BalikciPanel.tsx       — Balıkçılık React panel
+  NehirPanel.tsx, BalikciPanel.tsx
 
 docs/
   KARAKTERLER-VE-SENARYO.md   — Bu dosya
   DURUM.md                    — Geliştirme durum özeti
-  superpowers/specs/           — Design spec'leri
-  superpowers/plans/           — Implementasyon planları
 ```
