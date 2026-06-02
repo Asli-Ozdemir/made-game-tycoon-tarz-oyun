@@ -2,15 +2,6 @@
 import { Application, Graphics, Text, TextStyle, Container } from 'pixi.js'
 import type { EvidenceNode, ExamineItem } from '@/data/detectiveCases'
 
-export interface ExamineHotspot {
-  id: string
-  label: string
-  description: string
-  xNorm: number
-  yNorm: number
-  radius: number
-}
-
 export interface ExamineSceneOptions {
   canvas: HTMLCanvasElement
   width: number
@@ -119,7 +110,8 @@ export class ExamineScene {
       // Label
       const labelStyle = new TextStyle({ fontFamily: 'monospace', fontSize: 9, fill: '#ff8866' })
       const label = new Text({ text: item.label, style: labelStyle })
-      label.x = -label.width / 2
+      label.anchor.set(0.5, 0)
+      label.x = 0
       label.y = item.radius + 4
       hotspot.addChild(label)
 
