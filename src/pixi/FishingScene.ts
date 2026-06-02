@@ -16,8 +16,7 @@ export interface FishingSceneOptions {
   lureLabel:      string
   jiggingProfile: JiggingProfile
   targetSpecies:  string[]    // empty = nothing will bite (wrong lure/spot combo)
-  onFishCaught:   (species: string) => void
-  onMiss:         () => void
+  onCastResult:   (result: { caught: boolean; species: string | null }) => void
 }
 
 type ScenePhase = 'idle' | 'jigging' | 'bite_anim' | 'reeling' | 'cast_done'
@@ -200,11 +199,10 @@ export class FishingScene {
     if (this.phase === 'cast_done') {
       this.resultFrames++
       if (this.resultFrames > 80) {
-        if (this.resultCaught) {
-          this.opts.onFishCaught(this.resultSpecies)
-        } else {
-          this.opts.onMiss()
-        }
+        this.opts.onCastResult({
+          caught:  this.resultCaught,
+          species: this.resultCaught ? this.resultSpecies : null,
+        })
         return
       }
     }
@@ -334,6 +332,10 @@ export class FishingScene {
     infoText.y = 10
     this.app.stage.addChild(infoText)
 
+    if (this.phase === 'jigging' || this.phase === 'idle') {
+      this._drawRhythmIndicator(W, H)
+    }
+
     const barX = W - 22
     const barTop = 40
     const barH = H * 0.5
@@ -376,6 +378,52 @@ export class FishingScene {
       resultTxt.y = H * 0.35
       this.app.stage.addChild(resultTxt)
     }
+  }
+
+  private _drawRhythmIndicator(W: number, H: number) {
+    const { optimalIntervalMs, toleranceMs, rhythmLabel } = this.opts.jiggingProfile
+    const now = performance.now()
+    const elapsed = this.lastJigTs > 0 ? now - this.lastJigTs : optimalIntervalMs
+    const ratio = Math.min(elapsed / (optimalIntervalMs + toleranceMs), 1)
+
+    const x = 8
+    const y = 40
+    const barW = 12
+    const barH = H * 0.4
+
+    // Background
+    const bg = new Graphics()
+    bg.rect(x, y, barW, barH).fill({ color: 0x0a1520, alpha: 0.8 })
+    bg.stroke({ width: 1, color: 0x224455, alpha: 0.6 })
+    this.app.stage.addChild(bg)
+
+    // Optimal zone (green band)
+    const zoneTop = barH * (1 - Math.min((optimalIntervalMs + toleranceMs) / (optimalIntervalMs + toleranceMs * 2), 1))
+    const zoneBot = barH * (1 - Math.max((optimalIntervalMs - toleranceMs) / (optimalIntervalMs + toleranceMs * 2), 0))
+    const zone = new Graphics()
+    zone.rect(x + 1, y + zoneTop, barW - 2, zoneBot - zoneTop).fill({ color: 0x44cc88, alpha: 0.25 })
+    this.app.stage.addChild(zone)
+
+    // Cursor (where elapsed time currently is)
+    const cursorY = y + barH * (1 - ratio)
+    const inZone = elapsed >= optimalIntervalMs - toleranceMs && elapsed <= optimalIntervalMs + toleranceMs
+    const cursor = new Graphics()
+    cursor.rect(x + 1, cursorY - 2, barW - 2, 4).fill({ color: inZone ? 0x44cc88 : 0xaaaaaa, alpha: 0.9 })
+    this.app.stage.addChild(cursor)
+
+    // Label
+    const lbl = new Text({ text: 'RHYTHM', style: STYLE_HINT })
+    lbl.anchor.set(0.5, 0)
+    lbl.x = x + barW / 2
+    lbl.y = y + barH + 4
+    this.app.stage.addChild(lbl)
+
+    // Rhythm label below
+    const rlbl = new Text({ text: rhythmLabel, style: STYLE_HINT })
+    rlbl.anchor.set(0.5, 0)
+    rlbl.x = x + barW / 2 + 10
+    rlbl.y = y + barH + 16
+    this.app.stage.addChild(rlbl)
   }
 
   private _drawVerticalBar(x: number, y: number, h: number, fill: number, color: number, label: string) {
