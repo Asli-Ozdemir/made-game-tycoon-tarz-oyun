@@ -140,6 +140,11 @@ describe('pubStore — failTable', () => {
     expect(s.tableStates[TABLE_3].status).toBe('failed')
     expect(s.mistakes).toBe(1)
   })
+
+  it('aktif vardiya yokken hiçbir şey yapmaz', () => {
+    usePubStore.getState().failTable(TABLE_1)
+    expect(usePubStore.getState().mistakes).toBe(0)
+  })
 })
 
 describe('pubStore — endShift', () => {

@@ -66,6 +66,7 @@ export const usePubStore = create<PubStore>((set, get) => ({
 
   interactTable(tableId) {
     if (!get().activeShift) return
+    if (!get().tableStates[tableId]) return
     set(s => ({
       tableStates: {
         ...s.tableStates,
@@ -123,6 +124,7 @@ export const usePubStore = create<PubStore>((set, get) => ({
   },
 
   failTable(tableId) {
+    if (!get().activeShift) return
     set(s => ({
       mistakes: s.mistakes + 1,
       tableStates: {
