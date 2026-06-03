@@ -40,7 +40,7 @@ export type NPCId =
   // Felsefe NPC'leri
   | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
   // Romantizm adayları
-  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias'
+  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
 
 export interface NPCDef {
   id: NPCId
@@ -2637,6 +2637,116 @@ const elias: NPCDef = {
   ],
 }
 
+// ─── MATTEO (romantizm) ──────────────────────────────────────────────────────
+
+const matteo: NPCDef = {
+  id: 'matteo',
+  name: 'Matteo',
+  role: 'Gastronomi Öğrencisi',
+  philosophy: 'Romantizm adayı — Çapkın gönül adamı: herkesle flört eden, bağlanmaktan kaçan; altında gerçek bir bağ özler, reddedilmekten korkar.',
+  emoji: '🍲',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'matteo_t1_1',
+      tier: 1,
+      title: 'Aç mısın? Sorma, Otur',
+      lines: [
+        { speaker: 'npc',    text: '(tencereden başını kaldırır, kocaman gülümser) Aaa, yeni bir yüz! Aç mısın? Sorma, cevabı belli — herkes aç, sadece kabul etmiyor. Otur şuraya, sana bir şey çıkarayım.' },
+        { speaker: 'player', text: 'Sen aşçı mısın?' },
+        { speaker: 'npc',    text: 'Daha değil! Gastronomi okuyorum, Hanna\'nın mutfağında da çıraklık ediyorum — yani teorisi okulda, gerçeği burada. Matteo. (önüne bir tabak koyar) Bu, bugünkü ödevim sayılır. Ye, dürüst ol, ama çok da kırıcı olma — not ortalamam sana emanet şu an.' },
+        { speaker: 'player', text: 'Henüz öğrencisin demek.' },
+        { speaker: 'npc',    text: '(göz kırpar) Öğrenciyim ama tabağım diplomalı. Kâğıt parçası gelir gider; sofra konuşur.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'matteo_t1_2',
+      tier: 1,
+      title: 'Herkese Bir Tabak',
+      lines: [
+        { speaker: 'npc',    text: 'Bak şu hana — Marek köşede, Sigrid pencerede, Hanna tezgâhta. Hepsinin tabağını ezbere öğrendim. Sofra kurmak... insanları bir araya getiren tek dürüst şey bu. Okulda bunu öğretmiyorlar, asıl dersi burada alıyorum.' },
+        { speaker: 'player', text: 'Yemek senin için ne ifade ediyor?' },
+        { speaker: 'npc',    text: 'Sevgi, ama söylemesi kolay olanı. "Seni seviyorum" demek zor; bir tabak sıcak çorba koymak kolay. İkisi de aynı şeyi söyler, biri daha az korkutucu.' },
+      ],
+      choices: [
+        {
+          text: 'Yemekle mi seviyorsun, çünkü kelimeler zor?',
+          lines: [{ speaker: 'npc', text: '(bir an durur, kepçe havada) ...Vay. Çoğu insan tabağı alır, teşekkür eder, gider. Sen kepçenin altına baktın. Tehlikelisin sen. (toparlanır, güler) Ye hadi, soğuyor.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Neden gastronomi?',
+          lines: [{ speaker: 'npc', text: 'Anneannemin mutfağı yüzünden. Küçükken tabureye çıkar, onu izlerdim — eli hamurda, hikâye anlatırdı. O gidince tarifleri kaldı bana. Okula yazıldım ki onları kaybetmeyeyim, üstüne yenilerini koyayım. Her tarif bir hatıra; ben hatıra biriktiren bir öğrenciyim aslında.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'matteo_t2_1',
+      tier: 2,
+      title: 'Aynı Kişi',
+      lines: [
+        { speaker: 'npc',    text: '(servis bitmiş, han boşalmış, sandalyeleri kaldırıyor) Garip bir saat bu. Herkes doydu, güldü, gitti. Mutfak susunca... bir tuhaf oluyor.' },
+        { speaker: 'player', text: 'Yalnız mı hissediyorsun?' },
+        { speaker: 'npc',    text: '(dürüst bir an) Bütün gün yüz kişiye sofra kurarım. Ama akşam, kendi tabağımı tek başıma yerim, ödev kitabı önümde. Biliyor musun hayalim ne? Çok basit, güleceksin — her akşam soframda aynı kişinin olması. Sadece bir kişi. Her gece aynı.' },
+        { speaker: 'player', text: 'Bu neden bu kadar zor?' },
+        { speaker: 'npc',    text: 'Çünkü ben herkese gülümserim, kimseye "kal" demem. Gülümsemek güvenli. "Kal" demek... "kal" dersen, gidebilirler. O yüzden hiç demem.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'matteo_t2_2',
+      tier: 2,
+      title: 'Reddedilmek',
+      lines: [
+        { speaker: 'npc',    text: 'İtiraf edeyim — bana "çapkın" derler. Doğru sayılır. Herkesle flört ederim, kimseyle kalmam.' },
+        { speaker: 'player', text: 'Neden?' },
+        { speaker: 'npc',    text: '(kepçeyi bırakır, sesi alçalır) Çünkü flört oyundur, kaybeden olmaz. Ama gerçekten birini istersen, "hayır" duyabilirsin. Yüz kişiye gülümsemek, bir kişiden "hayır" duymaktan kolay.' },
+      ],
+      choices: [
+        {
+          text: 'Risk almazsan o kişiyi de hiç bulamazsın.',
+          lines: [{ speaker: 'npc', text: 'Biliyorum. Aklım biliyor. Ama geçen yıl birine her şeyimi açtım — sofra kurdum, kalbimi koydum ortaya. Gitti. O günden beri tabağı veriyorum, kalbi saklıyorum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Aldo amca ne der buna?',
+          lines: [{ speaker: 'npc', text: '(güler) Aldo mu? "Matteo, fırın da kalp de sıcakken paylaşılır, soğuyunca işe yaramaz," der. Rosa da aynısını yapıyor zaten — o güneş gibi, korkmadan seviyor. Onlara bakıp utanıyorum bazen. Ben hâlâ kepçenin arkasına saklanıyorum.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'matteo_t3_1',
+      tier: 3,
+      title: 'Soframda Sen',
+      lines: [
+        { speaker: 'npc',    text: '(iki tabak hazırlamış, ikisi de özenli, masaya koyar — biri senin karşına) Bu akşam han kapalı, ödevim de bitti. Kimse yok. Sadece... ben iki kişilik pişirdim. Alışkanlık değil. Bilerek.' },
+        { speaker: 'player', text: 'İki kişilik mi?' },
+        { speaker: 'npc',    text: '(oturur, ilk kez gülümseme bir maske değil) Hani "her akşam soframda aynı kişi" demiştim ya. O kişi sensin. Anladım. Aylardır farkındayım ama söylemeye korktum — çünkü söylersem, gidebilirsin, ve ben o "hayır"ı kaldıramam sandım.' },
+        { speaker: 'player', text: 'Ya gitmezsem?' },
+        { speaker: 'npc',    text: '(gözleri parlar, sesi titrer) O zaman... o zaman dünyanın en şanslı çırağı olurum. Bak, sana laf cambazlığı yapmayacağım, flört etmeyeceğim. Düz söylüyorum, hayatımda ilk kez: kal. Her akşam bu sofrada, karşımda. Daha usta bile değilim, çok şey öğreneceğim — ama tabağını ömür boyu ben kurarım. Sadece... gitme. Lütfen. İşte, söyledim. Kepçeyi bıraktım.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2661,4 +2771,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   bjorn,
   kai,
   elias,
+  matteo,
 }
