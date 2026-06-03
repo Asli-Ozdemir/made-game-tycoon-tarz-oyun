@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn'
   name: string
   role: string
   philosophy: string
@@ -2265,6 +2265,115 @@ const liv: NPCDef = {
   ],
 }
 
+// ─── BJORN (romantizm) ───────────────────────────────────────────────────────
+
+const bjorn: NPCDef = {
+  id: 'bjorn',
+  name: 'Bjorn',
+  role: 'Tamirci',
+  philosophy: 'Romantizm adayı — Nazik dev: az konuşan, ağır, sade; ünlü ağabeyinin gölgesinde, kendisi olarak görülmek isteyen en sıcak el.',
+  emoji: '🔧',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'bjorn_t1_1',
+      tier: 1,
+      title: 'Otur İstersen',
+      lines: [
+        { speaker: 'npc',    text: '(bir radyonun içine eğilmiş, başını yavaşça kaldırır) ...Naber. Otur istersen. Şu sandalye sağlam, onu ben yaptım.' },
+        { speaker: 'player', text: 'Rahatsız etmeyeyim.' },
+        { speaker: 'npc',    text: 'Etmiyorsun. Bjorn. Ne kırıksa onarırım — radyo, saat, sandalye. Bir şeyin kırıldıysa getir, bakarım.' },
+        { speaker: 'player', text: 'Pek konuşkan değilsin.' },
+        { speaker: 'npc',    text: '(hafifçe gülümser) Az konuşurum. Ama dinlerim. İkisini aynı anda iyi yapamıyorum, ben de dinlemeyi seçtim.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'bjorn_t1_2',
+      tier: 1,
+      title: 'Çalışıyor Şimdi',
+      lines: [
+        { speaker: 'npc',    text: '(radyoyu hafifçe tıklatır, cızırtı sonra müzik gelir) ...İşte. Çalışıyor şimdi. Üç gündür uğraşıyordum. Küçük bir kabloymuş, hepsi o.' },
+        { speaker: 'player', text: 'Sabırlı işmiş.' },
+        { speaker: 'npc',    text: 'Bozuk şeyler bağırmaz, fısıldar. Dinlersen söylerler nesi var. Dün Søren\'in teknesini de onardım — tahtası çürümüştü, kimse fark etmemişti. Ben fark ettim.' },
+      ],
+      choices: [
+        {
+          text: 'Onarmayı seviyorsun.',
+          lines: [{ speaker: 'npc', text: 'Atmak kolay. Onarmak... onarmak o şeye "hâlâ değerlisin" demek gibi. Bir radyo da, bir insan da. Ben atmayı sevmem.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Søren zor adamdır, teşekkür etti mi?',
+          lines: [{ speaker: 'npc', text: '(omuz silker, gülümser) Söylemedi. Ama ertesi sabah iskelede bana kahve bıraktı, bir şey demeden. Søren\'in teşekkürü öyledir. Anlıyorum onu.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'bjorn_t2_1',
+      tier: 2,
+      title: 'Abim Köprü Kurar',
+      lines: [
+        { speaker: 'npc',    text: 'Ağabeyimi tanıyor musun? Bruno. Şehrin köprüsünü o yaptı. Dalgakıranı, eski duvarı... iskeleti hep onun eseri.' },
+        { speaker: 'player', text: 'Sen de inşaatçı mısın?' },
+        { speaker: 'npc',    text: 'Hayır. O büyük şeyler kurar — köprüler, binalar. Ben küçük şeyleri onarırım. Radyolar, saatler. (sessizlik) Yeter bana. Gerçekten yeter. Çoğunlukla.' },
+        { speaker: 'player', text: '"Çoğunlukla" mı?' },
+        { speaker: 'npc',    text: '...Bazen "Bruno\'nun kardeşi" olmaktan yoruluyorum. İsmim var benim de. Ama bunu yüksek sesle söylemek nankörlük gibi geliyor. Abim iyi adam. Sadece gölgesi büyük.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'bjorn_t2_2',
+      tier: 2,
+      title: 'Görülmek',
+      lines: [
+        { speaker: 'npc',    text: 'Garip bir şey söyleyeceğim. Bütün gün insanların kırık eşyalarını onarıyorum. Herkes eşyasına sevinip gidiyor. Bana bakan olmuyor pek.' },
+        { speaker: 'player', text: 'Sen hep arka plandasın.' },
+        { speaker: 'npc',    text: '(başını sallar, yavaş) Arka plan rahat. Kimse beklenti koymuyor. Ama bazen... bazen biri "Bjorn nasılsın" dese, eşyasını sormadan, tuhaf bir şey oluyor içimde.' },
+      ],
+      choices: [
+        {
+          text: 'Bjorn, sen nasılsın?',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik, eli aletin üstünde durur) ...Kimse bunu sormamıştı. Böyle, durup. (boğazını temizler) İyiyim. Şimdi, gerçekten iyiyim. Teşekkür ederim. Küçük bir soru ama... bana büyük geldi.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Ağabeyin köprü kurar, sen kalpleri onarıyorsun.',
+          lines: [{ speaker: 'npc', text: '(şaşırır, yüzü kızarır) Öyle düşünmemiştim hiç. Belki. Çocukken Bruno\'yla harç karıştırırdık babamın yanında. O duvarı sevdi, ben aletleri. İkimiz de bir şey tutuyoruz ayakta — sadece farklı boyutta.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'bjorn_t3_1',
+      tier: 3,
+      title: 'Yanında Dururum',
+      lines: [
+        { speaker: 'npc',    text: '(elindeki bezi bırakır, ellerini pantolonuna siler, sana bakar) Sana bir şey diyeceğim. Uzun zamandır prova ediyorum, ama kelimeler benim işim değil. O yüzden... kısa olacak.' },
+        { speaker: 'player', text: 'Acele etme.' },
+        { speaker: 'npc',    text: 'Sen geldiğinde — fark ettim ki — sende tamir edecek bir şey aramadım. İlk kez. Herkese bakınca "şunu onarabilirim" derim. Sana baktığımda sadece... baktım. Bir şey düzeltmek istemedim. Olduğun gibi yetiyordun.' },
+        { speaker: 'player', text: 'Bjorn...' },
+        { speaker: 'npc',    text: 'Çok laf bilmem, biliyorsun. Şiir yazamam, güzel konuşamam. Ama şunu söyleyebilirim: yanında dururum. Hep. Bir şey kırılırsa onarırım, kırılmazsa da yanında olurum öylece. Bana büyük sözler gelmiyor ama bu... bu benim en sağlam sözüm. Tuttuğumu hiç bırakmadım.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2286,4 +2395,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   iris,
   sigrid,
   liv,
+  bjorn,
 }
