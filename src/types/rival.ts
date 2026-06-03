@@ -1,4 +1,5 @@
 // src/types/rival.ts
+import type { IntentDialogue } from '@/data/detectiveCases'
 export type RivalTier = 'indie' | 'mid' | 'major'
 export type RivalPersonality = 'aggressive' | 'friendly' | 'defensive' | 'secretive'
 export type RelationshipStatus =
@@ -33,6 +34,7 @@ export interface RivalCompany {
   noticeThreshold: number  // oyuncunun gameStore.reputation (0–100) ile karşılaştırılır
   isFormerEmployer: boolean
   isProcedural: boolean
+  interrogation?: IntentDialogue
 }
 
 export type NewsType =

@@ -1,4 +1,50 @@
 import type { RivalCompany, RivalPersonality } from '@/types/rival'
+import type { IntentDialogue } from '@/data/detectiveCases'
+
+const RIVAL_INTERROGATIONS: Record<string, IntentDialogue> = {
+  nexus: {
+    prompt: 'Eski ekip üyelerinin kendi yollarını denemesi çok ilham verici. Sizi yakından izliyoruz.',
+    choices: [
+      { text: 'Bu övgünün arkasında başka bir niyet var gibi.', intent: 'suspicious' },
+      { text: 'Teşekkürler, desteklediğiniz için.', intent: 'trusting' },
+    ],
+  },
+  pixelforge: {
+    prompt: 'Birlikte bir proje yapabilirdik belki. Pazar herkes için büyük, dağıtım ağlarınız nasıl çalışıyor?',
+    choices: [
+      { text: 'Dağıtım ağımıza mı göz koydular?', intent: 'suspicious' },
+      { text: 'Güzel fikir, konuşabiliriz.', intent: 'trusting' },
+    ],
+  },
+  ironclad: {
+    prompt: 'Aynı türde oyunlar yapıyoruz. Pazar payı... tabii ki sınırlı. İyi şanslar.',
+    choices: [
+      { text: 'Bu bir uyarı mı, yoksa tehdit mi?', intent: 'suspicious' },
+      { text: 'Rekabet sağlıklı, birlikte büyürüz.', intent: 'trusting' },
+    ],
+  },
+  starlight: {
+    prompt: 'Sizin oyunlarınızı çok inceledim. Oynanış kararlarınız... oldukça özgün.',
+    choices: [
+      { text: 'Neden bu kadar detaylı inceliyorlar?', intent: 'suspicious' },
+      { text: 'Teşekkürler, emek verdik.', intent: 'trusting' },
+    ],
+  },
+  tinyworlds: {
+    prompt: 'Küçük stüdyolar dayanışma içinde olmalı. Finansal durumunuz nasıl, zorluk çekiyor musunuz?',
+    choices: [
+      { text: 'Finansal durumu neden sordular?', intent: 'suspicious' },
+      { text: 'İyi niyetli bir soru, teşekkürler.', intent: 'trusting' },
+    ],
+  },
+  glitchlab: {
+    prompt: 'Sizi bir süredir takip ediyoruz. İyi işler çıkarıyorsunuz... şimdilik.',
+    choices: [
+      { text: '"Şimdilik" derken ne demek istediler?', intent: 'suspicious' },
+      { text: 'Teşekkürler, sizi de takip ediyoruz.', intent: 'trusting' },
+    ],
+  },
+}
 
 export const FIXED_RIVALS: RivalCompany[] = [
   {
@@ -15,6 +61,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 80,
     isFormerEmployer: true,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.nexus,
   },
   {
     id: 'pixelforge',
@@ -30,6 +77,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 20,
     isFormerEmployer: false,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.pixelforge,
   },
   {
     id: 'ironclad',
@@ -45,6 +93,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 25,
     isFormerEmployer: false,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.ironclad,
   },
   {
     id: 'starlight',
@@ -60,6 +109,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 30,
     isFormerEmployer: false,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.starlight,
   },
   {
     id: 'tinyworlds',
@@ -75,6 +125,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 5,
     isFormerEmployer: false,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.tinyworlds,
   },
   {
     id: 'glitchlab',
@@ -90,6 +141,7 @@ export const FIXED_RIVALS: RivalCompany[] = [
     noticeThreshold: 8,
     isFormerEmployer: false,
     isProcedural: false,
+    interrogation: RIVAL_INTERROGATIONS.glitchlab,
   },
 ]
 

@@ -5,6 +5,7 @@ import { useWorldStore } from '@/store/worldStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { DETECTIVE_CASES } from '@/data/detectiveCases'
 import { ExamineScene } from '@/pixi/ExamineScene'
+import IntentDialogueWidget from '@/components/IntentDialogueWidget'
 import type { Suspect, DetectiveCase } from '@/data/detectiveCases'
 
 type Phase = 'briefing' | 'scene' | 'examine' | 'suspect' | 'accusation' | 'result'
@@ -36,11 +37,13 @@ export default function DetectivePanel() {
   const setLocation = useWorldStore((s) => s.setLocation)
   const setIsPaused = useDayTimeStore((s) => s.setIsPaused)
 
-  const activeCase       = useDetectiveStore((s) => s.activeCase)
-  const dayCount         = useDetectiveStore((s) => s.dayCount)
-  const collectedEvidence = useDetectiveStore((s) => s.collectedEvidence)
-  const chainPosition    = useDetectiveStore((s) => s.chainPosition)
-  const completedCases   = useDetectiveStore((s) => s.completedCases)
+  const activeCase              = useDetectiveStore((s) => s.activeCase)
+  const dayCount                = useDetectiveStore((s) => s.dayCount)
+  const collectedEvidence       = useDetectiveStore((s) => s.collectedEvidence)
+  const chainPosition           = useDetectiveStore((s) => s.chainPosition)
+  const completedCases          = useDetectiveStore((s) => s.completedCases)
+  const completedInterrogations = useDetectiveStore((s) => s.completedInterrogations)
+  const completeInterrogation   = useDetectiveStore((s) => s.completeInterrogation)
 
   const [phase, setPhase] = useState<Phase>('briefing')
   const [examineTarget, setExamineTarget] = useState<string | null>(null)
@@ -214,9 +217,17 @@ export default function DetectivePanel() {
           </div>
         )}
 
+        {suspectTarget.interrogation && !completedInterrogations.includes(suspectTarget.id) && (
+          <IntentDialogueWidget
+            name={suspectTarget.name}
+            dialogue={suspectTarget.interrogation}
+            onComplete={() => completeInterrogation(suspectTarget.id)}
+          />
+        )}
+
         <button
           onClick={() => setPhase('scene')}
-          className="w-full py-2 bg-gray-900 border border-amber-900/50 rounded-lg hover:bg-amber-900/20 transition text-xs text-amber-400"
+          className="w-full mt-3 py-2 bg-gray-900 border border-amber-900/50 rounded-lg hover:bg-amber-900/20 transition text-xs text-amber-400"
         >
           Geri
         </button>

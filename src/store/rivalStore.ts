@@ -4,6 +4,7 @@ import { useNewsStore } from '@/store/newsStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
+import { useSocialSkillStore } from '@/store/socialSkillStore'
 import { SEASONS } from '@/types'
 import type { RivalCompany, RelationshipStatus, ResolutionChoice, RivalGame } from '@/types/rival'
 
@@ -23,6 +24,7 @@ interface RivalStore {
   rivals: RivalCompany[]
   lastSimYear: number
   pendingResolution: { rivalId: string } | null
+  completedInterrogations: string[]
 
   initRivals: () => void
   simulateYear: (year: number) => void
@@ -32,6 +34,7 @@ interface RivalStore {
   resolveRival: (rivalId: string, choice: ResolutionChoice) => void
   setPendingResolution: (rivalId: string) => void
   clearPendingResolution: () => void
+  completeInterrogation: (rivalId: string) => void
   reset: () => void
 }
 
@@ -39,6 +42,7 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
   rivals: [],
   lastSimYear: 0,
   pendingResolution: null,
+  completedInterrogations: [],
 
   initRivals: () => {
     const procedural = generateProceduralRivals(4)
@@ -136,6 +140,7 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
       r.id === 'nexus' ? { ...r, relationship: 'nemesis' as RelationshipStatus } : r
     )
     set({ rivals: updatedRivals, pendingResolution: { rivalId: 'nexus' } })
+    useSocialSkillStore.getState().gainXP('sogukkanlilik')
   },
 
   setRelationship: (rivalId, status) => {
@@ -193,5 +198,10 @@ export const useRivalStore = create<RivalStore>((set, get) => ({
 
   clearPendingResolution: () => set({ pendingResolution: null }),
 
-  reset: () => set({ rivals: [], lastSimYear: 0, pendingResolution: null }),
+  completeInterrogation: (rivalId) => set(s => {
+    if (s.completedInterrogations.includes(rivalId)) return s
+    return { completedInterrogations: [...s.completedInterrogations, rivalId] }
+  }),
+
+  reset: () => set({ rivals: [], lastSimYear: 0, pendingResolution: null, completedInterrogations: [] }),
 }))

@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { DETECTIVE_CASES } from '@/data/detectiveCases'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useLifePathStore } from '@/store/lifePathStore'
+import { useSocialSkillStore } from '@/store/socialSkillStore'
 import type { DetectiveCase } from '@/data/detectiveCases'
 
 type AccusationResult = 'correct' | 'wrong' | 'timeout' | null
@@ -13,10 +14,12 @@ interface DetectiveStore {
   collectedEvidence: string[]
   chainPosition: string | null
   completedCases: string[]
+  completedInterrogations: string[]
   startCase(caseId: string): void
   collectEvidence(evidenceId: string): void
   advanceDay(): void
   makeAccusation(suspectId: string): AccusationResult
+  completeInterrogation(suspectId: string): void
   reset(): void
 }
 
@@ -32,6 +35,7 @@ export const useDetectiveStore = create<DetectiveStore>((set, get) => ({
   collectedEvidence: [],
   chainPosition: null,
   completedCases: [],
+  completedInterrogations: [],
 
   startCase(caseId) {
     if (get().activeCase !== null) return
@@ -75,6 +79,7 @@ export const useDetectiveStore = create<DetectiveStore>((set, get) => ({
     const { seeds, progress } = calcReward(result, dayCount, activeCase.dayLimit)
     useIdeaSeedStore.getState().addSeed('analiz', seeds)
     useLifePathStore.getState().addProgress('emek', progress)
+    if (result === 'correct') useSocialSkillStore.getState().gainXP('sogukkanlilik')
 
     set(s => ({
       activeCase: null,
@@ -87,7 +92,14 @@ export const useDetectiveStore = create<DetectiveStore>((set, get) => ({
     return result
   },
 
+  completeInterrogation(suspectId) {
+    set(s => {
+      if (s.completedInterrogations.includes(suspectId)) return s
+      return { completedInterrogations: [...s.completedInterrogations, suspectId] }
+    })
+  },
+
   reset() {
-    set({ activeCase: null, dayCount: 0, collectedEvidence: [], chainPosition: null, completedCases: [] })
+    set({ activeCase: null, dayCount: 0, collectedEvidence: [], chainPosition: null, completedCases: [], completedInterrogations: [] })
   },
 }))

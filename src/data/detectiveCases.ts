@@ -26,6 +26,16 @@ export interface DayClue {
   text: string
 }
 
+export interface IntentChoice {
+  text:   string
+  intent: 'suspicious' | 'trusting'
+}
+
+export interface IntentDialogue {
+  prompt:  string
+  choices: [IntentChoice, IntentChoice]
+}
+
 export interface Suspect {
   id: string
   name: string
@@ -37,6 +47,7 @@ export interface Suspect {
     accuseWrong: string
     detectiveComment: string
   }
+  interrogation?: IntentDialogue
 }
 
 export interface DetectiveCase {
@@ -115,6 +126,13 @@ const case01: DetectiveCase = {
         accuseWrong: 'Bu nasıl bir suçlama? Benim burada işim yok dedektif bey.',
         detectiveComment: 'Elleri titremiyor — masumiyeti gerçek gibi görünüyor.',
       },
+      interrogation: {
+        prompt: 'Çantayı biri bırakıp gitti. Merak edip baktım içine, sonra olduğu gibi bıraktım. Yanlış bir şey mi yaptım?',
+        choices: [
+          { text: 'Neden içine baktınız ki?', intent: 'suspicious' },
+          { text: 'Merak edilir, anlaşılır bir şey.', intent: 'trusting' },
+        ],
+      },
     },
     {
       id: 'suspect_mete',
@@ -126,6 +144,13 @@ const case01: DetectiveCase = {
         accuseCorrect: 'Tamam, tamam. Evrakları aldım. Ama beni zorladılar — yemin ederim.',
         accuseWrong: '',
         detectiveComment: 'Bu adam biliyor. Gözlerini kaçırıyor.',
+      },
+      interrogation: {
+        prompt: 'İş dünyasında gecikme olur. Müşterim çok özel biri, ismini veremem. Anlarsınız tabii.',
+        choices: [
+          { text: 'Hangi müşteri? Bir isim olmadan inanamam.', intent: 'suspicious' },
+          { text: 'Anladım, gizlilik önemli olabilir.', intent: 'trusting' },
+        ],
       },
     },
   ],
@@ -196,6 +221,13 @@ const case02: DetectiveCase = {
         accuseWrong: 'Aklınız var mı sizin! Kendi dükkânımı soyacak değilim!',
         detectiveComment: 'Öfkesi gerçek. Bu dışarıdan gelen iş.',
       },
+      interrogation: {
+        prompt: 'Neyse, sigorta her şeyi karşılıyor. En azından bu konuda şanslıyım diyebilirim.',
+        choices: [
+          { text: 'Sigorta önceliğiniz mi? İlginç.', intent: 'suspicious' },
+          { text: 'Zor bir gün, en azından zararınız karşılanıyor.', intent: 'trusting' },
+        ],
+      },
     },
     {
       id: 'suspect_kadir',
@@ -208,6 +240,13 @@ const case02: DetectiveCase = {
         accuseWrong: '',
         detectiveComment: 'Elleri solventtan sararmış. Gözleri tavana kaçıyor.',
       },
+      interrogation: {
+        prompt: 'O gece solventin kokusu çok yoğundu, pencereyi kapattım zaten. Hiçbir şey duymadım.',
+        choices: [
+          { text: 'O uzaklıktan koku duyulur mu peki?', intent: 'suspicious' },
+          { text: 'Anlıyorum, sinir bozucu olmuş olmalı.', intent: 'trusting' },
+        ],
+      },
     },
     {
       id: 'suspect_ali',
@@ -219,6 +258,13 @@ const case02: DetectiveCase = {
         accuseCorrect: '',
         accuseWrong: 'Beni bırakın, ben hiçbir şey yapmadım!',
         detectiveComment: 'Sinirli ama masum sinirlilik bu.',
+      },
+      interrogation: {
+        prompt: 'Neden hep bana soruyorsunuz? O gece kafede başkaları da vardı.',
+        choices: [
+          { text: 'Savunmacı davranıyorsunuz, neden?', intent: 'suspicious' },
+          { text: 'Haklısınız, herkese soruyorum zaten.', intent: 'trusting' },
+        ],
       },
     },
   ],
@@ -281,6 +327,13 @@ const case03: DetectiveCase = {
         accuseWrong: 'Arkadaşım benim! Ben böyle bir şey yapmam!',
         detectiveComment: 'Remy açık yürekli biri. Tanıklığı önemli.',
       },
+      interrogation: {
+        prompt: 'Balığı seven biri tekneye zarar verir mi hiç? Anlayamıyorum bu işi.',
+        choices: [
+          { text: 'Belki sigorta parası daha cazip gelmiştir.', intent: 'suspicious' },
+          { text: 'Haklısınız, mantıklı gelmiyor.', intent: 'trusting' },
+        ],
+      },
     },
     {
       id: 'suspect_nikos',
@@ -292,6 +345,13 @@ const case03: DetectiveCase = {
         accuseCorrect: 'Sigortayı almak istedim, başka yolum yoktu. Aile borca battı.',
         accuseWrong: '',
         detectiveComment: 'Maskeyi gösterince titredi. Bu adamın işi.',
+      },
+      interrogation: {
+        prompt: 'Tekne batınca insan çaresiz kalıyor. Aileniz varsa, ne demek istediğimi anlarsınız.',
+        choices: [
+          { text: 'Aileyi öne sürerek merhamet mi kazanmak istiyorsunuz?', intent: 'suspicious' },
+          { text: 'Zor bir durum, aile her şeyin önünde tabii.', intent: 'trusting' },
+        ],
       },
     },
   ],
