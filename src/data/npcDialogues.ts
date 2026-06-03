@@ -40,7 +40,7 @@ export type NPCId =
   // Felsefe NPC'leri
   | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
   // Romantizm adayları
-  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn'
+  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai'
 
 export interface NPCDef {
   id: NPCId
@@ -1875,6 +1875,7 @@ const rosa: NPCDef = {
   role: 'Fırın Çırağı',
   philosophy: 'Romantizm adayı — Güneş-masum: neşeli, beceriksizce şirin; babasının kaybını taşır, "Aldo\'nun yeğeni"nden fazlası olarak görülmek ister.',
   emoji: '🥐',
+  gender: 'female',
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1984,6 +1985,7 @@ const iris: NPCDef = {
   role: 'Gazeteci',
   philosophy: 'Romantizm adayı — Alaycı kariyerci: keskin dilli, mesafeli, hırslı; sertliğinin altında doğruya tutkuyla bağlı kırılgan biri.',
   emoji: '📰',
+  gender: 'female',
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2093,6 +2095,7 @@ const sigrid: NPCDef = {
   role: 'Balıkçı',
   philosophy: 'Romantizm adayı — Sert tomboy: dobra, eylem insanı, kimseye muhtaç değil; altında derin sadakat ve yaslanmaktan korkan bir yürek.',
   emoji: '⚓',
+  gender: 'female',
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2202,6 +2205,7 @@ const liv: NPCDef = {
   role: 'Bahçıvan',
   philosophy: 'Romantizm adayı — Dingin şefaatçi: sakin, sabırlı toprak ana; herkesin bahçesini sular ama kendi ihtiyaçlarını erteler, o da büyümek ister.',
   emoji: '🌿',
+  gender: 'female',
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2311,6 +2315,7 @@ const bjorn: NPCDef = {
   role: 'Tamirci',
   philosophy: 'Romantizm adayı — Nazik dev: az konuşan, ağır, sade; ünlü ağabeyinin gölgesinde, kendisi olarak görülmek isteyen en sıcak el.',
   emoji: '🔧',
+  gender: 'male',
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2412,6 +2417,116 @@ const bjorn: NPCDef = {
   ],
 }
 
+// ─── KAI (romantizm) ─────────────────────────────────────────────────────────
+
+const kai: NPCDef = {
+  id: 'kai',
+  name: 'Kai',
+  role: 'Yüzme Hocası',
+  philosophy: 'Romantizm adayı — Kibirli altın oğlan: çalımlı, kendine hayran, hep kahraman pozunda; altında "kurtaran olmazsam değersizim" korkusu taşıyan yorgun biri.',
+  emoji: '🏊',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'kai_t1_1',
+      tier: 1,
+      title: 'Rekorumu Duydun mu?',
+      lines: [
+        { speaker: 'npc',    text: '(saçından su damlıyor, gülümsüyor) Naber! Yeni rekorumu duydun mu? Bütün kıyı konuşuyor. Bu sabah nehri karşıdan karşıya, on dakikanın altında.' },
+        { speaker: 'player', text: 'Etkileyici sanırım.' },
+        { speaker: 'npc',    text: '"Sanırım" mi? Dostum, bu şehirde benden iyi yüzen yok. Kai. Cankurtaranım — yani teknik olarak hayatın bana bağlı, suya girersen. (göz kırpar) Şaka. Yarı şaka.' },
+        { speaker: 'player', text: 'Kendinden eminsin.' },
+        { speaker: 'npc',    text: 'Emin olmak için bir sebebim var. Bak şu kollara — bunlar tesadüf değil, her sabah ilk ben girerim suya. Herkes izler. İzlenmek... fena değil, alışıyorsun.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'kai_t1_2',
+      tier: 1,
+      title: 'Dün Birini Kurtardım',
+      lines: [
+        { speaker: 'npc',    text: 'Dün bir çocuğu çıkardım sudan, akıntıya kapılmıştı. Bütün kıyı alkışladı. (saçını geri atar) Bu iş böyle — sen kahramansın, onlar bakar.' },
+        { speaker: 'player', text: 'Çocuk iyi mi?' },
+        { speaker: 'npc',    text: '(bir an duraklar, sonra toparlanır) İyi, iyi tabii. Annesi ağladı, bana sarıldı. O an için yaşıyorum işte. O an için.' },
+      ],
+      choices: [
+        {
+          text: 'Sen sormadan çocuğu sordum, fark ettin mi?',
+          lines: [{ speaker: 'npc', text: '(durur, gülümsemesi bir saniye kayar) ...Fark ettim. Çoğu insan önce "nasıl kurtardın, anlatsana" der. Sen çocuğu sordun. Tuhafsın. İyi anlamda. Galiba.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Yüzme öğrenmek isterdim.',
+          lines: [{ speaker: 'npc', text: 'Doğru adrese geldin — benden iyi hoca yok, gerçekten yok. Pippa\'ya öğrettim, Tomas\'a öğrettim. Korkanı suyla barıştırırım. Gel bir sabah, ama erken — geç kalanı beklemem, akıntı beklemiyor çünkü.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'kai_t2_1',
+      tier: 2,
+      title: 'Kurtaramazsam Kimim?',
+      lines: [
+        { speaker: 'npc',    text: '(kıyıda oturmuş, bu kez kalabalık yok) Sana bir şey soracağım. Garip gelebilir.' },
+        { speaker: 'player', text: 'Sor.' },
+        { speaker: 'npc',    text: 'Diyelim ki bir gün kolum kırıldı, ya da yaşlandım, ya da... birini çıkaramadım sudan. O zaman ben kimim? "Kurtaran Kai" gitti mi, geriye ne kalıyor?' },
+        { speaker: 'player', text: 'İnsan kalır.' },
+        { speaker: 'npc',    text: '(acı bir gülüş) "İnsan." Yeterli mi o? Herkes beni o kollarla, o rekorlarla tanıyor. Bir kez kurtaramadığım birini düşünüyorum geceleri — daha olmadı, ama olacak. Ve o gün aynada kimi göreceğimi bilmiyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'kai_t2_2',
+      tier: 2,
+      title: 'Sürekli Gülümsemek',
+      lines: [
+        { speaker: 'npc',    text: 'Bir itiraf: sürekli gülümsemek yorucu. Bilmezsin. Kıyıya çıktığım an "Kai geldi!" — gülümsemem lazım, güçlü görünmem lazım, herkes öyle bekliyor.' },
+        { speaker: 'player', text: 'Hiç bırakamaz mısın?' },
+        { speaker: 'npc',    text: 'Bıraksam ne olur? "Kai bugün kötü" derler, hayal kırıklığı. Kahramanın kötü günü olmaz, olmamalı. (omuz silker) Maske ağırlaşıyor ama, her yıl biraz daha.' },
+      ],
+      choices: [
+        {
+          text: 'Benim yanımda gülümsemek zorunda değilsin.',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik, gülümsemesi gerçekten düşer — ve daha genç, daha yorgun görünür) ...Bunu kimse söylemedi. Herkes Kai\'nin gülümsemesini ister. Sen "gülümseme" diyorsun. Tuhaf bir rahatlık bu. Sevdim. Korktum da.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Yorgunsan dinlen, kıyı seni bekler.',
+          lines: [{ speaker: 'npc', text: 'Dinlenmeyi bilmiyorum ki. Durursam yetişemeyeceğim sanıyorum — neye, bilmiyorum. Babam da böyleydi, hep koştu, hiç varmadı bir yere. Ona benzemekten korkuyorum, ama tıpkı o oluyorum.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'kai_t3_1',
+      tier: 3,
+      title: 'Beni Sudan Çıkar',
+      lines: [
+        { speaker: 'npc',    text: '(seni kıyıya çağırır, sesi alçak, çalımı yok) Kimsenin olmadığı bir saatte çağırdım seni, bilerek. Çünkü söyleyeceğim şeyi kalabalıkta söyleyemem.' },
+        { speaker: 'player', text: 'Dinliyorum.' },
+        { speaker: 'npc',    text: 'Hayatım boyunca ben kurtardım. Herkesi sudan ben çıkardım. Güçlü olan, gülümseyen, hep orada olan ben. (sana bakar) Ama yoruldum. Ve fark ettim ki... bir kez de birinin beni sudan çıkarmasını istiyorum. Boğuluyorum bazen, kimse görmüyor — çünkü cankurtaranın boğulması akıllara gelmiyor.' },
+        { speaker: 'player', text: 'Ben görüyorum.' },
+        { speaker: 'npc',    text: 'Biliyorum. O yüzden buradasın. (ilk kez savunmasız) Senin yanında numara yapmama gerek yok. Kasları, rekorları, gülümsemeyi bırakabiliyorum — ve sen yine de gitmiyorsun. Sen... sen beni çıkarır mısın? Bir kez de ben tutunayım. Söz, ağır bir yük olmam. Sadece bırak elimi tutayım, kıyıya kadar.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2434,4 +2549,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   sigrid,
   liv,
   bjorn,
+  kai,
 }
