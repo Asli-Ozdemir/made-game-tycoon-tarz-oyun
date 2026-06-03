@@ -12,6 +12,7 @@ import PubPanel     from '@/components/PubPanel'
 import BarPanel        from '@/components/BarPanel'
 import DetectivePanel  from '@/components/DetectivePanel'
 import NehirPanel     from '@/components/NehirPanel'
+import ArcadePanel    from '@/components/ArcadePanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -243,6 +244,11 @@ export default function App() {
       {currentLocation === 'nehir' && (
         <div className="absolute inset-0 z-20 bg-black/65 flex items-center justify-center">
           <NehirPanel />
+        </div>
+      )}
+      {currentLocation === 'arcade' && (
+        <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center">
+          <ArcadePanel />
         </div>
       )}
       {currentLocation === 'sleep' && (

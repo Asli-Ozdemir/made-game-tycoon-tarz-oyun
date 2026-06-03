@@ -5,7 +5,7 @@ import { useIdeaSeedStore } from '../ideaSeedStore'
 beforeEach(() => {
   useSkillTreeStore.setState({ unlockedNodeIds: [] })
   useIdeaSeedStore.setState({
-    seeds: { nostalji: 10, hikaye: 10, kaos: 10, zaman_yonetimi: 10 },
+    seeds: { nostalji: 10, hikaye: 10, kaos: 10, zaman_yonetimi: 10, analiz: 10, sosyallik: 10, game_history: 10 },
   })
 })
 
@@ -19,7 +19,7 @@ describe('skillTreeStore', () => {
   })
 
   it('T1 node canUnlock — seed yoksa false döner', () => {
-    useIdeaSeedStore.setState({ seeds: { nostalji: 0, hikaye: 10, kaos: 10, zaman_yonetimi: 10 } })
+    useIdeaSeedStore.setState({ seeds: { nostalji: 0, hikaye: 10, kaos: 10, zaman_yonetimi: 10, analiz: 10, sosyallik: 10, game_history: 10 } })
     expect(useSkillTreeStore.getState().canUnlock('nos_t1')).toBe(false)
   })
 
@@ -43,7 +43,7 @@ describe('skillTreeStore', () => {
   })
 
   it('canUnlock false iken unlockNode hiçbir şey yapmaz', () => {
-    useIdeaSeedStore.setState({ seeds: { nostalji: 0, hikaye: 10, kaos: 10, zaman_yonetimi: 10 } })
+    useIdeaSeedStore.setState({ seeds: { nostalji: 0, hikaye: 10, kaos: 10, zaman_yonetimi: 10, analiz: 10, sosyallik: 10, game_history: 10 } })
     useSkillTreeStore.getState().unlockNode('nos_t1')
     expect(useSkillTreeStore.getState().unlockedNodeIds).toHaveLength(0)
   })

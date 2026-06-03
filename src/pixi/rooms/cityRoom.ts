@@ -12,7 +12,7 @@ export const cityRoom: RoomDef = {
   buildings: [
     { id: 'cicekci',  col: 8,  row: 0,  cols: 6,  rows: 5,  label: 'Çiçekçi',  style: 'city'       },
     { id: 'kuyumcu',  col: 15, row: 0,  cols: 5,  rows: 5,  label: 'Kuyumcu',  style: 'city'       },
-    { id: 'han',      col: 34, row: 0,  cols: 6,  rows: 5,  label: 'Han',       style: 'city'       },
+    { id: 'arcade',   col: 34, row: 0,  cols: 6,  rows: 5,  label: 'Arcade',    style: 'city'       },
     { id: 'akademi',  col: 18, row: 2,  cols: 14, rows: 10, label: 'Akademi',   style: 'city'       },
     { id: 'kafe',     col: 4,  row: 4,  cols: 10, rows: 10, label: 'Kafe',      style: 'city'       },
     { id: 'fuar',     col: 36, row: 4,  cols: 11, rows: 10, label: 'Fuar',      style: 'city'       },
@@ -22,7 +22,7 @@ export const cityRoom: RoomDef = {
   triggers: [
     { name: 'cicekci_door',    x: 320,  y: 96,  w: 32, h: 32 },
     { name: 'kuyumcu_door',    x: 512,  y: 96,  w: 32, h: 32 },
-    { name: 'han_door',        x: 1120, y: 96,  w: 32, h: 32 },
+    { name: 'arcade_door',     x: 1120, y: 96,  w: 32, h: 32 },
     { name: 'akademi_door',    x: 768,  y: 320, w: 32, h: 32 },
     { name: 'cafe_door',       x: 288,  y: 384, w: 32, h: 32 },
     { name: 'fair_entrance',   x: 1280, y: 384, w: 32, h: 32 },
