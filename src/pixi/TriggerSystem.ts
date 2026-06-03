@@ -25,6 +25,7 @@ const LOCATION_MAP: Record<string, LocationId> = {
   pub_door:      'pub',
   yatak:         'sleep',
   arcade_door:   'arcade',
+  clara_door:    'lawyers_office',
 }
 
 const PLACEHOLDER_TRIGGERS = new Set([

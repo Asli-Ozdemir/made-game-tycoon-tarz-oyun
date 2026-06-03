@@ -13,6 +13,7 @@ import BarPanel        from '@/components/BarPanel'
 import DetectivePanel  from '@/components/DetectivePanel'
 import NehirPanel     from '@/components/NehirPanel'
 import ArcadePanel    from '@/components/ArcadePanel'
+import LawyerPanel   from '@/components/LawyerPanel'
 import CharacterCreationWizard from '@/components/CharacterCreationWizard'
 import CutscenePlayer from '@/components/CutscenePlayer'
 import ResolutionScreen from '@/components/ResolutionScreen'
@@ -249,6 +250,11 @@ export default function App() {
       {currentLocation === 'arcade' && (
         <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center">
           <ArcadePanel />
+        </div>
+      )}
+      {currentLocation === 'lawyers_office' && (
+        <div className="absolute inset-0 z-20 bg-black/70 flex items-center justify-center">
+          <LawyerPanel />
         </div>
       )}
       {currentLocation === 'sleep' && (
