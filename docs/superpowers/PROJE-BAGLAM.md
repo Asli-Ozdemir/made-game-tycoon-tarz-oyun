@@ -45,6 +45,13 @@ Apex Games'ten kovulma (arka plana göre 5 varyant: otomasyon/fikir çalınması
 ## Sistemler (özet → detay specs/plans'te)
 - **Tycoon/Ekonomi/Pazar/Pazarlama/Rakipler** — uygulandı (Faz 1–7).
 - **RPG:** idea-seed + skill tree + 3 yaşam yolu (+tek-sefer tövbe) — `specs/2026-06-01-skill-tree-design.md`, `specs/2026-06-01-sandbox-yan-isler-ve-yasam-yollari-design.md`.
+
+  **⚠️ Hayat Yolu Kilit & Ceza Mekaniği (uygulama gerçeği):**
+  - Progress threshold (100 puan) aşılınca yol **kilitlenir** — diğer yollar artık progress kabul etmez (`lifePathStore.addProgress` guard).
+  - Yol değiştirmek (`switchPath`) **ağır bedel** öder: kilitli yolun T5 capstone + sinapsları sökülür, eski yolun bağlı NPC'leri penalize edilir (`npcStore.penalizeNpc`), eski yolun progress'i −40 düşer.
+  - **Tek-seferlik tövbe:** İkinci yol değiştirme ya tamamen engellenir ya da iki kat bedel alır.
+  - Bu mekanik **anlatı-tetiklidir** (menüden değil): bir pişmanlık beat'i (ör. idealist çalışanın istifası, eski eşin düğünü) oyunu sorar: *"Bu sen misin?"*
+  - Yaktığın köprüler kalıcıdır — kapanan sahaf açılmaz, giden NPC geri gelmez.
 - **NPC diyalog sistemi** (tier 1/2/3, idea-seed, ilişki) — `data/npcDialogues.ts` (uygulandı, genişliyor); tam kadro `specs/2026-05-30-npc-etkilesim-felsefe-design.md`.
 - **Yaşam-sim:** Yaşlanma çekirdeği (A) → NPC yaşam olayları (B: evlilik/doğum/ölüm/miras) → Romantizm (C1) → Final/Epilog (C2) — `specs/2026-05-31-*`.
 - **Olay ara sahneleri:** duruma tetikli gri anlar (eski eş, Ned/gelişemeyen dost, eski meslektaş, çocuk, tükenmişlik, yas) — `specs/2026-05-31-oyuncu-hayati-olay-ara-sahneleri-design.md`.
