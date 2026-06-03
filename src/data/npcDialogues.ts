@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid'
   name: string
   role: string
   philosophy: string
@@ -2047,6 +2047,115 @@ const iris: NPCDef = {
   ],
 }
 
+// ─── SIGRID (romantizm) ──────────────────────────────────────────────────────
+
+const sigrid: NPCDef = {
+  id: 'sigrid',
+  name: 'Sigrid',
+  role: 'Balıkçı',
+  philosophy: 'Romantizm adayı — Sert tomboy: dobra, eylem insanı, kimseye muhtaç değil; altında derin sadakat ve yaslanmaktan korkan bir yürek.',
+  emoji: '⚓',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'sigrid_t1_1',
+      tier: 1,
+      title: 'Laf Sevmem',
+      lines: [
+        { speaker: 'npc',    text: '(ağ çekerken, sana bakmadan) Naber. Yardım lazımsa söyle. Laf lazımsa, yanlış kişidesin.' },
+        { speaker: 'player', text: 'Sadece selam vermek istedim.' },
+        { speaker: 'npc',    text: '(kısa bir duraklama) Sigrid. Tekneler benim, ağlar benim, şu iskelenin yarısı benim kol gücümle ayakta. Selamı aldım. Başka?' },
+        { speaker: 'player', text: 'Yardım edebilir miyim?' },
+        { speaker: 'npc',    text: '(sana ilk kez bakar, ölçer) Ellerin yumuşak görünüyor. Ama deneyebilirsin. Şu halatı tut — bırakma. Bırakırsan ikimiz de suya gideriz.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'sigrid_t1_2',
+      tier: 1,
+      title: 'Nehir Sert Bugün',
+      lines: [
+        { speaker: 'npc',    text: 'Sabah üç ağ çektim, biri yırtık. Nehir sert bugün. (omuz silker) İyi. Kolay olan sıkıcı.' },
+        { speaker: 'player', text: 'Yorulmuyor musun?' },
+        { speaker: 'npc',    text: 'Yorulmak başka, şikâyet başka. Birincisi insani, ikincisi vakit kaybı.' },
+      ],
+      choices: [
+        {
+          text: 'Sert nehri seviyorsun demek.',
+          lines: [{ speaker: 'npc', text: 'Sevmek mi? Bilmem. Saygı duyuyorum. Nehir seni kandırmaz — ne verirsen onu alırsın, ne kadar çekersen o kadar. İnsanlar öyle değil. Nehir dürüst.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Konuşmayı sevmiyorsun, anladım.',
+          lines: [{ speaker: 'npc', text: '(hafif, neredeyse görünmez bir gülümseme) Konuşmam. Ama senin susman hoş. Çoğu insan sessizliği doldurmak için saçmalar. Sen durdun. İyi. Kal istersen — ama halatı bırakma.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'sigrid_t2_1',
+      tier: 2,
+      title: 'Babam Denizciydi',
+      lines: [
+        { speaker: 'npc',    text: '(ağı onarırken) Babam denizciydi. Gerçek bir denizci — okyanusta, büyük gemilerde. Beni de denize çıkarırdı küçükken.' },
+        { speaker: 'player', text: 'Onu özlüyor musun?' },
+        { speaker: 'npc',    text: 'Bana bir şey öğretti: kimseye muhtaç olma. "Dalga geldiğinde kimse seni tutmaz Sigrid, kendin tutacaksın," derdi. Bir gün gerçekten gelmedi — deniz aldı. O gün buraya, nehre yerleştim. Daha sakin sular.' },
+        { speaker: 'player', text: 'Bu yüzden mi tek başına çalışıyorsun?' },
+        { speaker: 'npc',    text: 'Tek başına batmazsan, kimse seni batıramaz. Mantıklı geliyordu. Hâlâ da öyle. Çoğunlukla.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'sigrid_t2_2',
+      tier: 2,
+      title: 'Yaslanmayı Beceremem',
+      lines: [
+        { speaker: 'npc',    text: 'Sana bir şey söyleyeceğim, bir kez söyleyeceğim. Senden... rahatsız oluyorum. Kötü anlamda değil. Tuhaf anlamda.' },
+        { speaker: 'player', text: 'Nasıl yani?' },
+        { speaker: 'npc',    text: 'Geldiğinde işim aksıyor. Gözüm iskeleye kayıyor. Bu iyi değil. Ağ çekerken dikkatini dağıtan şey, seni suya çeker.' },
+      ],
+      choices: [
+        {
+          text: 'Bana yaslanabilirsin.',
+          lines: [{ speaker: 'npc', text: '(sertçe) Yaslanmayı beceremem. Düşersem kendim kalkarım, hep öyle yaptım. (daha yumuşak) Ama... bunu söylemen. Bilmiyorum. İçimde bir şey gevşedi, sevmedim. Yine de söyle bir daha, belki.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Güçlü olmak hep yalnız olmak değil.',
+          lines: [{ speaker: 'npc', text: 'Babam öyle demezdi. Ama babam da yalnız öldü, denizin ortasında. Belki her dediği doğru değildi. (uzun sessizlik) Bunu ilk kez yüksek sesle düşündüm. Senin yanında. Tuhaf.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'sigrid_t3_1',
+      tier: 3,
+      title: 'Tekneye Gel',
+      lines: [
+        { speaker: 'npc',    text: '(halatları toplar, sana döner, dosdoğru) Bak. Ben süslü laf bilmem. İçimi şiir gibi anlatamam, Cassian değilim. O yüzden düz söyleyeceğim, bir kere.' },
+        { speaker: 'player', text: 'Dinliyorum.' },
+        { speaker: 'npc',    text: 'Sana güveniyorum. Galiba. Ve bu beni huzursuz ediyor — ama iyi anlamda, ilk kez. Kimseye güvenmem, biliyorsun. Babam öğretmedi onu. Sen öğrettin.' },
+        { speaker: 'player', text: 'Sigrid...' },
+        { speaker: 'npc',    text: '(nefes alır, zor) Yarın şafakta tekneyle açılıyorum. Kimseyi almam — teknede iki kişi olmaz, derim hep. (sana bakar) Sen gel. Sen başkasın. Halatı bırakmayacağına güveniyorum artık. Düşersem... belki bu sefer tutarsın. Belki ben de tutmaya izin veririm.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2066,4 +2175,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   cassian,
   rosa,
   iris,
+  sigrid,
 }
