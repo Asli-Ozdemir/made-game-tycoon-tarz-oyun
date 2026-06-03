@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris'
   name: string
   role: string
   philosophy: string
@@ -1938,6 +1938,115 @@ const rosa: NPCDef = {
   ],
 }
 
+// ─── IRIS (romantizm) ────────────────────────────────────────────────────────
+
+const iris: NPCDef = {
+  id: 'iris',
+  name: 'Iris',
+  role: 'Gazeteci',
+  philosophy: 'Romantizm adayı — Alaycı kariyerci: keskin dilli, mesafeli, hırslı; sertliğinin altında doğruya tutkuyla bağlı kırılgan biri.',
+  emoji: '📰',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'iris_t1_1',
+      tier: 1,
+      title: 'Alıntılanabilir Bir Şey',
+      lines: [
+        { speaker: 'npc',    text: '(not defterinden başını kaldırmadan) Naber. Alıntılanabilir bir şey söyle, vaktimi boşa harcama.' },
+        { speaker: 'player', text: 'Daha yeni tanıştık.' },
+        { speaker: 'npc',    text: 'Ve sen şimdiden sıkıcısın. Iris. Şehrin gazetesini ben çıkarıyorum — yani burada olan biten her şeyi senden önce biliyorum. Stüdyo kurmuşsun. İlginç. Ya parlak bir manşet olacaksın ya da küçük bir dipnot.' },
+        { speaker: 'player', text: 'Hangisi olacağıma sen mi karar veriyorsun?' },
+        { speaker: 'npc',    text: '(ilk kez bakar, hafif gülümseme) Hayır. Ama nasıl yazılacağına ben karar veriyorum. İkisi farklı şey, alışsan iyi olur.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'iris_t1_2',
+      tier: 1,
+      title: 'Üç Yalan İki Skandal',
+      lines: [
+        { speaker: 'npc',    text: 'Bugünün bilançosu: üç yalan yakaladım, iki skandal gömdüm, bir de aşk dedikodusu — onu basacağım, millet onu seviyor.' },
+        { speaker: 'player', text: 'Doğruyu yazmak istemez misin?' },
+        { speaker: 'npc',    text: 'İsterim. Yazarım da. Sorun şu: doğruyu yazınca kimse sevmiyor. Yalanı süslersen alkış, gerçeği söylersen sessizlik.' },
+      ],
+      choices: [
+        {
+          text: 'Yine de gerçeği yazıyorsun.',
+          lines: [{ speaker: 'npc', text: '(bir an durur) ...Çoğunlukla. Birinin yazması lazım, değil mi? Bu şehirde kalan tek "evet" diyebileceğim şey bu galiba. Onu da kaybedersem, sadece dedikodu satan biri olurum.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Crane hakkında ne biliyorsun?',
+          lines: [{ speaker: 'npc', text: '(gözleri parlar) Aa, demek sen de o hesabın peşindesin. Çok şey biliyorum. Nehrin o yakası bana konuşmaz ama rakamlar konuşur. Bir gün otur, anlatırım — ama bedava değil, sen de bana bir hikâye borçlanırsın.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'iris_t2_1',
+      tier: 2,
+      title: 'Hakikati Eğmemi İstediler',
+      lines: [
+        { speaker: 'npc',    text: 'Eskiden büyük bir gazetedeydim. Şehirde, üst katlarda, maaş iyiydi.' },
+        { speaker: 'player', text: 'Neden ayrıldın?' },
+        { speaker: 'npc',    text: 'Ayrılmadım, çarptılar. Bir patronun dostuyla ilgili bir haber vardı, gerçekti. "Yumuşat," dediler. Yumuşatmadım. "Eğ," dediler. Eğmedim. Ertesi gün masam boştu.' },
+        { speaker: 'player', text: 'Pişman mısın?' },
+        { speaker: 'npc',    text: 'Hiç. Buraya geldim, küçük bir matbaa, kendi gazetem. Kimse bana "eğ" diyemiyor artık. Az kazanıyorum ama her kelimesi benim. Eğilmeyen bir cümle, eğilen bin maaştan değerli.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'iris_t2_2',
+      tier: 2,
+      title: 'Sertlik Zırh',
+      lines: [
+        { speaker: 'npc',    text: 'Bana "buz gibi" diyorlar. "Kalpsiz Iris." Hoşuma da gidiyor, işime yarıyor.' },
+        { speaker: 'player', text: 'Ama değilsin.' },
+        { speaker: 'npc',    text: '(kalemi bırakır) ...Dikkatli ol. İnsanları okumak benim işim, tersine çevirme.' },
+      ],
+      choices: [
+        {
+          text: 'Sertlik bir zırh sadece.',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik) Zırhı olan herkesin altında bir yara vardır, bunu sen mi öğreteceksin bana? ...Evet. Zırh. Ama içeriyi göstermem. Henüz. O kısmı kazanman lazım, kimseye bedava vermiyorum.' }],
+          ideaSeed: 'hikaye',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Kimseye güvenmiyorsun galiba.',
+          lines: [{ speaker: 'npc', text: 'Güven, manşetten önce kontrol edilmesi gereken bir iddiadır. Herkes bir kaynaktır; çoğu yalan söyler. Sen... seni hâlâ doğruluyorum. Şimdilik temiz çıkıyorsun, bu da sinir bozucu.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'iris_t3_1',
+      tier: 3,
+      title: 'Manşete Taşırdım',
+      lines: [
+        { speaker: 'npc',    text: '(masaya bir taslak sayfa atar — senin hakkında bir haber, ama basılmamış) Şuna bak. Aylardır üstünde çalışıyorum. "Nehri Geçen Adam: Bir Stüdyonun Doğuşu." En iyi hikâyem.' },
+        { speaker: 'player', text: 'Basacak mısın?' },
+        { speaker: 'npc',    text: 'İşte mesele bu. Basarsam, harika bir manşet olursun — ve herkesin olursun. (duraksar, alaycılığı düşer) Basmazsam... sadece benim kalırsın. Ve ben hayatımda ilk kez bir hikâyeyi paylaşmak istemiyorum.' },
+        { speaker: 'player', text: 'Iris Lindqvist tereddüt mü ediyor?' },
+        { speaker: 'npc',    text: 'Kapa çeneni. (gülümser ama gözleri dolu) Zekânla baş edebilen tek kişisin. Beni alt edebilen, bana laf yetiştirebilen. Sinir bozucusun. Ve... çekicisin, bunu itiraf ettirdiğin için senden nefret ediyorum. Manşeti tuttum. Çünkü bazı gerçekler haber değil — sır olarak daha kıymetli.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1956,4 +2065,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   nadia,
   cassian,
   rosa,
+  iris,
 }
