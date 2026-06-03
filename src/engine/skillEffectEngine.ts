@@ -20,6 +20,8 @@ export interface SkillBonuses {
   incomeMult: number
   /** Fraction of total salary waived (0.0–0.5 capped) */
   salaryReduction: number
+  /** Fraction by which weekly maintenance costs are reduced (0.0–0.5 capped) */
+  crisisReduction: number
   /** Fraction by which crisis duration is shortened (0.0–0.75 capped) */
   crisisDurationReduction: number
   /** Additional flat reputation to add when a node unlocks */
@@ -35,6 +37,7 @@ export function getSkillBonuses(): SkillBonuses {
   const genreQualityAdd: Record<string, number> = {}
   let incomeMult         = 1.0
   let salaryReduction    = 0
+  let crisisReduction    = 0
   let crisisDurReduction = 0
   let reputationBonus    = 0
   let relationshipMult   = 1.0
@@ -66,6 +69,9 @@ export function getSkillBonuses(): SkillBonuses {
       case 'salary_reduce':
         salaryReduction += effect.value
         break
+      case 'crisis_reduce':
+        crisisReduction += effect.value
+        break
       case 'crisis_duration_reduce':
         crisisDurReduction += effect.value
         break
@@ -86,7 +92,8 @@ export function getSkillBonuses(): SkillBonuses {
       return 1.0 + baseQualityAdd + (genreQualityAdd[genreId] ?? 0)
     },
     incomeMult,
-    salaryReduction:        Math.min(salaryReduction,    0.50),
+    salaryReduction:         Math.min(salaryReduction,    0.50),
+    crisisReduction:         Math.min(crisisReduction,    0.50),
     crisisDurationReduction: Math.min(crisisDurReduction, 0.75),
     reputationBonus,
     relationshipGainMult: relationshipMult,

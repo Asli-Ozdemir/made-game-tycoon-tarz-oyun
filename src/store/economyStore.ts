@@ -64,9 +64,11 @@ export const useEconomyStore = create<EconomyStoreState>((set, get) => ({
       .filter(p => p.status === 'yayinlandi' && p.publishTickCount !== null)
       .map(p => ({ weeksPublished: tickCount - (p.publishTickCount ?? 0) }))
 
+    const { crisisReduction } = getSkillBonuses()
     const { total } = computeWeeklyCosts(employeeCount, publishedProjects)
-    if (total > 0) useGameStore.getState().addMoney(-total)
-    set({ lastWeeklyCost: total })
+    const reduced   = Math.round(total * (1 - crisisReduction))
+    if (reduced > 0) useGameStore.getState().addMoney(-reduced)
+    set({ lastWeeklyCost: reduced })
   },
 
   takeLoan: (amount, weeks) => {

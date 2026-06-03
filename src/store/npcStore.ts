@@ -1,6 +1,7 @@
 // src/store/npcStore.ts
 import { create } from 'zustand'
 import { NPC_DEFS, type Dialogue } from '@/data/npcDialogues'
+import { getSkillBonuses } from '@/engine/skillEffectEngine'
 
 interface NPCState {
   relationship: number
@@ -60,7 +61,8 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
       const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
       const alreadySeen = prev.seenDialogueIds.includes(dialogueId)
       const multiplier = s.gainMultipliers[npcId] ?? 1.0
-      const effectiveBonus = alreadySeen ? 0 : bonus * multiplier
+      const skillMult  = getSkillBonuses().relationshipGainMult
+      const effectiveBonus = alreadySeen ? 0 : bonus * multiplier * skillMult
       const newMultiplier = alreadySeen ? multiplier : Math.min(1.0, multiplier + 0.05)
 
       return {

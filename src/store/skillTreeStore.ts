@@ -40,6 +40,9 @@ export const useSkillTreeStore = create<SkillTreeStore>((set, get) => ({
     if (node.effect.type === 'reputation_bonus') {
       useGameStore.getState().gainReputation(node.effect.value)
     }
+    if (node.effect.type === 'tycoon_bonus' && node.effect.stat === 'starting_money') {
+      useGameStore.getState().addMoney(node.effect.value)
+    }
   },
 
   getNodeState(id): NodeState {

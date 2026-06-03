@@ -34,16 +34,20 @@ export interface Dialogue {
   repeatable?: boolean
 }
 
+export type NPCId =
+  // Felsefe NPC'leri
+  | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
+  // Romantizm adayları
+  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn'
+
 export interface NPCDef {
-  id:
-    // Felsefe NPC'leri
-    | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
-    // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn'
+  id: NPCId
   name: string
   role: string
   philosophy: string
   emoji: string
+  gender: 'male' | 'female'
+  isRomanceCandidate: boolean
   tier2Threshold: number
   tier3Threshold: number
   dialogues: Dialogue[]
@@ -57,6 +61,8 @@ const marcus: NPCDef = {
   role: 'Sahaf',
   philosophy: 'Stoacılık — Kontrol edemediklerimizi bırakmak, edebildiklerimize sahip çıkmak.',
   emoji: '📚',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -184,6 +190,8 @@ const remy: NPCDef = {
   role: 'Balıkçı',
   philosophy: 'Sabır değil, var olmak. Nehrin yanında olmak seni besler.',
   emoji: '🎣',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -292,6 +300,8 @@ const theo: NPCDef = {
   role: 'Pub Barmen',
   philosophy: 'Anlam bulunmadığı için kendin yapabilirsin. Burası kararların verildiği yer.',
   emoji: '🍺',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -419,6 +429,8 @@ const bruno: NPCDef = {
   role: 'Mühendis',
   philosophy: 'Erdem Etiği (Aristoteles) — Karakter, bir köprü gibi, alışkanlıkla ve ölçüyle örülür.',
   emoji: '🔧',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -528,6 +540,8 @@ const magnus: NPCDef = {
   role: 'Sokak Filozofu',
   philosophy: 'Nietzsche — Değerleri sürü değil sen dövürsün; kendini aş, uçuruma dikkat et.',
   emoji: '🌒',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -637,6 +651,8 @@ const marta: NPCDef = {
   role: 'Hemşire',
   philosophy: 'Bakım Etiği — Ahlak, rakamda değil; karşındaki insanın elini tutmakta başlar.',
   emoji: '🩺',
+  gender: 'female',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -744,6 +760,8 @@ const clara: NPCDef = {
   role: 'Noter',
   philosophy: 'Kant / Deontoloji — Kural herkese aynı işlemeli; insan amaçtır, araç değil.',
   emoji: '⚖️',
+  gender: 'female',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -852,6 +870,8 @@ const aldo: NPCDef = {
   role: 'Bahçıvan',
   philosophy: 'Epikür — En büyük zenginlik: iyi bir sofra, birkaç dost, korkusuz bir akşam.',
   emoji: '🌿',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -960,6 +980,8 @@ const yevgeni: NPCDef = {
   role: 'Teknisyen',
   philosophy: 'Nihilizm/Materyalizm — Faydası yoksa yık; doğa tapınak değil, atölyedir.',
   emoji: '🔬',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1066,6 +1088,8 @@ const soren: NPCDef = {
   role: 'Liman Kaptanı',
   philosophy: 'Varoluşçuluk (Sartre) — Varoluş özden önce gelir; rotanı sen çizersin, "mecbur kaldım" bir yalandır.',
   emoji: '⚓',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1177,6 +1201,8 @@ const rex: NPCDef = {
   role: 'Arcade Sahibi',
   philosophy: 'Kirenaik Hedonizm — Tek gerçek şu an; yoğunluk süreyi yener, haz ertelenmez.',
   emoji: '🕹️',
+  gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1289,6 +1315,8 @@ const vivian: NPCDef = {
   role: 'Yatırımcı',
   philosophy: 'Faydacılık — En çok kişiye en çok iyilik; amaç toplam artıdaysa aracı haklı çıkarır.',
   emoji: '📈',
+  gender: 'female',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1401,6 +1429,8 @@ const elise: NPCDef = {
   role: 'Kafe Müzisyeni',
   philosophy: 'Romantizm adayı — Süslü diva: cilanın altında kimsenin dinlemediğini bilen yalnız bir sanatçı.',
   emoji: '🎶',
+  gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1510,6 +1540,8 @@ const daniel: NPCDef = {
   role: 'Nehir Biyoloğu',
   philosophy: 'Romantizm adayı — Utangaç profesör: insanlarla beceriksiz, nehir canlılarıyla rahat; sessiz hayretini paylaşacak biri arar.',
   emoji: '🔬',
+  gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1619,6 +1651,8 @@ const nadia: NPCDef = {
   role: 'Seramikçi',
   philosophy: 'Romantizm adayı — Bohem özgür ruh: anı yaşar, kusuru kucaklar; bağlanmanın boğmasından korkar ama sadıktır.',
   emoji: '🏺',
+  gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1728,6 +1762,8 @@ const cassian: NPCDef = {
   role: 'Fenerci',
   philosophy: 'Romantizm adayı — Melankolik kayıp ruh: kasvetli, içe kapalı bir şair; yakınlıktan hem korkar hem can atar.',
   emoji: '🗼',
+  gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [

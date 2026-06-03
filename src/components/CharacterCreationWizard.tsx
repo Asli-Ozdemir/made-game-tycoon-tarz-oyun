@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BackgroundStep from './character/BackgroundStep'
 import PersonalityStep from './character/PersonalityStep'
+import PreferencesStep from './character/PreferencesStep'
 import IdentityStep from './character/IdentityStep'
 import { useCharacterStore } from '@/store/characterStore'
 import { useGameStore } from '@/store/gameStore'
@@ -9,7 +10,7 @@ import { useRivalStore } from '@/store/rivalStore'
 import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
-type Step = 1 | 2 | 3
+type Step = 1 | 2 | 3 | 4
 
 export default function CharacterCreationWizard() {
   const [step, setStep] = useState<Step>(1)
@@ -36,7 +37,7 @@ export default function CharacterCreationWizard() {
       <div className="w-full max-w-4xl">
         {/* Adım göstergesi */}
         <div className="flex justify-center gap-4 mb-8">
-          {([1, 2, 3] as Step[]).map((s) => (
+          {([1, 2, 3, 4] as Step[]).map((s) => (
             <div
               key={s}
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
@@ -54,7 +55,8 @@ export default function CharacterCreationWizard() {
 
         {step === 1 && <BackgroundStep onNext={() => setStep(2)} />}
         {step === 2 && <PersonalityStep onBack={() => setStep(1)} onNext={() => setStep(3)} />}
-        {step === 3 && <IdentityStep onBack={() => setStep(2)} onFinalize={handleFinalize} />}
+        {step === 3 && <PreferencesStep onBack={() => setStep(2)} onNext={() => setStep(4)} />}
+        {step === 4 && <IdentityStep onBack={() => setStep(3)} onFinalize={handleFinalize} />}
       </div>
     </div>
   )

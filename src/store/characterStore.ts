@@ -12,9 +12,11 @@ interface CharacterStore {
   background:  BackgroundId | null
   profession:  ProfessionStats
   personality: PersonalityStats
+  attractedTo: ('male' | 'female')[]
   setBackground:       (bg: BackgroundId) => void
   setPersonality:      (stats: PersonalityStats) => void
   setIdentity:         (name: string, studioName: string) => void
+  setAttractedTo:      (genders: ('male' | 'female')[]) => void
   finalize:            () => void
   reset:               () => void
   getPlayerSkillBonus: () => number
@@ -27,6 +29,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
   background:  null,
   profession:  DEFAULT_PROFESSION,
   personality: DEFAULT_PERSONALITY,
+  attractedTo: [],
 
   setBackground: (bg) => {
     const def = BACKGROUNDS.find((b) => b.id === bg)!
@@ -37,6 +40,8 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
 
   setIdentity: (name, studioName) => set({ name, studioName }),
 
+  setAttractedTo: (genders) => set({ attractedTo: genders }),
+
   finalize: () => set({ isCreated: true }),
 
   reset: () => set({
@@ -46,6 +51,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
     background:  null,
     profession:  { ...DEFAULT_PROFESSION },
     personality: { ...DEFAULT_PERSONALITY },
+    attractedTo: [],
   }),
 
   getPlayerSkillBonus: () => {

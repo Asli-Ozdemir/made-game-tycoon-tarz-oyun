@@ -1,12 +1,14 @@
 // src/components/DialogueView.tsx
 import { useState } from 'react'
-import { NPC_DEFS, IDEA_SEED_META, type Dialogue, type IdeaSeedType } from '@/data/npcDialogues'
+import { NPC_DEFS, IDEA_SEED_META, type Dialogue, type IdeaSeedType, type NPCId } from '@/data/npcDialogues'
 import { useNPCStore } from '@/store/npcStore'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useSocialSkillStore } from '@/store/socialSkillStore'
+import { useCharacterStore } from '@/store/characterStore'
 
 interface Props {
-  npcId: 'marcus' | 'remy' | 'theo'
+  npcId: NPCId
   onClose: () => void
 }
 
@@ -24,6 +26,7 @@ export default function DialogueView({ npcId, onClose }: Props) {
   const npcStore     = useNPCStore()
   const addSeed      = useIdeaSeedStore((s) => s.addSeed)
   const advanceTime  = useDayTimeStore((s) => s.advanceRealSeconds)
+  const attractedTo  = useCharacterStore((s) => s.attractedTo)
 
   const [phase, setPhase]           = useState<Phase>('list')
   const [activeDialogue, setActive] = useState<Dialogue | null>(null)
@@ -42,6 +45,19 @@ export default function DialogueView({ npcId, onClose }: Props) {
 
   function finishDialogue(extraSeed?: IdeaSeedType, extraBonus = 0) {
     if (!activeDialogue) return
+
+    const alreadySeen = npcStore.hasSeenDialogue(npcId, activeDialogue.id)
+    if (!alreadySeen) {
+      const gainXP = useSocialSkillStore.getState().gainXP
+      // Sıcakkanlılık: bu NPC ile ilk konuşma
+      const seenCount = npcStore.npcs[npcId]?.seenDialogueIds.length ?? 0
+      if (seenCount === 0) gainXP('sicakkanlilik')
+      // Dostluk: tier 2+ diyaloglar
+      if (activeDialogue.tier >= 2) gainXP('dostluk')
+      // Çapkınlık: romantizm adayı + oyuncunun çekim tercihiyle eşleşen cinsiyet
+      if (def.isRomanceCandidate && attractedTo.includes(def.gender)) gainXP('capkinlik')
+    }
+
     const totalBonus = activeDialogue.relationshipBonus + extraBonus
     npcStore.completeDialogue(npcId, activeDialogue.id, totalBonus)
     advanceTime(120) // 1 oyun saati
