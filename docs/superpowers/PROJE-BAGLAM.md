@@ -77,6 +77,8 @@ Apex Games'ten kovulma (arka plana göre 5 varyant: otomasyon/fikir çalınması
 
 **Romantizm adayları — belirgin sosyal tip:** Her romantizm adayı **birbirinden farklı, belirgin bir sosyal/duygusal tip** olmalı (melankolik, heyecanlı/hevesli, çapkın, kibirli, neşeli-saf, sert/dobra, bohem, utangaç...). Dümdüz/içi boş olmamalı; her biri **yüzey → gizli derinlik** taşır (kalp arttıkça açılır, Stardew mantığı). Mizaç/arketip haritası `specs/2026-05-30-npc-etkilesim-felsefe-design.md` "Romantizm — Tip/Arketip Haritası" tablosunda. Diyalog ritmi de tipe uymalı (melankolik = sparse/ağır/uzun sessizlik; heyecanlı = hızlı/coşkulu).
 
+**Herkesin mesleği olmak zorunda değil:** Bazı NPC'ler işsiz/hobi sahibi olabilir — şehir gerçekçi olsun. Özellikle **oyun oynamayı hobi edinmiş NPC sayısını artır**: bir oyun stüdyosu kuruluyor, oyuncular doğal hayran/müşteri/playtester kitlesidir (ileride hype/fan mekaniğine bağlanabilir). Mevcut oyun-temalı NPC'ler: garaj üçlüsü (Lena/Sam/Milo), Tomas (arcade), Rex. Yeni gamer kasabalı NPC'leri romantizm dışı, NPCDef yapısında (T3 = flört değil, derin dostluk).
+
 **Format/kalite referansı:** `src/data/npcDialogues.ts` içindeki **Yevgeni** bloğu örnek alınır. Yapı: NPCDef + **5 diyalog** — 2×T1 (ikincisi `choices` ile), 2×T2 (ikincisi `choices` ile), 1×T3 (Crane aynası, `relationshipBonus: 15`). Ton: buruk-gerçekçi, anlatıcısız, gri; her seçimin bir bedeli. idea-seed türü karakterin felsefesine uygun seçilir. T2'lerden biri NPC'nin "saklanan nesnesi"ne / yarasına değer (bkz. Tekrar eden motifler).
 
 ## Nasıl çalışıyoruz

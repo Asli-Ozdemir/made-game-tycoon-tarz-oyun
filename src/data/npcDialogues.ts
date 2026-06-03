@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv'
   name: string
   role: string
   philosophy: string
@@ -2156,6 +2156,115 @@ const sigrid: NPCDef = {
   ],
 }
 
+// ─── LIV (romantizm) ─────────────────────────────────────────────────────────
+
+const liv: NPCDef = {
+  id: 'liv',
+  name: 'Liv',
+  role: 'Bahçıvan',
+  philosophy: 'Romantizm adayı — Dingin şefaatçi: sakin, sabırlı toprak ana; herkesin bahçesini sular ama kendi ihtiyaçlarını erteler, o da büyümek ister.',
+  emoji: '🌿',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'liv_t1_1',
+      tier: 1,
+      title: 'Acele Yok',
+      lines: [
+        { speaker: 'npc',    text: '(bir fideyi saksıya aktarıyor, başını kaldırır, gülümser) Aa, merhaba. Dikkatli geç, şu sıradakiler yeni kök saldı. Ürkütme onları, daha utangaçlar.' },
+        { speaker: 'player', text: 'Bitkiler ürker mi?' },
+        { speaker: 'npc',    text: 'Her canlı ürker, sadece farklı hızlarda. Ben Liv. Şehrin serası benim. Acele eden müşteriysen yanlış yerdesin — burada hiçbir şey zorlanmaz, mevsimi gelince olur.' },
+        { speaker: 'player', text: 'Sabırlı biri olmalısın.' },
+        { speaker: 'npc',    text: 'Sabır değil bu. Sabır beklemek demek, içten içe kızmak demek. Ben sadece... onların hızına saygı duyuyorum. Domates Mart\'ta olmaz, ne kadar istesen de. Bunu kabul edince, huzur geliyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'liv_t1_2',
+      tier: 1,
+      title: 'Mevsimi Gelince',
+      lines: [
+        { speaker: 'npc',    text: '(toprağı elindeyle yokluyor) Greta\'nın laleleri için fide hazırlıyorum. O satıyor, ben büyütüyorum. İyi bir iş bölümü — ben başlangıçları severim, o renkleri.' },
+        { speaker: 'player', text: 'Hep başkaları için mi yetiştiriyorsun?' },
+        { speaker: 'npc',    text: '(bir an durur) ...İlginç bir soru. Çoğu insan "ne güzel sera" der, geçer.' },
+      ],
+      choices: [
+        {
+          text: 'Her şeyin bir zamanı var diyorsun.',
+          lines: [{ speaker: 'npc', text: 'Evet. En çok da insanların unuttuğu şey bu. Bir tohumu toprağa basıp "neden hemen çiçek açmadın?" diye bağırmıyorsun, değil mi? Ama kendilerine, sevdiklerine bunu yapıyorlar. Büyümek zaman ister. Sevmek de.' }],
+          ideaSeed: 'zaman_yonetimi',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sera huzurlu bir yer.',
+          lines: [{ speaker: 'npc', text: 'Öyle değil mi? Camdan ışık süzülür, toprak kokar, her şey yavaşça nefes alır. İnsanlar buraya yorgun gelir, dinlenmiş gider. (yumuşak) Sen de yorgun görünüyorsun. Otur istersen, çay demleyeyim — ıhlamur, kendi yetiştirdiğim.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'liv_t2_1',
+      tier: 2,
+      title: 'Herkesin Bahçesi',
+      lines: [
+        { speaker: 'npc',    text: '(akşam, suluğu doldururken) Greta\'nın fidelerini suladım, Marcus\'a sarmaşık verdim, Hanna\'nın penceresine fesleğen koydum. Bütün şehrin yeşili biraz benden geçer.' },
+        { speaker: 'player', text: 'Peki senin bahçen?' },
+        { speaker: 'npc',    text: '(durur, suluğu indirir) ...Benim bahçem. Tuhaf. Kimse sormaz bunu. Şu köşedeki saksılar benim — bak, biraz solgun, değil mi? Herkesi sularken sıra bana gelince akşam oluyor, ışık gidiyor.' },
+        { speaker: 'player', text: 'Kendini ihmal ediyorsun.' },
+        { speaker: 'npc',    text: 'İhmal ağır kelime. Sadece... ben başkalarını büyütmeye o kadar alışmışım ki, kendi köküme su vermeyi unutuyorum. Bakıcı olmak böyle bir şey. İçin dolu sanırsın, bir bakmışsın kurumuşsun.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'liv_t2_2',
+      tier: 2,
+      title: 'Ben de Büyümek İstiyorum',
+      lines: [
+        { speaker: 'npc',    text: 'Bir itirafta bulunayım mı? Bazen kıskanıyorum yetiştirdiğim şeyleri.' },
+        { speaker: 'player', text: 'Kıskanmak mı?' },
+        { speaker: 'npc',    text: 'Onlara her gün bakılıyor. Suları ölçülüyor, ışıkları ayarlanıyor, "büyü" diye fısıldanıyor. Ben de... ben de birinin beni öyle büyütmesini istiyorum sanırım. Ama bunu söylemek bencillik gibi.' },
+      ],
+      choices: [
+        {
+          text: 'Bakıcının da bakıma ihtiyacı var.',
+          lines: [{ speaker: 'npc', text: '(gözleri nemlenir) Bunu yüksek sesle ilk kez biri söyledi. Hep "sen güçlüsün Liv, sen idare edersin" derler. Güçlüyüm, evet. Ama güçlü olan da bazen birinin "bugün sen nasılsın?" demesini istiyor.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sen de bir tohumsun, daha açmamış.',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik, sonra gülümser) Ne güzel söyledin. Belki öyleyimdir. Belki hep başkalarının mevsimini bekledim, kendiminkini hiç. Belki benim de bir baharım vardır, henüz gelmemiş.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'liv_t3_1',
+      tier: 3,
+      title: 'Birlikte Büyüyelim',
+      lines: [
+        { speaker: 'npc',    text: '(sana bir saksı uzatır — içinde küçük, yeni filizlenmiş bir şey) Bunu senin için ayırdım. Ne olacağını henüz bilmiyorum — etiketi düşmüş. Sürpriz. Ama sağlıklı, bak, kökü güçlü.' },
+        { speaker: 'player', text: 'Neden bana?' },
+        { speaker: 'npc',    text: 'Çünkü onu birlikte büyütmek istiyorum. Acele etmeden. Bir mevsim, iki mevsim, ne kadar sürerse. (sana bakar, sakin ama derinden) Ben hayatım boyunca herkesin bahçesini suladım. Seninle... seninle ilk kez kendi bahçemi de sulamak istiyorum. Yan yana iki saksı gibi — aynı ışığa uzanan, birbirini gölgelemeyen.' },
+        { speaker: 'player', text: 'Ya zaman alırsa?' },
+        { speaker: 'npc',    text: 'Alsın. En güzel şeyler yavaş büyür. Gül bir günde açmaz; açsa zaten güvenmezdim ona. Sen acele etme, ben de etmeyeceğim. Sadece... birlikte büyüyelim. Aynı toprakta. Olur mu?' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2176,4 +2285,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   rosa,
   iris,
   sigrid,
+  liv,
 }
