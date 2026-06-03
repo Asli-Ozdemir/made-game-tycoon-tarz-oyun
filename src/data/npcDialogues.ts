@@ -39,7 +39,7 @@ export interface NPCDef {
     // Felsefe NPC'leri
     | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
     // Romantizm adayları
-    | 'elise' | 'daniel' | 'nadia' | 'cassian'
+    | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa'
   name: string
   role: string
   philosophy: string
@@ -1829,6 +1829,115 @@ const cassian: NPCDef = {
   ],
 }
 
+// ─── ROSA (romantizm) ────────────────────────────────────────────────────────
+
+const rosa: NPCDef = {
+  id: 'rosa',
+  name: 'Rosa',
+  role: 'Fırın Çırağı',
+  philosophy: 'Romantizm adayı — Güneş-masum: neşeli, beceriksizce şirin; babasının kaybını taşır, "Aldo\'nun yeğeni"nden fazlası olarak görülmek ister.',
+  emoji: '🥐',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'rosa_t1_1',
+      tier: 1,
+      title: 'Yanık Ama Kokusu Güzel',
+      lines: [
+        { speaker: 'npc',    text: 'Naber! (elinde tepsi, una bulanmış) Dur, dur — ekmek biraz yandı ama kokusu güzel, değil mi? Koku önemli, amcam öyle der.' },
+        { speaker: 'player', text: 'Sen kimsin?' },
+        { speaker: 'npc',    text: 'Rosa! Aldo\'nun yeğeni — hani şu fırındaki amca. Ben de çıraklık ediyorum. Yani... batıra batıra öğreniyorum. Çoğunlukla batırıyorum.' },
+        { speaker: 'player', text: 'Kokusu gerçekten güzel.' },
+        { speaker: 'npc',    text: '(yüzü aydınlanır) Değil mi?! Gördün mü, sen anlıyorsun. Al şu çöreği — o köşedeki daha az yanık, onu sana saklamıştım. Şey, yani... kim gelirse ona.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'rosa_t1_2',
+      tier: 1,
+      title: 'Yine Batırdım',
+      lines: [
+        { speaker: 'npc',    text: 'Amcam tarifi üç kez gösterdi. Üçünde de farklı bir şey yandı. Bugün... mayayı mı unuttum, fırını mı açık bıraktım, bilmiyorum.' },
+        { speaker: 'player', text: 'Pes etmiyorsun ama.' },
+        { speaker: 'npc',    text: 'Asla! Bir gün kendi fırınımı açacağım. Kapısında benim adım yazacak. Yanık ekmek olsa da benim yanık ekmeğim olacak.' },
+      ],
+      choices: [
+        {
+          text: 'Hayalin güzel.',
+          lines: [{ speaker: 'npc', text: '(gülümser) Herkes "küçük kız, hayal kurma" der. Sen "güzel" dedin. Bunu... bunu pek duymuyorum. Teşekkür ederim, gerçekten.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Amcan iyi bir usta.',
+          lines: [{ speaker: 'npc', text: 'En iyisi. Beni o büyüttü, biliyorsun. Bana hep der ki: "Acele etme Rosa, ekmek de sevgi de mayasını kendi bulur." Anlamını yeni yeni çözüyorum.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'rosa_t2_1',
+      tier: 2,
+      title: 'Babamı Küçükken',
+      lines: [
+        { speaker: 'npc',    text: '(hamur yoğururken sakinleşir) Sana bir şey sorayım — annen baban var mı?' },
+        { speaker: 'player', text: '...' },
+        { speaker: 'npc',    text: 'Benim babamı küçükken kaybettim. Annemi hiç tanımadım. Amcam Aldo aldı beni, büyüttü. Hiç "yük" gibi hissettirmedi, bir gün bile.' },
+        { speaker: 'player', text: 'Zor olmuştur.' },
+        { speaker: 'npc',    text: 'Oldu. Ama amcamın fırını hep sıcaktı, biliyor musun? Üşüdüğüm her gün oraya kaçardım. Sanırım o yüzden ekmek yapıyorum — sıcak bir yer kurmak istiyorum, başkaları da üşüdüğünde kaçsın diye.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'rosa_t2_2',
+      tier: 2,
+      title: "Aldo'nun Yeğeni",
+      lines: [
+        { speaker: 'npc',    text: 'Bazen tuhaf bir şey hissediyorum, kötü biri gibi. Amcamı çok seviyorum ama...' },
+        { speaker: 'player', text: 'Ama?' },
+        { speaker: 'npc',    text: 'Herkes bana "Aldo\'nun yeğeni" diyor. Çörek alırken, sokakta, her yerde. Bir gün sadece "Rosa" olmak istiyorum. Kendi adımla. Bu bencillik mi?' },
+      ],
+      choices: [
+        {
+          text: 'Bencillik değil, bu çok insani.',
+          lines: [{ speaker: 'npc', text: '(rahatlar) Öyle mi? İçimde tutuyordum, söylemeye korkuyordum. Amcamı sevmemek sanılır diye. Ama sevmek başka, görünmek başka, değil mi?' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Kendi fırının o adı verir sana.',
+          lines: [{ speaker: 'npc', text: '(gözleri parlar) Evet! Tam da bu! Kapıda "Rosa" yazınca, artık kimsenin yeğeni değil — bir şeyin sahibi olacağım. Babam görseydi... neyse. Görecek bir gün, yukarıdan.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'rosa_t3_1',
+      tier: 3,
+      title: 'Sadece Ben',
+      lines: [
+        { speaker: 'npc',    text: '(arkasından bir somun çıkarır, özenle sarılmış) Bunu... bunu senin için sakladım. Bütün gün uğraştım, ilk defa hiçbir yeri yanmadı. Bak, altın rengi!' },
+        { speaker: 'player', text: 'Benim için mi yaptın?' },
+        { speaker: 'npc',    text: '(kızarır) "En güzel somunu müşteriye" derim hep ya — yalan. Bahaneydi. Seni görmek istedim. Her sabah "bugün uğrar mı" diye kapıya bakıyorum, un elimde kalıyor.' },
+        { speaker: 'player', text: 'Rosa...' },
+        { speaker: 'npc',    text: 'Biliyorum, beceriksizim, ekmeklerim yanıyor, çok konuşuyorum. Ama yanındayken... yanındayken "Aldo\'nun yeğeni" değilim. "Zavallı öksüz Rosa" da değilim. Sadece Rosa\'yım. Sadece ben. Bunu bana ilk kez biri hissettirdi — sen. (somunu uzatır) Sıcakken ye, tamam mı? Soğuyunca o büyü kaçıyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -1846,4 +1955,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   daniel,
   nadia,
   cassian,
+  rosa,
 }
