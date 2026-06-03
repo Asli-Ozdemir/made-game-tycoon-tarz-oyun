@@ -40,7 +40,7 @@ export type NPCId =
   // Felsefe NPC'leri
   | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
   // Romantizm adayları
-  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai'
+  | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias'
 
 export interface NPCDef {
   id: NPCId
@@ -2527,6 +2527,116 @@ const kai: NPCDef = {
   ],
 }
 
+// ─── ELIAS (romantizm) ───────────────────────────────────────────────────────
+
+const elias: NPCDef = {
+  id: 'elias',
+  name: 'Elias',
+  role: 'Genç Doktor',
+  philosophy: 'Romantizm adayı — Hevesli şifacı: uykusuz idealist, kendine bakmayı unutur; herkesi kurtaramayınca yıkılır, durmayı öğrenmeli.',
+  emoji: '🩻',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'elias_t1_1',
+      tier: 1,
+      title: 'Bir Saniye, Şunu Bitireyim',
+      lines: [
+        { speaker: 'npc',    text: '(reçete yazarken, hızlı) Bir saniye, şunu bitireyim — Bayan Holt\'un öksürüğü için, sabaha kalmasın. ...Tamam, buyur, dinliyorum, neyin var?' },
+        { speaker: 'player', text: 'Bir şeyim yok, sadece tanışmak—' },
+        { speaker: 'npc',    text: '(başını kaldırır, gülümser, gözaltları mor) Aa, hasta değilsin. Pardon, ben herkese hasta gözüyle bakıyorum, meslek hastalığı — kelimenin tam anlamıyla. Elias. Marta\'yla aynı muayenehanedeyim, o usta ben çırak.' },
+        { speaker: 'player', text: 'Yorgun görünüyorsun.' },
+        { speaker: 'npc',    text: 'Ben mi? İyiyim, iyiyim. Üç vizite daha var, sonra Hanna\'da bir çorba, sonra... şey, sonrasını düşünmedim aslında. Düşünmeye vakit olmuyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'elias_t1_2',
+      tier: 1,
+      title: 'Vaka Numarası',
+      lines: [
+        { speaker: 'npc',    text: 'Eskiden büyük şehirde, koca bir hastanedeydim. Parlak kariyer, herkes öyle derdi.' },
+        { speaker: 'player', text: 'Neden bıraktın?' },
+        { speaker: 'npc',    text: 'Çünkü orada hastaların adı yoktu. "Üç numaralı yatak", "saat ikideki vaka." Bir gün bir adamın adını soramadan... neyse. Buraya geldim. Burada herkesin adı var. Bayan Holt\'un, Marek\'in, hepsinin.' },
+      ],
+      choices: [
+        {
+          text: 'İnsanları numara değil, isim olarak görüyorsun.',
+          lines: [{ speaker: 'npc', text: 'Başka türlüsü tıp değil, tamircilik olur. Marta öğretti bunu: "Tabloyu değil insanı tedavi et." (gülümser) Bazen fazla kaçırıyorum o dersi, biliyorum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Doktorluğu neden seçtin?',
+          lines: [{ speaker: 'npc', text: 'Çocukken annem hastaydı, uzun süre. Kimse ona düzgün bakmadı, hep aceleydiler. Ben... ben acele etmeyen biri olmak istedim. (kısa sessizlik) İşin tuhafı, şimdi en aceleci benim. Belki hâlâ o günkü çaresizlikten kaçıyorum.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'elias_t2_1',
+      tier: 2,
+      title: 'Herkesi Kurtaramıyorum',
+      lines: [
+        { speaker: 'npc',    text: '(bu kez oturmuş, elinde soğumuş çay) Dün bir hastayı kaybettik. Yaşlıydı, beklenen bir şeydi, Marta "elimizden geleni yaptık" dedi.' },
+        { speaker: 'player', text: 'Ama sen kendini suçluyorsun.' },
+        { speaker: 'npc',    text: 'Bir saat daha erken görseydim? Başka bir ilaç? Sürekli bunu düşünüyorum. Herkesi kurtarabileceğimi sanıyorum, sonra kurtaramayınca... bir parçam da onunla gidiyor sanki.' },
+        { speaker: 'player', text: 'Bu seni tüketir.' },
+        { speaker: 'npc',    text: 'Tüketiyor zaten. Marta diyor ki "Elias, sen tanrı değilsin, doktorsun — bu ikisi farklı." Aklım anlıyor. Ama gece üçte bir telefon çaldığında, kalbim hâlâ "hepsini kurtaracağım" diyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'elias_t2_2',
+      tier: 2,
+      title: 'Kendine Bakmıyorsun',
+      lines: [
+        { speaker: 'npc',    text: '(esner, fark etmeden) Pardon. İki gündür pek uyumadım. Doğum vardı, sonra Bay Adler\'in dikişleri...' },
+        { speaker: 'player', text: 'Elias, en son ne zaman yemek yedin?' },
+        { speaker: 'npc',    text: '(durur, gerçekten düşünür) ...Dün? Belki. Hanna bir tabak çorba bırakmıştı, soğudu galiba.' },
+      ],
+      choices: [
+        {
+          text: 'Herkese bakan adamın bakanı yok.',
+          lines: [{ speaker: 'npc', text: '(uzun bir sessizlik) Bunu Marta da söylüyor, ama o ustam, mecbur söylüyor sanıyorum. Senden duyunca... başka. Belki gerçekten birinin bana "dur, ye, uyu" demesi gerekiyor. Kendime diyemiyorum çünkü.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Boş bir kova kimseye su veremez.',
+          lines: [{ speaker: 'npc', text: '(acı acı güler) Tıbben kusursuz bir teşhis. Ben de hastalarıma aynısını söylerim — "kendine iyi bak." Kendime gelince unutuyorum. Doktorun en kötü hastası kendisidir, derler. Ben kanıtıyım.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (flört) ───
+    {
+      id: 'elias_t3_1',
+      tier: 3,
+      title: 'Bir Kez Dursam',
+      lines: [
+        { speaker: 'npc',    text: '(muayenehane kapalı, ilk kez aceleci değil, sana bakıyor) Bak, sana bir şey itiraf edeceğim ve bunu söylerken bile içimden "vizite var mı" diye geçiyor — işte sorunum bu.' },
+        { speaker: 'player', text: 'Acele etme. Vakit var.' },
+        { speaker: 'npc',    text: '"Vakit var." (gözleri yaşarır) Bunu en son ne zaman duydum, bilmiyorum. Hep koşuyorum — bir sonraki hasta, bir sonraki kriz. Ama sen yanımdayken... ilk kez durmak istiyorum. Bir kez. Sadece nefes almak, koşmadan.' },
+        { speaker: 'player', text: 'Sen de bakıma değersin, Elias.' },
+        { speaker: 'npc',    text: 'Bunu kendime hiç söyleyemedim. Hep "başkaları önce" dedim. Ama sen bana bakıyorsun — hasta olduğum için değil, ben olduğum için. Ve fark ettim ki belki ben de bir insanım, sadece bir çift yorgun el değil. Seninle durabilirim sanıyorum. Bana durmayı öğretir misin? Çünkü tek başıma hiç beceremedim.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2550,4 +2660,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   liv,
   bjorn,
   kai,
+  elias,
 }
