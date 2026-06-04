@@ -136,7 +136,7 @@ px(CX+4, CY-3, Color{r=97,  g=38, b=77, a=255})
 px(CX+3, CY-4, Color{r=93,  g=33, b=75, a=255})
 
 -- ── Attic window (in gable, center of roof) ───────────────────────
-local AWX = RX + math.floor(RW/2) - 7  -- = 44
+local AWX = RX + math.floor(RW/2) - 7  -- = 72
 local AWY = HY - 10                    -- = 229
 rect(AWX, AWY, AWX+13, AWY+7, WIN_C)
 -- Frame: all 4 sides
