@@ -41,6 +41,8 @@ export type NPCId =
   | 'marcus' | 'remy' | 'theo' | 'bruno' | 'magnus' | 'yevgeni' | 'marta' | 'clara' | 'aldo' | 'rex' | 'vivian' | 'soren'
   // Romantizm adayları
   | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
+  // Gamer kasabalılar
+  | 'max'
 
 export interface NPCDef {
   id: NPCId
@@ -2755,6 +2757,116 @@ const matteo: NPCDef = {
   ],
 }
 
+// ─── MAX (gamer kasabalı) ────────────────────────────────────────────────────
+
+const max: NPCDef = {
+  id: 'max',
+  name: 'Max',
+  role: 'İçerik Üreticisi',
+  philosophy: 'Gamer kasabalı (kurulu YouTuber, MaxPlays 1.2M) — Sıcak ama tükenmiş: kamera enerjisinin altında algoritma yorgunu, sırf keyfine oynamayı özleyen biri.',
+  emoji: '🕹️',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'max_t1_1',
+      tier: 1,
+      title: 'Aa, Seni Tanıyorum',
+      lines: [
+        { speaker: 'npc',    text: '(telefonu indirir) Dur dur... seni tanıyorum! Senin stüdyonun oyununu oynadım, kanalda. Vay be, yapımcısı karşımda.' },
+        { speaker: 'player', text: 'Beni mi tanıyorsun?' },
+        { speaker: 'npc',    text: 'Kanka bu şehirde oyun yapan başka kim var? MaxPlays, memnun oldum. Oynadığın her şeyi çekiyorum — bazen severim, bazen söver... şey, dürüst eleştiririm diyelim. (güler)' },
+        { speaker: 'player', text: 'Videolarını izledim sayılır.' },
+        { speaker: 'npc',    text: 'O zaman gerçek beni de tanı: kamera kapanınca bu kadar bağırmıyorum, söz.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'max_t1_2',
+      tier: 1,
+      title: 'Kötü Yorum',
+      lines: [
+        { speaker: 'npc',    text: 'Senin oyuna 7 verdim ya hani — alınmadın umarım. İçten söyledim, parlak ama kenarları kaba dedim.' },
+        { speaker: 'player', text: 'Alınmadım, haklıydın.' },
+        { speaker: 'npc',    text: 'Oh be. Çoğu yapımcı engelliyor beni. Sen "haklıydın" diyorsun. Bu yüzden seninle konuşmak güzel — gerçek oyuncu kafası.' },
+      ],
+      choices: [
+        {
+          text: 'İyi oyunu kötüden nasıl ayırıyorsun?',
+          lines: [{ speaker: 'npc', text: 'Yirmi yıldır oynuyorum kanka. Atari\'den bugüne. İyi oyun seni saate baktırmaz; kötü oyun "ne zaman bitecek" dedirtir. Gerisi pazarlama.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Engellenmek canını sıkıyor mu?',
+          lines: [{ speaker: 'npc', text: 'Eskiden çok. Şimdi anlıyorum — emeklerine laf edilmesi acıtıyor. Ben de o yüzden artık "kötü" demiyorum, "bana göre tutmadı" diyorum. Küçük fark, büyük nezaket.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'max_t2_1',
+      tier: 2,
+      title: 'Odamdaki Kamera',
+      lines: [
+        { speaker: 'npc',    text: 'Biliyor musun, ben bunu odamda başlattım. On yıl önce, bozuk bir webcam, kimse izlemiyor. Sırf sevdiğim için oyun oynayıp konuşuyordum.' },
+        { speaker: 'player', text: 'Sonra patladı.' },
+        { speaker: 'npc',    text: 'Bir video tuttu, sonra bir tane daha. Şimdi 1.2 milyon. Şikâyet etmiyorum — ama artık "oynamak" değil "çekmek" diyorum. Her oyuna "bu video olur mu" diye bakıyorum. O çocuk sadece oynardı.' },
+        { speaker: 'player', text: 'O çocuğu özlüyor musun?' },
+        { speaker: 'npc',    text: '(duraklar) ...Bazen. Kameranın kırmızı ışığı yanmadan oynadığım bir oyun hatırlamıyorum, uzun zamandır.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'max_t2_2',
+      tier: 2,
+      title: 'Algoritma',
+      lines: [
+        { speaker: 'npc',    text: 'Asıl patron algoritma kanka. Sevmediğim oyunu çekiyorum çünkü trend. Sevdiğim küçük oyunu çekemiyorum çünkü kimse tıklamaz.' },
+        { speaker: 'player', text: 'Akıntıya kapılmışsın gibi.' },
+        { speaker: 'npc',    text: '(acı gülüş) İyi dedin. Nehir gibi — bırakırsan sürükler.' },
+      ],
+      choices: [
+        {
+          text: 'Kendi akışını çizemez misin?',
+          lines: [{ speaker: 'npc', text: 'Denedim. Sevdiğim eski bir oyunu anlattım bir video — izlenme dipte. Ama yorumlar... "yıllardır en iyi videon" dediler. Belki ölçü izlenme değil. Belki unuttum bunu.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Trend kovalamak yorucu olmalı.',
+          lines: [{ speaker: 'npc', text: 'Tükeniyorum kanka, dürüst olayım. Gülümseyerek tükeniyorum, en kötüsü de bu. Kimse "Max iyi misin" demiyor, sadece "yeni video ne zaman" diyor.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'max_t3_1',
+      tier: 3,
+      title: 'Kayıtsız Bir Oyun',
+      lines: [
+        { speaker: 'npc',    text: '(arcade\'de, kamera yok) Sana bir şey itiraf edeyim mi. Seninle oyun konuşmak... iş gibi gelmiyor. Yıllardır ilk.' },
+        { speaker: 'player', text: 'Sadece konuşuyoruz işte.' },
+        { speaker: 'npc',    text: 'Aynen. Çekmiyoruz, tıklanma yok, sponsor yok. Sen gerçekten oyun seven birisin, ben de öyleydim — hâlâ öyleyim galiba, altında bir yerde.' },
+        { speaker: 'player', text: 'Hâlâ o çocuksun.' },
+        { speaker: 'npc',    text: '(uzun sessizlik, sonra gülümser) Bir şey yapalım mı? Bir akşam, kamera kapalı, sadece ikimiz, eski bir oyun. Kayıt yok. Sırf keyfine. Çok uzun zamandır birine "arkadaşım" diyecek vaktim olmadı — sen olur musun? İzleyici değil, arkadaş.' },
+      ],
+      ideaSeed: 'game_history',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2780,4 +2892,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   kai,
   elias,
   matteo,
+  max,
 }
