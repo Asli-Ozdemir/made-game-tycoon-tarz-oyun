@@ -177,6 +177,180 @@ for _, s in ipairs(SHIM_SEGS) do
 end
 print("Fog + ground + river done.")
 
+-- ── Foreground hill (left side, bottom-left ellipse) ─────
+print("Drawing foreground elements...")
+local HILL = Color{r=21, g=6, b=2, a=255}
+local HILL_W, HILL_H = 376, 92
+local HILL_CX = math.floor(HILL_W * 0.30)  -- = 113
+
+for y = H - HILL_H, H-1 do
+  local dy = y - H
+  for x = 0, HILL_W do
+    local dx = x - HILL_CX
+    local rx = dx < 0 and HILL_CX or (HILL_W - HILL_CX)
+    if rx > 0 then
+      local nx = dx / rx
+      local ny = dy / HILL_H
+      if nx*nx + ny*ny <= 1.02 then
+        px(x, y, HILL)
+      end
+    end
+  end
+end
+
+-- ── Pine trees ───────────────────────────────────────────
+local TREE_BASE = Color{r=18, g=5, b=0, a=255}
+
+local function drawTree(cx, scale, alpha)
+  local layers = {
+    { w=math.floor(13*scale), h=math.floor(9*scale)  },
+    { w=math.floor(17*scale), h=math.floor(11*scale) },
+    { w=math.floor(20*scale), h=math.floor(13*scale) },
+  }
+  local trunk_w = math.max(2, math.floor(3*scale))
+  local trunk_h = math.max(3, math.floor(5*scale))
+  local c = Color{r=lerp(0,TREE_BASE.red,alpha), g=lerp(0,TREE_BASE.green,alpha), b=lerp(0,TREE_BASE.blue,alpha), a=255}
+
+  local cur_y = GROUND_Y - trunk_h
+  for y = cur_y, GROUND_Y-1 do
+    for x = cx - math.floor(trunk_w/2), cx + math.floor(trunk_w/2) do px(x, y, c) end
+  end
+  for i = #layers, 1, -1 do
+    local L = layers[i]
+    local tri_bottom = cur_y
+    cur_y = cur_y - L.h + (i < #layers and math.floor(layers[i+1].h * 0.35) or 0)
+    for y = cur_y, tri_bottom do
+      local t = (y - cur_y) / math.max(1, L.h - 1)
+      local half_w = math.floor(L.w * t / 2)
+      for x = cx - half_w, cx + half_w do px(x, y, c) end
+    end
+  end
+end
+
+drawTree(math.floor(683*0.18),  1.0, 0.45)
+drawTree(math.floor(683*0.225), 0.78, 0.35)
+drawTree(math.floor(683*0.145), 0.60, 0.28)
+drawTree(math.floor(683*0.26),  0.50, 0.22)
+
+-- ── House / Garage ───────────────────────────────────────
+local HX   = 34
+local HY   = 239
+local HW   = 90
+local HH   = 60
+local RW   = 102
+local RH   = 33
+local RX   = 28
+local RY   = 206
+
+local BODY   = Color{r=46, g=17, b=6,  a=255}
+local ROOF   = Color{r=30, g=8,  b=3,  a=255}
+local ROOF_D = Color{r=20, g=5,  b=1,  a=255}
+local DOOR_C = Color{r=32, g=10, b=2,  a=255}
+local DOOR_B = Color{r=37, g=16, b=5,  a=255}
+local WIN_C  = Color{r=255,g=180,b=60, a=70 }
+local FRAME  = Color{r=58, g=18, b=8,  a=255}
+local FNDN   = Color{r=26, g=8,  b=4,  a=255}
+
+-- Gabled roof (triangle)
+for y = RY, HY - 1 do
+  local t  = (y - RY) / math.max(1, HY - 1 - RY)
+  local hw = math.floor(RW * 0.5 * (1 - t))
+  local cx = RX + math.floor(RW / 2)
+  local c  = (y == HY-1) and ROOF_D or ROOF
+  for x = cx - hw, cx + hw do px(x, y, c) end
+end
+-- Eave shadow
+rect(RX, HY-2, RX+RW-1, HY-1, ROOF_D)
+
+-- Body fill
+rect(HX, HY, HX+HW-1, GROUND_Y-1, BODY)
+-- Siding planks
+for i = 1, 7 do
+  local sy = HY + math.floor(i * HH / 8)
+  for x = HX, HX+HW-1 do px(x, sy, DOOR_C) end
+end
+-- Foundation strip
+rect(HX, GROUND_Y-3, HX+HW-1, GROUND_Y-1, FNDN)
+
+-- Side door
+local DX, DY, DW, DH = HX+5, HY+14, 14, 25
+rect(DX, DY, DX+DW-1, DY+DH-1, DOOR_C)
+rect(DX,   DY,   DX+DW-1, DY,   FRAME)
+rect(DX,   DY,   DX,       DY+DH-1, FRAME)
+rect(DX+DW-1, DY, DX+DW-1, DY+DH-1, FRAME)
+rect(DX+2, DY+2, DX+DW-3, DY+10, DOOR_B)
+rect(DX+2, DY+13, DX+DW-3, DY+22, DOOR_B)
+px(DX+DW-3, DY+14, Color{r=120,g=60,b=30,a=255})
+
+-- Window above door
+local WX, WY, WW, WH = HX+7, HY+5, 10, 7
+rect(WX, WY, WX+WW-1, WY+WH-1, WIN_C)
+rect(WX, WY, WX+WW-1, WY, FRAME)
+rect(WX, WY, WX, WY+WH-1, FRAME)
+rect(WX+WW-1, WY, WX+WW-1, WY+WH-1, FRAME)
+rect(WX, WY+WH-1, WX+WW-1, WY+WH-1, FRAME)
+for x = WX, WX+WW-1 do px(x, WY+3, FRAME) end
+px(WX+5, WY, FRAME) px(WX+5, WY+1, FRAME) px(WX+5, WY+2, FRAME)
+px(WX+5, WY+4, FRAME) px(WX+5, WY+5, FRAME)
+
+-- Garage door
+local GDX, GDW, GDH = HX+26, 38, 38
+local GDY = GROUND_Y - GDH
+rect(GDX, GDY, GDX+GDW-1, GROUND_Y-1, DOOR_C)
+for panel = 0, 4 do
+  local py = GDY + math.floor(panel * GDH / 5)
+  for x = GDX, GDX+GDW-1 do px(x, py, FRAME) end
+  for col = 1, 3 do
+    local gx = GDX + math.floor(col * GDW / 4)
+    px(gx, py+1, DOOR_B) px(gx, py+2, DOOR_B)
+  end
+end
+rect(GDX, GDY, GDX, GROUND_Y-1, FRAME)
+rect(GDX+GDW-1, GDY, GDX+GDW-1, GROUND_Y-1, FRAME)
+rect(GDX, GDY, GDX+GDW-1, GDY, FRAME)
+px(GDX+17, GROUND_Y-4, Color{r=90,g=40,b=20,a=255})
+px(GDX+18, GROUND_Y-4, Color{r=90,g=40,b=20,a=255})
+px(GDX+19, GROUND_Y-4, Color{r=90,g=40,b=20,a=255})
+
+-- Outdoor lamp
+rect(GDX, GDY-5, GDX+2, GDY-1, ROOF)
+rect(GDX-1, GDY-1, GDX+3, GDY-1, ROOF)
+px(GDX+1, GDY-2, Color{r=255,g=200,b=80,a=180})
+
+-- ── Chimney ──────────────────────────────────────────────
+local CX, CY, CW, CH = 97, RY+5, 9, 16
+local BRK1 = Color{r=42, g=16, b=8,  a=255}
+local BRK2 = Color{r=46, g=18, b=9,  a=255}
+rect(CX, CY, CX+CW-1, RY+CH, BRK1)
+for row = 0, 3 do
+  local by = CY + math.floor(row * CH / 4)
+  for x = CX, CX+CW-1 do px(x, by, ROOF_D) end
+  if row % 2 == 0 then
+    px(CX + math.floor(CW/2), by+1, BRK2)
+    px(CX + math.floor(CW/2), by+2, BRK2)
+  else
+    px(CX+2, by+1, BRK2)
+  end
+end
+rect(CX-2, CY, CX+CW+1, CY+2, ROOF_D)
+px(CX+2, CY-2, Color{r=180,g=140,b=120,a=50})
+px(CX+4, CY-3, Color{r=180,g=140,b=120,a=35})
+px(CX+3, CY-4, Color{r=180,g=140,b=120,a=25})
+
+-- Attic window in roof
+local AWX = RX + math.floor(RW/2) - 7
+local AWY = HY - 10
+rect(AWX, AWY, AWX+13, AWY+7, Color{r=255,g=190,b=70,a=40})
+rect(AWX, AWY, AWX+13, AWY, FRAME)
+rect(AWX, AWY, AWX, AWY+7, FRAME)
+rect(AWX+13, AWY, AWX+13, AWY+7, FRAME)
+rect(AWX, AWY+7, AWX+13, AWY+7, FRAME)
+for x = AWX, AWX+13 do px(x, AWY+3, FRAME) end
+px(AWX+6, AWY, FRAME) px(AWX+6, AWY+1, FRAME) px(AWX+6, AWY+2, FRAME)
+px(AWX+6, AWY+4, FRAME) px(AWX+6, AWY+5, FRAME)
+
+print("Foreground elements done.")
+
 spr:saveCopyAs(OUTPUT)
 print("Saved: " .. OUTPUT)
 app.exit()
