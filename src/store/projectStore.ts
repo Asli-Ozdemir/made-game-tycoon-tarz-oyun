@@ -9,6 +9,7 @@ import { useMarketStore } from '@/store/marketStore'
 import { useNewsStore } from '@/store/newsStore'
 import { generateMediaReactions } from '@/engine/mediaReactionEngine'
 import { VERDICT, scoreToBand } from '@/data/mediaOutlets'
+import { useInterviewStore } from '@/store/interviewStore'
 import type { GameProject, PublishResult, ProjectScope } from '@/types'
 import { SEASONS } from '@/types'
 
@@ -92,6 +93,12 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
     } else if (project?.contentType === 'guncelleme') {
       get().applyFollowUpEffect(project.parentProjectId, 'guncelleme', project.scope)
       useGameStore.getState().gainReputation(3)
+    }
+    // Röportaj roll'u (bazen) — yayın başına deterministik rastgele
+    if (project) {
+      const publishCount = useGameStore.getState().totalPublished
+      const rnd = Math.abs(Math.sin(tickCount * 12.9898) * 43758.5453) % 1
+      useInterviewStore.getState().rollInterview(scoreToBand(result.score), publishCount, result.revenue, rnd)
     }
   },
 

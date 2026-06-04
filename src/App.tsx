@@ -38,6 +38,7 @@ import CrisisModal      from '@/components/CrisisModal'
 import BankruptcyScreen from '@/components/BankruptcyScreen'
 import { useMarketStore } from '@/store/marketStore'
 import OfferModal from '@/components/OfferModal'
+import InterviewModal from '@/components/InterviewModal'
 import MarketPanel from '@/components/MarketPanel'
 import { useCampaignStore } from '@/store/campaignStore'
 import SocialEventToast from '@/components/SocialEventToast'
@@ -288,6 +289,7 @@ export default function App() {
       {pendingEventModal !== null && <IndustryEventModal />}
       <IndustryEventPanel />
       {showSavePanel && <SaveLoadPanel />}
+      <InterviewModal />
 
     </div>
     {/* Cutscene overlay — main div dışında, fixed pozisyon için containment yok */}
