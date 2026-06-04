@@ -101,6 +101,82 @@ for _, b in ipairs(BLDGS) do
   end
 end
 
+-- ── Fog band (above ground, y=270-299) ──────────────────
+print("Drawing fog + ground + river...")
+for y = 270, GROUND_Y - 1 do
+  local t = (y - 270) / (GROUND_Y - 1 - 270)
+  for x = 0, W-1 do
+    local existing = img:getPixel(x, y)
+    local er = math.floor(existing / 65536) % 256
+    local eg = math.floor(existing / 256)   % 256
+    local eb = existing                      % 256
+    local fog_a = t * 0.55
+    local c = Color{
+      r = lerp(er, 46, fog_a),
+      g = lerp(eg, 26, fog_a),
+      b = lerp(eb, 68, fog_a),
+      a = 255,
+    }
+    px(x, y, c)
+  end
+end
+
+-- ── Ground (y=299 to bottom) ─────────────────────────────
+local GND = Color{r=26, g=8, b=4, a=255}
+rect(0, GROUND_Y, W-1, H-1, GND)
+
+-- ── River ────────────────────────────────────────────────
+local function cubicBez(p0, p1, p2, p3, t)
+  local u = 1 - t
+  return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3
+end
+
+local SEG = {
+  { -14,323,  55,330, 109,346, 191,342 },
+  { 191,342, 260,338, 300,338, 362,334 },
+  { 362,334, 424,330, 478,326, 560,330 },
+  { 560,330, 615,334, 656,330, 697,326 },
+}
+
+local RIV_FILL = Color{r=28, g=65, b=155, a=255}
+local RIV_LINE = Color{r=90, g=160,b=255, a=255}
+local RIV_SHIM = Color{r=160,g=210,b=255, a=255}
+
+local STEPS = 300
+for _, seg in ipairs(SEG) do
+  local x0,y0,cx1,cy1,cx2,cy2,x1,y1 = seg[1],seg[2],seg[3],seg[4],seg[5],seg[6],seg[7],seg[8]
+  for i = 0, STEPS do
+    local t  = i / STEPS
+    local rx = math.floor(cubicBez(x0,cx1,cx2,x1, t))
+    local ry = math.floor(cubicBez(y0,cy1,cy2,y1, t))
+    for dy = -2, 5 do
+      local alpha = (dy == -2 or dy == 5) and 0.25 or
+                    (dy == -1 or dy == 4) and 0.55 or 0.85
+      local c = Color{
+        r = lerp(26, RIV_FILL.red,   alpha),
+        g = lerp(8,  RIV_FILL.green, alpha),
+        b = lerp(4,  RIV_FILL.blue,  alpha),
+        a = 255,
+      }
+      px(rx, ry + dy, c)
+    end
+    px(rx, ry - 1, RIV_LINE)
+  end
+end
+
+local SHIM_SEGS = {
+  { 80, 335, 105, 333 }, { 250, 338, 270, 336 },
+  { 380, 330, 400, 329 }, { 540, 331, 560, 329 },
+}
+for _, s in ipairs(SHIM_SEGS) do
+  for x = s[1], s[3] do
+    local t = (x - s[1]) / (s[3] - s[1])
+    local sy = math.floor(s[2] + t * (s[4] - s[2]))
+    px(x, sy, RIV_SHIM)
+  end
+end
+print("Fog + ground + river done.")
+
 spr:saveCopyAs(OUTPUT)
 print("Saved: " .. OUTPUT)
 app.exit()
