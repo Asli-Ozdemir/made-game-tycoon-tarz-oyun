@@ -8,19 +8,25 @@ import { TILE_SIZE } from './mapData'
 import { coastHomeRoom }   from './rooms/coastHomeRoom'
 import { coastDocksRoom }  from './rooms/coastDocksRoom'
 import { coastCenterRoom } from './rooms/coastRoom'
+import { coastWestRoom }   from './rooms/coastWestRoom'
 import { bridgeRoom }      from './rooms/bridgeRoom'
 import { cityCoreRoom }    from './rooms/cityRoom'
+import { cityCultureRoom } from './rooms/cityCultureRoom'
+import { cityEdgeRoom }    from './rooms/cityEdgeRoom'
 import { cityParkRoom }    from './rooms/parkRoom'
 import type { RoomDef }    from './rooms/types'
 import type { RoomId }     from './rooms/types'
 
 const ROOMS: Partial<Record<RoomId, RoomDef>> = {
-  coast_home:   coastHomeRoom,
-  coast_docks:  coastDocksRoom,
-  coast_center: coastCenterRoom,
-  bridge:       bridgeRoom,
-  city_core:    cityCoreRoom,
-  city_park:    cityParkRoom,
+  coast_home:    coastHomeRoom,
+  coast_docks:   coastDocksRoom,
+  coast_center:  coastCenterRoom,
+  coast_west:    coastWestRoom,
+  bridge:        bridgeRoom,
+  city_core:     cityCoreRoom,
+  city_culture:  cityCultureRoom,
+  city_edge:     cityEdgeRoom,
+  city_park:     cityParkRoom,
 }
 
 let app: Application | null = null
