@@ -11,11 +11,14 @@ interface NPCState {
 interface NPCStore {
   npcs: Record<string, NPCState>
   gainMultipliers: Record<string, number>
+  relationshipCaps: Record<string, number>
   getRelationship: (npcId: string) => number
+  getRelationshipCap: (npcId: string) => number
   getTier: (npcId: string) => 1 | 2 | 3
   hasSeenDialogue: (npcId: string, dialogueId: string) => boolean
   completeDialogue: (npcId: string, dialogueId: string, bonus: number) => void
   penalizeNpc: (npcId: string) => void
+  capRelationship: (npcId: string, max: number) => void
   adjustRelationship: (npcId: string, delta: number) => void
   getAvailableDialogues: (npcId: string) => Dialogue[]
 }
@@ -39,9 +42,14 @@ function initMultipliers(): Record<string, number> {
 export const useNPCStore = create<NPCStore>((set, get) => ({
   npcs: initNpcs(),
   gainMultipliers: initMultipliers(),
+  relationshipCaps: {},
 
   getRelationship(npcId) {
     return get().npcs[npcId]?.relationship ?? 0
+  },
+
+  getRelationshipCap(npcId) {
+    return get().relationshipCaps[npcId] ?? 100
   },
 
   getTier(npcId) {
@@ -65,12 +73,13 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
       const skillMult  = getSkillBonuses().relationshipGainMult
       const effectiveBonus = alreadySeen ? 0 : bonus * multiplier * skillMult
       const newMultiplier = alreadySeen ? multiplier : Math.min(1.0, multiplier + 0.05)
+      const cap = s.relationshipCaps[npcId] ?? 100
 
       return {
         npcs: {
           ...s.npcs,
           [npcId]: {
-            relationship: Math.min(100, prev.relationship + effectiveBonus),
+            relationship: Math.min(cap, prev.relationship + effectiveBonus),
             seenDialogueIds: alreadySeen
               ? prev.seenDialogueIds
               : [...prev.seenDialogueIds, dialogueId],
@@ -103,13 +112,30 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
     })
   },
 
-  adjustRelationship(npcId, delta) {
+  capRelationship(npcId, max) {
     set((s) => {
       const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
       return {
+        relationshipCaps: { ...s.relationshipCaps, [npcId]: max },
         npcs: {
           ...s.npcs,
-          [npcId]: { ...prev, relationship: Math.max(0, Math.min(100, prev.relationship + delta)) },
+          [npcId]: { ...prev, relationship: Math.min(prev.relationship, max) },
+        },
+      }
+    })
+  },
+
+  adjustRelationship(npcId, delta) {
+    set((s) => {
+      const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
+      const cap = s.relationshipCaps[npcId] ?? 100
+      return {
+        npcs: {
+          ...s.npcs,
+          [npcId]: {
+            ...prev,
+            relationship: Math.max(0, Math.min(cap, prev.relationship + delta)),
+          },
         },
       }
     })
