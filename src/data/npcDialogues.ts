@@ -42,7 +42,7 @@ export type NPCId =
   // Romantizm adayları
   | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
   // Gamer kasabalılar
-  | 'max'
+  | 'max' | 'vince'
 
 export interface NPCDef {
   id: NPCId
@@ -2867,6 +2867,116 @@ const max: NPCDef = {
   ],
 }
 
+// ─── VINCE (gamer kasabalı) ──────────────────────────────────────────────────
+
+const vince: NPCDef = {
+  id: 'vince',
+  name: 'Vince',
+  role: 'İçerik Üreticisi',
+  philosophy: 'Gamer kasabalı (kurulu YouTuber, VinceVault 2.1M) — Alaycı/sayı-odaklı veteran: tıklanma kralı; akıntıya (algoritmaya) bilerek kapılmış, hâlâ umursayanı kıskanan gri bir figür.',
+  emoji: '🕹️',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'vince_t1_1',
+      tier: 1,
+      title: 'Rakamlarını Gördüm',
+      lines: [
+        { speaker: 'npc',    text: '(seni süzer) Şu yeni stüdyo sensin demek. Oyununun ilk hafta rakamlarını gördüm. Fena değil. Ölmemişsin, ölememişsin de.' },
+        { speaker: 'player', text: 'Sen kimsin?' },
+        { speaker: 'npc',    text: 'VinceVault. 2.1 milyon. Bu şehirde adımı duymadıysan, demek pazarlamayı da beceremiyorsun. Max sana çay ısmarlar, gülümser; ben öyle değilim. Ben sana ne işime yararsın onu söylerim.' },
+        { speaker: 'player', text: 'Açık sözlüsün bari.' },
+        { speaker: 'npc',    text: 'Açık sözlülük ucuz. Ben dürüstüm — farkı bilirsen, belki bir şey öğrenirsin.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'vince_t1_2',
+      tier: 1,
+      title: 'Tıklanıyor mu',
+      lines: [
+        { speaker: 'npc',    text: 'Bana oyunun "iyi mi" diye sorma. Yanlış soru. Doğru soru: tıklanıyor mu? Konuşuluyor mu? Gerisi sanatçı edebiyatı.' },
+        { speaker: 'player', text: 'Oyunun iyi olması önemli değil mi?' },
+        { speaker: 'npc',    text: '"İyi" kimin ölçüsü? Ben on yıl önce remzi oyunları öve öve bitiremezdim, üç kişi izledi. Çöp dediğim oyunu kapladım, milyon izlendi. Sen söyle, hangisi doğruydu.' },
+      ],
+      choices: [
+        {
+          text: 'Sayılar her şeyi söylemez.',
+          lines: [{ speaker: 'npc', text: '(omuz silker) Söylemez. Ama faturayı sayılar öder, duygular değil. İdealini rafa koy, kira kapıyı çalınca bakarız.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Sektörü iyi tanıyorsun.',
+          lines: [{ speaker: 'npc', text: 'Yirmi yıldır içindeyim. Hangi tür ne zaman patladı, hangi stüdyo neyle battı — ezbere bilirim. Bilgi güç değil; bilgiyi kullanmak güç. Çoğu bunu karıştırır.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'vince_t2_1',
+      tier: 2,
+      title: 'Ben de Severdim',
+      lines: [
+        { speaker: 'npc',    text: 'Bana hep "kalpsiz" derler. Komik. Ben de senin gibiydim bir zamanlar — geceyi sabaha bağlardım bir oyun için, bedavaya.' },
+        { speaker: 'player', text: 'Ne değişti?' },
+        { speaker: 'npc',    text: 'Sevdiğim şeyi anlattım, kimse dinlemedi. Aç kaldım. Sonra formülü çözdüm: insanlar oyunu değil, tepkiyi izliyor. Bağır, abart, tıklat. O gün "Vince" öldü, "VinceVault" doğdu. Cebim doldu.' },
+        { speaker: 'player', text: 'Buna değdi mi?' },
+        { speaker: 'npc',    text: '(kısa sessizlik) Cebime sor, değdi der. Gerisini sorma.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'vince_t2_2',
+      tier: 2,
+      title: 'Akıntı',
+      lines: [
+        { speaker: 'npc',    text: 'Şu nehri görüyor musun? Akıntıya karşı kürek çeken aptal, akıntıyla giden zengin olur. Algoritma da öyle. Ben akıntıyla gidiyorum, utanmıyorum.' },
+        { speaker: 'player', text: 'Nehrin karşısında da böyle düşünen biri var. Crane.' },
+        { speaker: 'npc',    text: '(ilk kez gerçekten güler) Crane\'i tanırım. Adam haklı — "sevgi ucuzlar, korku tutar" demiş. Ben de eklerim: tıklanma sevgiyi yener. Aynı nehrin iki yakası değiliz biz; aynı sudayız.' },
+      ],
+      choices: [
+        {
+          text: 'Akıntıya kapılmak da bir seçim.',
+          lines: [{ speaker: 'npc', text: '(durur) ...Sartre mı okudun sen? Tamam, seçim. Ben seçtim. Her sabah da yeniden seçiyorum. Pişman değilim — sadece bazen, çok bazen, kürek çekenlere bakıyorum.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Para her boşluğu doldurmaz.',
+          lines: [{ speaker: 'npc', text: 'Doldurmaz. Ama boşluğu en iyi para susturur. Sen idealinle aç kal, ben boşluğumla tok uyuyayım. İkimiz de bir bedel ödüyoruz; benimki daha rahat bir yatak.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk — gri) ───
+    {
+      id: 'vince_t3_1',
+      tier: 3,
+      title: 'Kürek Çekenler',
+      lines: [
+        { speaker: 'npc',    text: '(arcade, geç saat, kalabalık gitmiş) Sana niye takıldım biliyor musun? Çünkü hâlâ umursuyorsun. Sinir bozucu. Ve... kıskandırıcı.' },
+        { speaker: 'player', text: 'Sen de umursayabilirsin.' },
+        { speaker: 'npc',    text: 'Hayır. O kapı kapandı, bilerek kapattım. Geri açarsam, kaybettiğim on yılı görmem gerekir — ona dayanamam. (duraklar) Ama şunu yapacağım: senin oyunlarını dürüst kaplayacağım. Abartmadan, gömemeden. Bu benden birine "saygı"nın en yakın hali.' },
+        { speaker: 'player', text: 'Bu bir dostluk mu?' },
+        { speaker: 'npc',    text: '(omuz silker, ama gözleri yumuşak) Benim verebileceğim kadarı. Sen kürek çekmeye devam et. Ben kıyıdan bakar, ara sıra... su nasıl diye sorarım. Bana hikâyeni anlat, ben de sektörün tüm pis sırlarını. Adil takas.' },
+      ],
+      ideaSeed: 'game_history',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -2893,4 +3003,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   elias,
   matteo,
   max,
+  vince,
 }
