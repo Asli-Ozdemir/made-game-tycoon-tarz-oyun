@@ -1876,6 +1876,7 @@ const rosa: NPCDef = {
   philosophy: 'Romantizm adayı — Güneş-masum: neşeli, beceriksizce şirin; babasının kaybını taşır, "Aldo\'nun yeğeni"nden fazlası olarak görülmek ister.',
   emoji: '🥐',
   gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -1986,6 +1987,7 @@ const iris: NPCDef = {
   philosophy: 'Romantizm adayı — Alaycı kariyerci: keskin dilli, mesafeli, hırslı; sertliğinin altında doğruya tutkuyla bağlı kırılgan biri.',
   emoji: '📰',
   gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2096,6 +2098,7 @@ const sigrid: NPCDef = {
   philosophy: 'Romantizm adayı — Sert tomboy: dobra, eylem insanı, kimseye muhtaç değil; altında derin sadakat ve yaslanmaktan korkan bir yürek.',
   emoji: '⚓',
   gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2206,6 +2209,7 @@ const liv: NPCDef = {
   philosophy: 'Romantizm adayı — Dingin şefaatçi: sakin, sabırlı toprak ana; herkesin bahçesini sular ama kendi ihtiyaçlarını erteler, o da büyümek ister.',
   emoji: '🌿',
   gender: 'female',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2316,6 +2320,7 @@ const bjorn: NPCDef = {
   philosophy: 'Romantizm adayı — Nazik dev: az konuşan, ağır, sade; ünlü ağabeyinin gölgesinde, kendisi olarak görülmek isteyen en sıcak el.',
   emoji: '🔧',
   gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2426,6 +2431,7 @@ const kai: NPCDef = {
   philosophy: 'Romantizm adayı — Kibirli altın oğlan: çalımlı, kendine hayran, hep kahraman pozunda; altında "kurtaran olmazsam değersizim" korkusu taşıyan yorgun biri.',
   emoji: '🏊',
   gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2536,6 +2542,7 @@ const elias: NPCDef = {
   philosophy: 'Romantizm adayı — Hevesli şifacı: uykusuz idealist, kendine bakmayı unutur; herkesi kurtaramayınca yıkılır, durmayı öğrenmeli.',
   emoji: '🩻',
   gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2646,6 +2653,7 @@ const matteo: NPCDef = {
   philosophy: 'Romantizm adayı — Çapkın gönül adamı: herkesle flört eden, bağlanmaktan kaçan; altında gerçek bir bağ özler, reddedilmekten korkar.',
   emoji: '🍲',
   gender: 'male',
+  isRomanceCandidate: true,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
