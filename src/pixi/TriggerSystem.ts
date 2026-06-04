@@ -17,21 +17,22 @@ export function getActiveTrigger(triggers: TriggerDef[], px: number, py: number)
 }
 
 const LOCATION_MAP: Record<string, LocationId> = {
-  cafe_door:     'cafe',
-  fair_entrance: 'fair',
-  akademi_door:  'akademi',
-  sahaf_door:    'sahaf',
-  balikci_door:  'balikci',
-  pub_door:      'pub',
-  yatak:         'sleep',
-  arcade_door:   'arcade',
-  clara_door:    'lawyers_office',
-  nehir:         'nehir',
+  cafe_door:       'cafe',
+  fair_entrance:   'fair',
+  akademi_door:    'akademi',
+  sahaf_door:      'sahaf',
+  balikci_door:    'balikci',
+  pub_door:        'pub',
+  yatak:           'sleep',
+  arcade_door:     'arcade',
+  clara_door:      'lawyers_office',
+  nehir:           'nehir',
+  investor_office: 'emlakcilik',
 }
 
 const PLACEHOLDER_TRIGGERS = new Set([
   'cicekci_door', 'kuyumcu_door',
-  'nexus_building', 'investor_office',
+  'nexus_building',
 ])
 
 export function handleTrigger(triggerName: string): void {
