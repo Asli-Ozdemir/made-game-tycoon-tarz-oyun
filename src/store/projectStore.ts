@@ -6,7 +6,11 @@ import { useEmployeeStore } from '@/store/employeeStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useMarketStore } from '@/store/marketStore'
+import { useNewsStore } from '@/store/newsStore'
+import { generateMediaReactions } from '@/engine/mediaReactionEngine'
+import { VERDICT, scoreToBand } from '@/data/mediaOutlets'
 import type { GameProject, PublishResult, ProjectScope } from '@/types'
+import { SEASONS } from '@/types'
 
 interface ProjectStoreState {
   projects: GameProject[]
@@ -51,22 +55,35 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
 
   publishProject: (id, result) => {
     const tickCount = useTimeStore.getState().tickCount
-    const year = useTimeStore.getState().date.year
+    const date = useTimeStore.getState().date
+    const target = get().projects.find((p) => p.id === id)
+    const media = target ? generateMediaReactions(result, target, {}) : undefined
+    const resultWithMedia = { ...result, media }
     set((s) => ({
       projects: s.projects.map((p) =>
         p.id === id
           ? {
               ...p,
               status: 'yayinlandi',
-              publishResult: result,
+              publishResult: resultWithMedia,
               publishTickCount: tickCount,
-              publishYear: year,
+              publishYear: date.year,
               publishScore: result.score,
             }
           : p
       ),
     }))
-    const project = get().projects.find(p => p.id === id)
+    const project = get().projects.find((p) => p.id === id)
+    if (project) {
+      const seasonIdx = SEASONS.indexOf(date.season)
+      useNewsStore.getState().addItem({
+        type: 'player_mention',
+        rivalId: null,
+        text: `"${project.name}" yayında — ${VERDICT[scoreToBand(result.score)]} (Metaskor ${result.score})`,
+        year: date.year,
+        season: seasonIdx,
+      })
+    }
     if (project?.platformId) {
       useMarketStore.getState().applyReactiveDelta(project.platformId, -3)
     }
