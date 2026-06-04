@@ -5,6 +5,8 @@ import { useWorldStore } from '@/store/worldStore'
 import { WorldScene } from './WorldScene'
 import { Player } from './Player'
 import { TILE_SIZE } from './mapData'
+import { coastHomeRoom }   from './rooms/coastHomeRoom'
+import { coastDocksRoom }  from './rooms/coastDocksRoom'
 import { coastCenterRoom } from './rooms/coastRoom'
 import { bridgeRoom }      from './rooms/bridgeRoom'
 import { cityCoreRoom }    from './rooms/cityRoom'
@@ -13,6 +15,8 @@ import type { RoomDef }    from './rooms/types'
 import type { RoomId }     from './rooms/types'
 
 const ROOMS: Partial<Record<RoomId, RoomDef>> = {
+  coast_home:   coastHomeRoom,
+  coast_docks:  coastDocksRoom,
   coast_center: coastCenterRoom,
   bridge:       bridgeRoom,
   city_core:    cityCoreRoom,
