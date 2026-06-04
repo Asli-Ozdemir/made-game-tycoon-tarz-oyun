@@ -247,7 +247,7 @@ local ROOF   = Color{r=30, g=8,  b=3,  a=255}
 local ROOF_D = Color{r=20, g=5,  b=1,  a=255}
 local DOOR_C = Color{r=32, g=10, b=2,  a=255}
 local DOOR_B = Color{r=37, g=16, b=5,  a=255}
-local WIN_C  = Color{r=255,g=180,b=60, a=70 }
+local WIN_C  = Color{r=90, g=55, b=20, a=255}
 local FRAME  = Color{r=58, g=18, b=8,  a=255}
 local FNDN   = Color{r=26, g=8,  b=4,  a=255}
 
@@ -333,14 +333,14 @@ for row = 0, 3 do
   end
 end
 rect(CX-2, CY, CX+CW+1, CY+2, ROOF_D)
-px(CX+2, CY-2, Color{r=180,g=140,b=120,a=50})
-px(CX+4, CY-3, Color{r=180,g=140,b=120,a=35})
-px(CX+3, CY-4, Color{r=180,g=140,b=120,a=25})
+px(CX+2, CY-2, Color{r=104,g=50, b=82, a=255})
+px(CX+4, CY-3, Color{r=97, g=38, b=77, a=255})
+px(CX+3, CY-4, Color{r=93, g=33, b=75, a=255})
 
 -- Attic window in roof
 local AWX = RX + math.floor(RW/2) - 7
 local AWY = HY - 10
-rect(AWX, AWY, AWX+13, AWY+7, Color{r=255,g=190,b=70,a=40})
+rect(AWX, AWY, AWX+13, AWY+7, Color{r=68, g=38, b=14, a=255})
 rect(AWX, AWY, AWX+13, AWY, FRAME)
 rect(AWX, AWY, AWX, AWY+7, FRAME)
 rect(AWX+13, AWY, AWX+13, AWY+7, FRAME)
