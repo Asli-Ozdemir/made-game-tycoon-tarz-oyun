@@ -16,6 +16,7 @@ interface NPCStore {
   hasSeenDialogue: (npcId: string, dialogueId: string) => boolean
   completeDialogue: (npcId: string, dialogueId: string, bonus: number) => void
   penalizeNpc: (npcId: string) => void
+  adjustRelationship: (npcId: string, delta: number) => void
   getAvailableDialogues: (npcId: string) => Dialogue[]
 }
 
@@ -97,6 +98,18 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
         gainMultipliers: {
           ...s.gainMultipliers,
           [npcId]: 0.5,
+        },
+      }
+    })
+  },
+
+  adjustRelationship(npcId, delta) {
+    set((s) => {
+      const prev = s.npcs[npcId] ?? { relationship: 0, seenDialogueIds: [] }
+      return {
+        npcs: {
+          ...s.npcs,
+          [npcId]: { ...prev, relationship: Math.max(0, Math.min(100, prev.relationship + delta)) },
         },
       }
     })
