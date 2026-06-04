@@ -154,6 +154,21 @@ describe('emlakcilikStore — makeOffer signals', () => {
     useEmlakcilikStore.getState().makeOffer(50_000)
     expect(useEmlakcilikStore.getState().completedDealIds).not.toContain('sahaf_binasi')
   })
+
+  it('increments offerCount on walked offer', () => {
+    reachNegotiation('sahaf_binasi', 70_000)
+    useEmlakcilikStore.getState().makeOffer(71_000) // walked
+    expect(useEmlakcilikStore.getState().offerCount).toBe(1)
+  })
+
+  it('moves to result phase after 3rd walked offer', () => {
+    reachNegotiation('sahaf_binasi', 70_000)
+    useEmlakcilikStore.getState().makeOffer(71_000) // walked
+    useEmlakcilikStore.getState().makeOffer(71_000) // walked
+    useEmlakcilikStore.getState().makeOffer(71_000) // walked
+    expect(useEmlakcilikStore.getState().phase).toBe('result')
+    expect(useEmlakcilikStore.getState().completedDealIds).not.toContain('sahaf_binasi')
+  })
 })
 
 // ─── endDeal (success) ────────────────────────────────────────────────────────
