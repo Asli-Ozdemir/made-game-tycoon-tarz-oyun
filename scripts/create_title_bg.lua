@@ -104,7 +104,7 @@ end
 -- ── Fog band (above ground, y=270-299) ──────────────────
 print("Drawing fog + ground + river...")
 for y = 270, GROUND_Y - 1 do
-  local t = (y - 270) / (GROUND_Y - 1 - 270)
+  local t = (y - 270) / math.max(1, GROUND_Y - 1 - 270)
   for x = 0, W-1 do
     local existing = img:getPixel(x, y)
     local er = math.floor(existing / 65536) % 256
@@ -170,7 +170,7 @@ local SHIM_SEGS = {
 }
 for _, s in ipairs(SHIM_SEGS) do
   for x = s[1], s[3] do
-    local t = (x - s[1]) / (s[3] - s[1])
+    local t = (x - s[1]) / math.max(1, s[3] - s[1])
     local sy = math.floor(s[2] + t * (s[4] - s[2]))
     px(x, sy, RIV_SHIM)
   end
