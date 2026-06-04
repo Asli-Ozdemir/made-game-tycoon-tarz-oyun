@@ -5,16 +5,18 @@ import { useWorldStore } from '@/store/worldStore'
 import { WorldScene } from './WorldScene'
 import { Player } from './Player'
 import { TILE_SIZE } from './mapData'
-import { coastRoom } from './rooms/coastRoom'
-import { bridgeRoom } from './rooms/bridgeRoom'
-import { cityRoom } from './rooms/cityRoom'
-import type { RoomDef } from './rooms/types'
-import type { RoomId } from './rooms/types'
+import { coastCenterRoom } from './rooms/coastRoom'
+import { bridgeRoom }      from './rooms/bridgeRoom'
+import { cityCoreRoom }    from './rooms/cityRoom'
+import { cityParkRoom }    from './rooms/parkRoom'
+import type { RoomDef }    from './rooms/types'
+import type { RoomId }     from './rooms/types'
 
-const ROOMS: Record<RoomId, RoomDef> = {
-  coast:  coastRoom,
-  bridge: bridgeRoom,
-  city:   cityRoom,
+const ROOMS: Partial<Record<RoomId, RoomDef>> = {
+  coast_center: coastCenterRoom,
+  bridge:       bridgeRoom,
+  city_core:    cityCoreRoom,
+  city_park:    cityParkRoom,
 }
 
 let app: Application | null = null
@@ -46,7 +48,7 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
   worldScene = new WorldScene(app)
 
   const startRoomId = useWorldStore.getState().currentRoomId
-  const startRoom = ROOMS[startRoomId]
+  const startRoom = ROOMS[startRoomId] ?? coastCenterRoom
   worldScene.loadRoom(startRoom)
 
   const spawn = startRoom.spawnPoints.default ?? { x: 24 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 }
@@ -71,6 +73,7 @@ export async function initGame(container: HTMLDivElement): Promise<Application> 
 export function transitionToRoom(pendingRoomId: RoomId, fromRoomId: RoomId): void {
   if (!worldScene || !player) return
   const room = ROOMS[pendingRoomId]
+  if (!room) return
   worldScene.loadRoom(room)
   const spawnKey = `from_${fromRoomId}` as `from_${RoomId}`
   const spawn = room.spawnPoints[spawnKey] ?? room.spawnPoints.default ?? { x: 24 * TILE_SIZE + 16, y: TILE_SIZE + 16 }

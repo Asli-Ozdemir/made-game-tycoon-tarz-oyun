@@ -68,7 +68,7 @@ const case01: DetectiveCase = {
   id: 'case_01',
   title: 'Parkta Kayıp Evrak',
   dayLimit: 4,
-  location: 'park',
+  location: 'city_park',
   detectiveMood: 1,
   culpritId: 'suspect_mete',
   dayClues: [
@@ -162,7 +162,7 @@ const case02: DetectiveCase = {
   id: 'case_02',
   title: 'Kuyumcu Soygunu',
   dayLimit: 5,
-  location: 'city',
+  location: 'city_core',
   detectiveMood: 1,
   culpritId: 'suspect_kadir',
   dayClues: [
@@ -276,7 +276,7 @@ const case03: DetectiveCase = {
   id: 'case_03',
   title: 'Limanın Kayıp Teknesi',
   dayLimit: 5,
-  location: 'coast',
+  location: 'coast_center',
   detectiveMood: 2,
   culpritId: 'suspect_nikos',
   dayClues: [

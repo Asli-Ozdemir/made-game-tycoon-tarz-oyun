@@ -21,7 +21,7 @@ interface WorldStore {
 export const useWorldStore = create<WorldStore>((set, get) => ({
   gameMode: 'exploration',
   currentLocation: null,
-  currentRoomId: 'coast',
+  currentRoomId: 'coast_center',
   transitionState: 'idle',
   pendingRoomId: null,
   setGameMode: (mode) => set({ gameMode: mode }),
