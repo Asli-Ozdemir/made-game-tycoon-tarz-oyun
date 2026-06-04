@@ -1,8 +1,8 @@
 import type { RoomDef } from './types'
 import { TILE_SIZE } from '../mapData'
 
-export const coastRoom: RoomDef = {
-  id: 'coast',
+export const coastCenterRoom: RoomDef = {
+  id: 'coast_center',
   widthTiles: 50,
   heightTiles: 22,   // rows 0–21
   zones: [
