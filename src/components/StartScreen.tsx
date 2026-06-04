@@ -84,7 +84,7 @@ export default function StartScreen() {
       <div style={{
         position: 'absolute',
         left: 'calc(5% + 42px)',
-        bottom: 'calc(22% + 58px)',
+        bottom: 'calc(22% + 70px)',
         width: 28, height: 16,
         background: 'rgba(255,190,70,0.0)',
         boxShadow: '0 0 14px 6px rgba(255,180,60,0.35)',
