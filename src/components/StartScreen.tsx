@@ -159,7 +159,173 @@ export default function StartScreen() {
         />
       ))}
 
-      {/* Layer 9: UI overlay — logo + menu (Task 4) */}
+      {/* Layer 9: UI overlay — logo + menu */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center"
+        style={{ zIndex: 10, marginTop: '-4%' }}
+      >
+        {/* Pixel art logo */}
+        <img
+          src={logoSrc}
+          alt="Magenta Reach"
+          style={{ imageRendering: 'pixelated', width: 384, height: 108 }}
+        />
+
+        {/* Menu buttons */}
+        <div className="flex flex-col items-center mt-8" style={{ gap: 8 }}>
+          {/* NEW GAME */}
+          <button
+            onClick={() => setOverlay('new')}
+            style={{
+              padding: '6px 24px',
+              border: '1px solid rgba(220,55,115,0.5)',
+              color: '#f0a0c0',
+              background: 'rgba(192,24,95,0.08)',
+              fontFamily: 'monospace',
+              fontSize: 11,
+              letterSpacing: 3,
+              borderRadius: 2,
+              cursor: 'pointer',
+              transition: 'border-color 0.15s, box-shadow 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(220,55,115,1)'
+              e.currentTarget.style.boxShadow = '0 0 10px rgba(192,24,95,0.35)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(220,55,115,0.5)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            NEW GAME
+          </button>
+
+          {/* CONTINUE */}
+          <button
+            onClick={() => hasSave && setOverlay('continue')}
+            disabled={!hasSave}
+            style={{
+              padding: '6px 24px',
+              border: '1px solid rgba(255,255,255,0.15)',
+              color: hasSave ? '#aaaacc' : '#444458',
+              background: 'transparent',
+              fontFamily: 'monospace',
+              fontSize: 11,
+              letterSpacing: 3,
+              borderRadius: 2,
+              cursor: hasSave ? 'pointer' : 'default',
+              transition: 'border-color 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              if (!hasSave) return
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
+            }}
+          >
+            CONTINUE
+          </button>
+
+          {/* EXIT */}
+          <button
+            onClick={() => window.close()}
+            style={{
+              padding: '4px 24px',
+              border: 'none',
+              color: '#666688',
+              background: 'transparent',
+              fontFamily: 'monospace',
+              fontSize: 11,
+              letterSpacing: 3,
+              cursor: 'pointer',
+              transition: 'color 0.15s',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#9999aa' }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = '#666688' }}
+          >
+            EXIT
+          </button>
+        </div>
+      </div>
+
+      {/* Slot picker overlay */}
+      {overlay !== 'none' && (
+        <div
+          className="fixed inset-0 flex items-center justify-center"
+          style={{ zIndex: 20, background: 'rgba(5,2,15,0.75)', backdropFilter: 'blur(4px)' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setOverlay('none') }}
+        >
+          <div
+            className="flex flex-col items-center gap-6"
+            style={{ padding: 32 }}
+          >
+            <div style={{ color: '#c8a87a', fontFamily: 'monospace', fontSize: 10, letterSpacing: 4, opacity: 0.7 }}>
+              {overlay === 'new' ? 'SELECT SLOT' : 'LOAD GAME'}
+            </div>
+
+            <div className="flex gap-4">
+              {slots.map((slot) => {
+                const isDisabled = overlay === 'continue' && slot.isEmpty
+                return (
+                  <button
+                    key={slot.slotId}
+                    disabled={isDisabled}
+                    onClick={() => {
+                      if (isDisabled) return
+                      overlay === 'new'
+                        ? handleNewGame(slot.slotId)
+                        : handleContinue(slot.slotId)
+                    }}
+                    style={{
+                      width: 140,
+                      padding: '16px 12px',
+                      background: 'rgba(20,10,40,0.9)',
+                      border: `1px solid ${isDisabled ? 'rgba(255,255,255,0.06)' : 'rgba(192,24,95,0.4)'}`,
+                      borderRadius: 4,
+                      cursor: isDisabled ? 'default' : 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: 6,
+                      transition: 'border-color 0.15s',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isDisabled) e.currentTarget.style.borderColor = 'rgba(192,24,95,0.9)'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isDisabled) e.currentTarget.style.borderColor = 'rgba(192,24,95,0.4)'
+                    }}
+                  >
+                    <div style={{ color: '#888899', fontFamily: 'monospace', fontSize: 8, letterSpacing: 2 }}>
+                      SLOT {slot.slotId}
+                    </div>
+                    {slot.isEmpty ? (
+                      <div style={{ color: isDisabled ? '#333344' : '#f0a0c0', fontFamily: 'monospace', fontSize: 10, letterSpacing: 1 }}>
+                        {isDisabled ? '— empty —' : '+ new game'}
+                      </div>
+                    ) : (
+                      <>
+                        <div style={{ color: '#e8d5b0', fontFamily: 'monospace', fontSize: 10 }}>{slot.label}</div>
+                        <div style={{ color: '#665544', fontFamily: 'monospace', fontSize: 8 }}>
+                          {new Date(slot.savedAt).toLocaleDateString('en-GB')}
+                        </div>
+                      </>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+
+            <button
+              onClick={() => setOverlay('none')}
+              style={{ color: '#444455', fontFamily: 'monospace', fontSize: 9, letterSpacing: 3, background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              BACK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
