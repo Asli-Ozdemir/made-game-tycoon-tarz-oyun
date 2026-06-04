@@ -6,8 +6,10 @@ type SeedCounts = Record<IdeaSeedType, number>
 
 interface IdeaSeedStore {
   seeds: SeedCounts
+  kirliSeeds: SeedCounts
   addSeed: (type: IdeaSeedType, amount?: number) => void
   spendSeed: (type: IdeaSeedType, amount: number) => boolean
+  addKirliSeed: (type: IdeaSeedType) => void
   total: () => number
   reset: () => void
 }
@@ -24,7 +26,8 @@ const EMPTY: SeedCounts = {
 }
 
 export const useIdeaSeedStore = create<IdeaSeedStore>((set, get) => ({
-  seeds: { ...EMPTY },
+  seeds:      { ...EMPTY },
+  kirliSeeds: { ...EMPTY },
 
   addSeed(type, amount = 1) {
     set((s) => ({ seeds: { ...s.seeds, [type]: s.seeds[type] + amount } }))
@@ -37,11 +40,15 @@ export const useIdeaSeedStore = create<IdeaSeedStore>((set, get) => ({
     return true
   },
 
+  addKirliSeed(type) {
+    set((s) => ({ kirliSeeds: { ...s.kirliSeeds, [type]: s.kirliSeeds[type] + 1 } }))
+  },
+
   total() {
     return Object.values(get().seeds).reduce((a, b) => a + b, 0)
   },
 
   reset() {
-    set({ seeds: { ...EMPTY } })
+    set({ seeds: { ...EMPTY }, kirliSeeds: { ...EMPTY } })
   },
 }))
