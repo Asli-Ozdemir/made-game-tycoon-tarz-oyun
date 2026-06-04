@@ -53,6 +53,9 @@ T1/T2/T3 tier sistemi (dostluk eşiği 0→30→70). **12/12 felsefe NPC tam diy
 
 **Yeni yön — gamer kasabalı NPC'ler:** Herkesin mesleği olmak zorunda değil; oyun-hobili NPC sayısı artırılacak (stüdyonun hayran/müşteri kitlesi). Romantizm dışı, NPCDef yapısında, T3 = derin dostluk. Romantizm 12 bitince eklenecek. (PROJE-BAGLAM "⛔ NPC DİYALOGLARI" altında.)
 
+### Oyun Medya Tepkileri ✅ (2026-06-04 → 06-05)
+Oyun yayınlanınca yayın anı medya tepkileriyle zenginleşir. Yaklaşım A (sunum/tat): mevcut `score`'u canlandırır, ayrı ekonomi yok. `mediaReactionEngine` (deterministik, skor bandı → verdict + küratörlü `mediaQuotes` havuzları + sabit `mediaOutlets` kadrosu) → `PublishResult.media`. `PublishResult.tsx` genişledi: Metaskor + açılır basın incelemeleri (A+B) + YouTuber kartları (C) + sosyal yorumlar (D). `projectStore.publishProject` media üretir + `player_mention` manşeti ekler. **İnteraktif röportaj:** `interviewStore` (~%35 + cooldown) + `InterviewModal` (genelde Iris); cevaplar itibar/satış-bonusu/`npcStore.adjustRelationship('iris')` etkiler. Spec: `specs/2026-06-04-oyun-medya-tepkileri-design.md`, plan: `plans/2026-06-04-oyun-medya-tepkileri.md`. Tam sürüm (gerçek dergi/YouTuber karakterleri, süreklilik) gelecek faz. Test 586/586.
+
 ### Zihin Geliştirme Ağacı + Hayat Yolu özeti
 30 node / 5 tier radyal nöron layout, PixiJS rendering (`SkillTreeCanvas`), `skillTreeStore` (canUnlock/unlockNode/getNodeState/getActiveEffects), `SleepOverlay` (uyku → gün sonu, yatak trigger coastRoom). Hayat yolu: `lifePathData` (PATH_THRESHOLD=100, PATH_NPC_MAP), `lifePathStore` (serbest/kilitli faz, addProgress, switchPath → NPC cezası + progress reset), T5 node'ları lifePathStore üzerinden açılır, dış halka yay göstergesi (Huzur/Hırs/Emek).
 
