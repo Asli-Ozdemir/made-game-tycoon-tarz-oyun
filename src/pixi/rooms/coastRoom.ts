@@ -27,11 +27,11 @@ export const coastCenterRoom: RoomDef = {
       h: 15 * TILE_SIZE,
     },
     {
-      toRoom: 'bridge',
-      x: 20 * TILE_SIZE,
-      y: 20 * TILE_SIZE,
-      w: 10 * TILE_SIZE,
-      h:  2 * TILE_SIZE,
+      toRoom: 'coast_west',
+      x: 49 * TILE_SIZE,
+      y:  7 * TILE_SIZE,
+      w:      TILE_SIZE,
+      h: 15 * TILE_SIZE,
     },
   ],
   customCollisionRects: [
@@ -39,7 +39,7 @@ export const coastCenterRoom: RoomDef = {
   ],
   spawnPoints: {
     default:           { x: 24 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 },
-    from_bridge:       { x: 24 * TILE_SIZE + 16, y: 19 * TILE_SIZE + 16 },
     from_coast_docks:  { x:  1 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
+    from_coast_west:   { x: 48 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
   },
 }
