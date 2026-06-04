@@ -1,9 +1,68 @@
 import { describe, it, expect } from 'vitest'
+import { coastHomeRoom }   from '../coastHomeRoom'
+import { coastDocksRoom }  from '../coastDocksRoom'
 import { coastCenterRoom } from '../coastRoom'
 import { bridgeRoom }      from '../bridgeRoom'
 import { cityCoreRoom }    from '../cityRoom'
 import { cityParkRoom }    from '../parkRoom'
 import { TILE_SIZE }       from '../../mapData'
+
+describe('coastHomeRoom', () => {
+  it('has correct dimensions', () => {
+    expect(coastHomeRoom.widthTiles).toBe(40)
+    expect(coastHomeRoom.heightTiles).toBe(22)
+  })
+  it('id is coast_home', () => {
+    expect(coastHomeRoom.id).toBe('coast_home')
+  })
+  it('has sahil_evi building', () => {
+    expect(coastHomeRoom.buildings.find(b => b.id === 'sahil_evi')).toBeDefined()
+  })
+  it('has studio_desk and yatak triggers', () => {
+    expect(coastHomeRoom.triggers.find(t => t.name === 'studio_desk')).toBeDefined()
+    expect(coastHomeRoom.triggers.find(t => t.name === 'yatak')).toBeDefined()
+  })
+  it('has exit trigger to coast_docks on right edge', () => {
+    const ex = coastHomeRoom.exitTriggers.find(e => e.toRoom === 'coast_docks')!
+    expect(ex).toBeDefined()
+    expect(ex.x).toBe(39 * TILE_SIZE)
+  })
+  it('has spawn point from_coast_docks', () => {
+    expect(coastHomeRoom.spawnPoints.from_coast_docks).toBeDefined()
+  })
+  it('has water collision at top', () => {
+    expect(coastHomeRoom.customCollisionRects[0].h).toBe(4 * TILE_SIZE)
+  })
+})
+
+describe('coastDocksRoom', () => {
+  it('has correct dimensions', () => {
+    expect(coastDocksRoom.widthTiles).toBe(40)
+    expect(coastDocksRoom.heightTiles).toBe(22)
+  })
+  it('id is coast_docks', () => {
+    expect(coastDocksRoom.id).toBe('coast_docks')
+  })
+  it('has balikci building', () => {
+    expect(coastDocksRoom.buildings.find(b => b.id === 'balikci')).toBeDefined()
+  })
+  it('has balikci_door and nehir triggers', () => {
+    expect(coastDocksRoom.triggers.find(t => t.name === 'balikci_door')).toBeDefined()
+    expect(coastDocksRoom.triggers.find(t => t.name === 'nehir')).toBeDefined()
+  })
+  it('has exit triggers to coast_home (left) and coast_center (right)', () => {
+    const toHome   = coastDocksRoom.exitTriggers.find(e => e.toRoom === 'coast_home')!
+    const toCenter = coastDocksRoom.exitTriggers.find(e => e.toRoom === 'coast_center')!
+    expect(toHome).toBeDefined()
+    expect(toHome.x).toBe(0)
+    expect(toCenter).toBeDefined()
+    expect(toCenter.x).toBe(39 * TILE_SIZE)
+  })
+  it('has spawn points from both directions', () => {
+    expect(coastDocksRoom.spawnPoints.from_coast_home).toBeDefined()
+    expect(coastDocksRoom.spawnPoints.from_coast_center).toBeDefined()
+  })
+})
 
 describe('coastCenterRoom', () => {
   it('has correct dimensions', () => {
@@ -13,17 +72,28 @@ describe('coastCenterRoom', () => {
   it('id is coast_center', () => {
     expect(coastCenterRoom.id).toBe('coast_center')
   })
-  it('has exit trigger to bridge at bottom', () => {
-    const ex = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
-    expect(ex).toBeDefined()
-    expect(ex.y).toBe(20 * TILE_SIZE)
+  it('has sahaf and pub buildings (no sahil_evi or balikci)', () => {
+    expect(coastCenterRoom.buildings.find(b => b.id === 'sahaf')).toBeDefined()
+    expect(coastCenterRoom.buildings.find(b => b.id === 'pub')).toBeDefined()
+    expect(coastCenterRoom.buildings.find(b => b.id === 'sahil_evi')).toBeUndefined()
+    expect(coastCenterRoom.buildings.find(b => b.id === 'balikci')).toBeUndefined()
   })
-  it('has default spawn point', () => {
-    expect(coastCenterRoom.spawnPoints.default).toBeDefined()
+  it('has sahaf_door and pub_door triggers (no studio_desk or yatak)', () => {
+    expect(coastCenterRoom.triggers.find(t => t.name === 'sahaf_door')).toBeDefined()
+    expect(coastCenterRoom.triggers.find(t => t.name === 'pub_door')).toBeDefined()
+    expect(coastCenterRoom.triggers.find(t => t.name === 'studio_desk')).toBeUndefined()
+    expect(coastCenterRoom.triggers.find(t => t.name === 'yatak')).toBeUndefined()
   })
-  it('has coastal water collision', () => {
-    const water = coastCenterRoom.customCollisionRects.find(r => r.y === 0)!
-    expect(water.h).toBe(4 * TILE_SIZE)
+  it('has exit to coast_docks on left and exit to bridge at bottom', () => {
+    const toDocks  = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'coast_docks')!
+    const toBridge = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
+    expect(toDocks).toBeDefined()
+    expect(toDocks.x).toBe(0)
+    expect(toBridge).toBeDefined()
+    expect(toBridge.y).toBe(20 * TILE_SIZE)
+  })
+  it('has spawn point from_coast_docks', () => {
+    expect(coastCenterRoom.spawnPoints.from_coast_docks).toBeDefined()
   })
 })
 
