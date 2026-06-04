@@ -3,3 +3,27 @@
 @tailwind utilities;
 
 body { background: #0d1117; color: #e6edf3; }
+
+/* ── Title Screen Animations ─────────────────────────── */
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1.0; }
+}
+
+@keyframes garageLight {
+  0%, 100% { box-shadow: 0 0 10px #ffaa33, 0 0 20px rgba(255, 136, 0, 0.2); }
+  50%       { box-shadow: 0 0 18px #ffcc44, 0 0 36px rgba(255, 170, 51, 0.4); }
+}
+
+@keyframes fall {
+  from { transform: translateY(-20px); opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.25; }
+  to   { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes titleFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
