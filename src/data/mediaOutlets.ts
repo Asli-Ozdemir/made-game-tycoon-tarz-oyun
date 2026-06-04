@@ -16,14 +16,14 @@ export const VERDICT: Record<ScoreBand, string> = {
 }
 
 // Sabit kadro — süreklilik hissi (Yaklaşım C'de karaktere dönüşür)
-export const OUTLETS = ['PixelPress', 'OyunDergisi', 'PixelKritik', 'HardcoreGG', 'NeonReview'] as const
+export const OUTLETS = ['PixelPress', 'PlayJournal', 'PixelCritic', 'HardcoreGG', 'NeonReview'] as const
 
 export const YOUTUBERS: { channel: string; viewsLabel: string }[] = [
-  { channel: 'BurakOynuyor', viewsLabel: '1.2M' },
-  { channel: 'PixelPaşa',    viewsLabel: '480K' },
-  { channel: 'NeonGamer',    viewsLabel: '820K' },
-  { channel: 'KurtAbi',      viewsLabel: '2.1M' },
-  { channel: 'MiniBoss',     viewsLabel: '150K' },
+  { channel: 'MaxPlays',   viewsLabel: '1.2M' },
+  { channel: 'PixelPete',  viewsLabel: '480K' },
+  { channel: 'NeonGamer',  viewsLabel: '820K' },
+  { channel: 'VinceVault', viewsLabel: '2.1M' },
+  { channel: 'MiniBoss',   viewsLabel: '150K' },
 ]
 
 export function hashSeed(str: string): number {
