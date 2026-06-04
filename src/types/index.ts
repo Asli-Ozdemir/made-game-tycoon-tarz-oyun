@@ -17,6 +17,27 @@ export interface PublishResult {
   sales: number       // birim
   revenue: number     // para cinsinden
   publishDate: GameDate
+  media?: MediaReactions   // yayın sonrası üretilen medya tepkileri
+}
+
+export interface OutletReview {
+  outlet: string
+  score: number   // 0–10
+  quote: string
+}
+
+export interface YoutuberReaction {
+  channel: string
+  viewsLabel: string
+  quote: string
+}
+
+export interface MediaReactions {
+  metascore: number          // = PublishResult.score
+  verdict: string            // bant etiketi
+  reviews: OutletReview[]
+  youtubers: YoutuberReaction[]
+  social: string[]
 }
 
 // Ortak taban — tüm proje tiplerinde mevcut
