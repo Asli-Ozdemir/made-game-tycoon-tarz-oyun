@@ -1,6 +1,18 @@
 import type { ZoneDef, BuildingDef, TriggerDef, CollisionRect } from '../mapData'
 
-export type RoomId = 'coast' | 'bridge' | 'city' | 'park'
+export type RoomId =
+  // Sahil yakası
+  | 'coast_home'
+  | 'coast_docks'
+  | 'coast_center'
+  | 'coast_west'
+  // Köprü
+  | 'bridge'
+  // Şehir yakası
+  | 'city_core'
+  | 'city_culture'
+  | 'city_edge'
+  | 'city_park'
 
 export interface ExitTriggerDef {
   toRoom: RoomId
