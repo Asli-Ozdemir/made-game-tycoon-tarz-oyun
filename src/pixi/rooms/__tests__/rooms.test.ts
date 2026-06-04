@@ -1,11 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { coastHomeRoom }   from '../coastHomeRoom'
-import { coastDocksRoom }  from '../coastDocksRoom'
-import { coastCenterRoom } from '../coastRoom'
-import { bridgeRoom }      from '../bridgeRoom'
-import { cityCoreRoom }    from '../cityRoom'
-import { cityParkRoom }    from '../parkRoom'
-import { TILE_SIZE }       from '../../mapData'
+import { coastHomeRoom }    from '../coastHomeRoom'
+import { coastDocksRoom }   from '../coastDocksRoom'
+import { coastCenterRoom }  from '../coastRoom'
+import { coastWestRoom }    from '../coastWestRoom'
+import { bridgeRoom }       from '../bridgeRoom'
+import { cityCoreRoom }     from '../cityRoom'
+import { cityCultureRoom }  from '../cityCultureRoom'
+import { cityEdgeRoom }     from '../cityEdgeRoom'
+import { cityParkRoom }     from '../parkRoom'
+import { TILE_SIZE }        from '../../mapData'
 
 describe('coastHomeRoom', () => {
   it('has correct dimensions', () => {
@@ -53,9 +56,7 @@ describe('coastDocksRoom', () => {
   it('has exit triggers to coast_home (left) and coast_center (right)', () => {
     const toHome   = coastDocksRoom.exitTriggers.find(e => e.toRoom === 'coast_home')!
     const toCenter = coastDocksRoom.exitTriggers.find(e => e.toRoom === 'coast_center')!
-    expect(toHome).toBeDefined()
     expect(toHome.x).toBe(0)
-    expect(toCenter).toBeDefined()
     expect(toCenter.x).toBe(39 * TILE_SIZE)
   })
   it('has spawn points from both directions', () => {
@@ -78,22 +79,44 @@ describe('coastCenterRoom', () => {
     expect(coastCenterRoom.buildings.find(b => b.id === 'sahil_evi')).toBeUndefined()
     expect(coastCenterRoom.buildings.find(b => b.id === 'balikci')).toBeUndefined()
   })
-  it('has sahaf_door and pub_door triggers (no studio_desk or yatak)', () => {
-    expect(coastCenterRoom.triggers.find(t => t.name === 'sahaf_door')).toBeDefined()
-    expect(coastCenterRoom.triggers.find(t => t.name === 'pub_door')).toBeDefined()
-    expect(coastCenterRoom.triggers.find(t => t.name === 'studio_desk')).toBeUndefined()
-    expect(coastCenterRoom.triggers.find(t => t.name === 'yatak')).toBeUndefined()
-  })
-  it('has exit to coast_docks on left and exit to bridge at bottom', () => {
-    const toDocks  = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'coast_docks')!
-    const toBridge = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
-    expect(toDocks).toBeDefined()
+  it('has exit to coast_docks on left and exit to coast_west on right', () => {
+    const toDocks = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'coast_docks')!
+    const toWest  = coastCenterRoom.exitTriggers.find(e => e.toRoom === 'coast_west')!
     expect(toDocks.x).toBe(0)
-    expect(toBridge).toBeDefined()
-    expect(toBridge.y).toBe(20 * TILE_SIZE)
+    expect(toWest.x).toBe(49 * TILE_SIZE)
   })
-  it('has spawn point from_coast_docks', () => {
-    expect(coastCenterRoom.spawnPoints.from_coast_docks).toBeDefined()
+  it('has no direct exit to bridge', () => {
+    expect(coastCenterRoom.exitTriggers.find(e => e.toRoom === 'bridge')).toBeUndefined()
+  })
+  it('has spawn point from_coast_west', () => {
+    expect(coastCenterRoom.spawnPoints.from_coast_west).toBeDefined()
+  })
+})
+
+describe('coastWestRoom', () => {
+  it('has correct dimensions', () => {
+    expect(coastWestRoom.widthTiles).toBe(50)
+    expect(coastWestRoom.heightTiles).toBe(22)
+  })
+  it('id is coast_west', () => {
+    expect(coastWestRoom.id).toBe('coast_west')
+  })
+  it('has kafe_west and atolye buildings', () => {
+    expect(coastWestRoom.buildings.find(b => b.id === 'kafe_west')).toBeDefined()
+    expect(coastWestRoom.buildings.find(b => b.id === 'atolye')).toBeDefined()
+  })
+  it('has exit to coast_center (left) and bridge (bottom)', () => {
+    const toCenter = coastWestRoom.exitTriggers.find(e => e.toRoom === 'coast_center')!
+    const toBridge = coastWestRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
+    expect(toCenter.x).toBe(0)
+    expect(toBridge.y).toBe(21 * TILE_SIZE)
+  })
+  it('has spawn points from both directions', () => {
+    expect(coastWestRoom.spawnPoints.from_coast_center).toBeDefined()
+    expect(coastWestRoom.spawnPoints.from_bridge).toBeDefined()
+  })
+  it('has water collision at top', () => {
+    expect(coastWestRoom.customCollisionRects[0].h).toBe(4 * TILE_SIZE)
   })
 })
 
@@ -101,23 +124,23 @@ describe('bridgeRoom', () => {
   it('has 6 tile height', () => {
     expect(bridgeRoom.heightTiles).toBe(6)
   })
-  it('has exit triggers to coast_center and city_core', () => {
-    const toCoast = bridgeRoom.exitTriggers.find(e => e.toRoom === 'coast_center')
-    const toCity  = bridgeRoom.exitTriggers.find(e => e.toRoom === 'city_core')
-    expect(toCoast).toBeDefined()
+  it('has exit triggers to coast_west and city_core', () => {
+    const toWest = bridgeRoom.exitTriggers.find(e => e.toRoom === 'coast_west')
+    const toCity = bridgeRoom.exitTriggers.find(e => e.toRoom === 'city_core')
+    expect(toWest).toBeDefined()
     expect(toCity).toBeDefined()
   })
-  it('coast_center trigger is at y=0, city_core trigger is at y=5*TILE_SIZE', () => {
-    const toCoast = bridgeRoom.exitTriggers.find(e => e.toRoom === 'coast_center')!
-    const toCity  = bridgeRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
-    expect(toCoast.y).toBe(0)
+  it('coast_west trigger is at y=0, city_core trigger is at y=5*TILE_SIZE', () => {
+    const toWest = bridgeRoom.exitTriggers.find(e => e.toRoom === 'coast_west')!
+    const toCity = bridgeRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
+    expect(toWest.y).toBe(0)
     expect(toCity.y).toBe(5 * TILE_SIZE)
   })
-  it('has side water collision rects', () => {
-    expect(bridgeRoom.customCollisionRects.length).toBe(2)
+  it('has no exit to coast_center', () => {
+    expect(bridgeRoom.exitTriggers.find(e => e.toRoom === 'coast_center')).toBeUndefined()
   })
-  it('has spawn points from both directions', () => {
-    expect(bridgeRoom.spawnPoints.from_coast_center).toBeDefined()
+  it('has spawn points from_coast_west and from_city_core', () => {
+    expect(bridgeRoom.spawnPoints.from_coast_west).toBeDefined()
     expect(bridgeRoom.spawnPoints.from_city_core).toBeDefined()
   })
 })
@@ -129,21 +152,70 @@ describe('cityCoreRoom', () => {
   it('id is city_core', () => {
     expect(cityCoreRoom.id).toBe('city_core')
   })
-  it('city building rows are shifted -26 from original', () => {
-    const kafe = cityCoreRoom.buildings.find(b => b.id === 'kafe')!
-    expect(kafe.row).toBe(4)
+  it('has exit to bridge (top) and city_culture (right)', () => {
+    const toBridge  = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
+    const toCulture = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'city_culture')!
+    expect(toBridge.y).toBe(0)
+    expect(toCulture.x).toBe(49 * TILE_SIZE)
   })
-  it('city trigger y values are shifted -832px from original', () => {
-    const cafe    = cityCoreRoom.triggers.find(t => t.name === 'cafe_door')!
-    const nexus   = cityCoreRoom.triggers.find(t => t.name === 'nexus_building')!
-    const akademi = cityCoreRoom.triggers.find(t => t.name === 'akademi_door')!
-    expect(cafe.y).toBe(384)
-    expect(nexus.y).toBe(512)
-    expect(akademi.y).toBe(320)
+  it('has no arcade building (moved to city_culture)', () => {
+    expect(cityCoreRoom.buildings.find(b => b.id === 'arcade')).toBeUndefined()
   })
-  it('has exit trigger to bridge at top', () => {
-    const ex = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
-    expect(ex.y).toBe(0)
+  it('has no arcade_door trigger (moved to city_culture)', () => {
+    expect(cityCoreRoom.triggers.find(t => t.name === 'arcade_door')).toBeUndefined()
+  })
+  it('has spawn point from_city_culture', () => {
+    expect(cityCoreRoom.spawnPoints.from_city_culture).toBeDefined()
+  })
+})
+
+describe('cityCultureRoom', () => {
+  it('has correct dimensions', () => {
+    expect(cityCultureRoom.widthTiles).toBe(40)
+    expect(cityCultureRoom.heightTiles).toBe(24)
+  })
+  it('id is city_culture', () => {
+    expect(cityCultureRoom.id).toBe('city_culture')
+  })
+  it('has arcade building', () => {
+    expect(cityCultureRoom.buildings.find(b => b.id === 'arcade')).toBeDefined()
+  })
+  it('has arcade_door trigger', () => {
+    expect(cityCultureRoom.triggers.find(t => t.name === 'arcade_door')).toBeDefined()
+  })
+  it('has exit to city_core (left) and city_edge (right)', () => {
+    const toCore = cityCultureRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
+    const toEdge = cityCultureRoom.exitTriggers.find(e => e.toRoom === 'city_edge')!
+    expect(toCore.x).toBe(0)
+    expect(toEdge.x).toBe(39 * TILE_SIZE)
+  })
+  it('has spawn points from both directions', () => {
+    expect(cityCultureRoom.spawnPoints.from_city_core).toBeDefined()
+    expect(cityCultureRoom.spawnPoints.from_city_edge).toBeDefined()
+  })
+})
+
+describe('cityEdgeRoom', () => {
+  it('has correct dimensions', () => {
+    expect(cityEdgeRoom.widthTiles).toBe(40)
+    expect(cityEdgeRoom.heightTiles).toBe(24)
+  })
+  it('id is city_edge', () => {
+    expect(cityEdgeRoom.id).toBe('city_edge')
+  })
+  it('has klinik and havuz buildings', () => {
+    expect(cityEdgeRoom.buildings.find(b => b.id === 'klinik')).toBeDefined()
+    expect(cityEdgeRoom.buildings.find(b => b.id === 'havuz')).toBeDefined()
+  })
+  it('has exit to city_culture (left) and city_park (right)', () => {
+    const toCulture = cityEdgeRoom.exitTriggers.find(e => e.toRoom === 'city_culture')!
+    const toPark    = cityEdgeRoom.exitTriggers.find(e => e.toRoom === 'city_park')!
+    expect(toCulture.x).toBe(0)
+    expect(toPark.x).toBe(39 * TILE_SIZE)
+  })
+  it('has spawn points from both directions', () => {
+    expect(cityEdgeRoom.spawnPoints.from_city_culture).toBeDefined()
+    expect(cityEdgeRoom.spawnPoints.from_city_park).toBeDefined()
   })
 })
 
@@ -155,11 +227,15 @@ describe('cityParkRoom', () => {
   it('id is city_park', () => {
     expect(cityParkRoom.id).toBe('city_park')
   })
-  it('has exit trigger to city_core', () => {
-    const ex = cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
+  it('has exit trigger to city_edge on left', () => {
+    const ex = cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_edge')!
     expect(ex).toBeDefined()
+    expect(ex.x).toBe(0)
   })
-  it('has spawn point from_city_core', () => {
-    expect(cityParkRoom.spawnPoints.from_city_core).toBeDefined()
+  it('has no exit to city_core', () => {
+    expect(cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_core')).toBeUndefined()
+  })
+  it('has spawn point from_city_edge', () => {
+    expect(cityParkRoom.spawnPoints.from_city_edge).toBeDefined()
   })
 })
