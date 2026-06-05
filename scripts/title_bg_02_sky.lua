@@ -1,7 +1,8 @@
--- title_bg_02_sky.lua
-local ASEPRITE_PATH = "C:\\Users\\umutm\\Desktop\\mad-game-tarzı-oyun\\assets\\title_bg.aseprite"
+-- title_bg_02_sky.lua  (v2 — horizon at y=210)
+local ASEPRITE_PATH = "C:\Users\umutm\Desktop\mad-game-tarzı-oyun\assets\title_bg.aseprite"
 local W, H = 683, 384
-local GROUND_Y = 299
+local HORIZON = 210
+
 local spr = app.open(ASEPRITE_PATH)
 
 local function celImg(layerName)
@@ -20,8 +21,12 @@ local function lerp(a, b, t) return math.floor(a + t * (b - a)) end
 local img = celImg("sky")
 
 local SKY = {
-  {0.00, 27, 42, 74}, {0.18, 46, 63,110}, {0.42, 74, 32, 96},
-  {0.62,107, 26, 58}, {0.80, 61, 26,  6}, {1.00, 42, 15,  4},
+  {0.00, 27, 42, 74},
+  {0.20, 46, 63,110},
+  {0.45, 74, 32, 96},
+  {0.65,107, 26, 58},
+  {0.85, 61, 26,  6},
+  {1.00, 42, 15,  4},
 }
 
 local function skyColor(yn)
@@ -36,11 +41,16 @@ local function skyColor(yn)
   return Color{r=42, g=15, b=4, a=255}
 end
 
-for y = 0, H - 1 do
-  local c = skyColor(y / (H - 1))
+for y = 0, HORIZON do
+  local c = skyColor(y / HORIZON)
   for x = 0, W - 1 do img:drawPixel(x, y, c) end
 end
 
-print("Sky done")
+local CLEAR = Color{r=0, g=0, b=0, a=0}
+for y = HORIZON + 1, H - 1 do
+  for x = 0, W - 1 do img:drawPixel(x, y, CLEAR) end
+end
+
+print("Sky done — horizon at y=" .. HORIZON)
 spr:saveAs(ASEPRITE_PATH)
 app.exit()

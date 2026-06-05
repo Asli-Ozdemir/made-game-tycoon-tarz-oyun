@@ -2,28 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-body { background: #0d1117; color: #e6edf3; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: #0d1117; color: #e6edf3; }
 
-/* ── Title Screen Animations ─────────────────────────── */
+/* ── Keyframes ───────────────────────────────────────────── */
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
+  0%, 100% { opacity: 0.2; }
   50%       { opacity: 1.0; }
 }
 
-@keyframes garageLight {
-  0%, 100% { box-shadow: 0 0 10px #ffaa33, 0 0 20px rgba(255, 136, 0, 0.2); }
-  50%       { box-shadow: 0 0 18px #ffcc44, 0 0 36px rgba(255, 170, 51, 0.4); }
-}
-
 @keyframes fall {
-  from { transform: translateY(-20px); opacity: 0; }
-  10%  { opacity: 0.25; }
-  90%  { opacity: 0.25; }
-  to   { transform: translateY(100vh); opacity: 0; }
+  from { transform: translateY(-30px); opacity: 0; }
+  8%   { opacity: 0.3; }
+  92%  { opacity: 0.3; }
+  to   { transform: translateY(105vh); opacity: 0; }
 }
 
 @keyframes titleFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes riverShimmer {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  15%  { opacity: 0.6; }
+  85%  { opacity: 0.6; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+
+@keyframes riverGlow {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.45; }
+}
+
+/* ── Animation classes (override prefers-reduced-motion) ─── */
+
+.ts-twinkle {
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+  animation-play-state: running !important;
+}
+
+.ts-rain {
+  animation: fall var(--fall-dur, 0.5s) linear var(--fall-delay, 0s) infinite;
+  animation-play-state: running !important;
+}
+
+.ts-river-shimmer {
+  animation: riverShimmer var(--shim-dur, 4s) ease-in-out var(--shim-delay, 0s) infinite;
+  animation-play-state: running !important;
+}
+
+.ts-river-glow {
+  animation: riverGlow var(--glow-dur, 3s) ease-in-out var(--glow-delay, 0s) infinite;
+  animation-play-state: running !important;
+}
+
+.ts-fade-in {
+  animation: titleFadeIn 1s forwards;
+  animation-play-state: running !important;
+}
+
+/* Force all ts-* animations even when OS has reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ts-twinkle, .ts-rain, .ts-river-shimmer, .ts-river-glow, .ts-fade-in {
+    animation-duration: var(--dur, 3s) !important;
+    animation-iteration-count: infinite !important;
+    animation-play-state: running !important;
+  }
 }
