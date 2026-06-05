@@ -52,6 +52,7 @@ export interface NPCDef {
   emoji: string
   gender: 'male' | 'female'
   isRomanceCandidate: boolean
+  birthYear?: number   // yaş = currentYear - birthYear (opsiyonel; NPC yaş içeriği Spec B)
   tier2Threshold: number
   tier3Threshold: number
   dialogues: Dialogue[]
@@ -2766,6 +2767,7 @@ const max: NPCDef = {
   philosophy: 'Gamer kasabalı (kurulu YouTuber, MaxPlays 1.2M) — Sıcak ama tükenmiş: kamera enerjisinin altında algoritma yorgunu, sırf keyfine oynamayı özleyen biri.',
   emoji: '🕹️',
   gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2876,6 +2878,7 @@ const vince: NPCDef = {
   philosophy: 'Gamer kasabalı (kurulu YouTuber, VinceVault 2.1M) — Alaycı/sayı-odaklı veteran: tıklanma kralı; akıntıya (algoritmaya) bilerek kapılmış, hâlâ umursayanı kıskanan gri bir figür.',
   emoji: '🕹️',
   gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -2986,6 +2989,7 @@ const wren: NPCDef = {
   philosophy: 'Gamer kasabalı (olmaya çalışan yayıncı) — Mütevazı/içten küçük yayıncı: 12 izleyiciye mutlu, küskün değil; sessizce görülmek ister ama sevgiyle yapması onu sayıdan zengin kılar.',
   emoji: '🕹️',
   gender: 'female',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -3096,6 +3100,7 @@ const dax: NPCDef = {
   philosophy: 'Gamer kasabalı (olmaya çalışan yayıncı) — Endişeli trend-kovalayan: viral takıntılı, kıyas-zehirli; altında "hiç kimse olma" korkusu. Vince\'in genç hâli, çatalın başında (kapısı hâlâ açık).',
   emoji: '🕹️',
   gender: 'male',
+  isRomanceCandidate: false,
   tier2Threshold: 30,
   tier3Threshold: 70,
   dialogues: [
@@ -3226,4 +3231,8 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   vince,
   wren,
   dax,
+}
+
+export function getNpc(id: string): NPCDef | undefined {
+  return NPC_DEFS[id]
 }
