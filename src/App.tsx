@@ -56,6 +56,8 @@ export default function App() {
   const advance         = useTimeStore((s) => s.advance)
   const tickAllProjects = useProjectStore((s) => s.tickAllProjects)
   const addMoney        = useGameStore((s) => s.addMoney)
+  const gamePhase       = useGameStore((s) => s.gamePhase)
+  const setGamePhase    = useGameStore((s) => s.setGamePhase)
   const weeklyTick      = useEmployeeStore((s) => s.weeklyTick)
   const setOnWeeklyTick = useDayTimeStore((s) => s.setOnWeeklyTick)
   const gameMode        = useWorldStore((s) => s.gameMode)
@@ -166,10 +168,9 @@ export default function App() {
 
   if (isBankrupt) return <BankruptcyScreen />
 
-  // Start screen gate — show slot picker on first load
-  if (showStartScreen)   return <StartScreen />
-  // Wizard gate — render wizard until character is created
-  if (!isCreated)        return <CharacterCreationWizard />
+  if (gamePhase === 'title')    return <StartScreen />
+  if (gamePhase === 'intro')    return <CutscenePlayer onComplete={() => setGamePhase('creation')} />
+  if (gamePhase === 'creation') return <CharacterCreationWizard />
   if (pendingResolution) return <ResolutionScreen />
   if (pendingEvent)      return <EventModal />
 
