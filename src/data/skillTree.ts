@@ -326,6 +326,35 @@ export const SKILL_NODES: SkillNode[] = [
     dependsOn: ['sos_t2'],
   },
 
+  // ── Oyun Tarihi node'ları (gamer kasabalı tohumları) ───────────────────
+  {
+    id: 'gh_t1',
+    tier: 1,
+    name: 'Tür Bilgisi',
+    description: 'Klasikleri bilirsin; her türde neyin işe yaradığını sezersin.',
+    cost: [{ type: 'game_history', amount: 1 }],
+    effect: { type: 'tycoon_bonus', stat: 'all_quality', value: 0.04 },
+    dependsOn: [],
+  },
+  {
+    id: 'gh_t2',
+    tier: 2,
+    name: 'Klasiklerden Ders',
+    description: 'Sektörün geçmiş hatalarını bilir, aynı tuzaklara düşmezsin.',
+    cost: [{ type: 'game_history', amount: 2 }],
+    effect: { type: 'crisis_reduce', value: 0.10 },
+    dependsOn: ['gh_t1'],
+  },
+  {
+    id: 'gh_t3',
+    tier: 3,
+    name: 'Sektör Hafızası',
+    description: 'Yürüyen bir oyun ansiklopedisisin; adın saygıyla anılır.',
+    cost: [{ type: 'game_history', amount: 2 }, { type: 'hikaye', amount: 1 }],
+    effect: { type: 'reputation_bonus', value: 8 },
+    dependsOn: ['gh_t2'],
+  },
+
   // ── T5 (4 node, Hayat Yolu efsanevi) ──────────────────────────────────
   {
     id: 't5_hirs',
