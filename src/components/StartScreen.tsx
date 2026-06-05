@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useSaveStore } from '@/store/saveStore'
-import logoSrc        from '@/assets/icons/logo_magenta_reach.png'
-import bgSrc          from '@/assets/icons/title_bg.png'
-import benchFigureSrc from '@/assets/icons/bench_figure.png'
-import bridgeSrc      from '@/assets/icons/bridge.png'
+import logoSrc from '@/assets/icons/logo_magenta_reach.png'
+import bgSrc   from '@/assets/icons/title_screen.png'
 
 // ── Animated overlay data ────────────────────────────────────────
-// Star positions match title_bg_03_stars.lua STARS array (canvas→% of display)
+// Star positions match title_screen_create.lua STARS array (px/320, px/180 → %)
 const STARS = [
-  { left: '8%',  top: '8%',  dur: '3.2s', delay: '0.0s' },
-  { left: '28%', top: '13%', dur: '2.1s', delay: '0.7s' },
-  { left: '39%', top: '6%',  dur: '3.8s', delay: '1.4s' },
-  { left: '16%', top: '18%', dur: '2.5s', delay: '0.3s' },
-  { left: '34%', top: '10%', dur: '4.0s', delay: '1.1s' },
-  { left: '45%', top: '5%',  dur: '2.8s', delay: '0.9s' },
-  { left: '4%',  top: '20%', dur: '3.5s', delay: '0.5s' },
-  { left: '23%', top: '3%',  dur: '2.3s', delay: '1.8s' },
-  { left: '35%', top: '15%', dur: '2.9s', delay: '0.4s' },
-  { left: '46%', top: '9%',  dur: '3.6s', delay: '1.2s' },
+  { left:  '6%', top:  '4%', dur: '3.2s', delay: '0.0s' },
+  { left: '27%', top:  '8%', dur: '2.1s', delay: '0.7s' },
+  { left: '44%', top:  '3%', dur: '3.8s', delay: '1.4s' },
+  { left: '61%', top: '12%', dur: '2.5s', delay: '0.3s' },
+  { left: '81%', top:  '7%', dur: '4.0s', delay: '1.1s' },
+  { left: '95%', top: '16%', dur: '2.8s', delay: '0.9s' },
+  { left: '17%', top: '19%', dur: '3.5s', delay: '0.5s' },
+  { left: '38%', top: '23%', dur: '2.3s', delay: '1.8s' },
+  { left: '72%', top: '10%', dur: '2.9s', delay: '0.4s' },
+  { left: '88%', top: '22%', dur: '3.6s', delay: '1.2s' },
 ]
 
 const RAIN_DROPS = Array.from({ length: 32 }, (_, i) => {
@@ -57,7 +55,7 @@ export default function StartScreen() {
   return (
     <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', animation: 'titleFadeIn 1s forwards' }}>
 
-      {/* Background: Aseprite pixel art PNG (683×384, 2× scale) */}
+      {/* Background: Aseprite pixel art PNG (320×180) */}
       <img
         src={bgSrc}
         alt=""
@@ -79,58 +77,29 @@ export default function StartScreen() {
         }} />
       ))}
 
-      {/* Garage attic window glow — positioned over house in background PNG */}
-      {/* House at left:5%, bottom:22%. Attic window AWX=72px on 683 canvas ≈ 10.5% */}
+      {/* House window glow — house left:10-25%, top:44-75% on 320×180 canvas */}
       <div style={{
         position: 'absolute',
-        left: 'calc(5% + 42px)',
-        bottom: 'calc(22% + 70px)',
-        width: 28, height: 16,
+        left: '14%',
+        top: '46%',
+        width: 16, height: 12,
         background: 'rgba(255,190,70,0.0)',
-        boxShadow: '0 0 14px 6px rgba(255,180,60,0.35)',
+        boxShadow: '0 0 12px 5px rgba(255,180,60,0.32)',
         borderRadius: 2,
         animation: 'garageLight 3s ease-in-out infinite',
         pointerEvents: 'none',
       }} />
-
-      {/* Side window glow */}
       <div style={{
         position: 'absolute',
-        left: 'calc(5% + 14px)',
-        bottom: 'calc(22% + 46px)',
-        width: 20, height: 14,
+        left: '11%',
+        top: '46%',
+        width: 12, height: 10,
         background: 'rgba(255,180,60,0.0)',
-        boxShadow: '0 0 10px 4px rgba(255,180,60,0.28)',
+        boxShadow: '0 0 8px 3px rgba(255,180,60,0.25)',
         borderRadius: 1,
         animation: 'garageLight 2.5s ease-in-out 0.4s infinite',
         pointerEvents: 'none',
       }} />
-
-      {/* Bench figure — centered at user-measured left:23%, bottom:32% */}
-      <img
-        src={benchFigureSrc}
-        alt=""
-        style={{
-          position: 'absolute',
-          left: 'calc(23% - 72px)',
-          bottom: 'calc(32% - 54px)',
-          width: 144, height: 108,
-          imageRendering: 'pixelated',
-        }}
-      />
-
-      {/* Bridge — centered at user-measured left:48%, river at bottom:13% */}
-      <img
-        src={bridgeSrc}
-        alt=""
-        style={{
-          position: 'absolute',
-          left: 'calc(48% - 144px)',
-          bottom: 'calc(13% - 10px)',
-          width: 288, height: 84,
-          imageRendering: 'pixelated',
-        }}
-      />
 
       {/* Rain drops */}
       {RAIN_DROPS.map((r, i) => (
