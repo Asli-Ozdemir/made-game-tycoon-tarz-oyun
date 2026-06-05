@@ -13,9 +13,10 @@ describe('lifeStore', () => {
   it('setFlag etkisi yearsElapsed 30 (yıl 2030) bir kez', () => {
     useLifeStore.getState().advanceYear(2030, events)
     expect(useLifeStore.getState().hasFlag('arcEnd')).toBe(true)
-    // tekrar çağrı yeniden tetiklemez
+    const sizeAfter = useLifeStore.getState().firedEvents.size  // flag30 + roleX = 2
+    // tekrar çağrı yeniden tetiklemez (year <= lastProcessedYear → no-op)
     useLifeStore.getState().advanceYear(2030, events)
-    expect(useLifeStore.getState().firedEvents.size).toBe(1)
+    expect(useLifeStore.getState().firedEvents.size).toBe(sizeAfter)
   })
   it('atlanan yılları işler (sıçrama)', () => {
     // 2000 -> 2006 sıçraması yıl 2005 olayını yakalamalı
