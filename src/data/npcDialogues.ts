@@ -42,7 +42,7 @@ export type NPCId =
   // Romantizm adayları
   | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
   // Gamer kasabalılar
-  | 'max' | 'vince' | 'wren'
+  | 'max' | 'vince' | 'wren' | 'dax'
 
 export interface NPCDef {
   id: NPCId
@@ -3087,6 +3087,116 @@ const wren: NPCDef = {
   ],
 }
 
+// ─── DAX (gamer kasabalı) ────────────────────────────────────────────────────
+
+const dax: NPCDef = {
+  id: 'dax',
+  name: 'Dax',
+  role: 'Yayıncı',
+  philosophy: 'Gamer kasabalı (olmaya çalışan yayıncı) — Endişeli trend-kovalayan: viral takıntılı, kıyas-zehirli; altında "hiç kimse olma" korkusu. Vince\'in genç hâli, çatalın başında (kapısı hâlâ açık).',
+  emoji: '🕹️',
+  gender: 'male',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'dax_t1_1',
+      tier: 1,
+      title: 'Kanka Collab Yapalım',
+      lines: [
+        { speaker: 'npc',    text: '(telefonla çekim yaparken döner) Olm— pardon, sen oyun yapımcısısın di mi?! Tanrım. Kanka bir collab yapsak patlarız, düşün — "Yapımcıyla 24 Saat", milyon izlenir!' },
+        { speaker: 'player', text: 'Daha adını bile bilmiyorum.' },
+        { speaker: 'npc',    text: 'Dax! DaxGaming, ama o handle alınmıştı, DaxGamingTR... yok o da... neyse, Dax_Plays_Official. Abone 800. Ama momentum var kanka, momentum!' },
+        { speaker: 'player', text: 'Sakin, nefes al.' },
+        { speaker: 'npc',    text: 'Nefes almak için vaktim yok abi, algoritma uyumuyor ki.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'dax_t1_2',
+      tier: 1,
+      title: 'Trend Ne İse',
+      lines: [
+        { speaker: 'npc',    text: 'Bak stratejim basit: ne trend\'se onu çekerim. Korku oyunu patladı, korku çektim. Sonra o parti oyunu patladı, ona geçtim. Hız her şey.' },
+        { speaker: 'player', text: 'Sevdiğin bir tür yok mu?' },
+        { speaker: 'npc',    text: '(durur, tuhaf bir an) Sevmek mi? ...Bilmiyorum kanka. Sevsem de çekemem ki, trend değilse izlenmez. Önce patla, sonra severiz, di mi?' },
+      ],
+      choices: [
+        {
+          text: 'Trend kovalayan hep geriden gelir.',
+          lines: [{ speaker: 'npc', text: '(huzursuz) ...Bunu düşünmemeye çalışıyorum. Çünkü doğruysa, bütün yaptığım boşa. Boşver, sıradaki trend\'e yetişmem lazım.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Kaç saat uğraşıyorsun bununla?',
+          lines: [{ speaker: 'npc', text: 'Uyanık olduğum her saat. Yeme, içme, kurgu, tıklama analizi, yorum... Arkadaşlarım "kayboldun" diyor. Ama bırakırsam geride kalırım, o zaman gerçekten kaybolurum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'dax_t2_1',
+      tier: 2,
+      title: 'Herkes Patlıyor, Ben Hariç',
+      lines: [
+        { speaker: 'npc',    text: 'Benimle başlayan üç kişi vardı. Biri şimdi 500 binde. Biri marka anlaşması yaptı. Ben hâlâ 800\'de debeleniyorum.' },
+        { speaker: 'player', text: 'Kıyaslamak seni yiyip bitiriyor.' },
+        { speaker: 'npc',    text: 'Her sabah uyanıp önce onların sayılarına bakıyorum. Sonra kendiminkine. Sonra gün mahvoluyor. Biliyorum saçma ama parmağım kendi kendine açıyor o uygulamayı.' },
+        { speaker: 'player', text: 'Neden bu kadar önemli?' },
+        { speaker: 'npc',    text: '(sesi düşer) Çünkü sayılar küçükken... ben de küçüğüm gibi geliyor. Görünmez. Sanki var olmuyorum.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'dax_t2_2',
+      tier: 2,
+      title: 'Vince Gibi Olucam',
+      lines: [
+        { speaker: 'npc',    text: 'Hedefim VinceVault. 2 milyon, markalar, her şey. Ona benzersem başarmış olurum, di mi?' },
+        { speaker: 'player', text: 'Vince oyunları artık sevmiyor, biliyorsun.' },
+        { speaker: 'npc',    text: '(duraksar) ...Biliyorum aslında. Gözlerinde o ışık yok. Ama 2 milyonu var. Ben şu an ne ışığım var ne 2 milyon. En azından o seçmiş, ben hâlâ ikisinden de yoksunum.' },
+      ],
+      choices: [
+        {
+          text: 'Wren 12 kişiyle senden mutlu.',
+          lines: [{ speaker: 'npc', text: 'Wren\'i anlamıyorum kanka. 12 kişi, nasıl mutlu olunur? (sessizlik) Ama... bazen yayınına giriyorum, gizliden. Orada bir huzur var. Bende olmayan. Kıskanıyorum galiba, 12 kişilik birini.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Hızlı koşan nereye gittiğini görmez.',
+          lines: [{ speaker: 'npc', text: '(bir an durur, gerçekten) ...Nereye gittiğimi bilmiyorum aslında. Sadece "geri kalmayayım" diye koşuyorum. Ama önde ne var, hiç sormadım kendime. Şimdi sordurdun, teşekkürler, panik attım.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'dax_t3_1',
+      tier: 3,
+      title: 'İlk Kez Soruldu',
+      lines: [
+        { speaker: 'npc',    text: '(arcade, telefonu ilk kez cebinde) Kanka sana bir şey diyeyim mi. Sen benden "collab" istemedin. Bir şey istemedin. Sadece... konuştun benimle. Bu çok tuhaf geldi, iyi anlamda.' },
+        { speaker: 'player', text: 'İnsanlar seninle hep bir çıkar için mi konuşuyor?' },
+        { speaker: 'npc',    text: 'Genelde evet. "Shoutout atar mısın", "collab yapalım". Sen sormadın. Ve fark ettim ki... ben de kendime hiç sormadım, "Dax sen iyi misin" diye. Sürekli "Dax daha çok izlen" diyorum.' },
+        { speaker: 'player', text: 'Dax, sen iyi misin?' },
+        { speaker: 'npc',    text: '(uzun sessizlik, gözleri yaşarır) ...Hayır kanka. Yorgunum. Ve oyun oynamayı ne zaman bıraktığımı hatırlamıyorum — hep "içerik" yaptım, hiç oynamadım. (derin nefes) Belki yavaşlasam. Belki Wren gibi 12 kişiyle başlasam, gerçekten. Vince olmak için daha çok vaktim var ama... olmak zorunda değilim, di mi? Sen arkadaşım ol, ben de bir süre sayılara bakmayayım. Deneyeceğim. Senin için değil — kendim için, ilk kez.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3115,4 +3225,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   max,
   vince,
   wren,
+  dax,
 }
