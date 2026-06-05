@@ -42,7 +42,7 @@ export type NPCId =
   // Romantizm adayları
   | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
   // Gamer kasabalılar
-  | 'max' | 'vince'
+  | 'max' | 'vince' | 'wren'
 
 export interface NPCDef {
   id: NPCId
@@ -2977,6 +2977,116 @@ const vince: NPCDef = {
   ],
 }
 
+// ─── WREN (gamer kasabalı) ───────────────────────────────────────────────────
+
+const wren: NPCDef = {
+  id: 'wren',
+  name: 'Wren',
+  role: 'Yayıncı',
+  philosophy: 'Gamer kasabalı (olmaya çalışan yayıncı) — Mütevazı/içten küçük yayıncı: 12 izleyiciye mutlu, küskün değil; sessizce görülmek ister ama sevgiyle yapması onu sayıdan zengin kılar.',
+  emoji: '🕹️',
+  gender: 'female',
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'wren_t1_1',
+      tier: 1,
+      title: '12 Kişi İzliyor',
+      lines: [
+        { speaker: 'npc',    text: '(kulaklığı boynunda, çekinerek) Aa, merhaba... sen gerçek bir oyun yapımcısısın, değil mi? Pardon, heyecanlandım. Ben sadece... ufak bir yayıncıyım.' },
+        { speaker: 'player', text: 'Yayın mı yapıyorsun?' },
+        { speaker: 'npc',    text: 'Evet! Akşamları. Genelde 12 kişi izler — bazen 9. (güler) Ama hepsini ismen tanıyorum, biri bağlanmazsa merak ediyorum. Ben Wren.' },
+        { speaker: 'player', text: '12 kişi az değil, gerçek bir topluluk.' },
+        { speaker: 'npc',    text: '(yüzü aydınlanır) Sen de mi öyle düşünüyorsun? Çoğu "daha kaç abonen var?" diye soruyor. Sen "topluluk" dedin. Bu... çok hoş.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'wren_t1_2',
+      tier: 1,
+      title: 'Senin Oyunu Oynadım',
+      lines: [
+        { speaker: 'npc',    text: 'Bak utanarak söylüyorum — geçen hafta senin oyununu yayında oynadım. 12 kişi izledi. Çok eğlendik, sohbet kaynadı.' },
+        { speaker: 'player', text: 'Beğendiniz mi?' },
+        { speaker: 'npc',    text: 'Bayıldık! Özellikle o sakin kısım — biri yorumda ağladığını yazdı. 12 kişiden biri ağladıysa, bu bir şeydir, değil mi?' },
+      ],
+      choices: [
+        {
+          text: 'On iki kişiyi ağlatmak, milyonu güldürmekten zor.',
+          lines: [{ speaker: 'npc', text: '(gözleri parlar) Bunu bir yere yazacağım. Kötü bir günümde okumak için. Teşekkür ederim — gerçekten.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'En sevdiğin oyun türü ne?',
+          lines: [{ speaker: 'npc', text: 'Sakin olanlar — çiftlik, kasaba, küçük hikâyeler. Büyük patlamalar değil. Belki o yüzden küçük kaldım; ben de sakin bir köşeyim. Ama sevdiğim köşe.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'wren_t2_1',
+      tier: 2,
+      title: 'Küçük Oda',
+      lines: [
+        { speaker: 'npc',    text: 'Yayını küçük bir odadan yapıyorum, arkamda bir sürü peluş. Komik geliyor mu? Bana huzur veriyor.' },
+        { speaker: 'player', text: 'Hiç komik değil.' },
+        { speaker: 'npc',    text: 'İlk başladığımda kimse yoktu, kendi kendime konuşuyordum aylarca. Sonra bir kişi geldi, "merhaba" dedi. O "merhaba"yı hâlâ hatırlıyorum. Şimdi 12 kişiyiz. Yavaş ama... gerçek.' },
+        { speaker: 'player', text: 'Büyümek istemiyor musun?' },
+        { speaker: 'npc',    text: 'İstiyorum tabii. Ama büyürken bunu kaybetmekten korkuyorum. Şu anki 12 kişi, gelecekteki 12 binden daha kıymetli gibi geliyor bazen.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'wren_t2_2',
+      tier: 2,
+      title: 'VinceVault Gibi',
+      lines: [
+        { speaker: 'npc',    text: 'Bazen VinceVault\'u açıyorum — 2 milyon kişi, her video patlıyor. Sonra kendime bakıyorum, 12 kişi. İçim daralıyor, yalan yok.' },
+        { speaker: 'player', text: 'Onun gibi olmak ister miydin?' },
+        { speaker: 'npc',    text: '(duraklar) İzlenmesini isterdim. Ama onun gibi olmayı... hayır. Adam artık oyunları sevmiyor bile, belli. Ben sevdiğim için yapıyorum. Bunu kaybedersem, 2 milyon neye yarar?' },
+      ],
+      choices: [
+        {
+          text: 'Sevgiyle yapman seni ondan zengin kılıyor.',
+          lines: [{ speaker: 'npc', text: '(utangaç gülümseme) Zenginlik faturaları ödemiyor ama. Yine de... haklısın galiba. Ben uyuyabiliyorum geceleri. O uyuyabiliyor mu, bilmiyorum.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Karşılaştırma mutluluğun hırsızıdır.',
+          lines: [{ speaker: 'npc', text: 'Ne güzel söyledin. Anneannem de buna benzer bir şey derdi. Telefonu kapatıp kendi yayınıma dönmeliyim — orada 12 kişi beni bekliyor, Vince\'i değil.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'wren_t3_1',
+      tier: 3,
+      title: 'Sen de Gel',
+      lines: [
+        { speaker: 'npc',    text: '(çekinerek) Sana bir şey soracağım, "hayır" dersen anlarım, hiç sorun değil...' },
+        { speaker: 'player', text: 'Sor.' },
+        { speaker: 'npc',    text: 'Bir akşam yayınıma gelir misin? Gerçek bir yapımcı olarak. 12 kişi havalara uçar. Ben de... açıkçası senin orada olman bana cesaret verir. Bazen "ben kimim ki" diye düşünüyorum, biliyor musun.' },
+        { speaker: 'player', text: 'Sen Wren\'sin. Bu yeterli.' },
+        { speaker: 'npc',    text: '(gözleri dolar, güler) Bunu kaydedip giriş müziği yapacağım neredeyse. Bak — büyük olmayabilirim, hiç olmayabilirim de. Ama senin gibi birinin "yeterli" demesi... işte bu yüzden bırakmıyorum. Arkadaş olalım mı? Ben iyi bir arkadaşım, sorabilirsin — 12 kişiye sor. (güler)' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3004,4 +3114,5 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   matteo,
   max,
   vince,
+  wren,
 }
