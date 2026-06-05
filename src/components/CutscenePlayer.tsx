@@ -175,7 +175,7 @@ function PixelAvatar({ isPlayer }: { isPlayer: boolean }) {
   )
 }
 
-export default function CutscenePlayer() {
+export default function CutscenePlayer({ onComplete }: { onComplete?: () => void } = {}) {
   const {
     activeCutscene,
     frameIndex,
@@ -211,9 +211,12 @@ export default function CutscenePlayer() {
   useEffect(() => {
     if (!isEnding) return
     setBlackOpacity(1)
-    const t = setTimeout(() => endCutscene(), 400)
+    const t = setTimeout(() => {
+      endCutscene()
+      onComplete?.()
+    }, 400)
     return () => clearTimeout(t)
-  }, [isEnding, endCutscene])
+  }, [isEnding, endCutscene, onComplete])
 
   // Typewriter: her 30ms'de bir karakter ekle
   useEffect(() => {
@@ -261,7 +264,10 @@ export default function CutscenePlayer() {
 
   function handleSkip() {
     setBlackOpacity(1)
-    setTimeout(() => skip(), 400)
+    setTimeout(() => {
+      skip()
+      onComplete?.()
+    }, 400)
   }
 
   return (
