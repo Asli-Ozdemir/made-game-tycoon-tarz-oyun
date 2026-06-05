@@ -116,6 +116,7 @@ export function deserialize(json: string): void {
     money:          g.money          ?? 0,
     reputation:     g.reputation     ?? 0,
     totalPublished: g.totalPublished ?? 0,
+    gamePhase:      'playing',
   })
 
   useProjectStore.setState({ projects: (s.projects as any)?.projects ?? [] })

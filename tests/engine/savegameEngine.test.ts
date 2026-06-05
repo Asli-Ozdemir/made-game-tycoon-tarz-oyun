@@ -88,4 +88,16 @@ describe('savegameEngine', () => {
   it('deserialize: eksik alanlarda hata fırlatır', () => {
     expect(() => deserialize('{}')).toThrow()
   })
+
+  it("deserialize: gamePhase her zaman 'playing' olur (intro'da kaydedilmiş olsa bile)", () => {
+    useGameStore.getState().setGamePhase('intro')
+    const json = serialize()
+    // JSON'da gamePhase OLMAMALI — serialize etmiyoruz
+    const parsed = JSON.parse(json)
+    expect(parsed.game?.gamePhase).toBeUndefined()
+    // Deserialize sonrası playing olmalı
+    useGameStore.getState().setGamePhase('title')
+    deserialize(json)
+    expect(useGameStore.getState().gamePhase).toBe('playing')
+  })
 })
