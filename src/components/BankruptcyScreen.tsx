@@ -12,6 +12,7 @@ import { useEventStore }     from '@/store/eventStore'
 import { useTrainingStore }  from '@/store/trainingStore'
 import { useCutsceneStore }  from '@/store/cutsceneStore'
 import { useDayTimeStore }   from '@/store/dayTimeStore'
+import { useLifeStore }      from '@/store/lifeStore'
 import { useSaveStore }      from '@/store/saveStore'
 
 export default function BankruptcyScreen() {
@@ -25,6 +26,7 @@ export default function BankruptcyScreen() {
     useEmployeeStore.getState().reset()
     useTimeStore.getState().reset()
     useCharacterStore.getState().reset()
+    useLifeStore.getState().reset()
     useRivalStore.getState().reset()
     useNewsStore.getState().reset()
     useAwardsStore.getState().reset()

@@ -118,7 +118,7 @@ NPC sistemi (sıra 1) **uygulandı** (yukarı taşındı — 9/12 NPC). Yaşlanm
 | Sıra | Sistem | Spec | Plan |
 |------|--------|------|------|
 | ~~1~~ | ~~**NPC Etkileşim & Felsefe**~~ → ✅ 12/12 felsefe NPC uygulandı; kalan: 12 romantizm adayı + kasabalılar | `specs/2026-05-30-npc-etkilesim-felsefe-design.md` | `plans/2026-05-30-npc-etkilesim-felsefe.md` |
-| 2 | **Yaşlanma & Yaşam-Olayı Çekirdeği (A)** (yaş/evre + life-event motoru + arcEnd) | `specs/2026-05-31-yaslanma-yasam-olayi-design.md` | `plans/2026-05-31-yaslanma-yasam-olayi.md` |
+| ~~2~~ | ~~**Yaşlanma & Yaşam-Olayı Çekirdeği (A)**~~ → ✅ uygulandı (2026-06-05): `aging.ts`, `lifeEvent` tipleri, `lifeEventEngine`, `lifeStore`, `lifeEvents` (emeklilik→arcEnd), oyuncu birthYear+yaş+enerji, Dashboard yıllık kanca. NPCDef.birthYear? opsiyonel. **NPC yaş-içeriği (birthYear değerleri, reşit→aday enjeksiyonu) B'ye ertelendi.** Plan bayattı (eski `npcs.ts`), canlı koda göre inline adapte edildi. | `specs/2026-05-31-yaslanma-yasam-olayi-design.md` | `plans/2026-05-31-yaslanma-yasam-olayi.md` |
 | 3 | **NPC Yaşam Olayları (B)** (reşit/evlilik/doğum/ölüm/miras — A'ya veri) | `specs/2026-05-31-npc-yasam-olaylari-design.md` | `plans/2026-05-31-npc-yasam-olaylari.md` |
 | 4 | **Oyuncu Romantizm Arkı (C1)** (itiraf→evlilik→çocuk; player_romance/married bayrakları) | `specs/2026-05-31-oyuncu-romantizm-arki-design.md` | `plans/2026-05-31-oyuncu-romantizm-arki.md` |
 | 5 | **Final / Emeklilik Epilogu (C2)** (arcEnd → monolog + neredeler kartları) | `specs/2026-05-31-final-emeklilik-epilog-design.md` | `plans/2026-05-31-final-emeklilik-epilog.md` |

@@ -8,6 +8,7 @@ import MarketPanel from './MarketPanel'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
 import { useEmployeeStore } from '@/store/employeeStore'
+import { useLifeStore } from '@/store/lifeStore'
 import { calculatePublishResult } from '@/engine/scoreEngine'
 import { useTimeStore } from '@/store/timeStore'
 import { useCharacterStore } from '@/store/characterStore'
@@ -42,6 +43,8 @@ export default function Dashboard({ onPublishResult }: Props) {
 
   const year = useTimeStore((s) => s.date.year)
   useEffect(() => {
+    // Yıllık yaşlanma/yaşam-olayı motoru (atlanan yılları işler; 2000'de no-op)
+    useLifeStore.getState().advanceYear(year)
     // year 2000 (başlangıç) ise awards ve trend'i tetikleme
     if (year <= 2000) {
       useRivalStore.getState().simulateYear(year)
@@ -129,6 +132,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     useEmployeeStore.getState().reset()
     useTimeStore.getState().reset()
     useDayTimeStore.getState().reset()
+    useLifeStore.getState().reset()
     useCutsceneStore.getState().reset()
     useRivalStore.getState().reset()
     useNewsStore.getState().reset()

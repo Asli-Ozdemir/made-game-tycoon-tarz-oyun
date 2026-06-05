@@ -13,6 +13,7 @@ import { useEventStore } from '@/store/eventStore'
 import { useTrainingStore } from '@/store/trainingStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { useLifeStore } from '@/store/lifeStore'
 import { useEconomyStore } from '@/store/economyStore'
 import { useMarketStore } from '@/store/marketStore'
 import { useCampaignStore } from '@/store/campaignStore'
@@ -67,6 +68,7 @@ export default function SaveLoadPanel() {
     useEmployeeStore.getState().reset()
     useTimeStore.getState().reset()
     useCharacterStore.getState().reset()
+    useLifeStore.getState().reset()
     useRivalStore.getState().reset()
     useNewsStore.getState().reset()
     useAwardsStore.getState().reset()
