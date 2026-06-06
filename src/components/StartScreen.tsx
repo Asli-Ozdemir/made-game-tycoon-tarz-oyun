@@ -52,7 +52,7 @@ export default function StartScreen() {
         alt="Magenta Reach"
         style={{
           position: 'absolute',
-          right: '5%',
+          right: '17%',
           top: '6%',
           imageRendering: 'pixelated',
           width: 280, height: 79,
@@ -66,9 +66,9 @@ export default function StartScreen() {
       {/* Menu buttons */}
       <div style={{
         position: 'absolute',
-        right: '6%',
+        right: '18%',
         top: '24%',
-        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
+        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10,
         zIndex: 10,
         whiteSpace: 'nowrap',
       }}>
@@ -148,30 +148,37 @@ function MenuButton({ children, onClick, color, disabled = false }: {
   disabled?: boolean
 }) {
   const isMagenta  = color === 'magenta'
-  const borderBase = isMagenta ? 'rgba(220,55,115,0.5)' : 'rgba(255,255,255,0.15)'
-  const borderHov  = isMagenta ? 'rgba(220,55,115,1)'   : 'rgba(255,255,255,0.4)'
-  const textColor  = disabled ? '#444458' : isMagenta ? '#ffffff' : '#aaaacc'
+  const borderBase = isMagenta ? 'rgba(240,60,130,0.85)' : 'rgba(255,255,255,0.4)'
+  const borderHov  = isMagenta ? 'rgba(255,80,160,1)'    : 'rgba(255,255,255,0.9)'
+  const textColor  = disabled ? '#444458' : isMagenta ? '#ffffff' : '#ddddff'
+  const bgBase     = isMagenta && !disabled ? 'rgba(192,24,95,0.25)' : 'rgba(0,0,0,0.25)'
+  const bgHov      = isMagenta && !disabled ? 'rgba(192,24,95,0.45)' : 'rgba(255,255,255,0.08)'
   return (
     <button
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
       style={{
-        padding: '6px 24px',
+        padding: '8px 32px',
         border: `1px solid ${disabled ? 'rgba(255,255,255,0.08)' : borderBase}`,
         color: textColor,
-        background: isMagenta && !disabled ? 'rgba(192,24,95,0.08)' : 'transparent',
-        fontFamily: 'monospace', fontSize: 11, letterSpacing: 3,
+        background: bgBase,
+        fontFamily: 'monospace', fontSize: 12, letterSpacing: 4,
         borderRadius: 2, cursor: disabled ? 'default' : 'pointer',
-        transition: 'border-color 0.15s, box-shadow 0.15s',
+        transition: 'border-color 0.15s, box-shadow 0.15s, background 0.15s',
+        textShadow: isMagenta && !disabled ? '0 0 8px rgba(255,100,180,0.8)' : 'none',
       }}
       onMouseEnter={(e) => {
         if (disabled) return
-        e.currentTarget.style.borderColor = borderHov
-        if (isMagenta) e.currentTarget.style.boxShadow = '0 0 10px rgba(192,24,95,0.35)'
+        e.currentTarget.style.borderColor  = borderHov
+        e.currentTarget.style.background   = bgHov
+        e.currentTarget.style.boxShadow    = isMagenta
+          ? '0 0 16px rgba(220,40,120,0.5)'
+          : '0 0 10px rgba(255,255,255,0.15)'
       }}
       onMouseLeave={(e) => {
         if (disabled) return
         e.currentTarget.style.borderColor = borderBase
+        e.currentTarget.style.background  = bgBase
         e.currentTarget.style.boxShadow   = 'none'
       }}
     >{children}</button>
