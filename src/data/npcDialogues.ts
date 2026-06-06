@@ -44,7 +44,7 @@ export type NPCId =
   // Gamer kasabalılar
   | 'max' | 'vince' | 'wren' | 'dax'
   // Minör / yeni nesil kasabalılar
-  | 'tessa' | 'bea'
+  | 'tessa' | 'bea' | 'pip'
 
 export interface NPCDef {
   id: NPCId
@@ -3428,6 +3428,118 @@ const bea: NPCDef = {
   ],
 }
 
+// ─── PIP (minör / yeni nesil — çocuk) ────────────────────────────────────────
+
+const pip: NPCDef = {
+  id: 'pip',
+  name: 'Pip',
+  role: 'Meraklı Arcade Çocuğu',
+  philosophy: 'Minör kasabalı (yeni nesil, çocuk) — Hiperaktif, herkese hayran, koca kalpli. Rex\'in arcade\'inde yaşar; oyuncu gibi cesur olmak ister.',
+  emoji: '🪁',
+  gender: 'male',
+  isRomanceCandidate: false,
+  birthYear: 1991,   // 2000'de 9 (çocuk; yıllarca büyür)
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'pip_t1_1',
+      tier: 1,
+      title: 'Sen Oyun mu Yapıyorsun?!',
+      lines: [
+        { speaker: 'npc',    text: '(jetonu havaya atıp tutar) Hey! Hey sen! Rex amca dedi ki sen GERÇEK oyun yapıyormuşsun. Doğru mu? Bilgisayarda mı? Nasıl? Zor mu? Ben de yapabilir miyim?' },
+        { speaker: 'player', text: 'Yavaş, yavaş!' },
+        { speaker: 'npc',    text: 'Pardon! Heyecanlanınca hızlanıyorum. Ben Pip! Şu makinede rekor bende — 9 yaşında, kimse geçemedi. Sen geçebilir misin? Geçemezsin. Belki geçersin. Dene!' },
+        { speaker: 'player', text: 'Hep burada mısın?' },
+        { speaker: 'npc',    text: 'Okuldan sonra hep! Burası en iyi yer. Işıklar, sesler, herkes... Rex amca bazen bedava jeton veriyor, sırrımız.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'pip_t1_2',
+      tier: 1,
+      title: 'Rekor',
+      lines: [
+        { speaker: 'npc',    text: 'Bak bak, izle! (makineye yapışır) Şuradan zıpla, şunu topla, şuna DEĞME — değdim. Eh. Yine de iyiyim ama, değil mi?' },
+        { speaker: 'player', text: 'Çok iyisin.' },
+        { speaker: 'npc',    text: 'Biliyorum! (sırıtır) Bir gün öyle bir oyun olacağım ki — yani oynayacağım ki — herkes beni izleyecek. Ya da yapacağım. İkisi de olur mu?' },
+      ],
+      choices: [
+        {
+          text: 'Hem oynayıp hem yapabilirsin.',
+          lines: [{ speaker: 'npc', text: 'İKİSİ BİRDEN?! Vay. Sen dahisin. Tamam, ben de ikisini yapacağım o zaman. Yazdım kafama.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'İlk oyunun ne olurdu?',
+          lines: [{ speaker: 'npc', text: 'Uçan bir köpek! Lazerli! Ve düşmanlar peynir! Neden peynir? Bilmiyorum, komik işte. Komik olan iyidir, değil mi?' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'pip_t2_1',
+      tier: 2,
+      title: 'Akşamları',
+      lines: [
+        { speaker: 'npc',    text: '(biraz sakin) Akşam olunca arcade kapanıyor. O zaman eve gidiyorum. Ev biraz... sessiz oluyor. Annem geç geliyor işten.' },
+        { speaker: 'player', text: 'Yalnız mı kalıyorsun?' },
+        { speaker: 'npc',    text: 'Idare ederim! Korkmuyorum. Çoğunlukla. Ama burada herkes var, orada kimse yok. O yüzden geç kalıyorum belki.' },
+        { speaker: 'player', text: 'Buradakiler senin arkadaşın.' },
+        { speaker: 'npc',    text: 'Öyle mi? (düşünür) Rex amca, sen, makineler... Evet! Koca bir arkadaş ailem var demek. Bunu hiç böyle düşünmemiştim. Güzelmiş.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'pip_t2_2',
+      tier: 2,
+      title: 'Büyüyünce',
+      lines: [
+        { speaker: 'npc',    text: 'Büyükler hep "büyüyünce ne olacaksın" diye soruyor. Sıkıcı bir şey bekliyorlar — doktor, falan.' },
+        { speaker: 'player', text: 'Sen ne diyorsun?' },
+        { speaker: 'npc',    text: '"Eğlenceli bir şey" diyorum. Sonra kızıyorlar. Ama eğlenceli olmak da bir meslek değil mi? Sen eğleniyorsun gibi.' },
+      ],
+      choices: [
+        {
+          text: 'Sevdiğin işi yaparsan, çalışmak gibi gelmez.',
+          lines: [{ speaker: 'npc', text: 'O zaman ben hiç çalışmayacağım! Yani çalışacağım ama eğlenerek! Bu en iyi plan. Sen en akıllı büyüksün, gerçekten.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Eğlence ciddi bir iştir aslında.',
+          lines: [{ speaker: 'npc', text: '(ciddileşmeye çalışır, başaramaz, güler) Ciddi eğlence. Tamam. Yüzümü ciddi yapacağım ama içim gülecek. Anlaştık.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'pip_t3_1',
+      tier: 3,
+      title: 'Sana Söyleyeceğim',
+      lines: [
+        { speaker: 'npc',    text: '(jetonu sıkıca tutar, sana yaklaşır) Sana bir sır vereceğim. Kimseye söylemedim. Söz mü?' },
+        { speaker: 'player', text: 'Söz.' },
+        { speaker: 'npc',    text: 'Büyüyünce SENİN gibi olmak istiyorum. Oyun yapan, kendi şeyini kuran. Korkmadan. Sen büyük şirketten korkmadan ayrılmışsın ya — ben de bir gün korkmadan bir şey yapacağım. Senin gibi cesur olacağım.' },
+        { speaker: 'player', text: 'Sen şimdiden cesursun, Pip.' },
+        { speaker: 'npc',    text: '(kocaman gözlerle) Ben mi? (göğsünü kabartır) O zaman... o zaman hazırım! Büyümeyi bekleyeceğim ama, biraz daha kısayım şu an. Ama beklerken pratik yapacağım. Sen de ara sıra gel, rekorumu gör, olur mu? Arkadaşız artık çünkü. En iyi arkadaş.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3459,6 +3571,7 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   dax,
   tessa,
   bea,
+  pip,
 }
 
 export function getNpc(id: string): NPCDef | undefined {
