@@ -17,6 +17,9 @@ interface CharacterStore {
   personality: PersonalityStats
   attractedTo: ('male' | 'female')[]
   birthYear:   number | null
+  partnerId:   string | null   // sevgili (romanceStore ile senkron)
+  spouseId:    string | null   // eş
+  childIds:    string[]        // oyuncunun çocukları (spawn edilen NPC id'leri)
   setBackground:       (bg: BackgroundId) => void
   setPersonality:      (stats: PersonalityStats) => void
   setIdentity:         (name: string, studioName: string) => void
@@ -37,6 +40,9 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
   personality: DEFAULT_PERSONALITY,
   attractedTo: [],
   birthYear:   null,
+  partnerId:   null,
+  spouseId:    null,
+  childIds:    [],
 
   setBackground: (bg) => {
     const def = BACKGROUNDS.find((b) => b.id === bg)!
@@ -60,6 +66,9 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
     personality: { ...DEFAULT_PERSONALITY },
     attractedTo: [],
     birthYear:   null,
+    partnerId:   null,
+    spouseId:    null,
+    childIds:    [],
   }),
 
   getPlayerSkillBonus: () => {

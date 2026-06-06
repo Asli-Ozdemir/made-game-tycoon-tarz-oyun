@@ -25,6 +25,8 @@ interface LifeStore {
   hasFlag:     (flag: string) => boolean
   hasRole:     (npcId: string, role: Role) => boolean
   isRetired:   (npcId: string) => boolean
+  spawnNpc:    (def: NPCDef) => void
+  setFlag:     (flag: string) => void
   reset:       () => void
 }
 
@@ -104,6 +106,8 @@ export const useLifeStore = create<LifeStore>((set, get) => {
     hasFlag: (flag) => get().flags.has(flag),
     hasRole: (npcId, role) => (get().roles[npcId] ?? []).includes(role),
     isRetired: (npcId) => get().retiredNpcs.has(npcId),
+    spawnNpc: (def) => set((s) => ({ spawnedNpcs: [...s.spawnedNpcs, def] })),
+    setFlag: (flag) => set((s) => ({ flags: new Set(s.flags).add(flag) })),
 
     reset: () => set({
       lastProcessedYear: START_YEAR,
