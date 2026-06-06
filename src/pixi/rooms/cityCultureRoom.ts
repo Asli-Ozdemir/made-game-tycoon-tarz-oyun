@@ -20,10 +20,10 @@ export const cityCultureRoom: RoomDef = {
   exitTriggers: [
     {
       toRoom: 'city_core',
-      x:  0,
-      y:  7 * TILE_SIZE,
-      w:      TILE_SIZE,
-      h: 17 * TILE_SIZE,
+      x: 10 * TILE_SIZE,
+      y: 0,
+      w: 20 * TILE_SIZE,
+      h:      TILE_SIZE,
     },
     {
       toRoom: 'city_edge',
@@ -35,8 +35,8 @@ export const cityCultureRoom: RoomDef = {
   ],
   customCollisionRects: [],
   spawnPoints: {
-    default:        { x: 20 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 },
-    from_city_core: { x:  1 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
+    default:        { x: 20 * TILE_SIZE + 16, y: 12 * TILE_SIZE + 16 },
+    from_city_core: { x: 20 * TILE_SIZE + 16, y:  1 * TILE_SIZE + 16 },
     from_city_edge: { x: 38 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
   },
 }
