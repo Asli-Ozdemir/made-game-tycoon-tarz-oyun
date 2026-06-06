@@ -3,6 +3,7 @@ import { Application, Container, Graphics, Text, TextStyle } from 'pixi.js'
 import { getActiveTrigger, handleTrigger } from './TriggerSystem'
 import { useWorldStore } from '@/store/worldStore'
 import { TILE_SIZE } from './mapData'
+import { DEMO_MODE, DEMO_BLOCKED_ROOMS } from '@/config'
 import type { CollisionRect } from './mapData'
 import type { RoomDef } from './rooms/types'
 
@@ -142,6 +143,10 @@ export class WorldScene {
     if (useWorldStore.getState().transitionState === 'idle') {
       for (const et of this.currentRoom.exitTriggers) {
         if (worldX >= et.x && worldX < et.x + et.w && worldY >= et.y && worldY < et.y + et.h) {
+          if (DEMO_MODE && DEMO_BLOCKED_ROOMS.has(et.toRoom)) {
+            console.info('🔒 Tam sürümde erişilebilir')
+            break
+          }
           useWorldStore.getState().beginTransition(et.toRoom)
           break
         }

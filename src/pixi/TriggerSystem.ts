@@ -1,6 +1,7 @@
 // src/pixi/TriggerSystem.ts
 import { useWorldStore } from '@/store/worldStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
+import { DEMO_MODE, DEMO_BLOCKED_LOCATIONS } from '@/config'
 import type { LocationId } from '@/store/worldStore'
 import type { TriggerDef } from './mapData'
 
@@ -52,6 +53,10 @@ export function handleTrigger(triggerName: string): void {
 
   const locationId = LOCATION_MAP[triggerName]
   if (locationId) {
+    if (DEMO_MODE && DEMO_BLOCKED_LOCATIONS.has(locationId)) {
+      console.info('🔒 Tam sürümde erişilebilir')
+      return
+    }
     setLocation(locationId)
     setIsPaused(true)
   }
