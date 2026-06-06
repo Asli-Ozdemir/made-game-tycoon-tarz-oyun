@@ -6,6 +6,7 @@ import { createProject } from '@/engine/projectEngine'
 import { useProjectStore } from '@/store/projectStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useTrendStore } from '@/store/trendStore'
+import { useObjectiveStore } from '@/store/objectiveStore'
 import type { ProjectScope } from '@/types'
 
 interface Props { onClose: () => void }
@@ -94,6 +95,7 @@ export default function NewProjectModal({ onClose }: Props) {
     } else {
       addProject({ ...createProject({ ...params }), price: selectedPrice! })
     }
+    useObjectiveStore.getState().advanceToGameDev()
     handleClose()
   }
 
