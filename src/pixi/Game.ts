@@ -102,3 +102,9 @@ export function destroyGame() {
 }
 
 export function getApp(): Application | null { return app }
+
+export function getSceneContainerOffset(): { x: number; y: number } | null {
+  if (!worldScene) return null
+  const c = worldScene.getContainer()
+  return { x: c.x, y: c.y }
+}
