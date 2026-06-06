@@ -43,6 +43,8 @@ export type NPCId =
   | 'elise' | 'daniel' | 'nadia' | 'cassian' | 'rosa' | 'iris' | 'sigrid' | 'liv' | 'bjorn' | 'kai' | 'elias' | 'matteo'
   // Gamer kasabalılar
   | 'max' | 'vince' | 'wren' | 'dax'
+  // Minör / yeni nesil kasabalılar
+  | 'tessa'
 
 export interface NPCDef {
   id: NPCId
@@ -3202,6 +3204,118 @@ const dax: NPCDef = {
   ],
 }
 
+// ─── TESSA (minör / yeni nesil) ──────────────────────────────────────────────
+
+const tessa: NPCDef = {
+  id: 'tessa',
+  name: 'Tessa',
+  role: 'Hevesli Genç Programcı',
+  philosophy: 'Minör kasabalı (yeni nesil) — Utangaç ama parlak; oyuncuyu idol görür, büyüyünce stüdyoya katılmak ister. (18\'inde işe alınabilir olur.)',
+  emoji: '💻',
+  gender: 'female',
+  isRomanceCandidate: false,
+  birthYear: 1986,   // 2000'de 14 → 2004'te 18 (reşit → işe alınabilir)
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'tessa_t1_1',
+      tier: 1,
+      title: 'Sen O Kişisin!',
+      lines: [
+        { speaker: 'npc',    text: '(eski bir dizüstüne eğilmiş, seni görünce doğrulur) Dur... sen nehri geçip kendi stüdyosunu kuran kişisin, değil mi? Gerçekten sensin! Pardon, çok heyecanlandım.' },
+        { speaker: 'player', text: 'Beni nereden tanıyorsun?' },
+        { speaker: 'npc',    text: 'Herkes biliyor! Koca şirketten ayrılıp buraya gelip oyun yapan biri... Ben de oyun yapmak istiyorum. Tessa. Şu an sadece küçük şeyler kodluyorum ama bir gün—' },
+        { speaker: 'player', text: 'Kaç yaşındasın?' },
+        { speaker: 'npc',    text: 'On dört. Biliyorum, küçüğüm. Ama yaş kod yazmana engel değil, değil mi? Sen de bir yerden başladın.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'tessa_t1_2',
+      tier: 1,
+      title: 'İlk Oyunum',
+      lines: [
+        { speaker: 'npc',    text: '(ekranı çevirir) Bak, ilk oyunumu yapıyorum. Yılanın elmayı yediği o klasik var ya — onu kopyaladım. Çalışıyor! Çoğunlukla. Bazen yılan duvardan geçiyor.' },
+        { speaker: 'player', text: 'Kendi kendine mi öğrendin?' },
+        { speaker: 'npc',    text: 'İnternetten, kütüphaneden, deneme yanılma. Hata mesajlarıyla kavga ede ede. Bir bug\'ı üç günde çözdüm geçen, çözünce dans ettim odamda.' },
+      ],
+      choices: [
+        {
+          text: 'O bug\'ı çözmek, kopyalamaktan değerli.',
+          lines: [{ speaker: 'npc', text: '(gözleri parlar) Aynen! Kopyalamak kolay, ama neden çalıştığını anlamak... işte o zaman gerçekten senin oluyor. Bunu anlayan birine ilk kez anlatıyorum.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'En sevdiğin oyun ne?',
+          lines: [{ speaker: 'npc', text: 'Zor soru! Eski olanları seviyorum — pikselli, zor, kalpten yapılmış olanları. Yeni parlak şeyler değil. Belki o yüzden senin oyunların hoşuma gidiyor; içinde bir his var.' }],
+          ideaSeed: 'game_history',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'tessa_t2_1',
+      tier: 2,
+      title: 'Odamdaki Bilgisayar',
+      lines: [
+        { speaker: 'npc',    text: 'Bilgisayarım eski, babamın işten getirdiği hurda. Yarısı çalışıyor. Ama o ekranın başında... başka bir dünyaya kapı açıyorum sanki.' },
+        { speaker: 'player', text: 'Ailen ne diyor?' },
+        { speaker: 'npc',    text: '"Tessa, oyun karın doyurmaz, sağlam bir meslek seç" diyorlar. (omuz silker) Belki haklılar. Ama senin yaptığın şeye bakıyorum ve... belki haksızlar da.' },
+        { speaker: 'player', text: 'İkisi birden olamaz mı?' },
+        { speaker: 'npc',    text: 'Olabilir mi gerçekten? Bunu bana ilk kez biri söyledi. Genelde "büyü de gör" diyorlar.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'tessa_t2_2',
+      tier: 2,
+      title: 'Küçük Şehirli',
+      lines: [
+        { speaker: 'npc',    text: 'Bazen düşünüyorum — büyük şehirlerde havalı okullar, ekipler var. Ben burada, küçük bir şehirde, hurda bir bilgisayarla. Hiç şansım var mı ki?' },
+        { speaker: 'player', text: 'Sana ne hissettiriyor bu?' },
+        { speaker: 'npc',    text: 'Küçük. Görünmez. "Buradan bir şey çıkmaz" der gibi herkes.' },
+      ],
+      choices: [
+        {
+          text: 'Ben de küçük bir yerden, sıfırdan başladım.',
+          lines: [{ speaker: 'npc', text: 'Ama sen başardın. (durur) ...Yani demek istiyorsun ki, yer önemli değil, ne yaptığın önemli. Bunu bir yere yazacağım. Hurda bilgisayarımın yanına.' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Büyük ekipler de bir kişiyle başladı.',
+          lines: [{ speaker: 'npc', text: 'Doğru ya. Her büyük şey, bir odada tek başına başlayan biriyle. Belki benim odam da o oda olabilir. Belki.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'tessa_t3_1',
+      tier: 3,
+      title: 'Büyüyünce',
+      lines: [
+        { speaker: 'npc',    text: '(bu kez daha az çekingen, kararlı) Sana bir şey söyleyeceğim, gülme tamam mı? Büyüyünce... senin stüdyonda çalışmak istiyorum. Gerçek oyunlar yapmak istiyorum, seninle.' },
+        { speaker: 'player', text: 'Ciddi misin?' },
+        { speaker: 'npc',    text: 'Çok ciddiyim. Her gün biraz daha öğreniyorum, senin için hazır olayım diye. On sekizime geldiğimde — kapını çalacağım. Beni alır mısın? Söz veriyorum, o zamana kadar gerçekten iyi olacağım.' },
+        { speaker: 'player', text: 'Çalış, hazır ol — kapım açık.' },
+        { speaker: 'npc',    text: '(gözleri dolar, sonra koca bir gülümseme) Duydun mu bunu?! Tamam. Söz. Birkaç yıl sonra — junior programcınım ben artık. (dizüstüne döner, yeni bir hevesle) O yılana duvardan geçmemeyi öğreteceğim önce.' },
+      ],
+      ideaSeed: 'game_history',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3231,6 +3345,7 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   vince,
   wren,
   dax,
+  tessa,
 }
 
 export function getNpc(id: string): NPCDef | undefined {

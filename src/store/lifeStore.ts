@@ -3,8 +3,10 @@ import { START_YEAR, ageFromBirthYear, stageForAge, yearsElapsed } from '@/engin
 import { eventsForYear } from '@/engine/lifeEventEngine'
 import { LIFE_EVENTS } from '@/data/lifeEvents'
 import { getNpc } from '@/data/npcDialogues'
+import { npcToCandidate } from '@/engine/npcCandidate'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import { useNPCStore } from '@/store/npcStore'
+import { useEmployeeStore } from '@/store/employeeStore'
 import type { LifeEvent, LifeEffect, LifeCtx } from '@/types/lifeEvent'
 import type { NPCDef } from '@/data/npcDialogues'
 
@@ -50,6 +52,15 @@ export const useLifeStore = create<LifeStore>((set, get) => {
         set((s) => ({
           roles: { ...s.roles, [effect.npcId]: [...(s.roles[effect.npcId] ?? []), effect.role] },
         }))
+        if (effect.role === 'hireable') {
+          const def = getNpc(effect.npcId)
+          if (def) {
+            const cand = npcToCandidate(def)
+            useEmployeeStore.setState((s) =>
+              s.candidates.some((c) => c.id === cand.id) ? s : { candidates: [...s.candidates, cand] }
+            )
+          }
+        }
         break
       case 'setDialogueNode':
         set((s) => ({ dialogueOverrides: { ...s.dialogueOverrides, [effect.npcId]: effect.node } }))
