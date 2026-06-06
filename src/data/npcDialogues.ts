@@ -44,7 +44,7 @@ export type NPCId =
   // Gamer kasabalılar
   | 'max' | 'vince' | 'wren' | 'dax'
   // Minör / yeni nesil kasabalılar
-  | 'tessa'
+  | 'tessa' | 'bea'
 
 export interface NPCDef {
   id: NPCId
@@ -3316,6 +3316,118 @@ const tessa: NPCDef = {
   ],
 }
 
+// ─── BEA (minör / yeni nesil) ────────────────────────────────────────────────
+
+const bea: NPCDef = {
+  id: 'bea',
+  name: 'Bea',
+  role: 'Hayalperest Genç Sanatçı',
+  philosophy: 'Minör kasabalı (yeni nesil) — Dağınık, renklere dalmış; izini bırakmak ister, "pratik ol" baskısından korkar. Nadia\'nın çırağı. (18\'inde ilk muralini yapar.)',
+  emoji: '🎨',
+  gender: 'female',
+  isRomanceCandidate: false,
+  birthYear: 1985,   // 2000'de 15 → 2003'te 18
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'bea_t1_1',
+      tier: 1,
+      title: 'Renk Görüyorum',
+      lines: [
+        { speaker: 'npc',    text: '(elleri boyalı, deftere bir şey karalıyor, başını geç kaldırır) Aa... pardon, seni duymadım. Şu duvarın rengine bakıyordum — sabahları mor oluyor, fark ettin mi hiç?' },
+        { speaker: 'player', text: 'Mor mu?' },
+        { speaker: 'npc',    text: 'Herkes "gri duvar" diyor. Ama gri diye bir şey yok aslında; iyi bakarsan içinde mor, mavi, biraz da pas var. Ben Bea. Resim yapıyorum — Nadia abla öğretiyor, hani seramikçi.' },
+        { speaker: 'player', text: 'Nadia\'yı tanıyorum.' },
+        { speaker: 'npc',    text: 'O en iyisi! Bana "kuralları sonra öğren, önce gör" dedi. Çoğu öğretmen tam tersini söylüyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'bea_t1_2',
+      tier: 1,
+      title: 'Defter',
+      lines: [
+        { speaker: 'npc',    text: '(defteri uzatır) Bak, her sayfa bir gün. Bu insanları, bu nehri, bu rüyamı çizdim. Çoğu kötü ama atmıyorum — kötü çizimler de bir şey hatırlatıyor.' },
+        { speaker: 'player', text: 'Hiç durmadan mı çiziyorsun?' },
+        { speaker: 'npc',    text: 'Durunca kafam çok gürültülü oluyor. Çizince susuyor. Sanırım başkaları için müzik neyse, benim için bu.' },
+      ],
+      choices: [
+        {
+          text: 'Kötü çizim diye bir şey yok, sadece denemeler var.',
+          lines: [{ speaker: 'npc', text: '(gülümser) Nadia abla da öyle der! "Bozuk olan, elinin o gün titrediğini saklıyor" diye. Sen de mi sanatçısın yoksa? Oyun da sanat sayılır mı?' }],
+          ideaSeed: 'sosyallik',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Bu nehri çok çizmişsin.',
+          lines: [{ speaker: 'npc', text: 'Nehir hiç aynı kalmıyor da ondan. Her gün başka. Onu yakalamaya çalışıyorum ama hep kaçıyor. Belki o yüzden çiziyorum — kaçan şeyleri tutmak için.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'bea_t2_1',
+      tier: 2,
+      title: 'Pratik Ol',
+      lines: [
+        { speaker: 'npc',    text: 'Annem "Bea, resim karın doyurmaz, bir meslek tut" diyor. Öğretmenler "hobinle vakit kaybetme" diyor.' },
+        { speaker: 'player', text: 'Sen ne diyorsun?' },
+        { speaker: 'npc',    text: '(sessiz) Bazen onlara inanıyorum. Sonra Nadia abla\'ya bakıyorum — o da "pratik ol" denip kaçmış buraya, ve mutlu. Demek bir yolu var. Ama korkutucu.' },
+        { speaker: 'player', text: 'Korkutucu olan ne?' },
+        { speaker: 'npc',    text: 'Ya yıllar harcayıp... hiç kimse görmezse? Ya odamdaki defterlerde kalırsam, kimse bakmadan?' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'bea_t2_2',
+      tier: 2,
+      title: 'İz Bırakmak',
+      lines: [
+        { speaker: 'npc',    text: 'Bir hayalim var. Gülersen söylemem.' },
+        { speaker: 'player', text: 'Gülmem, söz.' },
+        { speaker: 'npc',    text: 'Büyük bir şey yapmak istiyorum. Küçük defter değil — kocaman, herkesin göreceği bir şey. Bir duvar mesela. Şehrin ortasında, yıllarca kalan, "bunu Bea yaptı" denen bir şey.' },
+      ],
+      choices: [
+        {
+          text: 'İz bırakmak isteyen biri, zaten sanatçıdır.',
+          lines: [{ speaker: 'npc', text: '(gözleri büyür) Öyle mi dedin? "Zaten sanatçı"... Kimse bana "sanatçı" demedi şimdiye kadar. "Çizen kız" dediler. Sanatçı başka bir şey, daha ağır, daha gerçek.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'Hangi duvarı seçerdin?',
+          lines: [{ speaker: 'npc', text: 'Köprünün ayağındaki o büyük boş duvar! Herkes oradan geçiyor. Gözümde çoktan boyadım onu — mavi bir nehir, içinden çıkan insanlar. Sadece... cesaret lazım. Ve biraz da boya parası.' }],
+          ideaSeed: 'kaos',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'bea_t3_1',
+      tier: 3,
+      title: 'Bir Gün O Duvar',
+      lines: [
+        { speaker: 'npc',    text: '(deftere değil, sana bakıyor) Sana neden anlatıyorum bunları biliyor musun? Çünkü sen de gördün. Kimse görmezken sen geldin, koca şirketten ayrılıp burada kendi şeyini yaptın.' },
+        { speaker: 'player', text: 'Sen de yapabilirsin.' },
+        { speaker: 'npc',    text: 'Büyüyünce o duvarı boyayacağım. Söz veriyorum. On sekizime gelince, elimde fırça, o köprünün ayağında. Ya beğenirler ya gülerler — ama orada olacak, benim olacak.' },
+        { speaker: 'player', text: 'O gün geldiğinde, ilk ben bakmaya geleceğim.' },
+        { speaker: 'npc',    text: '(gülümsemesi titrer) Geleceksin demek. O zaman vazgeçemem artık, birine söz verdim. (defteri kapatır, ama yeni bir kararla) Tamam. Renkleri biriktirmeye başlıyorum. O duvar beni bekliyor, sadece henüz bilmiyor.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3346,6 +3458,7 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   wren,
   dax,
   tessa,
+  bea,
 }
 
 export function getNpc(id: string): NPCDef | undefined {

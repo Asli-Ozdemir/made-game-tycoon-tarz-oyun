@@ -30,3 +30,14 @@ describe('Tessa reşit → işe alınabilir (varsayılan LIFE_EVENTS)', () => {
     expect(matches).toHaveLength(1)
   })
 })
+
+describe('Bea 18 → mural bayrağı', () => {
+  it('2003 (yaş 18) → bea_mural_yapildi flag', () => {
+    useLifeStore.getState().advanceYear(2003)
+    expect(useLifeStore.getState().hasFlag('bea_mural_yapildi')).toBe(true)
+  })
+  it('2002 (yaş 17) → henüz değil', () => {
+    useLifeStore.getState().advanceYear(2002)
+    expect(useLifeStore.getState().hasFlag('bea_mural_yapildi')).toBe(false)
+  })
+})
