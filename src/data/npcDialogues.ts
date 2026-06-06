@@ -44,7 +44,7 @@ export type NPCId =
   // Gamer kasabalılar
   | 'max' | 'vince' | 'wren' | 'dax'
   // Minör / yeni nesil kasabalılar
-  | 'tessa' | 'bea' | 'pip'
+  | 'tessa' | 'bea' | 'pip' | 'otto'
 
 export interface NPCDef {
   id: NPCId
@@ -3540,6 +3540,118 @@ const pip: NPCDef = {
   ],
 }
 
+// ─── OTTO (minör / yeni nesil — çocuk) ───────────────────────────────────────
+
+const otto: NPCDef = {
+  id: 'otto',
+  name: 'Otto',
+  role: 'Utangaç Doğa Meraklısı Çocuk',
+  philosophy: 'Minör kasabalı (yeni nesil, çocuk) — Sessiz, gözlemci, kendi dünyasında; küçük canlıları sever. Daniel\'a (nehir biyoloğu) özenir.',
+  emoji: '🐞',
+  gender: 'male',
+  isRomanceCandidate: false,
+  birthYear: 1993,   // 2000'de 7 (çocuk; yıllarca büyür)
+  tier2Threshold: 30,
+  tier3Threshold: 70,
+  dialogues: [
+    // ─── T1 ───
+    {
+      id: 'otto_t1_1',
+      tier: 1,
+      title: 'Sessiz Ol, Kaçar',
+      lines: [
+        { speaker: 'npc',    text: '(yere çömelmiş, avucunda bir şey; fısıltıyla) ...Sessiz ol. Kaçar. Bak — uğur böceği. Yedi nokta. En şanslısı bu.' },
+        { speaker: 'player', text: '(fısıldar) Onu mu izliyorsun?' },
+        { speaker: 'npc',    text: '(başını sallar, hâlâ alçak sesle) Sabahtan beri. Nereye gittiğini merak ediyorum. Ben Otto. Sen bağırmadın, iyi. Çoğu büyük bağırıyor, her şey kaçıyor.' },
+        { speaker: 'player', text: 'Bağırmam, söz.' },
+        { speaker: 'npc',    text: '(hafifçe gülümser, avucunu açar, böcek uçar) ...Gitti. Olsun. Belki yarın geri gelir. Genelde gelirler.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 8,
+    },
+    {
+      id: 'otto_t1_2',
+      tier: 1,
+      title: 'Kavanoz',
+      lines: [
+        { speaker: 'npc',    text: '(küçük bir kavanoz gösterir) Burada bir şeyler topluyorum. Taş, kabuk, kuru yaprak. Bir de nehirden bir salyangoz. Ona Daniel abi bakmama yardım etti.' },
+        { speaker: 'player', text: 'Daniel\'ı tanıyor musun?' },
+        { speaker: 'npc',    text: 'O her şeyi biliyor! Nehirdeki canlıları. Ben de onun gibi olacağım büyüyünce. Ama daha çok şey öğrenmem lazım. Çok çok şey.' },
+      ],
+      choices: [
+        {
+          text: 'Toplamak değil, merak etmek önemli.',
+          lines: [{ speaker: 'npc', text: '(düşünür) ...Evet. Salyangozu seviyorum çünkü merak ediyorum, nasıl o kadar yavaş mutlu oluyor diye. Topladığım şeyler soru gibi. Cevabını arıyorum.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'En sevdiğin canlı ne?',
+          lines: [{ speaker: 'npc', text: 'Su semenderi. Hem suda hem karada yaşıyor. İki dünyası var. Ben de iki dünya isterdim — biri sessiz, biri... biraz daha az sessiz.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 3,
+    },
+    // ─── T2 ───
+    {
+      id: 'otto_t2_1',
+      tier: 2,
+      title: 'Küçük Şeyler',
+      lines: [
+        { speaker: 'npc',    text: 'Büyükler hep büyük şeylere bakıyor. Ben küçük şeylere bakıyorum. Karınca, çiy damlası, bir tüy. Kimse bakmıyor onlara.' },
+        { speaker: 'player', text: 'Sen neden bakıyorsun?' },
+        { speaker: 'npc',    text: '(omuz silker, alçak ses) Çünkü... onlar da küçük. Ben de küçüğüm. Kimse beni de pek fark etmiyor. Belki ben onları fark edersem, dünyada en azından biri birini fark etmiş olur.' },
+        { speaker: 'player', text: 'Ben seni fark ettim, Otto.' },
+        { speaker: 'npc',    text: '(uzun bir sessizlik, sonra çok hafif bir gülümseme) ...Gördün demek. Tamam. O zaman ikimiz biriz. Sen ben, ben uğur böceği.' },
+      ],
+      ideaSeed: 'sosyallik',
+      relationshipBonus: 10,
+    },
+    {
+      id: 'otto_t2_2',
+      tier: 2,
+      title: 'Konuşmak Zor',
+      lines: [
+        { speaker: 'npc',    text: 'Okulda öğretmen "Otto neden hiç konuşmuyorsun" diyor. Bilmiyorum. Kelimeler içimde var ama dışarı çıkarken takılıyor.' },
+        { speaker: 'player', text: 'Bana konuşuyorsun ama.' },
+        { speaker: 'npc',    text: 'Çünkü sen beklemeyi biliyorsun. Çoğu beklemiyor.' },
+      ],
+      choices: [
+        {
+          text: 'Sessiz olmak, söyleyecek şeyin olmadığı anlamına gelmez.',
+          lines: [{ speaker: 'npc', text: '(başını kaldırır) ...Bunu öğretmene söyleyebilir misin? Şaka. Söyleyemem ona. Ama sana inandım. Sessiz kafamın içi çok gürültülü aslında, sadece dışı sakin.' }],
+          ideaSeed: 'analiz',
+          relationshipBonus: 5,
+        },
+        {
+          text: 'En sevdiğin sesi anlat.',
+          lines: [{ speaker: 'npc', text: 'Yağmurdan sonra nehrin sesi. Ve... Daniel abi bir şey anlatırken. O konuşunca dünya daha az korkutucu oluyor. Belki ben de bir gün birine öyle gelirim.' }],
+          ideaSeed: 'nostalji',
+          relationshipBonus: 5,
+        },
+      ],
+      relationshipBonus: 10,
+    },
+    // ─── T3 (derin dostluk) ───
+    {
+      id: 'otto_t3_1',
+      tier: 3,
+      title: 'İki Dünya',
+      lines: [
+        { speaker: 'npc',    text: '(kavanozu sana uzatır, çok dikkatli) Bunu sana vermek istiyorum. İçindeki salyangoz değil — boş kavanoz. Çünkü... sen yeni bir şey koyabilirsin içine. Senin merakın.' },
+        { speaker: 'player', text: 'Bana mı veriyorsun?' },
+        { speaker: 'npc',    text: 'Sen de iki dünyalısın, fark ettim. Nehrin bu yakası, bir de geçmişin. Su semenderi gibi. (çok cesur bir an) Büyüyünce Daniel abi gibi nehri inceleyeceğim. Ama belki senin gibi de bir şey yapacağım — kendi şeyimi. Korkmadan konuşacağım, bir gün.' },
+        { speaker: 'player', text: 'O günü dört gözle bekliyorum.' },
+        { speaker: 'npc',    text: '(kavanozu senin elinde bırakır, gülümser — bu sefer tam) Ben de. Beklerken küçük şeylere bakmaya devam edeceğim. Sen büyük şeyleri yap, ben küçükleri sayayım. İkimiz bütün dünyayı görmüş oluruz o zaman. Arkadaş olduk, değil mi? Sessizce.' },
+      ],
+      ideaSeed: 'analiz',
+      relationshipBonus: 15,
+    },
+  ],
+}
+
 export const NPC_DEFS: Record<string, NPCDef> = {
   marcus,
   remy,
@@ -3572,6 +3684,7 @@ export const NPC_DEFS: Record<string, NPCDef> = {
   tessa,
   bea,
   pip,
+  otto,
 }
 
 export function getNpc(id: string): NPCDef | undefined {
