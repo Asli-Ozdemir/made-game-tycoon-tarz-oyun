@@ -7,6 +7,7 @@ import { useProjectStore } from '@/store/projectStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useTrendStore } from '@/store/trendStore'
 import { useObjectiveStore } from '@/store/objectiveStore'
+import { DEMO_MODE } from '@/config'
 import type { ProjectScope } from '@/types'
 
 interface Props { onClose: () => void }
@@ -128,7 +129,7 @@ export default function NewProjectModal({ onClose }: Props) {
         </label>
 
         {/* Kaynak Oyun (opsiyonel) */}
-        {publishedProjects.length > 0 && (
+        {!DEMO_MODE && publishedProjects.length > 0 && (
           <label className="block mb-3">
             <span className="text-gray-400 text-sm">Kaynak Oyun (opsiyonel)</span>
             <select
@@ -145,7 +146,7 @@ export default function NewProjectModal({ onClose }: Props) {
         )}
 
         {/* İçerik Tipi (kaynak seçilince görünür) */}
-        {parentProjectId && (
+        {!DEMO_MODE && parentProjectId && (
           <label className="block mb-3">
             <span className="text-gray-400 text-sm">İçerik Tipi</span>
             <div className="grid grid-cols-3 gap-2 mt-1">
@@ -172,7 +173,7 @@ export default function NewProjectModal({ onClose }: Props) {
         )}
 
         {/* DLC Fiyat Input */}
-        {contentType === 'dlc' && parentProjectId && (
+        {!DEMO_MODE && contentType === 'dlc' && parentProjectId && (
           <label className="block mb-3">
             <span className="text-gray-400 text-sm">DLC Fiyatı ($) — max ${maxDlcPrice}</span>
             <input
