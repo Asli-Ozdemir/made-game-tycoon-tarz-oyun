@@ -46,35 +46,31 @@ export default function StartScreen() {
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
       />
 
-      {/* Logo */}
-      <img
-        src={logoSrc}
-        alt="Magenta Reach"
-        style={{
-          position: 'absolute',
-          right: '14.5%',
-          top: '14%',
-          imageRendering: 'pixelated',
-          width: 280, height: 79,
-          maxWidth: '45vw',
-          objectFit: 'contain',
-          zIndex: 10,
-          filter: 'drop-shadow(0 0 16px rgba(255,45,155,0.8))',
-        }}
-      />
-
-      {/* Menu buttons */}
+      {/* Logo + Menu — single anchored block */}
       <div style={{
         position: 'absolute',
-        right: '18%',
-        top: '24%',
-        display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 10,
+        right: '14%',
+        top: '14%',
+        display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 16,
         zIndex: 10,
-        whiteSpace: 'nowrap',
       }}>
-        <MenuButton onClick={() => setOverlay('new')} color="magenta">NEW GAME</MenuButton>
-        <MenuButton onClick={() => hasSave ? setOverlay('continue') : undefined} color="white" disabled={!hasSave}>CONTINUE</MenuButton>
-        <MenuButton onClick={() => window.close()} color="exit">EXIT</MenuButton>
+        <img
+          src={logoSrc}
+          alt="Magenta Reach"
+          style={{
+            imageRendering: 'pixelated',
+            width: 280, height: 79,
+            maxWidth: '45vw',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 0 16px rgba(255,45,155,0.8))',
+            alignSelf: 'center',
+          }}
+        />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 10, whiteSpace: 'nowrap' }}>
+          <MenuButton onClick={() => setOverlay('new')} color="magenta">NEW GAME</MenuButton>
+          <MenuButton onClick={() => hasSave ? setOverlay('continue') : undefined} color="white" disabled={!hasSave}>CONTINUE</MenuButton>
+          <MenuButton onClick={() => window.close()} color="exit">EXIT</MenuButton>
+        </div>
       </div>
 
       {/* Slot picker */}
