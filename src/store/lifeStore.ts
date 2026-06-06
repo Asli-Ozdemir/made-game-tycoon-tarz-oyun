@@ -24,6 +24,7 @@ interface LifeStore {
   advanceYear: (year: number, events?: LifeEvent[]) => void
   hasFlag:     (flag: string) => boolean
   hasRole:     (npcId: string, role: Role) => boolean
+  isRetired:   (npcId: string) => boolean
   reset:       () => void
 }
 
@@ -102,6 +103,7 @@ export const useLifeStore = create<LifeStore>((set, get) => {
 
     hasFlag: (flag) => get().flags.has(flag),
     hasRole: (npcId, role) => (get().roles[npcId] ?? []).includes(role),
+    isRetired: (npcId) => get().retiredNpcs.has(npcId),
 
     reset: () => set({
       lastProcessedYear: START_YEAR,

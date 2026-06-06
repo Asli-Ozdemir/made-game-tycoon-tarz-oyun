@@ -2,6 +2,7 @@
 import { create } from 'zustand'
 import { NPC_DEFS, type Dialogue } from '@/data/npcDialogues'
 import { getSkillBonuses } from '@/engine/skillEffectEngine'
+import { useLifeStore } from '@/store/lifeStore'
 
 interface NPCState {
   relationship: number
@@ -142,6 +143,8 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
   },
 
   getAvailableDialogues(npcId) {
+    // Vefat eden / dünyadan çıkan NPC ile konuşulamaz (lifeStore.retireNpc)
+    if (useLifeStore.getState().isRetired(npcId)) return []
     const def = NPC_DEFS[npcId]
     if (!def) return []
     const tier = get().getTier(npcId)
