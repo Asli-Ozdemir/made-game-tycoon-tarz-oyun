@@ -11,6 +11,7 @@ import { GENRES } from '@/data/genres'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useIndustryEventStore } from '@/store/industryEventStore'
 import { INDUSTRY_EVENTS } from '@/data/industryEvents'
+import { DEMO_MODE } from '@/config'
 
 import iconSave      from '@/assets/icons/save.png'
 import iconBars      from '@/assets/icons/barsVertical.png'
@@ -174,13 +175,15 @@ export default function HUD() {
             🔥 {trendingGenre}
           </span>
         )}
-        <HudIconButton
-          icon={iconCampaign}
-          title="Pazarlama"
-          onClick={openCampaignPanel}
-          badge={activeCampaignCount > 0 ? activeCampaignCount : null}
-          badgeColor="bg-yellow-500"
-        />
+        {!DEMO_MODE && (
+          <HudIconButton
+            icon={iconCampaign}
+            title="Pazarlama"
+            onClick={openCampaignPanel}
+            badge={activeCampaignCount > 0 ? activeCampaignCount : null}
+            badgeColor="bg-yellow-500"
+          />
+        )}
         <HudIconButton
           icon={iconCalendar}
           title="Etkinlik Takvimi"

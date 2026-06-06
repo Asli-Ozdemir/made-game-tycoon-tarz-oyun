@@ -20,6 +20,7 @@ import { useAwardsStore } from '@/store/awardsStore'
 import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 import { useEventStore } from '@/store/eventStore'
+import { DEMO_MODE } from '@/config'
 import type { GameProject, PublishResult, SequelProject } from '@/types'
 
 interface Props {
@@ -27,6 +28,10 @@ interface Props {
 }
 
 type Tab = 'studyo' | 'calisanlar' | 'rakipler' | 'piyasa'
+
+const VISIBLE_TABS: Tab[] = DEMO_MODE
+  ? ['studyo', 'rakipler', 'piyasa']
+  : ['studyo', 'calisanlar', 'rakipler', 'piyasa']
 
 export default function Dashboard({ onPublishResult }: Props) {
   const [showModal, setShowModal] = useState(false)
@@ -155,7 +160,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     <div className="flex flex-col h-full">
       {/* Tab bar */}
       <div className="flex border-b border-gray-800 px-6 pt-4">
-        {(['studyo', 'calisanlar', 'rakipler', 'piyasa'] as Tab[]).map((tab) => (
+        {VISIBLE_TABS.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}

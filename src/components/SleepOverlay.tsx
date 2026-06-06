@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useWorldStore } from '@/store/worldStore'
 import SkillTreePanel   from '@/components/SkillTreePanel'
 import SocialSkillPanel from '@/components/SocialSkillPanel'
+import { DEMO_MODE } from '@/config'
 
 type Tab = 'zihin' | 'sosyal'
 
@@ -13,7 +14,7 @@ interface Props {
 export default function SleepOverlay({ onWake }: Props) {
   const setLocation = useWorldStore(s => s.setLocation)
   const [visible, setVisible] = useState(false)
-  const [tab, setTab]         = useState<Tab>('zihin')
+  const [tab, setTab]         = useState<Tab>(DEMO_MODE ? 'sosyal' : 'zihin')
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 50)
@@ -46,7 +47,7 @@ export default function SleepOverlay({ onWake }: Props) {
     >
       {/* Sekme çubuğu */}
       <div className="flex gap-1 mb-3">
-        {(['zihin', 'sosyal'] as Tab[]).map(t => (
+        {(DEMO_MODE ? (['sosyal'] as Tab[]) : (['zihin', 'sosyal'] as Tab[])).map(t => (
           <button
             key={t}
             onClick={() => setTab(t)}
