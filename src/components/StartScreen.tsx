@@ -52,8 +52,8 @@ export default function StartScreen() {
         alt="Magenta Reach"
         style={{
           position: 'absolute',
-          right: '17%',
-          top: '6%',
+          right: '14.5%',
+          top: '14%',
           imageRendering: 'pixelated',
           width: 280, height: 79,
           maxWidth: '45vw',
@@ -68,18 +68,13 @@ export default function StartScreen() {
         position: 'absolute',
         right: '18%',
         top: '24%',
-        display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10,
+        display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 10,
         zIndex: 10,
         whiteSpace: 'nowrap',
       }}>
         <MenuButton onClick={() => setOverlay('new')} color="magenta">NEW GAME</MenuButton>
         <MenuButton onClick={() => hasSave ? setOverlay('continue') : undefined} color="white" disabled={!hasSave}>CONTINUE</MenuButton>
-        <button
-          onClick={() => window.close()}
-          style={{ padding: '4px 24px', border: 'none', color: '#666688', background: 'transparent', fontFamily: 'monospace', fontSize: 11, letterSpacing: 3, cursor: 'pointer', transition: 'color 0.15s' }}
-          onMouseEnter={(e) => { e.currentTarget.style.color = '#9999aa' }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = '#666688' }}
-        >EXIT</button>
+        <MenuButton onClick={() => window.close()} color="exit">EXIT</MenuButton>
       </div>
 
       {/* Slot picker */}
@@ -144,13 +139,14 @@ export default function StartScreen() {
 function MenuButton({ children, onClick, color, disabled = false }: {
   children: React.ReactNode
   onClick?: () => void
-  color: 'magenta' | 'white'
+  color: 'magenta' | 'white' | 'exit'
   disabled?: boolean
 }) {
   const isMagenta  = color === 'magenta'
-  const borderBase = isMagenta ? 'rgba(240,60,130,0.85)' : 'rgba(255,255,255,0.4)'
+  const isExit     = color === 'exit'
+  const borderBase = isMagenta ? 'rgba(240,60,130,0.85)' : isExit ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.4)'
   const borderHov  = isMagenta ? 'rgba(255,80,160,1)'    : 'rgba(255,255,255,0.9)'
-  const textColor  = disabled ? '#444458' : isMagenta ? '#ffffff' : '#ddddff'
+  const textColor  = disabled ? '#444458' : isMagenta ? '#ffffff' : isExit ? '#ddddff' : '#ddddff'
   const bgBase     = isMagenta && !disabled ? 'rgba(192,24,95,0.25)' : 'rgba(0,0,0,0.25)'
   const bgHov      = isMagenta && !disabled ? 'rgba(192,24,95,0.45)' : 'rgba(255,255,255,0.08)'
   return (
@@ -166,6 +162,7 @@ function MenuButton({ children, onClick, color, disabled = false }: {
         borderRadius: 2, cursor: disabled ? 'default' : 'pointer',
         transition: 'border-color 0.15s, box-shadow 0.15s, background 0.15s',
         textShadow: isMagenta && !disabled ? '0 0 8px rgba(255,100,180,0.8)' : 'none',
+        width: '100%',
       }}
       onMouseEnter={(e) => {
         if (disabled) return
