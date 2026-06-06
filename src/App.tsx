@@ -49,6 +49,10 @@ import IndustryEventPanel from '@/components/IndustryEventPanel'
 import { useIndustryEventStore } from '@/store/industryEventStore'
 import { transitionToRoom } from '@/pixi/Game'
 import SleepOverlay from '@/components/SleepOverlay'
+import { useObjectiveStore } from '@/store/objectiveStore'
+import ObjectiveBanner from '@/components/ObjectiveBanner'
+import MovementHint from '@/components/MovementHint'
+import StudioDeskPointer from '@/components/StudioDeskPointer'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -122,6 +126,7 @@ export default function App() {
   const showSavePanel    = useSaveStore((s) => s.showSavePanel)
   const activeCutscene   = useCutsceneStore((s) => s.activeCutscene)
   const pendingResolution = useRivalStore((s) => s.pendingResolution)
+  const tryStartOnboarding = useObjectiveStore((s) => s.tryStartOnboarding)
   const pendingEvent = useEventStore((s) => s.pendingEvent)
   const pendingSaleEventModal = useEconomyStore((s) => s.pendingSaleEventModal)
   const isInCrisis = useEconomyStore((s) => s.isInCrisis)
@@ -166,6 +171,10 @@ export default function App() {
     return () => { console.info = orig }
   }, [])
 
+  useEffect(() => {
+    if (gamePhase === 'playing') tryStartOnboarding()
+  }, [gamePhase, tryStartOnboarding])
+
   if (isBankrupt) return <BankruptcyScreen />
 
   if (gamePhase === 'title')    return <StartScreen />
@@ -181,6 +190,9 @@ export default function App() {
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#1a1a2e' }}>
       {/* GameCanvas her zaman mount'ta — cutscene sırasında unmount olmaz */}
       <GameCanvas />
+      <ObjectiveBanner />
+      <MovementHint />
+      <StudioDeskPointer />
 
       {/* HUD — always visible */}
       <div className="absolute inset-x-0 top-0 z-10">
