@@ -4,6 +4,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useCutsceneStore } from '@/store/cutsceneStore'
 import logoSrc   from '@/assets/icons/logo_magenta_reach.png'
 import waterLoop from '@/assets/icons/water_loop.mp4'
+import { playMusic, stopMusic } from '@/audio/soundService'
 
 export default function StartScreen() {
   const slots              = useSaveStore((s) => s.slots)
@@ -21,6 +22,11 @@ export default function StartScreen() {
   useEffect(() => {
     if (wrapRef.current && typeof wrapRef.current.animate === 'function')
       wrapRef.current.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 900, fill: 'forwards', easing: 'ease-out' })
+  }, [])
+
+  useEffect(() => {
+    playMusic('menu', { fade: 1000 })
+    return () => stopMusic({ fade: 600 })
   }, [])
 
 

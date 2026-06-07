@@ -54,6 +54,7 @@ import { useObjectiveStore } from '@/store/objectiveStore'
 import ObjectiveBanner from '@/components/ObjectiveBanner'
 import MovementHint from '@/components/MovementHint'
 import StudioDeskPointer from '@/components/StudioDeskPointer'
+import { initSounds, playMusic, stopMusic } from '@/audio/soundService'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
@@ -171,6 +172,18 @@ export default function App() {
     }
     return () => { console.info = orig }
   }, [])
+
+  useEffect(() => {
+    void initSounds()
+  }, [])
+
+  useEffect(() => {
+    if (gamePhase === 'playing') {
+      playMusic('coast', { fade: 1200 })
+    } else if (gamePhase === 'creation') {
+      stopMusic({ fade: 800 })
+    }
+  }, [gamePhase])
 
   useEffect(() => {
     if (gamePhase === 'playing') tryStartOnboarding()
