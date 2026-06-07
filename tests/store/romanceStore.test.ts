@@ -1,13 +1,15 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useRomanceStore } from '@/store/romanceStore'
+import { useRomanceStore, BOUQUET_COST, RING_COST } from '@/store/romanceStore'
 import { useCharacterStore } from '@/store/characterStore'
 import { useNPCStore } from '@/store/npcStore'
 import { useLifeStore } from '@/store/lifeStore'
+import { useGameStore } from '@/store/gameStore'
 
 beforeEach(() => {
   useRomanceStore.getState().reset()
   useCharacterStore.getState().reset()
   useLifeStore.getState().reset()
+  useGameStore.setState({ money: 100000 })
   // Daniel (romantizm adayı, male) yüksek kalp
   useNPCStore.setState({
     npcs: { daniel: { relationship: 80, seenDialogueIds: [] } },
@@ -65,5 +67,17 @@ describe('romanceStore — kapı (gating)', () => {
   it('romantizm adayı olmayan (minör/felsefe) romantize edilemez', () => {
     expect(useRomanceStore.getState().canRomance('tessa')).toBe(false)
     expect(useRomanceStore.getState().canRomance('marcus')).toBe(false)
+  })
+
+  it('jestler para harcar; para yetmezse alınmaz', () => {
+    useGameStore.setState({ money: 100000 })
+    expect(useRomanceStore.getState().buyBouquet()).toBe(true)
+    expect(useGameStore.getState().money).toBe(100000 - BOUQUET_COST)
+    expect(useRomanceStore.getState().buyRing()).toBe(true)
+    expect(useGameStore.getState().money).toBe(100000 - BOUQUET_COST - RING_COST)
+    // para bitince
+    useGameStore.setState({ money: 10 })
+    useRomanceStore.getState().reset()
+    expect(useRomanceStore.getState().buyBouquet()).toBe(false)
   })
 })

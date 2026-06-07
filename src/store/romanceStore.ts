@@ -5,12 +5,15 @@ import { useCharacterStore } from '@/store/characterStore'
 import { useLifeStore } from '@/store/lifeStore'
 import { useNPCStore } from '@/store/npcStore'
 import { useTimeStore } from '@/store/timeStore'
+import { useGameStore } from '@/store/gameStore'
 
 export type RomanceStage = 'arkadas' | 'sevgili' | 'nisanli' | 'evli'
 
 const CONFESS_HEART = 70   // itiraf için gereken ilişki (npcStore 0–100; T3 eşiği)
 const DATE_MIN = 3          // teklif için min. buluşma
 const MAX_CHILDREN = 2
+export const BOUQUET_COST = 200    // çiçekçiden (Greta) demet
+export const RING_COST    = 5000   // kuyumcudan yüzük
 
 // B'nin evlendirdiği NPC'ler (oyuncu artık onlarla romantik olamaz)
 function takenByB(npcId: string): boolean {
@@ -43,8 +46,8 @@ interface RomanceStore {
 
   getStage:   (npcId: string) => RomanceStage
   canRomance: (npcId: string) => boolean
-  buyBouquet: () => void
-  buyRing:    () => void
+  buyBouquet: () => boolean
+  buyRing:    () => boolean
   confess:    (npcId: string) => boolean
   goOnDate:   (npcId: string) => boolean
   propose:    (npcId: string) => boolean
@@ -76,8 +79,20 @@ export const useRomanceStore = create<RomanceStore>((set, get) => ({
     return true
   },
 
-  buyBouquet: () => set({ hasBouquet: true }),
-  buyRing:    () => set({ hasRing: true }),
+  buyBouquet: () => {
+    if (get().hasBouquet) return false
+    if (useGameStore.getState().money < BOUQUET_COST) return false
+    useGameStore.getState().addMoney(-BOUQUET_COST)
+    set({ hasBouquet: true })
+    return true
+  },
+  buyRing: () => {
+    if (get().hasRing) return false
+    if (useGameStore.getState().money < RING_COST) return false
+    useGameStore.getState().addMoney(-RING_COST)
+    set({ hasRing: true })
+    return true
+  },
 
   confess: (npcId) => {
     if (!get().canRomance(npcId)) return false

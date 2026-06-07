@@ -6,6 +6,8 @@ import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useSocialSkillStore } from '@/store/socialSkillStore'
 import { useCharacterStore } from '@/store/characterStore'
+import { useRomanceStore, BOUQUET_COST, RING_COST } from '@/store/romanceStore'
+import { useGameStore } from '@/store/gameStore'
 import { sfx } from '@/audio/soundService'
 
 interface Props {
@@ -227,6 +229,9 @@ export default function DialogueView({ npcId, onClose }: Props) {
         </div>
       </div>
 
+      {/* Romantizm aksiyonları (uygun adaylarda) */}
+      <RomanceActions npcId={npcId} />
+
       {/* Diyalog listesi */}
       <div className="flex flex-col gap-2">
         <p className="text-gray-500 text-xs uppercase tracking-wide">Konuşmalar</p>
@@ -269,6 +274,76 @@ export default function DialogueView({ npcId, onClose }: Props) {
       >
         Çık (ESC)
       </button>
+    </div>
+  )
+}
+
+const STAGE_LABEL: Record<string, string> = {
+  arkadas: 'Arkadaş', sevgili: 'Sevgili', nisanli: 'Nişanlı', evli: 'Evli',
+}
+
+function RomanceActions({ npcId }: { npcId: NPCId }) {
+  const def        = NPC_DEFS[npcId]
+  const rel        = useNPCStore((s) => s.npcs[npcId]?.relationship ?? 0)
+  const stage      = useRomanceStore((s) => s.stage[npcId] ?? 'arkadas')
+  const dates      = useRomanceStore((s) => s.dateCount[npcId] ?? 0)
+  const hasBouquet = useRomanceStore((s) => s.hasBouquet)
+  const hasRing    = useRomanceStore((s) => s.hasRing)
+  const money      = useGameStore((s) => s.money)
+  const childCount = useCharacterStore((s) => s.childIds.length)
+  const R = useRomanceStore.getState
+
+  if (!def.isRomanceCandidate || !R().canRomance(npcId)) return null
+
+  const btn = 'rounded-lg px-3 py-2 text-sm transition-colors text-left'
+  const pink = `${btn} bg-pink-900/50 hover:bg-pink-800/60 border border-pink-700/60 text-pink-100`
+  const plain = `${btn} bg-gray-800 hover:bg-gray-700 border border-gray-600 text-gray-200`
+  const off = `${btn} bg-gray-900 border border-gray-800 text-gray-600 cursor-not-allowed`
+
+  return (
+    <div className="border-t border-gray-800 pt-3 flex flex-col gap-2">
+      <p className="text-pink-300 text-xs uppercase tracking-wide">💗 İlişki — {STAGE_LABEL[stage]}</p>
+
+      {stage === 'arkadas' && (
+        rel < 70 ? (
+          <p className="text-gray-600 text-xs">Kalbi dolmadan itiraf edemezsin (dostluk 70 gerek).</p>
+        ) : !hasBouquet ? (
+          <button className={money < BOUQUET_COST ? off : plain} disabled={money < BOUQUET_COST}
+            onClick={() => R().buyBouquet()}>
+            💐 Çiçekçiden demet al (${BOUQUET_COST.toLocaleString()})
+          </button>
+        ) : (
+          <button className={pink} onClick={() => R().confess(npcId)}>💐 İtiraf et</button>
+        )
+      )}
+
+      {stage === 'sevgili' && (
+        <>
+          <button className={plain} onClick={() => R().goOnDate(npcId)}>💝 Buluşmaya çık ({dates}/3)</button>
+          {dates >= 3 && (!hasRing ? (
+            <button className={money < RING_COST ? off : plain} disabled={money < RING_COST}
+              onClick={() => R().buyRing()}>
+              💍 Kuyumcudan yüzük al (${RING_COST.toLocaleString()})
+            </button>
+          ) : (
+            <button className={pink} onClick={() => R().propose(npcId)}>💍 Evlenme teklif et</button>
+          ))}
+        </>
+      )}
+
+      {stage === 'nisanli' && (
+        <button className={pink} onClick={() => R().marry(npcId)}>💒 Evlen</button>
+      )}
+
+      {stage === 'evli' && (
+        <button className={childCount >= 2 ? off : plain} disabled={childCount >= 2}
+          onClick={() => {
+            const name = window.prompt('Çocuğun adı?')?.trim()
+            if (name) R().haveChild(name)
+          }}>
+          👶 Çocuk sahibi ol ({childCount}/2)
+        </button>
+      )}
     </div>
   )
 }
