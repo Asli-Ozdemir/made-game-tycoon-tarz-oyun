@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Şehir İç Layout</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a14; color: #e0e0f0; font-family: monospace; padding: 32px; }
+  h1 { color: #ff2d9b; margin-bottom: 6px; font-size: 18px; letter-spacing: 2px; }
+  .subtitle { color: #666688; font-size: 11px; margin-bottom: 32px; }
+
+  .options { display: flex; gap: 24px; flex-wrap: wrap; }
+  .opt {
+    border: 2px solid #333355; border-radius: 8px; padding: 20px;
+    cursor: pointer; transition: all 0.2s; width: 340px;
+  }
+  .opt:hover { border-color: #9966ff; }
+  .opt.sel { border-color: #ff2d9b; background: rgba(255,45,155,0.06); }
+  .opt h3 { color: #cc88ff; font-size: 12px; letter-spacing: 2px; margin-bottom: 14px; }
+
+  .mini { display: inline-grid; gap: 4px; }
+  .r { width: 90px; height: 46px; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8px; text-align: center; }
+  .r.s { background: rgba(180,60,240,0.2); border: 1px solid rgba(180,60,240,0.5); color: #cc88ff; }
+  .r.b { background: rgba(220,180,50,0.15); border: 1px solid rgba(220,180,50,0.4); color: #ffe060; }
+  .r.x { background: transparent; border: none; }
+  .ar { display: flex; align-items: center; justify-content: center; color: #445566; font-size: 13px; }
+
+  .desc { color: #777788; font-size: 10px; line-height: 1.7; margin-top: 12px; }
+  .pro { color: #60cc90; font-size: 10px; }
+  .con { color: #cc6060; font-size: 10px; }
+</style>
+</head>
+<body>
+
+<h1>ŞEHİR — İÇ YAPI</h1>
+<p class="subtitle">Köprüden city_core'a giriliyor. Sonrası nasıl dallansın?</p>
+
+<div class="options">
+
+  <!-- OPTION A: LİNEER -->
+  <div class="opt" id="A" onclick="sel('A')">
+    <h3>A — LİNEER ŞERİT</h3>
+    <div class="mini" style="grid-template-columns: repeat(7, 94px); grid-template-rows: repeat(1, 50px);">
+      <div class="r b"><span>🌉</span><span>bridge</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🏙️</span><span>city_core</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🎭</span><span>city_culture</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🏥</span><span>city_edge</span></div>
+    </div>
+    <div class="mini" style="grid-template-columns: repeat(7, 94px); margin-top:4px;">
+      <div class="r x"></div><div class="r x"></div><div class="r x"></div><div class="r x"></div>
+      <div class="r x"></div><div class="r x"></div>
+      <div class="r s"><span>🌳</span><span>city_park</span></div>
+    </div>
+    <p class="desc">Şehir de sahil gibi düz bir koridor. city_edge'den city_park'a çıkıyor.</p>
+    <p class="pro">✓ Basit, kaybolmazsın</p>
+    <p class="con">✗ Yine lineer — iki yaka da koridor olur</p>
+  </div>
+
+  <!-- OPTION B: ÇATAL -->
+  <div class="opt" id="B" onclick="sel('B')">
+    <h3>B — city_core'dan ÇATAL</h3>
+    <div class="mini" style="grid-template-columns: repeat(5, 94px); grid-template-rows: repeat(3, 50px);">
+      <div class="r x"></div>
+      <div class="r x"></div>
+      <div class="r s"><span>🌳</span><span>city_park</span></div>
+      <div class="r x"></div>
+      <div class="r x"></div>
+
+      <div class="r b"><span>🌉</span><span>bridge</span></div>
+      <div class="ar">→</div>
+      <div class="r s" style="border-color:#ff2d9b;box-shadow:0 0 8px rgba(255,45,155,0.4)"><span>🏙️</span><span>city_core</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🎭</span><span>city_culture</span></div>
+
+      <div class="r x"></div>
+      <div class="r x"></div>
+      <div class="ar" style="transform:rotate(90deg)">→</div>
+      <div class="r x"></div>
+      <div class="r x"></div>
+    </div>
+    <div class="mini" style="grid-template-columns: repeat(5, 94px); margin-top:4px;">
+      <div class="r x"></div><div class="r x"></div>
+      <div class="r s"><span>🏥</span><span>city_edge</span></div>
+      <div class="r x"></div><div class="r x"></div>
+    </div>
+    <p class="desc">city_core bir kavşak: sağda culture, aşağıda edge, yukarıda park. Şehirde gerçekten kaybolabilirsin.</p>
+    <p class="pro">✓ Şehir karmaşık hissettiriyor (GDD'ye uygun)</p>
+    <p class="con">✗ Biraz daha fazla oda yönetimi</p>
+  </div>
+
+  <!-- OPTION C: 2x2 GRID -->
+  <div class="opt" id="C" onclick="sel('C')">
+    <h3>C — 2×2 ŞEHİR BLOĞU</h3>
+    <div class="mini" style="grid-template-columns: repeat(5, 94px); grid-template-rows: repeat(3, 50px);">
+      <div class="r b"><span>🌉</span><span>bridge</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🏙️</span><span>city_core</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🌳</span><span>city_park</span></div>
+
+      <div class="r x"></div>
+      <div class="r x"></div>
+      <div class="ar" style="transform:rotate(90deg)">→</div>
+      <div class="r x"></div>
+      <div class="ar" style="transform:rotate(90deg)">→</div>
+
+      <div class="r x"></div>
+      <div class="r x"></div>
+      <div class="r s"><span>🎭</span><span>city_culture</span></div>
+      <div class="ar">→</div>
+      <div class="r s"><span>🏥</span><span>city_edge</span></div>
+    </div>
+    <p class="desc">Şehir 4 odası gerçek bir grid: core↔park↔edge↔culture, hepsi çapraz bağlı. En özgür navigasyon.</p>
+    <p class="pro">✓ Şehir gerçek bir şehir gibi hissettiriyor</p>
+    <p class="con">✗ Fazla bağlantı — yön bulmak karışabilir</p>
+  </div>
+
+</div>
+
+<script>
+function sel(id) {
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('sel'));
+  document.getElementById(id).classList.add('sel');
+  document.title = 'SEÇİM:' + id;
+}
+</script>
+</body>
+</html>

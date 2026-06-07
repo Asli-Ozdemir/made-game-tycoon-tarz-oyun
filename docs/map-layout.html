@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Macenta Koyu — Harita Layout</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a14; color: #e0e0f0; font-family: monospace; padding: 32px; }
+  h1 { color: #ff2d9b; margin-bottom: 8px; font-size: 20px; letter-spacing: 2px; }
+  .subtitle { color: #666688; font-size: 12px; margin-bottom: 32px; }
+
+  .map { display: grid; grid-template-columns: repeat(7, 120px); grid-template-rows: repeat(5, 80px); gap: 8px; margin-bottom: 40px; }
+
+  .room {
+    border-radius: 4px; display: flex; align-items: center; justify-content: center;
+    text-align: center; font-size: 10px; letter-spacing: 1px; cursor: pointer;
+    border: 2px solid transparent; transition: all 0.2s; padding: 4px;
+    user-select: none;
+  }
+  .room:hover { transform: scale(1.05); }
+  .room.coast { background: rgba(60,130,100,0.25); border-color: rgba(60,200,120,0.6); color: #80ffb0; }
+  .room.city  { background: rgba(120,40,160,0.25); border-color: rgba(180,60,220,0.6); color: #d090ff; }
+  .room.bridge-r { background: rgba(200,140,40,0.2); border-color: rgba(220,180,60,0.6); color: #ffd060; }
+  .room.empty { background: transparent; border: none; }
+  .room.player { box-shadow: 0 0 16px rgba(255,45,155,0.8); border-color: #ff2d9b !important; }
+
+  .arrow { display: flex; align-items: center; justify-content: center; color: #444466; font-size: 18px; }
+
+  h2 { color: #9999cc; font-size: 13px; letter-spacing: 2px; margin: 24px 0 12px; }
+
+  .option-group { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+  .option {
+    border: 2px solid #333355; border-radius: 8px; padding: 16px; cursor: pointer;
+    transition: all 0.2s; width: 320px;
+  }
+  .option:hover { border-color: #ff2d9b; }
+  .option.selected { border-color: #ff2d9b; background: rgba(255,45,155,0.08); }
+  .option h3 { color: #ff2d9b; font-size: 12px; letter-spacing: 2px; margin-bottom: 8px; }
+  .option p { color: #888899; font-size: 11px; line-height: 1.6; }
+
+  .map-option { border: 2px solid #333355; border-radius: 8px; padding: 20px; cursor: pointer; transition: all 0.2s; margin-bottom: 16px; }
+  .map-option:hover { border-color: #9966ff; }
+  .map-option.selected { border-color: #ff2d9b; background: rgba(255,45,155,0.06); }
+  .map-option h3 { color: #cc88ff; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
+
+  .mini-map { display: inline-grid; gap: 4px; margin-bottom: 8px; }
+  .mr { width: 80px; height: 44px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 8px; text-align: center; padding: 2px; }
+  .mr.c { background: rgba(60,200,120,0.2); border: 1px solid rgba(60,200,120,0.5); color: #80ffb0; }
+  .mr.s { background: rgba(180,60,220,0.2); border: 1px solid rgba(180,60,220,0.5); color: #d090ff; }
+  .mr.b { background: rgba(220,180,60,0.15); border: 1px solid rgba(220,180,60,0.4); color: #ffd060; }
+  .mr.x { background: transparent; border: none; }
+  .ar { display: flex; align-items: center; justify-content: center; color: #555577; font-size: 12px; }
+
+  .label-coast { color: #80ffb0; font-size: 10px; }
+  .label-city { color: #d090ff; font-size: 10px; }
+</style>
+</head>
+<body>
+
+<h1>MACENTA KOYU — HARİTA LAYOUT</h1>
+<p class="subtitle">GDD'ye göre iki yakа: Sahil (Cozy) ↔ Köprü ↔ Şehir (Neon). Hangi layout doğru?</p>
+
+<h2>SEÇENEKLER</h2>
+
+<!-- OPTION A -->
+<div class="map-option" id="optA" onclick="select('A')">
+  <h3>A — SAHİL YUKARIDA, ŞEHİR AŞAĞIDA (Kuzey-Güney ekseni)</h3>
+  <div class="mini-map" style="grid-template-columns: repeat(5, 84px); grid-template-rows: repeat(4, 48px);">
+    <div class="mr x"></div>
+    <div class="mr c">coast_home<br>🏠 Başlangıç</div>
+    <div class="mr c">coast_docks<br>⚓ İskele</div>
+    <div class="mr c">coast_center<br>🏪 Merkez</div>
+    <div class="mr x"></div>
+
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="ar">⬇️</div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+
+    <div class="mr c">coast_west<br>🌿 Batı</div>
+    <div class="ar">➡️</div>
+    <div class="mr b">bridge<br>🌉 Köprü</div>
+    <div class="ar">➡️</div>
+    <div class="mr s">city_core<br>🏙️ Merkez</div>
+
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr s">city_culture<br>🎭 Kültür</div>
+
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr s">city_edge<br>🏥 Kenar</div>
+  </div>
+  <p style="color:#666688;font-size:10px;margin-top:8px;">Sahil: yatay bant (üst). Şehir: dikey sütun (sağ). Köprü ortada bağlayıcı.</p>
+</div>
+
+<!-- OPTION B -->
+<div class="map-option" id="optB" onclick="select('B')">
+  <h3>B — SAHİL SOLDA, ŞEHİR SAĞDA (Doğu-Batı) ama HİYERARŞİK</h3>
+  <div class="mini-map" style="grid-template-columns: repeat(7, 84px); grid-template-rows: repeat(3, 48px);">
+    <div class="mr c">coast_home<br>🏠 Başlangıç</div>
+    <div class="ar">➡️</div>
+    <div class="mr c">coast_docks<br>⚓</div>
+    <div class="ar">➡️</div>
+    <div class="mr c">coast_center<br>🏪</div>
+    <div class="ar">➡️</div>
+    <div class="mr c">coast_west<br>🌿</div>
+
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="mr x"></div>
+    <div class="ar">⬇️</div>
+    <div class="mr x"></div>
+
+    <div class="mr s">city_park<br>🌳</div>
+    <div class="ar">⬅️</div>
+    <div class="mr s">city_edge<br>🏥</div>
+    <div class="ar">⬅️</div>
+    <div class="mr s">city_culture<br>🎭</div>
+    <div class="ar">⬅️</div>
+    <div class="mr s">city_core<br>🏙️</div>
+  </div>
+  <p style="color:#666688;font-size:10px;margin-top:8px;">İki paralel yol: sahil koridoru (üst) → köprüden iner → şehir koridoru (alt). Yılan gibi akar. Bridge = coast_west ile city_core arası.</p>
+</div>
+
+<!-- OPTION C -->
+<div class="map-option" id="optC" onclick="select('C')">
+  <h3>C — IŞINSAL (HUB & SPOKE) — Köprü merkez, ikisi dışta</h3>
+  <div class="mini-map" style="grid-template-columns: repeat(5, 84px); grid-template-rows: repeat(3, 48px);">
+    <div class="mr c">coast_home<br>🏠</div>
+    <div class="ar">↕️</div>
+    <div class="mr x"></div>
+    <div class="ar">↕️</div>
+    <div class="mr s">city_core<br>🏙️</div>
+
+    <div class="mr c">coast_docks<br>⚓</div>
+    <div class="ar">➡️</div>
+    <div class="mr b">BRIDGE<br>🌉 HUB</div>
+    <div class="ar">➡️</div>
+    <div class="mr s">city_culture<br>🎭</div>
+
+    <div class="mr c">coast_west<br>🌿</div>
+    <div class="ar">↕️</div>
+    <div class="mr x"></div>
+    <div class="ar">↕️</div>
+    <div class="mr s">city_edge<br>🏥</div>
+  </div>
+  <p style="color:#666688;font-size:10px;margin-top:8px;">Köprü bir kavşak — her iki tarafın odaları buraya bağlanır. Sahil ve şehir çevresinde yayılır. En özgür navigasyon.</p>
+</div>
+
+<p style="color:#555577; font-size:11px; margin-top:16px;">Bir seçeneğe tıkla veya terminalde söyle.</p>
+
+<script>
+function select(choice) {
+  document.querySelectorAll('.map-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('opt' + choice).classList.add('selected');
+  document.title = 'Seçim: ' + choice;
+  console.log('CHOICE:' + choice);
+}
+</script>
+</body>
+</html>

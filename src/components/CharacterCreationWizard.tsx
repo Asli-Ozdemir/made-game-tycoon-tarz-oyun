@@ -8,6 +8,7 @@ import { useGameStore } from '@/store/gameStore'
 import { useWorldStore } from '@/store/worldStore'
 import { useRivalStore } from '@/store/rivalStore'
 import { useTrendStore } from '@/store/trendStore'
+import { useCutsceneStore } from '@/store/cutsceneStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 
 type Step = 1 | 2 | 3 | 4
@@ -30,7 +31,8 @@ export default function CharacterCreationWizard() {
     useRivalStore.getState().initRivals()
     useTrendStore.getState().initTrends()
     useWorldStore.setState({ currentRoomId: 'coast_home' })
-    useGameStore.getState().setGamePhase('playing')
+    useCutsceneStore.getState().startCutsceneForce('kovulma')
+    useGameStore.getState().setGamePhase('intro')
   }
 
   return (

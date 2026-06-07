@@ -192,8 +192,8 @@ export default function App() {
   if (isBankrupt) return <BankruptcyScreen />
 
   if (gamePhase === 'title')    return <StartScreen />
-  if (gamePhase === 'intro')    return <CutscenePlayer onComplete={() => setGamePhase('creation')} />
   if (gamePhase === 'creation') return <CharacterCreationWizard />
+  if (gamePhase === 'intro')    return <CutscenePlayer onComplete={() => setGamePhase('playing')} />
   if (pendingResolution) return <ResolutionScreen />
   if (pendingEvent)      return <EventModal />
 

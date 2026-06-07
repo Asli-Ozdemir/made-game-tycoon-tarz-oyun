@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSaveStore } from '@/store/saveStore'
 import { useGameStore } from '@/store/gameStore'
-import { useCutsceneStore } from '@/store/cutsceneStore'
 import logoSrc   from '@/assets/icons/logo_magenta_reach.png'
 import waterLoop from '@/assets/icons/water_loop.mp4'
 import { playMusic, stopMusic } from '@/audio/soundService'
@@ -38,8 +37,7 @@ export default function StartScreen() {
   function handleNewGame(slotId: 1 | 2 | 3) {
     setActiveSlot(slotId)
     setShowStartScreen(false)
-    useCutsceneStore.getState().startCutsceneForce('kovulma')
-    useGameStore.getState().setGamePhase('intro')
+    useGameStore.getState().setGamePhase('creation')
   }
 
   const hasSave = slots.some((s) => !s.isEmpty)
