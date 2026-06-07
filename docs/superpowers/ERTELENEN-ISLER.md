@@ -40,6 +40,11 @@ Yaşam-sim hattı **A→B→C1→C2** motor + veri + temel UI olarak **tamam ve 
 
 ---
 
+## 📏 Sayı ayrımı (karışmasın)
+- **32 = karakter / NPC sayısı** (`NPC_DEFS`): 12 felsefe + 12 romantizm + 4 gamer + 4 minör.
+- **39 = skill ağacı düğümü** (`SKILL_NODES`): nostalji/hikaye/kaos/zaman + analiz + sosyallik + oyun-tarihi dalları (36→39).
+- "39 karakter" yanlış — o skill node sayısı. Karakter = 32.
+
 ## Çalışma notları
 - Spec'ler: `specs/2026-05-31-*` (A/B/C1/C2). Durum: `DURUM.md` yaşam-sim satırları (pipeline sıra 2–5).
 - **Her push öncesi `git pull --rebase --autostash`** (paralel makine aktif; sık sık merge gerekiyor).

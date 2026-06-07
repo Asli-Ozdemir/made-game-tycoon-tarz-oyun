@@ -32,7 +32,9 @@ Yeni bir Claude Code oturumunda bu dosyayı ve `docs/superpowers/` altındaki sp
 | **Faz 7B — Harita Yeniden Tasarımı** | ✅ Bitti | specs/2026-05-31-harita-yeniden-tasarim-design.md | plans/2026-06-01-harita-yeniden-tasarim.md |
 | **Harita Odaları** (coast/bridge/city + fade geçiş) | ✅ Bitti | — | plans/2026-06-01-harita-odalari.md |
 
-**Testler:** 380/380 geçiyor (`npx vitest run`, 37 dosya). Build çalışıyor (`npm run build`).
+**Testler:** ~731 geçiyor (`npx vitest run`; sayı paralel makineyle artıyor). Build çalışıyor (`npm run build`).
+
+> 📏 **İki sayıyı karıştırma:** **32 = karakter/NPC sayısı** (`NPC_DEFS`: 12 felsefe + 12 romantizm + 4 gamer + 4 minör). **39 = skill ağacı düğümü** (`SKILL_NODES`; +analiz +sosyallik +oyun-tarihi dallarıyla 36→39). "39 karakter" YANLIŞ — o skill node.
 
 ---
 
