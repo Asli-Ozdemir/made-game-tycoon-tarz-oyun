@@ -1,0 +1,23 @@
+#!/bin/bash
+# Pre-push hook: remote'da yeni commit varsa push'u durdurur
+
+REMOTE="origin"
+BRANCH="main"
+
+git fetch "$REMOTE" "$BRANCH" --quiet 2>/dev/null
+
+BEHIND=$(git rev-list HEAD..${REMOTE}/${BRANCH} --count 2>/dev/null)
+
+if [ "$BEHIND" -gt 0 ]; then
+  echo ""
+  echo "  PUSH DURDURULDU"
+  echo "  Remote'da $BEHIND yeni commit var, sen geride kalmışsın."
+  echo ""
+  echo "  Şunu çalıştır:"
+  echo "    git pull --rebase origin main"
+  echo "  Sonra tekrar push et."
+  echo ""
+  exit 1
+fi
+
+exit 0
