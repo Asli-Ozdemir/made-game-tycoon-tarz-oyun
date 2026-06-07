@@ -2,6 +2,8 @@
 import { Sound } from '@pixi/sound'
 import { useAudioStore } from '@/store/audioStore'
 
+let _initialized = false
+
 type SfxName = 'click' | 'confirm' | 'project_start' | 'sleep' | 'objective' | 'publish' | 'error' | 'npc'
 type MusicName = 'menu' | 'coast'
 
@@ -28,7 +30,8 @@ let currentMusicName: MusicName | null = null
 let musicFadeRafId: number | null = null
 
 async function tryLoad(url: string): Promise<Sound | null> {
-  return new Promise((resolve) => {
+  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 4000))
+  const load = new Promise<Sound | null>((resolve) => {
     try {
       Sound.from({
         url,
@@ -39,9 +42,13 @@ async function tryLoad(url: string): Promise<Sound | null> {
       resolve(null)
     }
   })
+  return Promise.race([load, timeout])
 }
 
 export async function initSounds(): Promise<void> {
+  if (_initialized) return
+  _initialized = true
+
   const tasks = [
     ...Object.entries(SFX_URLS).map(async ([name, url]) => {
       const s = await tryLoad(url)
