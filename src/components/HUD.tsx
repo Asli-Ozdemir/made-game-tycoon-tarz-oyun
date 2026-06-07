@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { sfx } from '@/audio/soundService'
+import AudioPanel from '@/components/AudioPanel'
+import { useAudioStore } from '@/store/audioStore'
 import { useGameStore } from '@/store/gameStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
@@ -73,7 +77,7 @@ function HudIconButton({
 }) {
   return (
     <button
-      onClick={onClick}
+      onClick={() => { sfx('click'); onClick() }}
       title={title}
       className="relative p-1.5 rounded hover:bg-gray-700 transition-colors opacity-70 hover:opacity-100"
     >
@@ -124,6 +128,9 @@ export default function HUD() {
         return topEntry.id ? (GENRES[topEntry.id]?.name ?? null) : null
       })()
     : null
+
+  const [showAudioPanel, setShowAudioPanel] = useState(false)
+  const muted = useAudioStore((s) => s.muted)
 
   const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
 
@@ -198,10 +205,18 @@ export default function HUD() {
         />
         <HudIconButton
           icon={iconSave}
+          title="Ses Ayarları"
+          onClick={() => setShowAudioPanel((v) => !v)}
+          badge={muted ? '🔇' : null}
+          badgeColor="bg-gray-600"
+        />
+        <HudIconButton
+          icon={iconSave}
           title="Kaydet / Yükle"
           onClick={openSavePanel}
         />
       </div>
+      {showAudioPanel && <AudioPanel onClose={() => setShowAudioPanel(false)} />}
     </div>
   )
 }
