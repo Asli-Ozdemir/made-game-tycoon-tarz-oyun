@@ -1,7 +1,38 @@
 # Oyun Durum Dosyası
-_Son güncelleme: 2026-06-01 (gece)_
+_Son güncelleme: 2026-06-07_
 
 ## Tamamlananlar
+
+### Git Altyapısı (2026-06-07)
+- Shared `.githooks/pre-push` hook: push öncesi remote'dan geride olunup olunmadığını kontrol eder, gerideyse durdurup `git pull --rebase` ister
+- `setup.sh`: `core.hooksPath .githooks` + `pull.rebase true` — her PC'de bir kez çalıştırılır
+- Bu PC'de `bash setup.sh` çalıştırıldı, senkron sağlandı
+- **731/731 test geçiyor**
+
+### Diğer PC'den Gelen (2026-06-07 pull)
+- `arcadeStore` — 25 test (2de4bad)
+- Game flow: karakter yaratma intro cutscene öncesine alındı; harita HTML dokümantasyonu; Lua scriptleri (create_river_flow, zoom_out_bg) eklendi (94be51d)
+
+### Onboarding + Objektif Sistemi (2026-06-06)
+- `tryStartOnboarding` useEffect + `ObjectiveBanner` / `MovementHint` / `StudioDeskPointer` App.tsx'e eklendi
+
+### DEMO_MODE (2026-06-06)
+- `src/config.ts`: tek kaynak `DEMO_MODE = true` bayrağı
+- Köprü/şehir odaları kilitli (`DEMO_BLOCKED_ROOMS`), pub/balıkçı/nehir trigger'ları kilitli (`DEMO_BLOCKED_LOCATIONS`)
+- Sahaf (Marcus) açık — istisna
+- HUD: Pazarlama butonu gizli; Dashboard: Çalışanlar sekmesi gizli; SleepOverlay: Zihin sekmesi gizli
+- NewProjectModal: Sequel/DLC/Güncelleme seçenekleri gizli
+- Test: `triggerSystem.demo-on` + `triggerSystem.demo-off`
+
+### Ses Sistemi (2026-06-06)
+- `src/store/audioStore.ts`: masterVolume/sfxVolume/musicVolume/muted + localStorage kalıcılık
+- `src/audio/soundService.ts`: @pixi/sound singleton, graceful fail, double-init guard, tryLoad timeout
+- `src/components/AudioPanel.tsx`: volume sliderları + mute toggle (HUD'dan açılır)
+- SFX: click (HUD), project_start (NewProjectModal), sleep (SleepOverlay), objective (objectiveStore), publish (PublishResult), npc (DialogueView)
+- Müzik: StartScreen → menü loop, playing fazı → sahil ambiyans (fade geçişli)
+- 8 audioStore + 4 soundService testi
+
+
 
 ### Antiquarian's Assistant Infrastructure (2026-06-02)
 - `src/data/antiquarianShifts.ts`: interfaces + 3 full sessions (antiq_shift_01–03)
@@ -92,16 +123,14 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - Kovulma cutscene şu an CharacterCreationWizard'da `startCutsceneForce` ile tetikleniyor
 - Yeni oyun başlatınca görünmesi lazım — oda mimarisi tamamlandı, artık test edilebilir
 
+### NPC Kadrosu (2026-06-07 itibarıyla)
+32 NPC: Felsefe 12/12 ✅ · Romantizm 12/12 (motor+veri ✅, UI/cutscene ❌) · Gamer kasabalı 4/4 ✅ · Minör kohort 4/4 ✅
+
 ### Sıradaki Büyük Görevler
-- Antiquarian's assistant integration: mailbox trigger, antiq_shift_04–08 content, map location entry
-- Pub garsonluk entegrasyonu: posta kutusu altyapısı, pub_shift_04–15 içeriği, harita entegrasyonu
-- Bar bodyguard entegrasyonu: posta kutusu altyapısı, shift_04–10 içeriği, harita entegrasyonu
-- Dedektif asistanı entegrasyonu: posta kutusu altyapısı, companion NPC, günlük akış, case_04–10 içeriği
-- Köprü geçişinde otobüs animasyonu (isteğe bağlı)
-- NPC sprite'ları harita üzerinde
-- Hayat Yolu seçimi (Hırs / Huzur / Emek) — kalıcı seçim mekanik
-- DevTools otomatik açma production'dan kaldır (`electron/main.ts`)
-- Yan işler — mini oyun brainstorming (Hırs/Emek/Huzur per iş)
+- **Romantizm UI (C1 kalan)**: confess/date/propose butonları, itiraf/düğün cutscene, çiçekçi/kuyumcu jest maliyetleri
+- Yan iş entegrasyonu: dedektif + bar + antiquarian için posta kutusu, harita girişleri
+- Yaşam olayları içeriği: eski meslektaş (3-dallı), çocuk anları, tükenmişlik, yas
+- DevTools otomatik açmayı production'dan kaldır (`electron/main.ts`)
 
 ---
 
