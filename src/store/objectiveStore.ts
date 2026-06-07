@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { useProjectStore } from '@/store/projectStore'
+import { sfx } from '@/audio/soundService'
 
 export interface ObjectiveDef {
   id: string
@@ -46,8 +47,10 @@ export const useObjectiveStore = create<ObjectiveStoreState>((set) => ({
     set({ activeObjective: FIRST_OBJECTIVE, showMovementHint: true, showPointer: true })
   },
 
-  advanceToGameDev: () =>
-    set({ activeObjective: DEVELOP_OBJECTIVE, showPointer: false }),
+  advanceToGameDev: () => {
+    sfx('objective')
+    set({ activeObjective: DEVELOP_OBJECTIVE, showPointer: false })
+  },
 
   reset: () => set({ activeObjective: null, showMovementHint: false, showPointer: false }),
 }))

@@ -6,6 +6,7 @@ import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useSocialSkillStore } from '@/store/socialSkillStore'
 import { useCharacterStore } from '@/store/characterStore'
+import { sfx } from '@/audio/soundService'
 
 interface Props {
   npcId: NPCId
@@ -40,6 +41,7 @@ export default function DialogueView({ npcId, onClose }: Props) {
   function openDialogue(d: Dialogue) {
     setActive(d)
     setChoice(null)
+    sfx('npc')
     setPhase('reading')
   }
 

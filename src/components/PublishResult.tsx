@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useProjectStore } from '@/store/projectStore'
 import { useGameStore } from '@/store/gameStore'
+import { sfx } from '@/audio/soundService'
 
 interface Props {
   projectId: string
@@ -18,6 +19,10 @@ export default function PublishResult({ projectId, onContinue }: Props) {
   const project  = useProjectStore((s) => s.projects.find((p) => p.id === projectId))
   const totalPub = useGameStore((s) => s.totalPublished)
   const [showReviews, setShowReviews] = useState(true)
+
+  useEffect(() => {
+    sfx('publish')
+  }, [])
 
   if (!project?.publishResult) return null
   const { score, sales, revenue, media } = project.publishResult

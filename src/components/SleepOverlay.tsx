@@ -4,6 +4,7 @@ import { useWorldStore } from '@/store/worldStore'
 import SkillTreePanel   from '@/components/SkillTreePanel'
 import SocialSkillPanel from '@/components/SocialSkillPanel'
 import { DEMO_MODE } from '@/config'
+import { sfx } from '@/audio/soundService'
 
 type Tab = 'zihin' | 'sosyal'
 
@@ -22,6 +23,7 @@ export default function SleepOverlay({ onWake }: Props) {
   }, [])
 
   function wake() {
+    sfx('sleep')
     setVisible(false)
     setTimeout(() => {
       setLocation(null)
