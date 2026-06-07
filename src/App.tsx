@@ -40,6 +40,7 @@ import BankruptcyScreen from '@/components/BankruptcyScreen'
 import { useMarketStore } from '@/store/marketStore'
 import OfferModal from '@/components/OfferModal'
 import InterviewModal from '@/components/InterviewModal'
+import EpiloguePlayer from '@/components/EpiloguePlayer'
 import MarketPanel from '@/components/MarketPanel'
 import { useCampaignStore } from '@/store/campaignStore'
 import SocialEventToast from '@/components/SocialEventToast'
@@ -309,6 +310,7 @@ export default function App() {
       <IndustryEventPanel />
       {showSavePanel && <SaveLoadPanel />}
       <InterviewModal />
+      <EpiloguePlayer />
 
     </div>
     {/* Cutscene overlay — main div dışında, fixed pozisyon için containment yok */}
