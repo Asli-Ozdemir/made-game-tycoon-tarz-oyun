@@ -68,7 +68,7 @@ const case01: DetectiveCase = {
   id: 'case_01',
   title: 'Parkta Kayıp Evrak',
   dayLimit: 4,
-  location: 'city_park',
+  location: 'city_edge',
   detectiveMood: 1,
   culpritId: 'suspect_mete',
   dayClues: [

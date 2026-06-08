@@ -20,18 +20,11 @@ export const cityParkRoom: RoomDef = {
   ],
   exitTriggers: [
     {
-      toRoom: 'city_core',
+      toRoom: 'city_edge',
       x:  0,
       y:  5 * TILE_SIZE,
       w:      TILE_SIZE,
       h: 10 * TILE_SIZE,
-    },
-    {
-      toRoom: 'city_edge',
-      x: 10 * TILE_SIZE,
-      y: 19 * TILE_SIZE,
-      w: 20 * TILE_SIZE,
-      h:      TILE_SIZE,
     },
   ],
   customCollisionRects: [
@@ -39,7 +32,6 @@ export const cityParkRoom: RoomDef = {
   ],
   spawnPoints: {
     default:        { x: 20 * TILE_SIZE + 16, y: 12 * TILE_SIZE + 16 },
-    from_city_core: { x:  1 * TILE_SIZE + 16, y: 10 * TILE_SIZE + 16 },
-    from_city_edge: { x: 20 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 },
+    from_city_edge: { x:  1 * TILE_SIZE + 16, y: 10 * TILE_SIZE + 16 },
   },
 }

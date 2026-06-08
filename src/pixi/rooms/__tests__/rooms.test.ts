@@ -152,23 +152,22 @@ describe('cityCoreRoom', () => {
   it('id is city_core', () => {
     expect(cityCoreRoom.id).toBe('city_core')
   })
-  it('has exit to bridge (top), city_park (right), city_culture (bottom)', () => {
+  it('has exit to bridge (top) and city_culture (right)', () => {
     const toBridge  = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'bridge')!
-    const toPark    = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'city_park')!
     const toCulture = cityCoreRoom.exitTriggers.find(e => e.toRoom === 'city_culture')!
     expect(toBridge.y).toBe(0)
-    expect(toPark.x).toBe(49 * TILE_SIZE)
-    expect(toCulture.y).toBe(23 * TILE_SIZE)
+    expect(toCulture.x).toBe(49 * TILE_SIZE)
   })
-  it('has no arcade building (moved to city_culture)', () => {
+  it('has no exit to city_park directly', () => {
+    expect(cityCoreRoom.exitTriggers.find(e => e.toRoom === 'city_park')).toBeUndefined()
+  })
+  it('has no arcade building (in city_culture)', () => {
     expect(cityCoreRoom.buildings.find(b => b.id === 'arcade')).toBeUndefined()
   })
-  it('has no arcade_door trigger (moved to city_culture)', () => {
-    expect(cityCoreRoom.triggers.find(t => t.name === 'arcade_door')).toBeUndefined()
-  })
-  it('has spawn points from city_park and city_culture', () => {
-    expect(cityCoreRoom.spawnPoints.from_city_park).toBeDefined()
-    expect(cityCoreRoom.spawnPoints.from_city_culture).toBeDefined()
+  it('has spawn point from_city_culture on right edge', () => {
+    const sp = cityCoreRoom.spawnPoints.from_city_culture!
+    expect(sp).toBeDefined()
+    expect(sp.x).toBe(48 * TILE_SIZE + 16)
   })
 })
 
@@ -186,10 +185,10 @@ describe('cityCultureRoom', () => {
   it('has arcade_door trigger', () => {
     expect(cityCultureRoom.triggers.find(t => t.name === 'arcade_door')).toBeDefined()
   })
-  it('has exit to city_core (top) and city_edge (right)', () => {
+  it('has exit to city_core (left) and city_edge (right)', () => {
     const toCore = cityCultureRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
     const toEdge = cityCultureRoom.exitTriggers.find(e => e.toRoom === 'city_edge')!
-    expect(toCore.y).toBe(0)
+    expect(toCore.x).toBe(0)
     expect(toEdge.x).toBe(39 * TILE_SIZE)
   })
   it('has spawn points from both directions', () => {
@@ -210,11 +209,11 @@ describe('cityEdgeRoom', () => {
     expect(cityEdgeRoom.buildings.find(b => b.id === 'klinik')).toBeDefined()
     expect(cityEdgeRoom.buildings.find(b => b.id === 'havuz')).toBeDefined()
   })
-  it('has exit to city_culture (left) and city_park (top)', () => {
+  it('has exit to city_culture (left) and city_park (right)', () => {
     const toCulture = cityEdgeRoom.exitTriggers.find(e => e.toRoom === 'city_culture')!
     const toPark    = cityEdgeRoom.exitTriggers.find(e => e.toRoom === 'city_park')!
     expect(toCulture.x).toBe(0)
-    expect(toPark.y).toBe(0)
+    expect(toPark.x).toBe(39 * TILE_SIZE)
   })
   it('has spawn points from both directions', () => {
     expect(cityEdgeRoom.spawnPoints.from_city_culture).toBeDefined()
@@ -230,14 +229,15 @@ describe('cityParkRoom', () => {
   it('id is city_park', () => {
     expect(cityParkRoom.id).toBe('city_park')
   })
-  it('has exit to city_core (left) and city_edge (bottom)', () => {
-    const toCore = cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_core')!
-    const toEdge = cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_edge')!
-    expect(toCore.x).toBe(0)
-    expect(toEdge.y).toBe(19 * TILE_SIZE)
+  it('has exit to city_edge on left (terminal room)', () => {
+    const ex = cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_edge')!
+    expect(ex).toBeDefined()
+    expect(ex.x).toBe(0)
   })
-  it('has spawn points from city_core and city_edge', () => {
-    expect(cityParkRoom.spawnPoints.from_city_core).toBeDefined()
+  it('has no direct exit to city_core', () => {
+    expect(cityParkRoom.exitTriggers.find(e => e.toRoom === 'city_core')).toBeUndefined()
+  })
+  it('has spawn point from_city_edge', () => {
     expect(cityParkRoom.spawnPoints.from_city_edge).toBeDefined()
   })
 })

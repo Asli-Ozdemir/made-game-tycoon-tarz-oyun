@@ -27,16 +27,16 @@ export const cityEdgeRoom: RoomDef = {
     },
     {
       toRoom: 'city_park',
-      x: 10 * TILE_SIZE,
-      y: 0,
-      w: 20 * TILE_SIZE,
-      h:      TILE_SIZE,
+      x: 39 * TILE_SIZE,
+      y:  7 * TILE_SIZE,
+      w:      TILE_SIZE,
+      h: 17 * TILE_SIZE,
     },
   ],
   customCollisionRects: [],
   spawnPoints: {
     default:           { x: 20 * TILE_SIZE + 16, y: 12 * TILE_SIZE + 16 },
     from_city_culture: { x:  1 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
-    from_city_park:    { x: 20 * TILE_SIZE + 16, y:  1 * TILE_SIZE + 16 },
+    from_city_park:    { x: 38 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
   },
 }
