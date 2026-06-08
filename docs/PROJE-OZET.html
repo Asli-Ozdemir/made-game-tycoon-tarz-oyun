@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Macenta Koyu — Proje Özeti</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d0d14; color: #e0d8f0; font-family: 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.7; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  h1 { font-size: 2.4rem; color: #c084fc; letter-spacing: 2px; margin-bottom: 6px; }
+  .subtitle { color: #7c6f9a; font-size: 1rem; margin-bottom: 48px; }
+
+  h2 { font-size: 1.3rem; color: #a78bfa; border-left: 3px solid #7c3aed; padding-left: 12px; margin: 48px 0 16px; letter-spacing: 1px; text-transform: uppercase; }
+  h3 { font-size: 1rem; color: #ddd6fe; margin: 24px 0 10px; }
+
+  p { margin-bottom: 12px; color: #c4b8e0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+  th { background: #1e1830; color: #a78bfa; padding: 8px 12px; text-align: left; border-bottom: 1px solid #2e2450; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1a1428; color: #c4b8e0; vertical-align: top; }
+  tr:hover td { background: #16102a; }
+
+  .tag { display: inline-block; background: #2e1a50; color: #c084fc; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin: 2px 2px 2px 0; }
+  .tag.green { background: #0f2e1a; color: #6ee7b7; }
+  .tag.blue { background: #0f1e3a; color: #93c5fd; }
+  .tag.yellow { background: #2e2a0a; color: #fde68a; }
+  .tag.red { background: #2e0f0f; color: #fca5a5; }
+
+  code { background: #1a1030; color: #c084fc; padding: 2px 6px; border-radius: 3px; font-family: 'Cascadia Code', monospace; font-size: 13px; }
+  pre { background: #1a1030; border: 1px solid #2e2050; border-radius: 6px; padding: 16px; overflow-x: auto; margin: 12px 0 20px; }
+  pre code { background: none; padding: 0; font-size: 13px; color: #e2d9f3; }
+
+  .card { background: #13102a; border: 1px solid #2a2050; border-radius: 8px; padding: 20px 24px; margin: 12px 0; }
+  .card h3 { margin-top: 0; }
+
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+  .flow-step { background: #1e1840; border: 1px solid #3b2f6e; border-radius: 6px; padding: 8px 14px; color: #ddd6fe; font-size: 14px; }
+  .flow-arrow { color: #6d28d9; font-size: 18px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .stat { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1a1428; }
+  .stat-label { color: #7c6f9a; }
+  .stat-value { color: #ddd6fe; font-weight: 600; }
+
+  ul { padding-left: 20px; color: #c4b8e0; margin-bottom: 12px; }
+  ul li { margin-bottom: 4px; }
+
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge.done { background: #0f2e1a; color: #6ee7b7; }
+  .badge.wip { background: #2e2a0a; color: #fde68a; }
+  .badge.planned { background: #1a1030; color: #a78bfa; }
+
+  hr { border: none; border-top: 1px solid #2a2050; margin: 40px 0; }
+  .commit-list { font-family: monospace; font-size: 13px; }
+  .commit-list li { padding: 4px 0; border-bottom: 1px solid #1a1428; display: flex; gap: 12px; }
+  .commit-hash { color: #6d28d9; flex-shrink: 0; }
+  .commit-msg { color: #c4b8e0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>MACENTA KOYU</h1>
+  <div class="subtitle">Proje Teknik & Tasarım Özeti — Haziran 2026</div>
+
+  <!-- ==================== GENEL BAKIS ==================== -->
+  <h2>1. Genel Bakış</h2>
+  <p>
+    <strong>Macenta Koyu</strong>, bir oyun stüdyosu kurucusunun 30 yıllık yolculuğunu anlatan
+    hibrit bir masa üstü uygulamasıdır. İki temel mod bir arada çalışır:
+    şehir keşfi ve NPC etkileşimi için <strong>Adventure/Exploration</strong>,
+    stüdyo yönetimi için <strong>Tycoon/Simulation</strong>.
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Platform</h3>
+      <div class="stat"><span class="stat-label">Runtime</span><span class="stat-value">Electron 42</span></div>
+      <div class="stat"><span class="stat-label">UI</span><span class="stat-value">React 19 + TypeScript</span></div>
+      <div class="stat"><span class="stat-label">Grafik</span><span class="stat-value">PixiJS 8</span></div>
+      <div class="stat"><span class="stat-label">Ses</span><span class="stat-value">@pixi/sound 6</span></div>
+      <div class="stat"><span class="stat-label">State</span><span class="stat-value">Zustand 5</span></div>
+      <div class="stat"><span class="stat-label">Build</span><span class="stat-value">electron-vite + Vite 7</span></div>
+    </div>
+    <div class="card">
+      <h3>Proje Sayıları</h3>
+      <div class="stat"><span class="stat-label">NPC</span><span class="stat-value">32</span></div>
+      <div class="stat"><span class="stat-label">Oda (harita)</span><span class="stat-value">9</span></div>
+      <div class="stat"><span class="stat-label">Yan İş</span><span class="stat-value">9</span></div>
+      <div class="stat"><span class="stat-label">Arka Plan (background)</span><span class="stat-value">5</span></div>
+      <div class="stat"><span class="stat-label">Test Sayısı</span><span class="stat-value">732</span></div>
+      <div class="stat"><span class="stat-label">Test Dosyası</span><span class="stat-value">68</span></div>
+    </div>
+  </div>
+
+  <!-- ==================== OYUN FAZLARI ==================== -->
+  <h2>2. Oyun Fazları</h2>
+
+  <div class="flow">
+    <div class="flow-step">TITLE<br><small>Başlık Ekranı</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">CREATION<br><small>Karakter Yaratma</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">INTRO<br><small>Cutscene</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">PLAYING<br><small>Ana Oyun</small></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">FINALE<br><small>Epilog (Yıl 30)</small></div>
+  </div>
+
+  <h3>Title</h3>
+  <p>Logo, 3 kayıt slotu (yeni/devam/sil), arka planda su döngüsü videosu (xfade 2.5s), <code>menu.mp3</code> müzik.</p>
+
+  <h3>Creation — 4 Adım</h3>
+  <p>Background seçimi → İsim/Stüdyo adı → Cinsel yönelim → Kişilik istatistikleri (0–10 arası 5 stat). Tamamlandığında <em>kovulma</em> cutscene'i tetiklenir.</p>
+
+  <h3>Intro — Cutscene</h3>
+  <p>Seçilen arka plana göre değişen kovulma/yeni hayat sahnesi. Metin + arka plan görseli + opsiyonel seçimler. Skip tuşuyla atlanabilir.</p>
+
+  <h3>Playing — Ana Döngü</h3>
+  <p>Haftalık tick: zaman ilerler, projeler gelişir, maaşlar ödenir, olaylar tetiklenir, kayıt alınır. Oyuncu haritada serbestçe gezebilir, NPC'lerle konuşabilir, yan işler yapabilir.</p>
+
+  <h3>Finale — 30. Yıl Epilogu</h3>
+  <p>Oyun yıl 30'da sona erer. Seçilen hayat yoluna ve ilişkilere göre farklı epilog metni üretilir. <code>finaleEngine.ts</code> + <code>EpiloguePlayer</code> bileşeni.</p>
+
+  <!-- ==================== KARAKTER YARATMA ==================== -->
+  <h2>3. Karakter Yaratma Sistemi</h2>
+
+  <table>
+    <tr><th>#</th><th>Arka Plan</th><th>Başlangıç Para</th><th>İtibar</th><th>Özel Yetenek</th></tr>
+    <tr><td>1</td><td>KK Uzmanı</td><td>$30K</td><td>0</td><td>No Bugs — yayınlarda hata yok</td></tr>
+    <tr><td>2</td><td>Yaratıcı Direktör</td><td>$40K</td><td>0</td><td>Görsel kalite yüksek</td></tr>
+    <tr><td>3</td><td>Baş Mühendis</td><td>$50K</td><td>0</td><td>Solo oyun yapabilir</td></tr>
+    <tr><td>4</td><td>Yapımcı</td><td>$75K</td><td>0</td><td>Ekip verimliliği en yüksek</td></tr>
+    <tr><td>5</td><td>Eski CEO</td><td>$120K</td><td>+20</td><td>İtibar kaybı ×2 (herkes izliyor)</td></tr>
+  </table>
+
+  <h3>Kişilik İstatistikleri</h3>
+  <table>
+    <tr><th>Stat</th><th>Etkisi</th></tr>
+    <tr><td><strong>Karisma</strong></td><td>NPC ilişki kazanımı, romance seçenekleri</td></tr>
+    <tr><td><strong>Odak</strong></td><td>Proje kalitesi ve geliştirme hızı</td></tr>
+    <tr><td><strong>Rekabetçilik</strong></td><td>Rakip şirketlerle etkileşim bonusu</td></tr>
+    <tr><td><strong>Yaratıcılık</strong></td><td>Fikir tohumu (idea seed) kazanım hızı</td></tr>
+    <tr><td><strong>İş Zekası</strong></td><td>Ekonomi stabilite, borç yönetimi</td></tr>
+  </table>
+
+  <!-- ==================== NPC SİSTEMİ ==================== -->
+  <h2>4. NPC Sistemi</h2>
+
+  <p><strong>Toplam 32 NPC</strong> — 3 kategoriye ayrılır:</p>
+
+  <h3>A) Felsefe NPC'leri (12 kişi)</h3>
+  <table>
+    <tr><th>İsim</th><th>Konum</th><th>Felsefe</th><th>Yan İş</th></tr>
+    <tr><td>Marcus</td><td>Sahaf</td><td>Stoacılık</td><td>Arşiv asistanı</td></tr>
+    <tr><td>Remy</td><td>Rıhtım</td><td>Taoizm</td><td>Balıkçılık (3 arc)</td></tr>
+    <tr><td>Theo</td><td>Pub</td><td>Absürdizm</td><td>Garsonluk</td></tr>
+    <tr><td>Bruno</td><td>Kafe</td><td>Stoacı erdem</td><td>Bar bodyguard (geliştiriliyor)</td></tr>
+    <tr><td>Magnus</td><td>Atölye</td><td>İmkâncılık</td><td>Arcade teknisyeni</td></tr>
+    <tr><td>Marta</td><td>Galeri</td><td>Estetik</td><td>—</td></tr>
+    <tr><td>Clara</td><td>Şehir Merkezi</td><td>Adalet</td><td>Hukuk asistanı</td></tr>
+    <tr><td>Aldo</td><td>Fırın</td><td>Basit yaşam</td><td>—</td></tr>
+    <tr><td>Rex</td><td>Kültür</td><td>Hedonizm</td><td>—</td></tr>
+    <tr><td>Vivian</td><td>Şehir Merkezi</td><td>Makyavelizm</td><td>—</td></tr>
+    <tr><td>Søren</td><td>Rıhtım</td><td>İskand. pragmatizm</td><td>Nehir salı (Side Job 6)</td></tr>
+    <tr><td>Yevgeni</td><td>Kültür</td><td>Sanat devrimi</td><td>—</td></tr>
+  </table>
+
+  <h3>B) Romantizm Adayları (12 kişi)</h3>
+  <div class="grid2">
+    <div class="card">
+      <h3>Kadın</h3>
+      <ul>
+        <li>Elise</li><li>Nadia</li><li>Rosa</li>
+        <li>Iris</li><li>Sigrid</li><li>Liv</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Erkek</h3>
+      <ul>
+        <li>Daniel</li><li>Cassian</li><li>Bjorn</li>
+        <li>Kai</li><li>Elias</li><li>Matteo</li>
+      </ul>
+    </div>
+  </div>
+  <p>Evlilik + çocuk doğumu mekaniklerine sahip. <code>romanceStore.ts</code> yönetir.</p>
+
+  <h3>C) Minör Karakterler (8 kişi)</h3>
+  <p>Max, Vince, Wren, Dax — kasaba sakinleri ve oyuncu grupları. Bea, Pip, Otto, Tessa — daha küçük roller.</p>
+
+  <h3>Diyalog Sistemi</h3>
+  <pre><code>Tier 1 — İlk tanışma       (0–29 ilişki puanı)
+Tier 2 — Daha derin bağ    (30–69 ilişki puanı)
+Tier 3 — Felsefi derinlik  (70+ ilişki puanı)</code></pre>
+
+  <p>Her diyalog <code>ideaSeed</code> verir. 8 fikir tohumu tipi:</p>
+  <div>
+    <span class="tag">Nostalji</span>
+    <span class="tag">Hikaye</span>
+    <span class="tag">Kaos</span>
+    <span class="tag">Zaman Yönetimi</span>
+    <span class="tag">Analiz</span>
+    <span class="tag">Sosyallik</span>
+    <span class="tag">Oyun Tarihi</span>
+    <span class="tag">Hukuk</span>
+  </div>
+
+  <!-- ==================== DÜNYA SİSTEMİ ==================== -->
+  <h2>5. Dünya / Oda Sistemi</h2>
+
+  <p>Harita <strong>soldan sağa lineer koridor</strong> — toplam 9 oda. PixiJS ile render edilir.</p>
+  <p style="color:#7c6f9a; font-size:13px;">coast_home → coast_docks → coast_center → coast_west → bridge → city_core → city_culture → city_edge → city_park</p>
+
+  <table>
+    <tr><th>Oda ID</th><th>İsim</th><th>Bölge</th><th>Önemli Noktalar</th></tr>
+    <tr><td>coast_home</td><td>Sahil Evi</td><td>Sahil</td><td>Oyuncu evi, çalışma masası, uyku trigger'ı</td></tr>
+    <tr><td>coast_docks</td><td>Rıhtım</td><td>Sahil</td><td>Tekneler, Remy, Søren, Sigrid, Daniel</td></tr>
+    <tr><td>coast_center</td><td>Kasaba Merkezi</td><td>Sahil</td><td>Pub (Theo), Sahaf (Marcus), Fırın (Aldo)</td></tr>
+    <tr><td>coast_west</td><td>Batı Mahallesi</td><td>Sahil</td><td>Kafe (Bruno), Atölye, Park; köprüye çıkış (alt)</td></tr>
+    <tr><td>bridge</td><td>Köprü</td><td>Geçiş</td><td>Sahil ↔ Şehir bağlantısı, dikey koridor</td></tr>
+    <tr><td>city_core</td><td>Şehir Merkezi</td><td>Şehir</td><td>Stüdyo ofisi, Hukuk (Clara), Basın (Vivian)</td></tr>
+    <tr><td>city_culture</td><td>Kültür Mahallesi</td><td>Şehir</td><td>Arcade, Atölye (Yevgeni), Bistro (Rex)</td></tr>
+    <tr><td>city_edge</td><td>Şehir Kenarı</td><td>Şehir</td><td>Klinik, Havuz, Elias, Kai; Dedektif Vaka 1</td></tr>
+    <tr><td>city_park</td><td>Şehir Parkı</td><td>Şehir</td><td>Terminal oda; hikaye planlanıyor</td></tr>
+  </table>
+
+  <h3>Hareket Mekanikeri</h3>
+  <ul>
+    <li>WASD / yön tuşları ile PixiJS <code>Player</code> kontrolü</li>
+    <li>Bina çarpışma alanları (walkable hesaplama)</li>
+    <li>Trigger zone → oda değişimi: fade-out → yükleme → fade-in</li>
+    <li>Kamera: oyuncu merkezli, oda sınırlarına göre kenetleme</li>
+  </ul>
+
+  <!-- ==================== EKONOMİ ==================== -->
+  <h2>6. Ekonomi & Proje Sistemi</h2>
+
+  <h3>Proje Döngüsü</h3>
+  <div class="flow">
+    <div class="flow-step">Proje Oluştur</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Çalışan Ata</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Haftalık Geliştirme</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Yayınla</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Satış & İtibar</div>
+  </div>
+
+  <table>
+    <tr><th>Kapsam</th><th>Süre</th><th>Risk</th></tr>
+    <tr><td>Küçük</td><td>4 hafta</td><td>Düşük</td></tr>
+    <tr><td>Orta</td><td>8 hafta</td><td>Orta</td></tr>
+    <tr><td>Büyük</td><td>12 hafta</td><td>Yüksek</td></tr>
+    <tr><td>İddialı</td><td>20 hafta</td><td>Çok Yüksek</td></tr>
+  </table>
+
+  <h3>Yayımlama Formülü</h3>
+  <pre><code>score = f(qualityPoints, bugChance, marketTiming)
+revenue = score × salesMultiplier × marketShare</code></pre>
+
+  <h3>Ekonomik Tehditler</h3>
+  <ul>
+    <li><strong>Haftalık gider:</strong> Maaş + kira + sunucu</li>
+    <li><strong>Kriz:</strong> Para &lt; 0 → 4 hafta baskı, skill bonusu azalır</li>
+    <li><strong>İflas:</strong> Kritik eşikte oyun biter</li>
+    <li><strong>Kredi:</strong> Al, haftalık öde</li>
+    <li><strong>Rival baskısı:</strong> Rakip yayınları itibarı etkiler</li>
+  </ul>
+
+  <!-- ==================== YAN İŞLER ==================== -->
+  <h2>7. Yan İşler (Side Jobs)</h2>
+
+  <table>
+    <tr><th>#</th><th>Yan İş</th><th>NPC</th><th>Konum</th><th>Mekanik</th></tr>
+    <tr><td>1</td><td>Pub Garsonluk</td><td>Theo</td><td>coast_center</td><td>Müşteri siparişi, haftalık gelir</td></tr>
+    <tr><td>2</td><td>Sahaf Arşiv</td><td>Marcus</td><td>coast_center</td><td>Kitap sınıflandırma, fikir tohumu</td></tr>
+    <tr><td>3</td><td>Bar Bodyguard</td><td>Bruno</td><td>coast_west</td><td>Müşteri yönetimi, güvenlik</td></tr>
+    <tr><td>4</td><td>Dedektif Asistanı</td><td>—</td><td>city_core</td><td>Soruşturma, vaka çözme</td></tr>
+    <tr><td>5</td><td>Balıkçılık</td><td>Remy</td><td>coast_docks</td><td>PixiJS mini oyun, 3 arc, 10 session</td></tr>
+    <tr><td>6</td><td>Nehir Salı</td><td>Søren</td><td>coast_docks</td><td>Tur rehberliği, nehir boyunca seyahat</td></tr>
+    <tr><td>7</td><td>Arcade Teknisyeni</td><td>Magnus</td><td>city_culture</td><td>Makine bakımı, vardiya sistemi</td></tr>
+    <tr><td>8</td><td>Hukuk Asistanı</td><td>Clara</td><td>city_core</td><td>Dava dosyası hazırlama, danışmanlık</td></tr>
+    <tr><td>9</td><td>Emlakçılık</td><td>—</td><td>city_core</td><td>Mülk satışı, müzakere, alıcı tipi</td></tr>
+  </table>
+
+  <!-- ==================== SES SİSTEMİ ==================== -->
+  <h2>8. Ses Sistemi</h2>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Müzik</h3>
+      <ul>
+        <li><code>menu.mp3</code> — Başlık ekranı (loop)</li>
+        <li><code>coast.mp3</code> — Keşif modu, sahil ambiyansı (loop)</li>
+        <li>Fazlar arası fade geçişi</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>SFX</h3>
+      <ul>
+        <li><code>click</code> — Buton tıklama</li>
+        <li><code>confirm</code> — Onaylama</li>
+        <li><code>project_start</code> — Proje başlat</li>
+        <li><code>sleep</code> — Uyku</li>
+        <li><code>objective</code> — Hedef tetik</li>
+        <li><code>publish</code> — Yayınla</li>
+        <li><code>npc</code> — NPC konuşması</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Ses Ayarları</h3>
+  <p>Master, SFX, Müzik — ayrı slider'lar. Mute butonu. <code>localStorage</code>'da kalıcı. <code>AudioPanel.tsx</code> ile kontrol, HUD'dan erişilebilir.</p>
+
+  <!-- ==================== KAYIT SİSTEMİ ==================== -->
+  <h2>9. Kayıt Sistemi</h2>
+
+  <ul>
+    <li><strong>3 slot</strong> — her biri label (tarih + sezon) ve timestamp tutar</li>
+    <li><strong>El ile kaydet</strong> — SaveLoadPanel'den</li>
+    <li><strong>Otomatik kaydet</strong> — her sezon başında + her gün sonunda</li>
+    <li><strong>Depolama</strong> — localStorage + Electron API (çift)</li>
+    <li><strong>Serialize edilen store sayısı</strong> — 20+</li>
+  </ul>
+
+  <!-- ==================== CUTSCENE ==================== -->
+  <h2>10. Cutscene Sistemi</h2>
+
+  <pre><code>CutsceneFrame {
+  backgroundImage: string
+  lines: CutsceneLine[]
+  choices?: CutsceneChoice[]   // opsiyonel dallanma
+}
+
+Cutscene {
+  id: 'kovulma' | 'evlilik' | 'finale' | ...
+  frames: CutsceneFrame[]
+}</code></pre>
+
+  <p>Mevcut cutscene'ler:</p>
+  <ul>
+    <li><strong>kovulma</strong> — background'a göre 5 varyant, giriş sahnesi</li>
+    <li><strong>evlilik</strong> — romantizm arc'ı tamamlandığında</li>
+    <li><strong>finale</strong> — yıl 30, epilog metni + <code>EpiloguePlayer</code></li>
+  </ul>
+
+  <!-- ==================== TEST ==================== -->
+  <h2>11. Test Coverage</h2>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Engine Tests</h3>
+      <ul>
+        <li>projectEngine</li>
+        <li>scoreEngine</li>
+        <li>economyEngine</li>
+        <li>savegameEngine</li>
+        <li>finaleEngine</li>
+        <li>mediaReactionEngine</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Store Tests</h3>
+      <ul>
+        <li>arcadeStore (25 test)</li>
+        <li>fishingStore</li>
+        <li>barStore</li>
+        <li>skillTreeStore</li>
+        <li>audioStore</li>
+        <li>objectiveStore</li>
+        <li>... (20+ store)</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>
+    <span class="tag">Framework: Vitest 4.1.7</span>
+    <span class="tag">DOM: jsdom 29</span>
+    <span class="tag">@testing-library/react 16</span>
+  </p>
+
+  <!-- ==================== SON COMMİTLER ==================== -->
+  <h2>12. Son Commitler</h2>
+
+  <ul class="commit-list">
+    <li><span class="commit-hash">5bb3502</span><span class="commit-msg">feat: city haritasını soldan sağa lineer koridora dönüştür</span></li>
+    <li><span class="commit-hash">5553ba5</span><span class="commit-msg">docs: durum.md güncelle — 2026-06-07 (git hook, ses sistemi, DEMO_MODE, 731 test)</span></li>
+    <li><span class="commit-hash">8f31a5e</span><span class="commit-msg">docs: 32 karakter vs 39 skill-node ayrımı (DURUM + ERTELENEN); test sayısı güncel</span></li>
+    <li><span class="commit-hash">bbfaa2e</span><span class="commit-msg">docs: ERTELENEN-ISLER — yaşam-sim devam talimatları</span></li>
+    <li><span class="commit-hash">5dec890</span><span class="commit-msg">chore: shared git hooks + setup.sh</span></li>
+    <li><span class="commit-hash">94be51d</span><span class="commit-msg">feat: game flow — character creation before intro cutscene; map docs; lua scripts</span></li>
+    <li><span class="commit-hash">2de4bad</span><span class="commit-msg">test: arcadeStore — 25 tests covering all phases and reward tiers</span></li>
+    <li><span class="commit-hash">8bc409b</span><span class="commit-msg">feat: C1/C2 UI bağlandı — DialogueView romantizm aksiyonları + jest maliyetleri</span></li>
+    <li><span class="commit-hash">ca90ff5</span><span class="commit-msg">test: audioStore (volume/mute/localStorage) + soundService (mock tabanlı, graceful fail)</span></li>
+    <li><span class="commit-hash">4cf1a1b</span><span class="commit-msg">feat: müzik sistemi — title'da menü loop, playing'de sahil ambiyansı; fade geçişli</span></li>
+  </ul>
+
+  <!-- ==================== DURUM ==================== -->
+  <h2>13. Tamamlanma Durumu</h2>
+
+  <table>
+    <tr><th>Alan</th><th>Durum</th></tr>
+    <tr><td>Karakter yaratma sistemi</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Harita (9 oda, PixiJS — lineer koridor)</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>NPC sistemi ve diyaloglar</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Yan işler (6 adet)</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Proje & ekonomi döngüsü</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Ses sistemi (sfx + müzik + fade)</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Kayıt / Yükleme</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Cutscene sistemi</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Finale / Epilog</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Test coverage (engine + store)</td><td><span class="badge done">Tamamlandı</span></td></tr>
+    <tr><td>Grafik asset'leri (Aseprite)</td><td><span class="badge wip">Devam Ediyor</span></td></tr>
+    <tr><td>Ses dosyaları (gerçek)</td><td><span class="badge wip">Devam Ediyor</span></td></tr>
+    <tr><td>Daha fazla yan iş</td><td><span class="badge planned">Planlandı</span></td></tr>
+    <tr><td>Balancing (ekonomi, zorluk)</td><td><span class="badge planned">Planlandı</span></td></tr>
+    <tr><td>UI polish & animasyonlar</td><td><span class="badge planned">Planlandı</span></td></tr>
+  </table>
+
+  <hr>
+  <p style="color:#4a4060; font-size:13px; text-align:center;">
+    Macenta Koyu — Otomatik oluşturuldu, Haziran 2026
+  </p>
+
+</div>
+</body>
+</html>
