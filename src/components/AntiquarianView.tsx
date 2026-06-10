@@ -44,10 +44,10 @@ export default function AntiquarianView({ onBack }: Props) {
       onShiftEnd: () => {
         // Stale-closure kuralı: her zaman getState()
         const r = useAntiquarianStore.getState().endShift()
-        setResult(r)
-        setPhase('result')
         scene?.destroy()
         sceneRef.current = null
+        setResult(r)
+        setPhase('result')
       },
     }).then((s) => {
       if (cancelled) { s.destroy(); return }
