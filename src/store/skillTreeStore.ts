@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { SKILL_NODES } from '@/data/skillTree'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useGameStore } from '@/store/gameStore'
+import { DEMO_MODE } from '@/config'
 
 type NodeState = 'locked' | 'unlockable' | 'active'
 
@@ -22,6 +23,7 @@ export const useSkillTreeStore = create<SkillTreeStore>((set, get) => ({
   canUnlock(id) {
     const node = SKILL_NODES.find(n => n.id === id)
     if (!node) return false
+    if (DEMO_MODE && node.tier > 1) return false
     const { unlockedNodeIds, selectedLifePath } = get()
     if (unlockedNodeIds.includes(id)) return false
     if (node.lifePathLock && node.lifePathLock !== selectedLifePath) return false

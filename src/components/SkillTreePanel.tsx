@@ -5,6 +5,7 @@ import { useSkillTreeStore } from '@/store/skillTreeStore'
 import { SKILL_NODES, type SkillNode } from '@/data/skillTree'
 import { IDEA_SEED_META } from '@/data/npcDialogues'
 import SkillTreeCanvas from '@/components/SkillTreeCanvas'
+import { DEMO_MODE } from '@/config'
 
 interface Props {
   onWake: () => void
@@ -64,14 +65,20 @@ export default function SkillTreePanel({ onWake }: Props) {
               ))}
             </div>
             <div>
-              <span className={`text-xs px-2 py-1 rounded ${
-                getNodeState(hovered.id) === 'active'     ? 'bg-purple-900/40 text-purple-300' :
-                getNodeState(hovered.id) === 'unlockable' ? 'bg-blue-900/40 text-blue-300' :
-                'bg-gray-900/40 text-gray-600'
-              }`}>
-                {getNodeState(hovered.id) === 'active'     ? '✓ Açık' :
-                 getNodeState(hovered.id) === 'unlockable' ? 'Aç' : 'Kilitli'}
-              </span>
+              {DEMO_MODE && hovered.tier > 1 ? (
+                <span className="text-xs px-2 py-1 rounded bg-amber-900/40 text-amber-300">
+                  🔒 Tam sürümde
+                </span>
+              ) : (
+                <span className={`text-xs px-2 py-1 rounded ${
+                  getNodeState(hovered.id) === 'active'     ? 'bg-purple-900/40 text-purple-300' :
+                  getNodeState(hovered.id) === 'unlockable' ? 'bg-blue-900/40 text-blue-300' :
+                  'bg-gray-900/40 text-gray-600'
+                }`}>
+                  {getNodeState(hovered.id) === 'active'     ? '✓ Açık' :
+                   getNodeState(hovered.id) === 'unlockable' ? 'Aç' : 'Kilitli'}
+                </span>
+              )}
             </div>
           </>
         ) : (
