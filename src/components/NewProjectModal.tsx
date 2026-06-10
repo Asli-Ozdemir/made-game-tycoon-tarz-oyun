@@ -7,6 +7,7 @@ import { useProjectStore } from '@/store/projectStore'
 import { useTimeStore } from '@/store/timeStore'
 import { useTrendStore } from '@/store/trendStore'
 import { useObjectiveStore } from '@/store/objectiveStore'
+import { useGameStore } from '@/store/gameStore'
 import { DEMO_MODE } from '@/config'
 import { sfx } from '@/audio/soundService'
 import type { ProjectScope } from '@/types'
@@ -43,6 +44,7 @@ export default function NewProjectModal({ onClose }: Props) {
   const date            = useTimeStore((s) => s.date)
   const addProject      = useProjectStore((s) => s.addProject)
   const allProjects     = useProjectStore((s) => s.projects)
+  const totalPublished  = useGameStore((s) => s.totalPublished)
 
   const publishedProjects = allProjects.filter(p => p.status === 'yayinlandi')
   const parentProject     = publishedProjects.find(p => p.id === parentProjectId) ?? null
@@ -110,6 +112,26 @@ export default function NewProjectModal({ onClose }: Props) {
   }
 
   const cfg = SCOPE_CONFIG[effectiveScope]
+
+  if (DEMO_MODE && totalPublished >= 1) {
+    return (
+      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div className="bg-gray-900 border border-gray-700 rounded-xl p-6 max-w-sm w-full text-center">
+          <p className="text-3xl mb-3">🌅</p>
+          <p className="text-gray-100 font-semibold mb-2">Demo burada bitiyor</p>
+          <p className="text-gray-400 text-sm mb-5">
+            İkinci projen tam sürümde seni bekliyor. Macenta Koyu'nu keşfetmeye devam edebilirsin.
+          </p>
+          <button
+            onClick={onClose}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 font-medium"
+          >
+            Kapat
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
