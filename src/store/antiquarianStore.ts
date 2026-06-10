@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { ANTIQUARIAN_SHIFTS } from '@/data/antiquarianShifts'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useLifePathStore } from '@/store/lifePathStore'
+import { useGameStore } from '@/store/gameStore'
 import type { AntiquarianShift } from '@/data/antiquarianShifts'
 
 export type ShiftPhase = 'briefing' | 'search' | 'identify' | 'match' | 'done'
@@ -13,7 +14,7 @@ export interface BookIdentification {
   authentic?: boolean   // only for sessions with hasAuthenticity: true
 }
 
-type ShiftResult = { seeds: number; progress: number } | null
+type ShiftResult = { seeds: number; progress: number; pay: number } | null
 
 interface AntiquarianStore {
   activeShift: AntiquarianShift | null
@@ -40,10 +41,10 @@ interface AntiquarianStore {
 
 const MAX_BACKPACK = 6
 
-function calcReward(mistakes: number): { seeds: number; progress: number } {
-  if (mistakes >= 4) return { seeds: 1, progress: 1 }
-  if (mistakes >= 2) return { seeds: 2, progress: 3 }
-  return { seeds: 3, progress: 5 }
+function calcReward(mistakes: number): { seeds: number; progress: number; pay: number } {
+  if (mistakes >= 4) return { seeds: 1, progress: 1, pay: 100 }
+  if (mistakes >= 2) return { seeds: 2, progress: 3, pay: 200 }
+  return { seeds: 3, progress: 5, pay: 300 }
 }
 
 export const useAntiquarianStore = create<AntiquarianStore>((set, get) => ({
@@ -171,9 +172,10 @@ export const useAntiquarianStore = create<AntiquarianStore>((set, get) => ({
       if (bookData?.matchesRequest !== req.id) mistakes++
     }
 
-    const { seeds, progress } = calcReward(mistakes)
+    const { seeds, progress, pay } = calcReward(mistakes)
     useIdeaSeedStore.getState().addSeed('nostalji', seeds)
     useLifePathStore.getState().addProgress('huzur', progress)
+    useGameStore.getState().addMoney(pay)
 
     set(s => ({
       completedShifts: [...s.completedShifts, s.activeShift!.id],
@@ -186,7 +188,7 @@ export const useAntiquarianStore = create<AntiquarianStore>((set, get) => ({
       mistakes: 0,
     }))
 
-    return { seeds, progress }
+    return { seeds, progress, pay }
   },
 
   reset() {

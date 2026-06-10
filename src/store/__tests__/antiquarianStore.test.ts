@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { useAntiquarianStore } from '../antiquarianStore'
 import { useIdeaSeedStore } from '../ideaSeedStore'
 import { useLifePathStore } from '../lifePathStore'
+import { useGameStore } from '@/store/gameStore'
 import { ANTIQUARIAN_SHIFTS } from '@/data/antiquarianShifts'
 import type { BookIdentification } from '../antiquarianStore'
 
@@ -282,6 +283,7 @@ describe('antiquarianStore — endShift', () => {
     const result = useAntiquarianStore.getState().endShift()
     expect(result?.seeds).toBe(3)
     expect(result?.progress).toBe(5)
+    expect(result?.pay).toBe(300)
     expect(useIdeaSeedStore.getState().seeds.nostalji).toBe(3)
     expect(useLifePathStore.getState().progress.huzur).toBe(5)
   })
@@ -306,6 +308,7 @@ describe('antiquarianStore — endShift', () => {
     const result = useAntiquarianStore.getState().endShift()
     expect(result?.seeds).toBe(2)
     expect(result?.progress).toBe(3)
+    expect(result?.pay).toBe(200)
   })
 
   it('4+ mistakes → 1 seed, +1 huzur', () => {
@@ -323,6 +326,28 @@ describe('antiquarianStore — endShift', () => {
     const result = useAntiquarianStore.getState().endShift()
     expect(result?.seeds).toBe(1)
     expect(result?.progress).toBe(1)
+    expect(result?.pay).toBe(100)
+  })
+
+  it('endShift parayı gameStore\'a ekler', () => {
+    useAntiquarianStore.setState({
+      activeShift: ANTIQUARIAN_SHIFTS[0],
+      phase: 'match',
+      selectedLocation: LOC_ID,
+      collectedBooks: [BOOK_1, BOOK_2, BOOK_3, BOOK_4],
+      identifications: {
+        [BOOK_1]: ID_1_CORRECT,
+        [BOOK_2]: ID_2_CORRECT,
+        [BOOK_3]: ID_3_CORRECT,
+        [BOOK_4]: ID_4_CORRECT,
+      },
+      matches: { [REQ_1]: BOOK_1, [REQ_2]: BOOK_2, [REQ_3]: BOOK_3, [REQ_4]: BOOK_4 },
+      mistakes: 0,
+      completedShifts: [],
+    })
+    const before = useGameStore.getState().money
+    useAntiquarianStore.getState().endShift()
+    expect(useGameStore.getState().money).toBe(before + 300)
   })
 
   it('adds to completedShifts and resets active state', () => {
