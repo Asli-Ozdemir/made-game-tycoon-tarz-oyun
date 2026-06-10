@@ -144,7 +144,7 @@ export class WorldScene {
       for (const et of this.currentRoom.exitTriggers) {
         if (worldX >= et.x && worldX < et.x + et.w && worldY >= et.y && worldY < et.y + et.h) {
           if (DEMO_MODE && DEMO_BLOCKED_ROOMS.has(et.toRoom)) {
-            console.info('🔒 Tam sürümde erişilebilir')
+            console.info('🌉 Şehir merkezi tam sürümde açılıyor — neon ışıklar seni bekliyor')
             break
           }
           useWorldStore.getState().beginTransition(et.toRoom)

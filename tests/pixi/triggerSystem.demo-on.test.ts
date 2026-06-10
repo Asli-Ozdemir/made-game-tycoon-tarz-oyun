@@ -19,7 +19,7 @@ vi.mock('@/store/dayTimeStore', () => ({
 vi.mock('@/config', () => ({
   DEMO_MODE: true,
   DEMO_BLOCKED_ROOMS: new Set(['bridge', 'city_core', 'city_culture', 'city_edge', 'city_park']),
-  DEMO_BLOCKED_LOCATIONS: new Set(['pub', 'balikci', 'nehir']),
+  DEMO_BLOCKED_LOCATIONS: new Set(['pub', 'nehir']),
 }))
 
 import { handleTrigger } from '@/pixi/TriggerSystem'
@@ -32,9 +32,9 @@ describe('DEMO_MODE=true — TriggerSystem', () => {
     expect(mockSetLocation).not.toHaveBeenCalled()
   })
 
-  it('balikci_door tetikleyicisini engeller', () => {
+  it('balikci_door artık demoda açık — setLocation çağrılır', () => {
     handleTrigger('balikci_door')
-    expect(mockSetLocation).not.toHaveBeenCalled()
+    expect(mockSetLocation).toHaveBeenCalledWith('balikci')
   })
 
   it('nehir tetikleyicisini engeller', () => {

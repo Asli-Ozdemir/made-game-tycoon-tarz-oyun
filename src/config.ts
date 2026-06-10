@@ -13,6 +13,5 @@ export const DEMO_BLOCKED_ROOMS = new Set<RoomId>([
 
 export const DEMO_BLOCKED_LOCATIONS = new Set<LocationId>([
   'pub',
-  'balikci',
   'nehir',
 ])
