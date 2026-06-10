@@ -83,4 +83,14 @@ describe('savegameEngine v2 — RPG store round-trip', () => {
     snapshot.version = 3
     expect(() => deserialize(JSON.stringify(snapshot))).toThrow()
   })
+
+  it('bozuk npc kaydı (seenDialogueIds eksik) güvenli şekilde normalize edilir', () => {
+    const snapshot = JSON.parse(serialize())
+    snapshot.npc.npcs.marcus = { relationship: 50 }   // seenDialogueIds yok
+    deserialize(JSON.stringify(snapshot))
+    expect(useNPCStore.getState().npcs.marcus.seenDialogueIds).toEqual([])
+    expect(useNPCStore.getState().getRelationship('marcus')).toBe(50)
+    // hasSeenDialogue patlamamalı
+    expect(useNPCStore.getState().hasSeenDialogue('marcus', 'dia_1')).toBe(false)
+  })
 })

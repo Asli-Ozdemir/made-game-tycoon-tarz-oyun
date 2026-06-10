@@ -242,12 +242,13 @@ export function deserialize(json: string): void {
   })
 
   // ── v2 RPG store'ları — önce reset (v1 kayıtlarında blok yok) ──
+  // skillTree önce reset edilir; ardından lifePath reset'i skillTree'ye yan etki yaparsa temiz değeri ezer
   useIdeaSeedStore.getState().reset()
   useNPCStore.getState().reset()
-  useLifePathStore.getState().reset()   // skillTree.selectedLifePath'i de sıfırlar
+  useSkillTreeStore.getState().reset()
+  useLifePathStore.getState().reset()
   useLifeStore.getState().reset()
   useRomanceStore.getState().reset()
-  useSkillTreeStore.getState().reset()
 
   const seeds = (s.ideaSeeds as any)
   if (seeds) {
@@ -259,11 +260,20 @@ export function deserialize(json: string): void {
 
   const npc = (s.npc as any)
   if (npc) {
-    useNPCStore.setState((cur) => ({
-      npcs:             { ...cur.npcs,            ...(npc.npcs            ?? {}) },
-      gainMultipliers:  { ...cur.gainMultipliers, ...(npc.gainMultipliers ?? {}) },
-      relationshipCaps: npc.relationshipCaps ?? {},
-    }))
+    useNPCStore.setState((cur) => {
+      const merged = { ...cur.npcs }
+      for (const [id, entry] of Object.entries((npc.npcs ?? {}) as Record<string, any>)) {
+        merged[id] = {
+          relationship:    entry?.relationship ?? 0,
+          seenDialogueIds: Array.isArray(entry?.seenDialogueIds) ? entry.seenDialogueIds : [],
+        }
+      }
+      return {
+        npcs:             merged,
+        gainMultipliers:  { ...cur.gainMultipliers, ...(npc.gainMultipliers ?? {}) },
+        relationshipCaps: npc.relationshipCaps ?? {},
+      }
+    })
   }
 
   const lp = (s.lifePath as any)
