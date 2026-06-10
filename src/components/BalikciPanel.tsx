@@ -1,5 +1,6 @@
 // src/components/BalikciPanel.tsx
 import { useEffect, useRef, useState } from 'react'
+import { useObjectiveStore } from '@/store/objectiveStore'
 import { useWorldStore }    from '@/store/worldStore'
 import { useDayTimeStore }  from '@/store/dayTimeStore'
 import { useFishingStore }  from '@/store/fishingStore'
@@ -87,6 +88,7 @@ export default function BalikciPanel() {
           const result = useFishingStore.getState().endSession()
           setSessionResult(result)
           setPhase('result')
+          useObjectiveStore.getState().completeDemoStep('fish_pier')
         } else {
           setPhase('story_beat')
         }

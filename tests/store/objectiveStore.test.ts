@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+
+vi.mock('@/config', () => ({
+  DEMO_MODE: false,
+  DEMO_BLOCKED_ROOMS: new Set(),
+  DEMO_BLOCKED_LOCATIONS: new Set(),
+}))
 import { useObjectiveStore } from '@/store/objectiveStore'
 import { useProjectStore } from '@/store/projectStore'
 import { createProject } from '@/engine/projectEngine'

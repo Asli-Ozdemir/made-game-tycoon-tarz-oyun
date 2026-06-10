@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { Application, Graphics, Container } from 'pixi.js'
 import { SKILL_NODES, type SkillNode } from '@/data/skillTree'
 import { useSkillTreeStore } from '@/store/skillTreeStore'
+import { useObjectiveStore } from '@/store/objectiveStore'
 import { useLifePathStore } from '@/store/lifePathStore'
 import { PATH_THRESHOLD } from '@/data/lifePathData'
 import type { LifePath } from '@/data/skillTree'
@@ -326,7 +327,10 @@ export default function SkillTreeCanvas({ onHover }: Props) {
       container.on('pointerover', () => onHover(capturedNode))
       container.on('pointerout',  () => onHover(null))
       container.on('pointertap',  () => {
-        if (state === 'unlockable') unlockNode(capturedNode.id)
+        if (state === 'unlockable') {
+          unlockNode(capturedNode.id)
+          useObjectiveStore.getState().completeDemoStep('sleep_spend')
+        }
       })
 
       app.stage.addChild(container)

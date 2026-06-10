@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { NPC_DEFS, IDEA_SEED_META, type Dialogue, type IdeaSeedType, type NPCId } from '@/data/npcDialogues'
 import { useNPCStore } from '@/store/npcStore'
+import { useObjectiveStore } from '@/store/objectiveStore'
 import { useIdeaSeedStore } from '@/store/ideaSeedStore'
 import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useSocialSkillStore } from '@/store/socialSkillStore'
@@ -64,6 +65,7 @@ export default function DialogueView({ npcId, onClose }: Props) {
 
     const totalBonus = activeDialogue.relationshipBonus + extraBonus
     npcStore.completeDialogue(npcId, activeDialogue.id, totalBonus)
+    if (npcId === 'marcus') useObjectiveStore.getState().completeDemoStep('visit_marcus')
     advanceTime(120) // 1 oyun saati
 
     const seedType = extraSeed ?? activeDialogue.ideaSeed

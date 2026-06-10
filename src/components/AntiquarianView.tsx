@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useAntiquarianStore } from '@/store/antiquarianStore'
 import { ANTIQUARIAN_SHIFTS } from '@/data/antiquarianShifts'
 import { AntiquarianScene } from '@/pixi/AntiquarianScene'
+import { useObjectiveStore } from '@/store/objectiveStore'
 
 type ViewPhase = 'select' | 'shift' | 'result'
 
@@ -48,6 +49,7 @@ export default function AntiquarianView({ onBack }: Props) {
         sceneRef.current = null
         setResult(r)
         setPhase('result')
+        useObjectiveStore.getState().completeDemoStep('archive_shift')
       },
     }).then((s) => {
       if (cancelled) { s.destroy(); return }

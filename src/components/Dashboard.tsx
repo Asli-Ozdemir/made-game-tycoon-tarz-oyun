@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useObjectiveStore } from '@/store/objectiveStore'
 import ProjectCard from './ProjectCard'
 import NewProjectModal from './NewProjectModal'
 import EmployeePanel from './EmployeePanel'
@@ -126,6 +127,7 @@ export default function Dashboard({ onPublishResult }: Props) {
     }
     unassignFromProject(projectId)
     useRivalStore.getState().noticeCheck(useGameStore.getState().reputation)
+    useObjectiveStore.getState().completeDemoStep('publish_game')
     onPublishResult(projectId)
   }
 
