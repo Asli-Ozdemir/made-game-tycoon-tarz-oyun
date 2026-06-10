@@ -15,6 +15,12 @@ import { useDayTimeStore } from '@/store/dayTimeStore'
 import { useMarketStore } from '@/store/marketStore'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useIndustryEventStore } from '@/store/industryEventStore'
+import { useIdeaSeedStore } from '@/store/ideaSeedStore'
+import { useSkillTreeStore } from '@/store/skillTreeStore'
+import { useNPCStore } from '@/store/npcStore'
+import { useLifePathStore } from '@/store/lifePathStore'
+import { useLifeStore } from '@/store/lifeStore'
+import { useRomanceStore } from '@/store/romanceStore'
 
 export function serialize(): string {
   const gs  = useGameStore.getState()
@@ -31,7 +37,7 @@ export function serialize(): string {
   const css = useCutsceneStore.getState()
 
   const snapshot = {
-    version: 1,
+    version: 2,
     savedAt: Date.now(),
     game: {
       money:          gs.money,
@@ -94,6 +100,38 @@ export function serialize(): string {
     industryEvent: {
       participations: useIndustryEventStore.getState().participations,
     },
+    ideaSeeds: {
+      seeds:      useIdeaSeedStore.getState().seeds,
+      kirliSeeds: useIdeaSeedStore.getState().kirliSeeds,
+    },
+    skillTree: {
+      unlockedNodeIds:  useSkillTreeStore.getState().unlockedNodeIds,
+      selectedLifePath: useSkillTreeStore.getState().selectedLifePath,
+    },
+    npc: {
+      npcs:             useNPCStore.getState().npcs,
+      gainMultipliers:  useNPCStore.getState().gainMultipliers,
+      relationshipCaps: useNPCStore.getState().relationshipCaps,
+    },
+    lifePath: {
+      progress:     useLifePathStore.getState().progress,
+      activePathId: useLifePathStore.getState().activePathId,
+    },
+    life: {
+      lastProcessedYear: useLifeStore.getState().lastProcessedYear,
+      firedEvents:       Array.from(useLifeStore.getState().firedEvents),
+      flags:             Array.from(useLifeStore.getState().flags),
+      roles:             useLifeStore.getState().roles,
+      dialogueOverrides: useLifeStore.getState().dialogueOverrides,
+      spawnedNpcs:       useLifeStore.getState().spawnedNpcs,
+      retiredNpcs:       Array.from(useLifeStore.getState().retiredNpcs),
+    },
+    romance: {
+      stage:      useRomanceStore.getState().stage,
+      dateCount:  useRomanceStore.getState().dateCount,
+      hasBouquet: useRomanceStore.getState().hasBouquet,
+      hasRing:    useRomanceStore.getState().hasRing,
+    },
   }
 
   return JSON.stringify(snapshot)
@@ -107,8 +145,9 @@ export function deserialize(json: string): void {
     throw new Error('deserialize: geçersiz JSON')
   }
 
-  if ((s as any).version !== 1) {
-    throw new Error(`deserialize: desteklenmeyen save versiyonu: ${(s as any).version}`)
+  const v = (s as any).version
+  if (v !== 1 && v !== 2) {
+    throw new Error(`deserialize: desteklenmeyen save versiyonu: ${v}`)
   }
 
   const g = (s.game as any) ?? {}
@@ -201,6 +240,70 @@ export function deserialize(json: string): void {
     pendingModal:   null,
     showPanel:      false,
   })
+
+  // ── v2 RPG store'ları — önce reset (v1 kayıtlarında blok yok) ──
+  useIdeaSeedStore.getState().reset()
+  useNPCStore.getState().reset()
+  useLifePathStore.getState().reset()   // skillTree.selectedLifePath'i de sıfırlar
+  useLifeStore.getState().reset()
+  useRomanceStore.getState().reset()
+  useSkillTreeStore.getState().reset()
+
+  const seeds = (s.ideaSeeds as any)
+  if (seeds) {
+    useIdeaSeedStore.setState((cur) => ({
+      seeds:      { ...cur.seeds,      ...(seeds.seeds      ?? {}) },
+      kirliSeeds: { ...cur.kirliSeeds, ...(seeds.kirliSeeds ?? {}) },
+    }))
+  }
+
+  const npc = (s.npc as any)
+  if (npc) {
+    useNPCStore.setState((cur) => ({
+      npcs:             { ...cur.npcs,            ...(npc.npcs            ?? {}) },
+      gainMultipliers:  { ...cur.gainMultipliers, ...(npc.gainMultipliers ?? {}) },
+      relationshipCaps: npc.relationshipCaps ?? {},
+    }))
+  }
+
+  const lp = (s.lifePath as any)
+  if (lp) {
+    useLifePathStore.setState({
+      progress:     lp.progress     ?? { hirs: 0, huzur: 0, emek: 0 },
+      activePathId: lp.activePathId ?? null,
+    })
+  }
+
+  const life = (s.life as any)
+  if (life) {
+    useLifeStore.setState({
+      lastProcessedYear: life.lastProcessedYear ?? 0,
+      firedEvents:       new Set(life.firedEvents ?? []),
+      flags:             new Set(life.flags ?? []),
+      roles:             life.roles ?? {},
+      dialogueOverrides: life.dialogueOverrides ?? {},
+      spawnedNpcs:       life.spawnedNpcs ?? [],
+      retiredNpcs:       new Set(life.retiredNpcs ?? []),
+    })
+  }
+
+  const rom = (s.romance as any)
+  if (rom) {
+    useRomanceStore.setState({
+      stage:      rom.stage      ?? {},
+      dateCount:  rom.dateCount  ?? {},
+      hasBouquet: rom.hasBouquet ?? false,
+      hasRing:    rom.hasRing    ?? false,
+    })
+  }
+
+  const st = (s.skillTree as any)
+  if (st) {
+    useSkillTreeStore.setState({
+      unlockedNodeIds:  st.unlockedNodeIds  ?? [],
+      selectedLifePath: st.selectedLifePath ?? null,
+    })
+  }
 
   useDayTimeStore.getState().reset()
 }

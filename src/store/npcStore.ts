@@ -22,6 +22,7 @@ interface NPCStore {
   capRelationship: (npcId: string, max: number) => void
   adjustRelationship: (npcId: string, delta: number) => void
   getAvailableDialogues: (npcId: string) => Dialogue[]
+  reset: () => void
 }
 
 function initNpcs(): Record<string, NPCState> {
@@ -149,5 +150,9 @@ export const useNPCStore = create<NPCStore>((set, get) => ({
     if (!def) return []
     const tier = get().getTier(npcId)
     return def.dialogues.filter((d) => d.tier <= tier)
+  },
+
+  reset() {
+    set({ npcs: initNpcs(), gainMultipliers: initMultipliers(), relationshipCaps: {} })
   },
 }))

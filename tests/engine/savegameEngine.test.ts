@@ -33,10 +33,10 @@ beforeEach(() => {
 })
 
 describe('savegameEngine', () => {
-  it('serialize geçerli JSON döndürür ve version: 1 içerir', () => {
+  it('serialize geçerli JSON döndürür ve version: 2 içerir', () => {
     const json = serialize()
     const parsed = JSON.parse(json)
-    expect(parsed.version).toBe(1)
+    expect(parsed.version).toBe(2)
     expect(typeof parsed.savedAt).toBe('number')
   })
 
