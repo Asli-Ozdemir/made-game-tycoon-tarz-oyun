@@ -88,13 +88,13 @@ export const useObjectiveStore = create<ObjectiveStoreState>((set) => ({
 
   completeDemoStep: (stepId) => {
     if (!DEMO_MODE) return
-    set((s) => {
-      if (s.activeObjective?.id !== stepId) return s
-      const idx = DEMO_CHAIN.findIndex((o) => o.id === stepId)
-      if (idx === -1) return s
-      sfx('objective')
-      return { ...s, activeObjective: DEMO_CHAIN[idx + 1] ?? null }
-    })
+    // sfx yan etkisi updater dışında kalmalı (updater pure olmalı)
+    const { activeObjective } = useObjectiveStore.getState()
+    if (activeObjective?.id !== stepId) return
+    const idx = DEMO_CHAIN.findIndex((o) => o.id === stepId)
+    if (idx === -1) return
+    sfx('objective')
+    set({ activeObjective: DEMO_CHAIN[idx + 1] ?? null })
   },
 
   reset: () => set({ activeObjective: null, showMovementHint: false, showPointer: false }),
