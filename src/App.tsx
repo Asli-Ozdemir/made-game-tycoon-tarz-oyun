@@ -55,9 +55,13 @@ import ObjectiveBanner from '@/components/ObjectiveBanner'
 import MovementHint from '@/components/MovementHint'
 import StudioDeskPointer from '@/components/StudioDeskPointer'
 import { initSounds, playMusic, stopMusic } from '@/audio/soundService'
+import DemoEndScreen from '@/components/DemoEndScreen'
+import { DEMO_MODE } from '@/config'
 
 export default function App() {
   const [resultProjectId, setResultProjectId] = useState<string | null>(null)
+  const [showDemoEnd, setShowDemoEnd] = useState(false)
+  const demoEndShownRef = useRef(false)
 
   const advance         = useTimeStore((s) => s.advance)
   const tickAllProjects = useProjectStore((s) => s.tickAllProjects)
@@ -300,10 +304,22 @@ export default function App() {
         <div className="absolute inset-0 z-30">
           <PublishResult
             projectId={resultProjectId}
-            onContinue={() => setResultProjectId(null)}
+            onContinue={() => {
+              setResultProjectId(null)
+              if (
+                DEMO_MODE &&
+                useGameStore.getState().totalPublished === 1 &&
+                !demoEndShownRef.current
+              ) {
+                demoEndShownRef.current = true
+                setShowDemoEnd(true)
+              }
+            }}
           />
         </div>
       )}
+
+      {showDemoEnd && <DemoEndScreen onClose={() => setShowDemoEnd(false)} />}
 
       {pendingSaleEventModal && <SaleEventModal />}
 
