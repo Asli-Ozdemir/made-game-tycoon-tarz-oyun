@@ -126,6 +126,12 @@ _Son güncelleme: 2026-06-11_
 
 ## Yarın Yapılacaklar
 
+### Steam Demo — Kalan İşler (2026-06-11)
+- **Ses üretimi (fal-ai) — BLOKE: FAL_KEY yok.** fal.ai/dashboard/keys'ten key alınıp fal-ai MCP sunucusu env'ine `FAL_KEY` eklenecek (Claude Code restart gerekir). Sonra: `public/audio/music/menu.mp3` (lo-fi menü teması ~60sn loop) + `coast.mp3` (dalga+lo-fi ambiyans ~90sn loop) + 8 SFX (`public/audio/sfx/`) üretilecek. Hepsi 0-byte placeholder; soundService graceful-fail olduğundan oyun etkilenmiyor.
+- **Pixel art (kullanıcı + AI)**: `docs/asset-manifest.md` P1'den başla — ilk öğrenme projesi: oyuncu sprite sheet (32×48, 4 yön × 4 kare). Her teslimde oyuna entegre edilir.
+- **Playtest — demo süre dengesi**: uçtan uca oyna; ilk oyun geliştirme süresi 30-60 dk hedefini aşıyorsa tycoon hız ayarı (izole ayar değişkeni olarak).
+- Not: DEMO_MODE'un eski "balıkçı kilitli" ve "Zihin sekmesi gizli" kararları Steam demo spec'iyle bilinçli değiştirildi (spec: `docs/superpowers/specs/2026-06-10-steam-demo-design.md`).
+
 ### Harita Odaları — TAMAMLANDI (2026-06-01)
 Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 
