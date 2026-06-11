@@ -33,9 +33,11 @@ describe('DemoEndScreen', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('"Ana menü" gamePhase\'i title yapar', () => {
-    render(<DemoEndScreen onClose={() => {}} />)
+  it('"Ana menü" gamePhase\'i title yapar ve onClose çağırır', () => {
+    const onClose = vi.fn()
+    render(<DemoEndScreen onClose={onClose} />)
     fireEvent.click(screen.getByText(/ana menü/i))
     expect(useGameStore.getState().gamePhase).toBe('title')
+    expect(onClose).toHaveBeenCalled()
   })
 })

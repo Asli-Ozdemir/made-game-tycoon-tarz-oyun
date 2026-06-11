@@ -57,7 +57,7 @@ export default function DemoEndScreen({ onClose }: Props) {
             Keşfe devam et
           </button>
           <button
-            onClick={() => setGamePhase('title')}
+            onClick={() => { onClose(); setGamePhase('title') }}
             className="flex-1 border border-gray-600 hover:border-gray-400 text-gray-300 rounded-lg py-2.5 font-medium"
           >
             Ana menü
