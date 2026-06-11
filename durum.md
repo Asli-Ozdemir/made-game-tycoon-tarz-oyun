@@ -1,7 +1,17 @@
 # Oyun Durum Dosyası
-_Son güncelleme: 2026-06-07_
+_Son güncelleme: 2026-06-11_
 
 ## Tamamlananlar
+
+### Steam Demo Hattı (2026-06-11)
+- Savegame v2: ideaSeed/skillTree/npc/lifePath/life/romance store'ları persist; v1 geri uyumlu; npcStore.reset() eklendi
+- Balıkçılık demoda açık; köprü girişinde flavor toast
+- Zihin ağacı: tier-1 demoda açılabilir, T2+ "Tam sürümde" rozeti; Zihin sekmesi görünür
+- Antiquarian vardiya ödülüne para eklendi (300/200/100); SahafPanel'den "Arşiv taraması" girişi (AntiquarianView)
+- Demo hedef zinciri: proje başlat → Marcus → balık → arşiv → uyu+harca → yayınla (objectiveStore.completeDemoStep)
+- DemoEndScreen: ilk yayın sonrası epilog + istatistik + wishlist; serbest dolaşım; ikinci proje kilidi (NewProjectModal)
+- Asset manifest: docs/asset-manifest.md (P1/P2/P3 + ses)
+- 750/750 test geçiyor
 
 ### Git Altyapısı (2026-06-07)
 - Shared `.githooks/pre-push` hook: push öncesi remote'dan geride olunup olunmadığını kontrol eder, gerideyse durdurup `git pull --rebase` ister
@@ -130,7 +140,7 @@ Coast/bridge/city oda mimarisi, fade geçişler ve 297 test ile tamamlandı.
 - **Romantizm UI (C1 kalan)**: confess/date/propose butonları, itiraf/düğün cutscene, çiçekçi/kuyumcu jest maliyetleri
 - Yan iş entegrasyonu: dedektif + bar + antiquarian için posta kutusu, harita girişleri
 - Yaşam olayları içeriği: eski meslektaş (3-dallı), çocuk anları, tükenmişlik, yas
-- DevTools otomatik açmayı production'dan kaldır (`electron/main.ts`)
+- ~~DevTools otomatik açmayı production'dan kaldır~~ — doğrulandı: zaten dev-only guard içinde (ELECTRON_RENDERER_URL)
 
 ---
 
