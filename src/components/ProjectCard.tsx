@@ -4,6 +4,7 @@ import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import { useProjectStore } from '@/store/projectStore'
 import { useHevesStore } from '@/store/hevesStore'
+import { useWorkSessionStore } from '@/store/workSessionStore'
 import type { GameProject, SequelProject, DlcProject, UpdateProject } from '@/types'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useTimeStore } from '@/store/timeStore'
@@ -54,11 +55,12 @@ interface Props {
 
 export default function ProjectCard({ project, onPublish }: Props) {
   const allProjects    = useProjectStore((s) => s.projects)
-  const workOnProject  = useProjectStore((s) => s.workOnProject)
+
+  const startSession     = useWorkSessionStore((s) => s.start)
+  const sessionDoneToday = useWorkSessionStore((s) => s.sessionDoneToday)
 
   const heves    = useHevesStore((s) => s.heves)
   const maxHeves = useHevesStore((s) => s.maxHeves)
-  const spend    = useHevesStore((s) => s.spend)
 
   const campaigns          = useCampaignStore((s) => s.campaigns)
   const startCampaign      = useCampaignStore((s) => s.startCampaign)
@@ -75,8 +77,7 @@ export default function ProjectCard({ project, onPublish }: Props) {
   const isPublished = project.status === 'yayinlandi'
 
   function handleWork() {
-    if (!spend(1)) return
-    workOnProject(project.id)
+    startSession(project.id)
   }
 
   // Child projeler (bu projeyi kaynak olarak kullananlar)
@@ -164,13 +165,17 @@ export default function ProjectCard({ project, onPublish }: Props) {
 
       {!isComplete && !isPublished && (
         <div className="mt-3">
-          {heves > 0 ? (
+          {sessionDoneToday ? (
+            <div className="w-full text-center text-xs text-gray-500 py-2 border border-gray-700 rounded">
+              Bugün çalıştın — yarın devam 🌙
+            </div>
+          ) : heves > 0 ? (
             <button
               onClick={handleWork}
               className="w-full bg-indigo-700 hover:bg-indigo-600 text-white rounded py-2 text-sm font-medium flex items-center justify-center gap-2 transition-colors"
             >
-              <span>🔥 Çalış</span>
-              <span className="text-indigo-300 text-xs">({heves}/{maxHeves} heves)</span>
+              <span>💻 Çalışmaya Başla</span>
+              <span className="text-indigo-300 text-xs">({heves}/{maxHeves} 🔥)</span>
             </button>
           ) : (
             <div className="w-full text-center text-xs text-gray-500 py-2 border border-gray-700 rounded">

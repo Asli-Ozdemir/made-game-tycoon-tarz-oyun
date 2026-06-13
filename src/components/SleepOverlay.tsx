@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useWorldStore } from '@/store/worldStore'
 import { useHevesStore } from '@/store/hevesStore'
+import { useWorkSessionStore } from '@/store/workSessionStore'
 import SkillTreePanel   from '@/components/SkillTreePanel'
 import SocialSkillPanel from '@/components/SocialSkillPanel'
 import { sfx } from '@/audio/soundService'
@@ -15,6 +16,7 @@ interface Props {
 export default function SleepOverlay({ onWake }: Props) {
   const setLocation = useWorldStore(s => s.setLocation)
   const restore     = useHevesStore(s => s.restore)
+  const resetDailyLock = useWorkSessionStore(s => s.resetDailyLock)
   const [visible, setVisible] = useState(false)
   const [tab, setTab]         = useState<Tab>('zihin')
 
@@ -25,7 +27,8 @@ export default function SleepOverlay({ onWake }: Props) {
 
   function wake() {
     sfx('sleep')
-    restore()   // heves tamamen dolar
+    restore()          // heves tamamen dolar
+    resetDailyLock()   // yeni gün — masa kilidi açılır
     setVisible(false)
     setTimeout(() => {
       setLocation(null)

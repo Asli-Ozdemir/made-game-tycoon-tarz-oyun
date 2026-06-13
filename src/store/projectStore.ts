@@ -28,7 +28,6 @@ interface ProjectStoreState {
   applyFollowUpEffect: (parentId: string, contentType: 'dlc' | 'guncelleme', scope: ProjectScope) => void
   setFeaturedUntilTick: (projectId: string, tick: number) => void
   setExclusivePlatform: (projectId: string, platformId: string) => void
-  workOnProject: (id: string, weeksToAdd?: number) => void
   pendingCarryQuality: number
   advanceWeeks:     (id: string, weeks: number) => void
   applyFocusAxis:   (id: string, focus: FocusAxis) => void
@@ -211,20 +210,6 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       p.id === projectId ? { ...p, exclusivePlatformId: platformId } : p
     ),
   })),
-
-  workOnProject: (id, weeksToAdd = 2) => {
-    set((s) => ({
-      projects: s.projects.map((p) => {
-        if (p.id !== id || p.status !== 'gelistirme') return p
-        const qualityBonus = getSkillBonuses().qualityMultForGenre(p.genreId) * 2
-        return {
-          ...p,
-          weeksElapsed:  Math.min(p.totalWeeks, p.weeksElapsed + weeksToAdd),
-          qualityPoints: p.qualityPoints + qualityBonus,
-        }
-      }),
-    }))
-  },
 
   advanceWeeks: (id, weeks) =>
     set((s) => ({
