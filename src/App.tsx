@@ -97,7 +97,7 @@ export default function App() {
       const tickCount = useTimeStore.getState().tickCount
       const { totalSalary } = weeklyTick(tickCount)
       if (totalSalary > 0) addMoney(-totalSalary)
-      tickAllProjects()
+      // Pasif proje ilerlemesi kaldırıldı — proje yalnızca iş seansıyla ilerler (spec §1)
       const year = useTimeStore.getState().date.year
       useTrainingStore.getState().tickCourses(year)
       // Sezon değişince auto-save
