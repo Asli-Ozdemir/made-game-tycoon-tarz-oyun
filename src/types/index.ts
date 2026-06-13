@@ -1,3 +1,5 @@
+import type { QualityAxes } from '@/engine/qualityAxes'
+
 // --- Zaman ---
 export type Season = 'ilkbahar' | 'yaz' | 'sonbahar' | 'kis'
 export const SEASONS: Season[] = ['ilkbahar', 'yaz', 'sonbahar', 'kis']
@@ -52,6 +54,7 @@ interface BaseProject {
   totalWeeks:    number
   weeksElapsed:  number
   qualityPoints: number
+  axes?:         QualityAxes   // 4 eksenli kalite kırılımı (Odak kartı doldurur)
   status:        ProjectStatus
   publishResult?: PublishResult
   price:            number        // lansmanda belirlenen birim fiyat ($)

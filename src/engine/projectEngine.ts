@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import { SCOPE_CONFIG } from '@/data/topics'
 import type { GameDate, GameProject, ProjectScope } from '@/types'
+import { EMPTY_AXES } from '@/engine/qualityAxes'
 
 type CreateProjectParams = {
   name: string
@@ -29,6 +30,7 @@ export function createProject(params: CreateProjectParams): GameProject {
     totalWeeks: cfg.weeks,
     weeksElapsed: 0,
     qualityPoints: 0,
+    axes: { ...EMPTY_AXES },
     status: 'gelistirme' as const,
     price: 0,
     discountPct: null,
