@@ -62,11 +62,11 @@ describe('workSessionStore durum makinesi', () => {
     expect(useHevesStore.getState().heves).toBe(8)     // 7 + 2, max 8
     useWorkSessionStore.getState().chooseFocus('gameplay')
     expect(useWorkSessionStore.getState().phase).toBe('spark')
-    useWorkSessionStore.getState().chooseSpark('apply') // +2 base +2 spark = +4 hafta, +15 kalite
+    useWorkSessionStore.getState().chooseSpark('apply') // base +1 + spark apply +1 hafta, +15 kalite
     expect(useWorkSessionStore.getState().phase).toBe('done')
     expect(useWorkSessionStore.getState().sessionDoneToday).toBe(true)
     const proj = useProjectStore.getState().projects[0]
-    expect(proj.weeksElapsed).toBe(5)        // fix1 + base2 + sparkApply2
+    expect(proj.weeksElapsed).toBe(3)        // fix1 + sparkApply1 + base1
     expect(proj.qualityPoints).toBe(30)      // focus +15, spark +15
   })
 

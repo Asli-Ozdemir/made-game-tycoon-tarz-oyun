@@ -91,7 +91,27 @@
       "Bash('C:/Program Files \\(x86\\)/Steam/steamapps/common/Aseprite/Aseprite.exe' --batch --script C:/Users/umutm/Desktop/mad-game-tarzı-oyun/scripts/create_bridge.lua)",
       "Bash(git -C \"C:/Users/umutm/Desktop/mad-game-tarzı-oyun\" log --oneline -3)",
       "Bash(\"C:/Program Files \\(x86\\)/Steam/steamapps/common/Aseprite/Aseprite.exe\" --batch --script \"C:/Users/umutm/Desktop/mad-game-tarzı-oyun/scripts/create_title_bg.lua\")",
-      "Bash(echo \"EXIT:$?\")"
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(git stash:*)",
+      "Bash(git restore:*)",
+      "Bash(git config:*)",
+      "Bash(chmod +x .git/hooks/pre-push)",
+      "Bash(wc -l /c/Users/umutm/Desktop/mad-game-tarzı-oyun/src/store/*.ts)",
+      "Bash(claude update:*)",
+      "Bash(claude:*)",
+      "Bash(sed -n 1,40p tests/pixi/triggerSystem.demo-on.test.ts)",
+      "Bash(sed -n 1,40p src/store/saveStore.ts)",
+      "Bash(ls docs/superpowers/plans/)",
+      "Bash(ls docs/)",
+      "mcp__fal-ai__get_pricing",
+      "mcp__fal-ai__generate_music",
+      "Skill(run)",
+      "Bash(tasklist *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Add-Type -AssemblyName System.Windows.Forms; Add-Type -AssemblyName System.Drawing; $screen = [System.Windows.Forms.Screen]::PrimaryScreen; $bitmap = New-Object System.Drawing.Bitmap\\($screen.Bounds.Width, $screen.Bounds.Height\\); $graphics = [System.Drawing.Graphics]::FromImage\\($bitmap\\); $graphics.CopyFromScreen\\($screen.Bounds.Location, [System.Drawing.Point]::Empty, $screen.Bounds.Size\\); $path = \"$env:TEMP\\\\playtest_screen.png\"; $bitmap.Save\\($path\\); $graphics.Dispose\\(\\); $bitmap.Dispose\\(\\); Write-Output \"Saved to $path\")",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(git checkout *)",
+      "Bash(Select-String \"src/store/projectStore.ts\")"
     ]
   }
 }

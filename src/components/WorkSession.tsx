@@ -85,7 +85,7 @@ export default function WorkSession() {
                 className="flex-1 bg-[#0a1a0e] border border-emerald-800 text-emerald-300 rounded-lg p-3 text-sm text-left hover:bg-[#0d2412] transition-colors"
               >
                 ✨ <strong>Uygula</strong><br />
-                <span className="text-gray-500 text-xs">+15 kalite · +2 hafta</span>
+                <span className="text-gray-500 text-xs">+15 kalite · +1 hafta</span>
               </button>
               <button
                 onClick={() => chooseSpark('save')}

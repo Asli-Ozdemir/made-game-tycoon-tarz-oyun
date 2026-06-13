@@ -55,8 +55,8 @@ export const SPARK_CARDS: SparkCard[] = [
 ]
 
 export const SPARK_APPLY_QUALITY = 15   // 'uygula' → qualityPoints
-export const SPARK_APPLY_WEEKS   = 2    // 'uygula' → ek hafta
+export const SPARK_APPLY_WEEKS   = 1    // 'uygula' → ek hafta
 export const SPARK_SAVE_CARRY    = 10   // 'sonraya sakla' → sonraki projeye
-export const SESSION_BASE_WEEKS  = 2    // her seans temel ilerleme
+export const SESSION_BASE_WEEKS  = 1    // her seans temel ilerleme (yavaş tempo)
 export const BUG_FIX_WEEKS       = 1    // 'düzelt' ek hafta
 export const BUG_FIX_HEVES       = 2    // 'düzelt' iade

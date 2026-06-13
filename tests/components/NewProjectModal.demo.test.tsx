@@ -6,6 +6,7 @@ vi.mock('@/config', () => ({
   DEMO_MODE: true,
   DEMO_BLOCKED_ROOMS: new Set(),
   DEMO_BLOCKED_LOCATIONS: new Set(),
+  DEMO_LOCKED_SCOPES: new Set(['orta', 'buyuk', 'iddiali']),
 }))
 vi.mock('@/audio/soundService', () => ({ sfx: vi.fn() }))
 

@@ -10,7 +10,7 @@ export const TOPICS: Record<string, Topic> = {
 }
 
 export const SCOPE_CONFIG: Record<ProjectScope, { weeks: number; qualityPerWeek: number; label: string }> = {
-  kucuk:   { weeks: 8,  qualityPerWeek: 6, label: 'Küçük'   },
+  kucuk:   { weeks: 12, qualityPerWeek: 6, label: 'Küçük'   },
   orta:    { weeks: 16, qualityPerWeek: 5, label: 'Orta'    },
   buyuk:   { weeks: 24, qualityPerWeek: 4, label: 'Büyük'   },
   iddiali: { weeks: 36, qualityPerWeek: 3, label: 'İddalı'  },

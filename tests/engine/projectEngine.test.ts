@@ -5,9 +5,9 @@ import type { GameDate } from '@/types'
 const startDate: GameDate = { year: 2000, season: 'ilkbahar', week: 1 }
 
 describe('createProject', () => {
-  it('küçük proje 8 hafta sürer', () => {
+  it('küçük proje 12 hafta sürer', () => {
     const p = createProject({ name: 'Test', genreId: 'aksiyon', topicId: 'uzay', platformId: 'pc', scope: 'kucuk', startDate })
-    expect(p.totalWeeks).toBe(8)
+    expect(p.totalWeeks).toBe(12)
     expect(p.weeksElapsed).toBe(0)
     expect(p.status).toBe('gelistirme')
   })
@@ -31,7 +31,7 @@ describe('tickProject', () => {
 describe('isProjectComplete', () => {
   it('weeksElapsed >= totalWeeks ise true döner', () => {
     const p = createProject({ name: 'T', genreId: 'aksiyon', topicId: 'uzay', platformId: 'pc', scope: 'kucuk', startDate })
-    expect(isProjectComplete({ ...p, weeksElapsed: 8 })).toBe(true)
+    expect(isProjectComplete({ ...p, weeksElapsed: 12 })).toBe(true)
     expect(isProjectComplete(p)).toBe(false)
   })
 })

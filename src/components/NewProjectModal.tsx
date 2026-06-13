@@ -8,7 +8,7 @@ import { useTimeStore } from '@/store/timeStore'
 import { useTrendStore } from '@/store/trendStore'
 import { useObjectiveStore } from '@/store/objectiveStore'
 import { useGameStore } from '@/store/gameStore'
-import { DEMO_MODE } from '@/config'
+import { DEMO_MODE, DEMO_LOCKED_SCOPES } from '@/config'
 import { sfx } from '@/audio/soundService'
 import type { ProjectScope } from '@/types'
 
@@ -35,7 +35,7 @@ export default function NewProjectModal({ onClose }: Props) {
   const [genreId, setGenre]                 = useState('aksiyon')
   const [topicId, setTopic]                 = useState('uzay')
   const [platformId, setPlatform]           = useState('pc')
-  const [scope, setScope]                   = useState<ProjectScope>('orta')
+  const [scope, setScope]                   = useState<ProjectScope>(DEMO_MODE ? 'kucuk' : 'orta')
   const [parentProjectId, setParentId]      = useState<string | null>(null)
   const [contentType, setContentType]       = useState<ContentType>('standalone')
   const [dlcPrice, setDlcPrice]             = useState(10)
@@ -50,7 +50,12 @@ export default function NewProjectModal({ onClose }: Props) {
   const parentProject     = publishedProjects.find(p => p.id === parentProjectId) ?? null
 
   const allowedScopes = ALLOWED_SCOPES[contentType]
-  const effectiveScope = allowedScopes.includes(scope) ? scope : allowedScopes[allowedScopes.length - 1]
+  const isScopeLocked = (s: ProjectScope) => DEMO_MODE && DEMO_LOCKED_SCOPES.has(s)
+  const selectableScopes = allowedScopes.filter((s) => !isScopeLocked(s))
+  const effectiveScope =
+    allowedScopes.includes(scope) && !isScopeLocked(scope)
+      ? scope
+      : (selectableScopes[0] ?? allowedScopes[0])
 
   // DLC fiyat limiti
   const maxDlcPrice = parentProject?.publishResult && parentProject.publishResult.sales > 0
@@ -257,20 +262,34 @@ export default function NewProjectModal({ onClose }: Props) {
           <div className="grid grid-cols-4 gap-2 mt-1">
             {(Object.entries(SCOPE_CONFIG) as [ProjectScope, typeof cfg][])
               .filter(([key]) => allowedScopes.includes(key))
-              .map(([key, c]) => (
-                <button
-                  type="button"
-                  key={key}
-                  onClick={() => setScope(key)}
-                  className={`py-2 rounded text-sm font-medium transition-colors ${
-                    effectiveScope === key ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
+              .map(([key, c]) => {
+                const locked = isScopeLocked(key)
+                return (
+                  <button
+                    type="button"
+                    key={key}
+                    onClick={() => { if (!locked) setScope(key) }}
+                    disabled={locked}
+                    title={locked ? 'Tam sürümde açılır' : undefined}
+                    className={`py-2 rounded text-sm font-medium transition-colors ${
+                      locked
+                        ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
+                        : effectiveScope === key
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-700 text-gray-300'
+                    }`}
+                  >
+                    {locked ? `🔒 ${c.label}` : c.label}
+                  </button>
+                )
+              })}
           </div>
-          <p className="text-gray-500 text-xs mt-1">{cfg.weeks} hafta geliştirme süresi</p>
+          <p className="text-gray-500 text-xs mt-1">
+            {cfg.weeks} hafta geliştirme süresi
+            {DEMO_MODE && selectableScopes.length < allowedScopes.length && (
+              <span className="text-gray-600"> · 🔒 büyük ölçekler tam sürümde</span>
+            )}
+          </p>
         </label>
 
         {(contentType === 'standalone' || contentType === 'sequel') && (
