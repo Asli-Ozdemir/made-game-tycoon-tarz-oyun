@@ -127,6 +127,7 @@ export default function SocialSkillCanvas({ onHover }: Props) {
   useEffect(() => {
     if (!canvasRef.current) return
     let destroyed = false
+    let initDone  = false
 
     const app = new Application()
     appRef.current = app
@@ -138,7 +139,8 @@ export default function SocialSkillCanvas({ onHover }: Props) {
       backgroundColor: 0x030208,
       antialias:       true,
     }).then(() => {
-      if (destroyed) return
+      initDone = true
+      if (destroyed) { app.destroy(); return }
       renderCanvas(app)
     })
 
@@ -149,7 +151,7 @@ export default function SocialSkillCanvas({ onHover }: Props) {
     return () => {
       destroyed = true
       unsub()
-      app.destroy()
+      if (initDone) app.destroy()
     }
   }, [])
 

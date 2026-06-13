@@ -230,6 +230,7 @@ export default function SkillTreeCanvas({ onHover }: Props) {
   useEffect(() => {
     if (!canvasRef.current) return
     let destroyed = false
+    let initDone  = false
 
     const app = new Application()
     appRef.current = app
@@ -241,7 +242,8 @@ export default function SkillTreeCanvas({ onHover }: Props) {
       backgroundColor: 0x030208,
       antialias:       true,
     }).then(() => {
-      if (destroyed) return
+      initDone = true
+      if (destroyed) { app.destroy(); return }
       renderTree(app)
     })
 
@@ -257,7 +259,7 @@ export default function SkillTreeCanvas({ onHover }: Props) {
       destroyed = true
       unsub()
       unsubPath()
-      app.destroy()
+      if (initDone) app.destroy()
     }
   }, [])
 

@@ -212,8 +212,8 @@ export default function App() {
       <MovementHint />
       <StudioDeskPointer />
 
-      {/* HUD — always visible */}
-      <div className="absolute inset-x-0 top-0 z-10">
+      {/* HUD — always visible, z-30 tycoon overlay (z-20) üzerinde */}
+      <div className="absolute inset-x-0 top-0 z-30">
         <HUD />
       </div>
 
