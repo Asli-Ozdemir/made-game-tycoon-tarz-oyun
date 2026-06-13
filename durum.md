@@ -1,7 +1,22 @@
 # Oyun Durum Dosyası
-_Son güncelleme: 2026-06-11_
+_Son güncelleme: 2026-06-13_
 
 ## Tamamlananlar
+
+### İş Seansı — Kart Destesi (2026-06-13) — dal: `feat/is-seansi-kart-destesi`
+Tycoon "dümdüz Çalış butonu" yerine immersive iş seansı. Spec: `docs/superpowers/specs/2026-06-13-is-seani-tasarim.md`, plan: `docs/superpowers/plans/2026-06-13-is-seansi-kart-destesi.md`.
+- **Kart destesi**: masaya oturup "💻 Çalışmaya Başla" → 3 kart sırayla (🐛 Bug → 🎯 Odak → 💡 Kıvılcım), her biri gerçek ikilem
+  - Bug: Düzelt (+1 hafta, +2 heves) vs Geç (−kalite, sonraki bug %40 ağırlaşır)
+  - Odak: 4 eksen (gameplay/grafik/ses/hikaye), +15 seçilene / −8 eşleniğe; skor motoru tür-uyumunu ödüllendirir (`axisFitBonus`)
+  - Kıvılcım: Uygula (+15 kalite, +1 hafta) vs Sonraya Sakla (+10 sonraki projeye carry)
+- **Günde 1 seans** (`sessionDoneToday` kilidi); uyku kilidi açar + heves doldurur
+- **Pasif ilerleme kaldırıldı** — proje yalnızca seansla ilerler (`tickAllProjects` haftalık callback'ten çıktı)
+- Yeni: `qualityAxes.ts`, `workCards.ts`, `workSessionStore`, `sparkStore`, `WorkSession.tsx`; projeye `axes` alanı
+- **Yavaş tempo**: seans +2→+1 hafta, kıvılcım uygula +2→+1, küçük ölçek 8→12 hafta
+- **Demo bütçe kilidi**: Orta/Büyük/İddialı 🔒 ("Tam sürümde"), sadece Küçük açık (`DEMO_LOCKED_SCOPES`)
+- Final review düzeltmeleri: yeni-oyun state sızıntısı (workSession/spark/carry reset), start() re-entry guard
+- **774/774 test geçiyor** (+24 yeni)
+- KALAN: exploration ilham tetikleyicileri ayrı takip planına bırakıldı (`sparkStore.setNote` API hazır); heves şu an sadece gösterge — istenirse gerçek bütçeye çevrilebilir; playtest bekliyor
 
 ### Steam Demo Hattı (2026-06-11)
 - Savegame v2: ideaSeed/skillTree/npc/lifePath/life/romance store'ları persist; v1 geri uyumlu; npcStore.reset() eklendi
@@ -129,7 +144,7 @@ _Son güncelleme: 2026-06-11_
 ### Steam Demo — Kalan İşler (2026-06-11)
 - **Ses üretimi (fal-ai) — BLOKE: FAL_KEY yok.** fal.ai/dashboard/keys'ten key alınıp fal-ai MCP sunucusu env'ine `FAL_KEY` eklenecek (Claude Code restart gerekir). Sonra: `public/audio/music/menu.mp3` (lo-fi menü teması ~60sn loop) + `coast.mp3` (dalga+lo-fi ambiyans ~90sn loop) + 8 SFX (`public/audio/sfx/`) üretilecek. Hepsi 0-byte placeholder; soundService graceful-fail olduğundan oyun etkilenmiyor.
 - **Pixel art (kullanıcı + AI)**: `docs/asset-manifest.md` P1'den başla — ilk öğrenme projesi: oyuncu sprite sheet (32×48, 4 yön × 4 kare). Her teslimde oyuna entegre edilir.
-- **Playtest — demo süre dengesi**: uçtan uca oyna; ilk oyun geliştirme süresi 30-60 dk hedefini aşıyorsa tycoon hız ayarı (izole ayar değişkeni olarak).
+- **Playtest — iş seansı + tempo**: yeni kart destesini uçtan uca dene; tempo 2026-06-13'te yavaşlatıldı (seans +1 hafta, küçük 12 hafta). Hâlâ hızlı/yavaşsa `workCards.ts` sabitleri + `SCOPE_CONFIG` ile ayarla. `feat/is-seansi-kart-destesi` dalı main'e merge edilmeyi bekliyor.
 - Not: DEMO_MODE'un eski "balıkçı kilitli" ve "Zihin sekmesi gizli" kararları Steam demo spec'iyle bilinçli değiştirildi (spec: `docs/superpowers/specs/2026-06-10-steam-demo-design.md`).
 
 ### Harita Odaları — TAMAMLANDI (2026-06-01)
