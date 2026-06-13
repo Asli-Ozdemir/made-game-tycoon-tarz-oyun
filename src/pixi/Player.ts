@@ -15,6 +15,7 @@ export class Player {
   private scene: WorldScene
   private onKeyDown: (e: KeyboardEvent) => void
   private onKeyUp: (e: KeyboardEvent) => void
+  private onBlur: () => void
 
   constructor(app: Application, scene: WorldScene) {
     this.app = app
@@ -30,8 +31,10 @@ export class Player {
 
     this.onKeyDown = (e) => this.keys.add(e.code)
     this.onKeyUp   = (e) => this.keys.delete(e.code)
+    this.onBlur    = () => this.keys.clear()
     window.addEventListener('keydown', this.onKeyDown)
     window.addEventListener('keyup',   this.onKeyUp)
+    window.addEventListener('blur',    this.onBlur)
   }
 
   private drawSprite() {
@@ -84,6 +87,7 @@ export class Player {
   destroy() {
     window.removeEventListener('keydown', this.onKeyDown)
     window.removeEventListener('keyup',   this.onKeyUp)
+    window.removeEventListener('blur',    this.onBlur)
     this.app.stage.removeChild(this.container)
   }
 }

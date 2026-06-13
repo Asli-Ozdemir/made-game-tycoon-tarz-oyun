@@ -21,6 +21,7 @@ export class WorldScene {
   private roomPixelW = 0
   private roomPixelH = 0
   private currentRoom: RoomDef | null = null
+  private lastTrigger: string | null = null
 
   constructor(app: Application) {
     this.app = app
@@ -33,6 +34,7 @@ export class WorldScene {
     this.roomPixelW = room.widthTiles  * TILE_SIZE
     this.roomPixelH = room.heightTiles * TILE_SIZE
     this.collisionRects = this.buildCollisionRects(room)
+    this.lastTrigger = null
     this.render(room)
   }
 
@@ -140,7 +142,10 @@ export class WorldScene {
     if (!this.currentRoom) return
 
     const trigger = getActiveTrigger(this.currentRoom.triggers, worldX, worldY)
-    if (trigger) handleTrigger(trigger)
+    if (trigger !== this.lastTrigger) {
+      this.lastTrigger = trigger
+      if (trigger) handleTrigger(trigger)
+    }
 
     if (useWorldStore.getState().transitionState === 'idle') {
       for (const et of this.currentRoom.exitTriggers) {
