@@ -12,6 +12,7 @@ import { VERDICT, scoreToBand } from '@/data/mediaOutlets'
 import { useInterviewStore } from '@/store/interviewStore'
 import type { GameProject, PublishResult, ProjectScope } from '@/types'
 import { SEASONS } from '@/types'
+import { applyFocus, axesTotal, EMPTY_AXES, type FocusAxis } from '@/engine/qualityAxes'
 
 interface ProjectStoreState {
   projects: GameProject[]
@@ -28,14 +29,27 @@ interface ProjectStoreState {
   setFeaturedUntilTick: (projectId: string, tick: number) => void
   setExclusivePlatform: (projectId: string, platformId: string) => void
   workOnProject: (id: string, weeksToAdd?: number) => void
+  pendingCarryQuality: number
+  advanceWeeks:     (id: string, weeks: number) => void
+  applyFocusAxis:   (id: string, focus: FocusAxis) => void
+  applySparkQuality:(id: string, amount: number) => void
+  applyBugPenalty:  (id: string, amount: number) => void
+  setPendingCarry:  (amount: number) => void
   reset: () => void
 }
 
 export const useProjectStore = create<ProjectStoreState>((set, get) => ({
   projects: [],
+  pendingCarryQuality: 0,
 
   addProject: (project) =>
-    set((s) => ({ projects: [...s.projects, project] })),
+    set((s) => {
+      const carry = s.pendingCarryQuality
+      const withCarry = carry > 0
+        ? { ...project, qualityPoints: project.qualityPoints + carry }
+        : project
+      return { projects: [...s.projects, withCarry], pendingCarryQuality: 0 }
+    }),
 
   tickAllProjects: () => {
     const completed: GameProject[] = []
@@ -211,6 +225,46 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
       }),
     }))
   },
+
+  advanceWeeks: (id, weeks) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id && p.status === 'gelistirme'
+          ? { ...p, weeksElapsed: Math.min(p.totalWeeks, p.weeksElapsed + weeks) }
+          : p
+      ),
+    })),
+
+  applyFocusAxis: (id, focus) =>
+    set((s) => ({
+      projects: s.projects.map((p) => {
+        if (p.id !== id || p.status !== 'gelistirme') return p
+        const before = p.axes ?? EMPTY_AXES
+        const after  = applyFocus(before, focus)
+        const delta  = axesTotal(after) - axesTotal(before)
+        return { ...p, axes: after, qualityPoints: Math.max(0, p.qualityPoints + delta) }
+      }),
+    })),
+
+  applySparkQuality: (id, amount) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id && p.status === 'gelistirme'
+          ? { ...p, qualityPoints: p.qualityPoints + amount }
+          : p
+      ),
+    })),
+
+  applyBugPenalty: (id, amount) =>
+    set((s) => ({
+      projects: s.projects.map((p) =>
+        p.id === id && p.status === 'gelistirme'
+          ? { ...p, qualityPoints: Math.max(0, p.qualityPoints - amount) }
+          : p
+      ),
+    })),
+
+  setPendingCarry: (amount) => set({ pendingCarryQuality: amount }),
 
   reset: () => set({ projects: [] }),
 }))
