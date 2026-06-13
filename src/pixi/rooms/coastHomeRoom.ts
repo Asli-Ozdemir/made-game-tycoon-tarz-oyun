@@ -1,5 +1,14 @@
 import type { RoomDef } from './types'
-import { TILE_SIZE } from '../mapData'
+import { TILE_SIZE as T } from '../mapData'
+
+// Sahil Evi bounds
+const HX = 14 * T   // 448  — left edge
+const HY = 9  * T   // 288  — top edge
+const HW = 10 * T   // 320  — width
+const HH = 9  * T   // 288  — height
+const WALL   = 2 * T  // 64  — wall thickness
+const DOOR_W = 2 * T  // 64  — door opening
+const DOOR_X = HX + HW / 2 - DOOR_W / 2  // 576
 
 export const coastHomeRoom: RoomDef = {
   id: 'coast_home',
@@ -11,28 +20,37 @@ export const coastHomeRoom: RoomDef = {
     { rowStart: 7,  rowEnd: 21, bgColor: 0x0d1e2a, type: 'coastal'       },
   ],
   buildings: [
-    { id: 'sahil_evi', col: 14, row: 9,  cols: 10, rows: 9, label: 'Sahil Evi',    style: 'coastal' },
-    { id: 'fener',     col: 2,  row: 3,  cols: 4,  rows: 8, label: 'Deniz Feneri', style: 'coastal' },
-    { id: 'bahce',     col: 28, row: 10, cols: 8,  rows: 7, label: 'Bahçe',        style: 'coastal' },
+    // noCollision: true — duvarlar customCollisionRects'te ayrıca tanımlı
+    { id: 'sahil_evi', col: 14, row: 9, cols: 10, rows: 9, label: 'Sahil Evi', style: 'coastal', noCollision: true },
+    { id: 'fener',     col: 2,  row: 3, cols: 4,  rows: 8, label: 'Deniz Feneri', style: 'coastal' },
+    { id: 'bahce',     col: 28, row: 10, cols: 8, rows: 7, label: 'Bahçe',        style: 'coastal' },
   ],
   triggers: [
-    { name: 'studio_desk', x: 512, y: 384, w: 32, h: 32 },
-    { name: 'yatak',       x: 576, y: 448, w: 32, h: 32 },
+    // İnterior: x:512-704, y:352-512
+    { name: 'studio_desk', x: 520, y: 360, w: 80, h: 80 },  // sol köşe — masa/PC
+    { name: 'yatak',       x: 636, y: 400, w: 64, h: 80 },  // sağ köşe — yatak
   ],
   exitTriggers: [
     {
       toRoom: 'coast_docks',
-      x: 39 * TILE_SIZE,
-      y:  7 * TILE_SIZE,
-      w:      TILE_SIZE,
-      h: 15 * TILE_SIZE,
+      x: 39 * T,
+      y:  7 * T,
+      w:      T,
+      h: 15 * T,
     },
   ],
   customCollisionRects: [
-    { x: 0, y: 0, w: 40 * TILE_SIZE, h: 4 * TILE_SIZE },
+    // Üst sınır (su/kum bölgesi geçit engeli)
+    { x: 0, y: 0, w: 40 * T, h: 4 * T },
+    // Sahil Evi duvarları (kapı açıklığı: x:576-640, altta)
+    { x: HX,             y: HY,             w: HW,              h: WALL },   // üst duvar
+    { x: HX,             y: HY,             w: WALL,            h: HH   },   // sol duvar
+    { x: HX + HW - WALL, y: HY,             w: WALL,            h: HH   },   // sağ duvar
+    { x: HX,             y: HY + HH - WALL, w: DOOR_X - HX,     h: WALL },   // alt-sol (kapıya kadar)
+    { x: DOOR_X + DOOR_W, y: HY + HH - WALL, w: HX + HW - DOOR_X - DOOR_W, h: WALL }, // alt-sağ
   ],
   spawnPoints: {
-    default:          { x: 20 * TILE_SIZE + 16, y: 18 * TILE_SIZE + 16 },
-    from_coast_docks: { x: 38 * TILE_SIZE + 16, y: 15 * TILE_SIZE + 16 },
+    default:          { x: 608, y: 432 },   // ev içi merkez
+    from_coast_docks: { x: 38 * T + 16, y: 15 * T + 16 },
   },
 }

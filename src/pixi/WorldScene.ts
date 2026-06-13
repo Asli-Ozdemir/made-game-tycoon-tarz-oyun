@@ -37,12 +37,14 @@ export class WorldScene {
   }
 
   private buildCollisionRects(room: RoomDef): CollisionRect[] {
-    const rects: CollisionRect[] = room.buildings.map(b => ({
-      x: b.col  * TILE_SIZE,
-      y: b.row  * TILE_SIZE,
-      w: b.cols * TILE_SIZE,
-      h: b.rows * TILE_SIZE,
-    }))
+    const rects: CollisionRect[] = room.buildings
+      .filter(b => !b.noCollision)
+      .map(b => ({
+        x: b.col  * TILE_SIZE,
+        y: b.row  * TILE_SIZE,
+        w: b.cols * TILE_SIZE,
+        h: b.rows * TILE_SIZE,
+      }))
     return rects.concat(room.customCollisionRects)
   }
 
@@ -114,7 +116,7 @@ export class WorldScene {
 
       if (bld.id === 'sahil_evi') {
         const door = new Graphics()
-        door.rect(x + w / 2 - 4, y + h - 8, 8, 8).fill({ color: 0x4a8aac })
+        door.rect(x + w / 2 - 32, y + h - 16, 64, 16).fill({ color: 0x4a8aac })
         this.container.addChild(door)
       }
 

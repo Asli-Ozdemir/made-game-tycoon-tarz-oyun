@@ -11,13 +11,14 @@ export interface ZoneDef {
 }
 
 export interface BuildingDef {
-  id:    string
-  col:   number
-  row:   number
-  cols:  number
-  rows:  number
-  label: string
-  style: BuildingStyle
+  id:          string
+  col:         number
+  row:         number
+  cols:        number
+  rows:        number
+  label:       string
+  style:       BuildingStyle
+  noCollision?: boolean
 }
 
 export interface TriggerDef {
