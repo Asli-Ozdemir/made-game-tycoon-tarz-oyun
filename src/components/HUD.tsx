@@ -16,6 +16,7 @@ import { useCampaignStore } from '@/store/campaignStore'
 import { useIndustryEventStore } from '@/store/industryEventStore'
 import { INDUSTRY_EVENTS } from '@/data/industryEvents'
 import { DEMO_MODE } from '@/config'
+import { useHevesStore } from '@/store/hevesStore'
 
 import iconSave      from '@/assets/icons/save.png'
 import iconBars      from '@/assets/icons/barsVertical.png'
@@ -94,6 +95,8 @@ function HudIconButton({
 export default function HUD() {
   const money      = useGameStore((s) => s.money)
   const reputation = useGameStore((s) => s.reputation)
+  const heves      = useHevesStore((s) => s.heves)
+  const maxHeves   = useHevesStore((s) => s.maxHeves)
   const date       = useTimeStore((s) => s.date)
   const lastWeeklyCost = useEconomyStore((s) => s.lastWeeklyCost)
   const isInCrisis     = useEconomyStore((s) => s.isInCrisis)
@@ -157,6 +160,10 @@ export default function HUD() {
           </span>
         </div>
         <ReputationBar value={reputation} />
+        <div className="flex items-center gap-1">
+          <span className="text-sm">🔥</span>
+          <span className="text-orange-400 font-mono text-xs">{heves}/{maxHeves}</span>
+        </div>
       </div>
 
       {/* Orta: tarih + saat */}

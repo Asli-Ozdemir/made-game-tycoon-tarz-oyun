@@ -3,6 +3,7 @@ import { GENRES } from '@/data/genres'
 import { PLATFORMS } from '@/data/platforms'
 import { TOPICS } from '@/data/topics'
 import { useProjectStore } from '@/store/projectStore'
+import { useHevesStore } from '@/store/hevesStore'
 import type { GameProject, SequelProject, DlcProject, UpdateProject } from '@/types'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useTimeStore } from '@/store/timeStore'
@@ -52,7 +53,12 @@ interface Props {
 }
 
 export default function ProjectCard({ project, onPublish }: Props) {
-  const allProjects = useProjectStore((s) => s.projects)
+  const allProjects    = useProjectStore((s) => s.projects)
+  const workOnProject  = useProjectStore((s) => s.workOnProject)
+
+  const heves    = useHevesStore((s) => s.heves)
+  const maxHeves = useHevesStore((s) => s.maxHeves)
+  const spend    = useHevesStore((s) => s.spend)
 
   const campaigns          = useCampaignStore((s) => s.campaigns)
   const startCampaign      = useCampaignStore((s) => s.startCampaign)
@@ -67,6 +73,11 @@ export default function ProjectCard({ project, onPublish }: Props) {
   const progress   = Math.min(100, Math.round((project.weeksElapsed / project.totalWeeks) * 100))
   const isComplete = project.weeksElapsed >= project.totalWeeks && project.status === 'gelistirme'
   const isPublished = project.status === 'yayinlandi'
+
+  function handleWork() {
+    if (!spend(1)) return
+    workOnProject(project.id)
+  }
 
   // Child projeler (bu projeyi kaynak olarak kullananlar)
   const childProjects = isPublished
@@ -149,6 +160,24 @@ export default function ProjectCard({ project, onPublish }: Props) {
             </div>
           )}
         </>
+      )}
+
+      {!isComplete && !isPublished && (
+        <div className="mt-3">
+          {heves > 0 ? (
+            <button
+              onClick={handleWork}
+              className="w-full bg-indigo-700 hover:bg-indigo-600 text-white rounded py-2 text-sm font-medium flex items-center justify-center gap-2 transition-colors"
+            >
+              <span>🔥 Çalış</span>
+              <span className="text-indigo-300 text-xs">({heves}/{maxHeves} heves)</span>
+            </button>
+          ) : (
+            <div className="w-full text-center text-xs text-gray-500 py-2 border border-gray-700 rounded">
+              Heves bitti — git doldur 😴
+            </div>
+          )}
+        </div>
       )}
 
       {isComplete && onPublish && (
