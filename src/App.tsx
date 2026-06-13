@@ -56,6 +56,7 @@ import MovementHint from '@/components/MovementHint'
 import StudioDeskPointer from '@/components/StudioDeskPointer'
 import { initSounds, playMusic, stopMusic } from '@/audio/soundService'
 import DemoEndScreen from '@/components/DemoEndScreen'
+import WorkSession from '@/components/WorkSession'
 import { DEMO_MODE } from '@/config'
 
 export default function App() {
@@ -354,6 +355,8 @@ export default function App() {
       )}
 
       {showDemoEnd && <DemoEndScreen onClose={() => setShowDemoEnd(false)} />}
+
+      <WorkSession />
 
       {pendingSaleEventModal && <SaleEventModal />}
 
