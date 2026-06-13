@@ -11,8 +11,10 @@ interface WorldStore {
   currentRoomId: RoomId
   transitionState: TransitionState
   pendingRoomId: RoomId | null
+  showSleepConfirm: boolean
   setGameMode: (mode: GameMode) => void
   setLocation: (location: LocationId) => void
+  setSleepConfirm: (v: boolean) => void
   beginTransition: (to: RoomId) => void
   setTransitionFadedOut: () => void
   completeTransition: () => void
@@ -24,8 +26,10 @@ export const useWorldStore = create<WorldStore>((set, get) => ({
   currentRoomId: 'coast_home',
   transitionState: 'idle',
   pendingRoomId: null,
+  showSleepConfirm: false,
   setGameMode: (mode) => set({ gameMode: mode }),
   setLocation: (location) => set({ currentLocation: location }),
+  setSleepConfirm: (v) => set({ showSleepConfirm: v }),
   beginTransition: (to) => {
     if (get().transitionState !== 'idle') return
     set({ transitionState: 'fading-out', pendingRoomId: to })

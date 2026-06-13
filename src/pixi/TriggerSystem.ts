@@ -37,11 +37,17 @@ const PLACEHOLDER_TRIGGERS = new Set([
 ])
 
 export function handleTrigger(triggerName: string): void {
-  const { setGameMode, setLocation } = useWorldStore.getState()
+  const { setGameMode, setLocation, setSleepConfirm } = useWorldStore.getState()
   const { setIsPaused } = useDayTimeStore.getState()
 
   if (triggerName === 'studio_desk') {
     setGameMode('tycoon')
+    setIsPaused(true)
+    return
+  }
+
+  if (triggerName === 'yatak') {
+    setSleepConfirm(true)
     setIsPaused(true)
     return
   }

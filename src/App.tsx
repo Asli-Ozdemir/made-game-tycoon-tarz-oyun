@@ -70,11 +70,13 @@ export default function App() {
   const setGamePhase    = useGameStore((s) => s.setGamePhase)
   const weeklyTick      = useEmployeeStore((s) => s.weeklyTick)
   const setOnWeeklyTick = useDayTimeStore((s) => s.setOnWeeklyTick)
-  const gameMode        = useWorldStore((s) => s.gameMode)
-  const currentLocation = useWorldStore((s) => s.currentLocation)
-  const transitionState = useWorldStore((s) => s.transitionState)
-  const currentRoomId   = useWorldStore((s) => s.currentRoomId)
-  const pendingRoomId   = useWorldStore((s) => s.pendingRoomId)
+  const gameMode          = useWorldStore((s) => s.gameMode)
+  const currentLocation   = useWorldStore((s) => s.currentLocation)
+  const transitionState   = useWorldStore((s) => s.transitionState)
+  const currentRoomId     = useWorldStore((s) => s.currentRoomId)
+  const pendingRoomId     = useWorldStore((s) => s.pendingRoomId)
+  const showSleepConfirm  = useWorldStore((s) => s.showSleepConfirm)
+  const setSleepConfirm   = useWorldStore((s) => s.setSleepConfirm)
 
   // Wire weeklyTick callback once
   useEffect(() => {
@@ -154,8 +156,11 @@ export default function App() {
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.code !== 'Escape') return
-      const { gameMode, currentLocation } = useWorldStore.getState()
-      if (gameMode === 'tycoon') {
+      const { gameMode, currentLocation, showSleepConfirm, setSleepConfirm } = useWorldStore.getState()
+      if (showSleepConfirm) {
+        setSleepConfirm(false)
+        setIsPaused(false)
+      } else if (gameMode === 'tycoon') {
         setGameMode('exploration')
         setIsPaused(false)
       } else if (currentLocation !== null) {
@@ -297,6 +302,35 @@ export default function App() {
       )}
       {currentLocation === 'sleep' && (
         <SleepOverlay />
+      )}
+
+      {/* Sleep confirmation */}
+      {showSleepConfirm && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/50">
+          <div className="bg-[#0e1628] border border-[#1e3a5f] rounded-2xl px-10 py-8 flex flex-col items-center gap-6 shadow-2xl">
+            <p className="text-white font-mono text-lg tracking-wide">Uyumak istiyor musun?</p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => {
+                  setSleepConfirm(false)
+                  setLocation('sleep')
+                }}
+                className="px-8 py-2.5 rounded-xl bg-indigo-700 hover:bg-indigo-600 text-white font-mono text-sm transition-colors"
+              >
+                Evet
+              </button>
+              <button
+                onClick={() => {
+                  setSleepConfirm(false)
+                  setIsPaused(false)
+                }}
+                className="px-8 py-2.5 rounded-xl bg-[#1a2a40] hover:bg-[#243550] text-gray-300 font-mono text-sm transition-colors border border-[#2a4060]"
+              >
+                Hayır
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Publish result */}
