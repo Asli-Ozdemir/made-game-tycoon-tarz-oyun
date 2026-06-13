@@ -21,6 +21,8 @@ import { useAwardsStore } from '@/store/awardsStore'
 import { useTrendStore } from '@/store/trendStore'
 import { BACKGROUNDS } from '@/data/backgrounds'
 import { useEventStore } from '@/store/eventStore'
+import { useWorkSessionStore } from '@/store/workSessionStore'
+import { useSparkStore } from '@/store/sparkStore'
 import { DEMO_MODE } from '@/config'
 import type { GameProject, PublishResult, SequelProject } from '@/types'
 
@@ -146,6 +148,8 @@ export default function Dashboard({ onPublishResult }: Props) {
     useAwardsStore.getState().reset()
     useTrendStore.getState().reset()
     useEventStore.getState().reset()
+    useWorkSessionStore.getState().reset()
+    useSparkStore.getState().reset()
   }
 
   const active    = projects.filter((p) => p.status === 'gelistirme')

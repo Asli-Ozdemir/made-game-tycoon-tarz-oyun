@@ -47,6 +47,7 @@ export const useWorkSessionStore = create<WorkSessionStore>((set, get) => ({
 
   start: (projectId) => {
     const s = get()
+    if (s.active) return false
     if (s.sessionDoneToday) return false
     if (!useHevesStore.getState().spend(1)) return false
     set({

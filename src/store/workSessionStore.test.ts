@@ -46,6 +46,14 @@ describe('workSessionStore durum makinesi', () => {
     expect(useWorkSessionStore.getState().phase).toBe('bug')
   })
 
+  it('zaten aktif seans varken ikinci start heves harcamaz', () => {
+    const p = setupProject()
+    useWorkSessionStore.getState().start(p.id)        // 8 → 7
+    const ok = useWorkSessionStore.getState().start(p.id)
+    expect(ok).toBe(false)
+    expect(useHevesStore.getState().heves).toBe(7)    // ikinci start heves harcamadı
+  })
+
   it('tam akış: bug-düzelt → odak → kıvılcım-uygula projeyi ilerletir ve kilitler', () => {
     const p = setupProject()
     useWorkSessionStore.getState().start(p.id)

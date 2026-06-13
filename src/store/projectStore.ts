@@ -251,5 +251,5 @@ export const useProjectStore = create<ProjectStoreState>((set, get) => ({
 
   setPendingCarry: (amount) => set({ pendingCarryQuality: amount }),
 
-  reset: () => set({ projects: [] }),
+  reset: () => set({ projects: [], pendingCarryQuality: 0 }),
 }))
