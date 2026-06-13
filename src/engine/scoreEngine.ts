@@ -11,6 +11,7 @@ import { computePreLaunchMultiplier } from '@/engine/campaignEngine'
 import { useCampaignStore } from '@/store/campaignStore'
 import { useIndustryEventStore } from '@/store/industryEventStore'
 import { getSkillBonuses } from '@/engine/skillEffectEngine'
+import { axisFitBonus, EMPTY_AXES } from '@/engine/qualityAxes'
 
 interface ScoreOptions {
   reputation: number
@@ -41,6 +42,7 @@ export function calculatePublishResult(
   const qualityBonus  = clamp(Math.round((project.qualityPoints / maxQuality) * 20), 0, 20)
   const repBonus      = Math.round(opts.reputation / 10)
   const variance      = Math.round((seededRandom(project.id.charCodeAt(0)) * 20) - 10)
+  const axisFit       = axisFitBonus(project.axes ?? EMPTY_AXES, project.genreId)
 
   // Sequel: kaynak oyun puanına göre skor bonusu
   let sequelScoreBonus = 0
@@ -50,7 +52,7 @@ export function calculatePublishResult(
   }
 
   const score = clamp(
-    50 + affinityBonus + qualityBonus + repBonus + Math.round(playerSkillBonus) + sequelScoreBonus + variance,
+    50 + affinityBonus + qualityBonus + repBonus + Math.round(playerSkillBonus) + sequelScoreBonus + variance + axisFit,
     1, 100
   )
 
